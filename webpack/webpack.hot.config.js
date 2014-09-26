@@ -18,11 +18,10 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
-
-  // Let's load jQuery from the CDN
-  externals: {
-    jquery: "var jQuery"
-  },
+  // In case you wanted to load jQuery from the CDN, this is how you would do it:
+  // externals: {
+  //   jquery: "var jQuery"
+  // },
   resolve: {
     root: [ path.join(__dirname, "scripts"), path.join(__dirname, "assets/javascripts"),
             path.join(__dirname, "assets/stylesheets") ],
@@ -33,7 +32,14 @@ module.exports = {
       { ***REMOVED*** require.resolve("react"), loader: "expose?React" },
       { ***REMOVED*** /\.jsx$/, loaders: ["react-hot", "es6", "jsx?harmony"] },
       { ***REMOVED*** /\.css$/, loader: "style-loader!css-loader" },
-      { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"}
+      { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"},
+
+      // the url-loader uses DataUrls.
+      // the file-loader emits files.
+      { ***REMOVED*** /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
+      { ***REMOVED*** /\.ttf$/,    loader: "file-loader" },
+      { ***REMOVED*** /\.eot$/,    loader: "file-loader" },
+      { ***REMOVED*** /\.svg$/,    loader: "file-loader" }
     ]
   }
 };
