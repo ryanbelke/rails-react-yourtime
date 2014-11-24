@@ -12,7 +12,16 @@ module.exports = {
   entry: [
     // to expose something Rails specific, uncomment the next line
     //"./scripts/rails_only",
-    "./assets/javascripts/example"
+    "./assets/javascripts/example",
+
+    // Alternative for including everything with no customization
+    'bootstrap-sass-loader'
+    //
+    // Example of using customization file
+    //'bootstrap-sass!./bootstrap-sass.config.js'
+    //
+    // Example of using customization file with ExtractTextPlugin
+    //"bootstrap-sass!./bootstrap-sass.extract-text-plugin.config.js"
   ],
   output: {
     filename: railsBundleFile,
@@ -28,9 +37,18 @@ module.exports = {
   },
   module: {
     loaders: [
+      // **IMPORTANT** This is needed so that each bootstrap js file required by
+      // bootstrap-sass-loader has access to the jQuery object
+      { ***REMOVED*** /bootstrap-sass\/assets\/javascripts\//, loader: 'imports?jQuery=jquery' },
+      { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"},
+      { ***REMOVED*** /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
+      { ***REMOVED*** /\.ttf$/,    loader: "file-loader" },
+      { ***REMOVED*** /\.eot$/,    loader: "file-loader" },
+      { ***REMOVED*** /\.svg$/,    loader: "file-loader" },
+
       { ***REMOVED*** /\.jsx$/, loaders: ['es6', 'jsx?harmony'] },
       // Next 2 lines expose jQuery and $ to any JavaScript files loaded after rails-bundle.js
-      //   in the Rails Asset Pipeline. Thus, load this one prior.
+      // in the Rails Asset Pipeline. Thus, load this one prior.
       { ***REMOVED*** require.resolve("jquery"), loader: "expose?jQuery" },
       { ***REMOVED*** require.resolve("jquery"), loader: "expose?$" }
     ]
@@ -47,4 +65,3 @@ if (devBuild) {
 } else {
   console.log("Webpack production build for rails");
 }
-
