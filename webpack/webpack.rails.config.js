@@ -22,7 +22,7 @@ module.exports = {
     filename: railsBundleFile,
     path: railsJsAssetsDir
   },
-  // Let's load jQuery from the CDN or rails asset pipeline
+  // Load jQuery from the CDN or rails asset pipeline
   externals: {
     jquery: "var jQuery"
   },
@@ -34,20 +34,28 @@ module.exports = {
     loaders: [
       // **IMPORTANT** This is needed so that each bootstrap js file required by
       // bootstrap-sass-loader has access to the jQuery object
-      { ***REMOVED*** /bootstrap-sass\/assets\/javascripts\//, loader: 'imports?jQuery=jquery' },
-      { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"},
+      { ***REMOVED*** /bootstrap-sass\/assets\/javascripts\//,
+        loader: 'imports?jQuery=jquery' },
+      { ***REMOVED*** /\.scss$/,
+        loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"},
+
       // Load Bootstrap's CSS
       // Needed for the css-loader when [bootstrap-sass-loader]
-      { ***REMOVED*** /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
-      { ***REMOVED*** /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=application/octet-stream" },
-      { ***REMOVED*** /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: "file" },
-      { ***REMOVED*** /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=image/svg+xml" },
+      { ***REMOVED*** /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "url?limit=10000&minetype=application/font-woff" },
+      { ***REMOVED*** /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "url?limit=10000&minetype=application/octet-stream" },
+      { ***REMOVED*** /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "file" },
+      { ***REMOVED*** /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "url?limit=10000&minetype=image/svg+xml" },
       //{ ***REMOVED*** /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
       //{ ***REMOVED*** /\.ttf$/,    loader: "file-loader" },
       //{ ***REMOVED*** /\.eot$/,    loader: "file-loader" },
       //{ ***REMOVED*** /\.svg$/,    loader: "file-loader" },
 
       { ***REMOVED*** /\.jsx$/, loaders: ['es6', 'jsx?harmony'] },
+
       // Next 2 lines expose jQuery and $ to any JavaScript files loaded after rails-bundle.js
       // in the Rails Asset Pipeline. Thus, load this one prior.
       { ***REMOVED*** require.resolve("jquery"), loader: "expose?jQuery" },
