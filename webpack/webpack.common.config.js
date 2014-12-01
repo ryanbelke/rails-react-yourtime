@@ -11,7 +11,8 @@ module.exports = {
   //   jquery: "var jQuery"
   // },
   resolve: {
-    root: [path.join(__dirname, "scripts"), path.join(__dirname, "assets/javascripts"),
+    root: [path.join(__dirname, "scripts"),
+           path.join(__dirname, "assets/javascripts"),
            path.join(__dirname, "assets/stylesheets")],
     extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".scss", ".css", "config.js"]
   },
@@ -22,8 +23,7 @@ module.exports = {
       { ***REMOVED*** /\.css$/, loader: "style-loader!css-loader" },
       { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"},
 
-      // the url-loader uses DataUrls.
-      // the file-loader emits files.
+      // The url-loader uses DataUrls. The file-loader emits files.
       { ***REMOVED*** /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
       { ***REMOVED*** /\.ttf$/,    loader: "file-loader" },
       { ***REMOVED*** /\.eot$/,    loader: "file-loader" },
