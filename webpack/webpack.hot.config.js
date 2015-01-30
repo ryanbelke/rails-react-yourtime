@@ -1,6 +1,7 @@
 // Run like this:
 // cd webpack && node server.js
 
+var path = require("path");
 var config = require("./webpack.common.config");
 var webpack = require("webpack");
 
@@ -18,4 +19,19 @@ config.module.loaders.push(
 );
 config.plugins = [ new webpack.HotModuleReplacementPlugin() ];
 config.devtool = "eval-source-map";
+
+// All the styling loaders only apply to hot-reload, not rails
+config.module.loaders.push(
+  { ***REMOVED*** /\.jsx$/, loaders: ["react-hot", "es6", "jsx?harmony"] },
+  { ***REMOVED*** /\.css$/, loader: "style-loader!css-loader" },
+  { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images&includePaths[]=" +
+    path.resolve(__dirname, "./assets/stylesheets")},
+
+  // The url-loader uses DataUrls. The file-loader emits files.
+  { ***REMOVED*** /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
+  { ***REMOVED*** /\.woff2$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
+  { ***REMOVED*** /\.ttf$/,    loader: "file-loader" },
+  { ***REMOVED*** /\.eot$/,    loader: "file-loader" },
+  { ***REMOVED*** /\.svg$/,    loader: "file-loader" });
+
 module.exports = config;

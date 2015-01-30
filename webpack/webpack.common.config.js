@@ -17,14 +17,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { ***REMOVED*** /\.css$/, loader: "style-loader!css-loader" },
-      { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"},
-
-      // The url-loader uses DataUrls. The file-loader emits files.
-      { ***REMOVED*** /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
-      { ***REMOVED*** /\.ttf$/,    loader: "file-loader" },
-      { ***REMOVED*** /\.eot$/,    loader: "file-loader" },
-      { ***REMOVED*** /\.svg$/,    loader: "file-loader" }
+      { ***REMOVED*** require.resolve("react"), loader: "expose?React" }
     ]
   }
 };
