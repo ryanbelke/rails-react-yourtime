@@ -18,7 +18,6 @@ module.exports = {
   module: {
     loaders: [
       { ***REMOVED*** require.resolve("react"), loader: "expose?React" },
-      { ***REMOVED*** /\.jsx$/, loaders: ["react-hot", "es6", "jsx?harmony"] },
       { ***REMOVED*** /\.css$/, loader: "style-loader!css-loader" },
       { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images"},
 
