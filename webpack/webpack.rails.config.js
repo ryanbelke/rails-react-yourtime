@@ -21,6 +21,7 @@ var devBuild = (typeof process.env["BUILDPACK_URL"]) === "undefined";
 if (devBuild) {
   console.log("Webpack dev build for Rails");
   config.module.loaders.push(
+    { ***REMOVED*** require.resolve("react"), loader: "expose?React" },
     { ***REMOVED*** /\.jsx$/, loaders: ["react-hot", "es6", "jsx?harmony"] }
   );
   config.devtool = "eval-source-map";
