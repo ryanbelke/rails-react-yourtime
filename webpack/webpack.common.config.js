@@ -16,8 +16,6 @@ module.exports = {
     extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".scss", ".css", "config.js"]
   },
   module: {
-    loaders: [
-      { ***REMOVED*** require.resolve("react"), loader: "expose?React" }
-    ]
+    loaders: []
   }
 };
