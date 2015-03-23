@@ -1,5 +1,5 @@
 // Run like this:
-// cd webpack && node server.js
+// cd client && node server.js
 
 var path = require("path");
 var config = require("./webpack.common.config");
@@ -13,16 +13,12 @@ config.entry.push("webpack-dev-server/client?http://localhost:3000",
                   "bootstrap-sass!./bootstrap-sass.config.js"); // custom bootstrap
 config.output = { filename: "express-bundle.js", // this file is served directly by webpack
                   path: __dirname };
-config.module.loaders.push(
-  { ***REMOVED*** require.resolve("react"), loader: "expose?React" },
-  { ***REMOVED*** /\.jsx$/, loaders: ["react-hot", "es6", "jsx?harmony"] }
-);
 config.plugins = [ new webpack.HotModuleReplacementPlugin() ];
 config.devtool = "eval-source-map";
 
 // All the styling loaders only apply to hot-reload, not rails
 config.module.loaders.push(
-  { ***REMOVED*** /\.jsx$/, loaders: ["react-hot", "es6", "jsx?harmony"] },
+  { ***REMOVED*** /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
   { ***REMOVED*** /\.css$/, loader: "style-loader!css-loader" },
   { ***REMOVED*** /\.scss$/, loader: "style!css!sass?outputStyle=expanded&imagePath=/assets/images&includePaths[]=" +
     path.resolve(__dirname, "./assets/stylesheets")},
