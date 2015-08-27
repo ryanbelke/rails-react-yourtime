@@ -20,8 +20,7 @@ config.entry.push('./scripts/rails_only');
 // See webpack.common.config for adding modules common to both the webpack dev server and rails
 
 config.module.loaders.push(
-  {***REMOVED*** /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader'},
-  {***REMOVED*** /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+  {***REMOVED*** /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?stage=0'},
 
   // Next 2 lines expose jQuery and $ to any JavaScript files loaded after client-bundle.js
   // in the Rails Asset Pipeline. Thus, load this one prior.

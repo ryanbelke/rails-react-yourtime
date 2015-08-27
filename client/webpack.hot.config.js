@@ -27,7 +27,7 @@ config.resolve.root.push(path.join(__dirname, 'assets/stylesheets'));
 
 // All the styling loaders only apply to hot-reload, not rails
 config.module.loaders.push(
-  {***REMOVED*** /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/},
+  {***REMOVED*** /\.jsx?$/, loaders: ['react-hot', 'babel?stage=0'], exclude: /node_modules/},
   {***REMOVED*** /\.css$/, loader: 'style-loader!css-loader'},
   {
     ***REMOVED*** /\.scss$/,
