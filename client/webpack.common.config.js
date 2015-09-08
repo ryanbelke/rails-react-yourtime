@@ -21,8 +21,9 @@ module.exports = {
   },
   module: {
     loaders: [
+
       // React is necessary for the client rendering:
-      {***REMOVED*** require.resolve('react'), loader: 'expose?React'}
+      {***REMOVED*** require.resolve('react'), loader: 'expose?React'},
     ],
   },
 };
