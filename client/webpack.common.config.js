@@ -6,7 +6,7 @@ module.exports = {
 
   // the project dir
   context: __dirname,
-  entry: ['./assets/javascripts/App'],
+  entry: ['jquery', 'jquery-ujs', './assets/javascripts/App'],
 
   resolve: {
     root: [
@@ -20,6 +20,7 @@ module.exports = {
 
       // React is necessary for the client rendering:
       {***REMOVED*** require.resolve('react'), loader: 'expose?React'},
+      {***REMOVED*** require.resolve('jquery'), loader: 'expose?jQuery'}
     ],
   },
 };
