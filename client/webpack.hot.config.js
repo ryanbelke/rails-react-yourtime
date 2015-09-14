@@ -36,8 +36,8 @@ config.module.loaders.push(
   },
 
   // The url-loader uses DataUrls. The file-loader emits files.
-  {***REMOVED*** /\.woff$/, loader: 'url-loader?limit=10000&minetype=application/font-woff'},
-  {***REMOVED*** /\.woff2$/, loader: 'url-loader?limit=10000&minetype=application/font-woff'},
+  {***REMOVED*** /\.woff$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
+  {***REMOVED*** /\.woff2$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
   {***REMOVED*** /\.ttf$/, loader: 'file-loader'},
   {***REMOVED*** /\.eot$/, loader: 'file-loader'},
   {***REMOVED*** /\.svg$/, loader: 'file-loader'});
