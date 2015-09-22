@@ -1,33 +1,29 @@
 // Common webpack configuration used by webpack.hot.config and webpack.rails.config.
 
-const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
 
   // the project dir
   context: __dirname,
-  entry: {
-    vendor: [],
-    app: [],
+  entry: ['./assets/javascripts/serverGlobals'],
+  output: {
+    filename: 'server-bundle.js',
+    path: '../app/assets/javascripts/generated',
+
+    // CRITICAL for enabling Rails to find the globally exposed variables.
+    libaryTarget: 'this',
   },
   resolve: {
     root: [
       path.join(__dirname, 'scripts'),
       path.join(__dirname, 'assets/javascripts'),
     ],
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.scss', '.css', 'config.js'],
+    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', 'config.js'],
   },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      chunks: ['app'],
-      filename: 'vendor.js',
-      minChunks: Infinity,
-    }),
-  ],
   module: {
     loaders: [
+      {***REMOVED*** /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/},
 
       // React is necessary for the client rendering:
       {***REMOVED*** require.resolve('react'), loader: 'expose?React'},

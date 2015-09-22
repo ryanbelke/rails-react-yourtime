@@ -3,18 +3,12 @@
 
 const webpack = require('webpack');
 const path = require('path');
-const config = require('./webpack.common.config');
+const config = require('./webpack.client.base.config');
 
 // We're using the bootstrap-sass loader.
 // See: https://github.com/shakacode/bootstrap-sass-loader
-config.entry.vendor.push(
-  'jquery',
-  'jquery-ujs',
-
-  // custom bootstrap
-  'bootstrap-sass!./bootstrap-sass.config.js'
-);
-config.entry.app.unshift(
+config.entry.vendor.push('bootstrap-sass!./bootstrap-sass.config.js');
+config.entry.app.push(
   'webpack-dev-server/client?http://localhost:3000',
   'webpack/hot/dev-server',
   './scripts/webpack_only',
@@ -36,10 +30,6 @@ config.resolve.root.push(path.join(__dirname, 'assets/stylesheets'));
 // All the styling loaders only apply to hot-reload, not rails
 config.module.loaders.push(
   {***REMOVED*** /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/},
-
-  {***REMOVED*** require.resolve('jquery'), loader: 'expose?jQuery'},
-  {***REMOVED*** require.resolve('jquery'), loader: 'expose?$'},
-
   {***REMOVED*** /\.css$/, loader: 'style-loader!css-loader'},
   {
     ***REMOVED*** /\.scss$/,
