@@ -33,7 +33,25 @@ config.devtool = 'eval-source-map';
 
 // All the styling loaders only apply to hot-reload, not rails
 config.module.loaders.push(
-  {***REMOVED*** /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/},
+  {
+    ***REMOVED*** /\.jsx?$/,
+    loader: 'babel',
+    exclude: /node_modules/,
+    query: {
+      plugins: ['react-transform'],
+      extra: {
+        'react-transform': {
+          transforms: [
+            {
+              transform: 'react-transform-hmr',
+              imports: ['react'],
+              locals: ['module'],
+            }
+          ],
+        },
+      },
+    },
+  },
   {***REMOVED*** /\.css$/, loader: 'style-loader!css-loader'},
   {
     ***REMOVED*** /\.scss$/,
@@ -46,6 +64,7 @@ config.module.loaders.push(
   {***REMOVED*** /\.woff2$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
   {***REMOVED*** /\.ttf$/, loader: 'file-loader'},
   {***REMOVED*** /\.eot$/, loader: 'file-loader'},
-  {***REMOVED*** /\.svg$/, loader: 'file-loader'});
+  {***REMOVED*** /\.svg$/, loader: 'file-loader'}
+);
 
 module.exports = config;
