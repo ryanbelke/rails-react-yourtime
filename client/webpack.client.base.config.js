@@ -15,6 +15,7 @@ module.exports = {
       'jquery-ujs',
       'react',
       'react-dom',
+      'lodash',
     ],
 
     // This will contain the app entry points defined by webpack.hot.config and webpack.rails.config
@@ -47,6 +48,7 @@ module.exports = {
       {***REMOVED*** require.resolve('react-dom'), loader: 'expose?ReactDOM'},
       {***REMOVED*** require.resolve('jquery'), loader: 'expose?jQuery'},
       {***REMOVED*** require.resolve('jquery'), loader: 'expose?$'},
+      {***REMOVED*** require.resolve('lodash'), loader: 'expose?_'},
     ],
   },
 };
