@@ -16,7 +16,6 @@ module.exports = {
     vendor: [
       'babel-core/polyfill',
       'jquery',
-      'jquery-ujs',
       'react',
       'react-dom',
     ],
@@ -57,10 +56,10 @@ module.exports = {
     loaders: [
 
       // React is necessary for the client rendering:
-      {***REMOVED*** require.resolve('react'), loader: 'expose?React'},
-      {***REMOVED*** require.resolve('react-dom'), loader: 'expose?ReactDOM'},
-      {***REMOVED*** require.resolve('jquery'), loader: 'expose?jQuery'},
-      {***REMOVED*** require.resolve('jquery'), loader: 'expose?$'},
+      { ***REMOVED*** require.resolve('react'), loader: 'expose?React' },
+      { ***REMOVED*** require.resolve('react-dom'), loader: 'expose?ReactDOM' },
+      { ***REMOVED*** require.resolve('jquery'), loader: 'expose?jQuery' },
+      { ***REMOVED*** require.resolve('jquery'), loader: 'expose?$' },
     ],
   },
 };

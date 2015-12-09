@@ -49,7 +49,7 @@ config.module.loaders.push(
       },
     },
   },
-  {***REMOVED*** /\.css$/, loader: 'style-loader!css-loader'},
+  { ***REMOVED*** /\.css$/, loader: 'style-loader!css-loader' },
   {
     ***REMOVED*** /\.scss$/,
     loader: 'style!css!sass?outputStyle=expanded&imagePath=/assets/images&includePaths[]=' +
@@ -57,11 +57,11 @@ config.module.loaders.push(
   },
 
   // The url-loader uses DataUrls. The file-loader emits files.
-  {***REMOVED*** /\.woff$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
-  {***REMOVED*** /\.woff2$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
-  {***REMOVED*** /\.ttf$/, loader: 'file-loader'},
-  {***REMOVED*** /\.eot$/, loader: 'file-loader'},
-  {***REMOVED*** /\.svg$/, loader: 'file-loader'}
+  { ***REMOVED*** /\.woff$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+  { ***REMOVED*** /\.woff2$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+  { ***REMOVED*** /\.ttf$/, loader: 'file-loader' },
+  { ***REMOVED*** /\.eot$/, loader: 'file-loader' },
+  { ***REMOVED*** /\.svg$/, loader: 'file-loader' }
 );
 
 module.exports = config;
