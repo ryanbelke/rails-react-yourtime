@@ -28,7 +28,9 @@ config.entry.vendor.unshift(
 
 config.module.loaders.push(
   {
-    ***REMOVED*** /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/
+    ***REMOVED*** /\.jsx?$/,
+    loader: 'babel-loader',
+    exclude: /node_modules/,
   },
   {
     ***REMOVED*** /\.css$/,
@@ -54,7 +56,7 @@ config.module.loaders.push(
   },
   {
     ***REMOVED*** require.resolve('jquery-ujs'),
-    loader: 'imports?jQuery=jquery'
+    loader: 'imports?jQuery=jquery',
   }
 );
 
