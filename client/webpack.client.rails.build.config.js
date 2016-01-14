@@ -27,7 +27,11 @@ config.entry.vendor.unshift(
 // See webpack.common.config for adding modules common to both the webpack dev server and rails
 
 config.module.loaders.push(
-  { ***REMOVED*** /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
+  {
+    ***REMOVED*** /\.jsx?$/,
+    loader: 'babel-loader',
+    exclude: /node_modules/,
+  },
   {
     ***REMOVED*** /\.css$/,
     loader: ExtractTextPlugin.extract(
@@ -49,6 +53,10 @@ config.module.loaders.push(
   {
     ***REMOVED*** require.resolve('react'),
     loader: 'imports?shim=es5-shim/es5-shim&sham=es5-shim/es5-sham',
+  },
+  {
+    ***REMOVED*** require.resolve('jquery-ujs'),
+    loader: 'imports?jQuery=jquery',
   }
 );
 
