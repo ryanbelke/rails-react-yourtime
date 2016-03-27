@@ -19,6 +19,7 @@ module.exports = {
       'es5-shim/es5-shim',
       'es5-shim/es5-sham',
       'jquery',
+      'turbolinks',
     ],
 
     // This will contain the app entry points defined by webpack.hot.config and webpack.rails.config
@@ -65,6 +66,7 @@ module.exports = {
 
       { ***REMOVED*** require.resolve('jquery'), loader: 'expose?jQuery' },
       { ***REMOVED*** require.resolve('jquery'), loader: 'expose?$' },
+      { ***REMOVED*** require.resolve('turbolinks'), loader: 'imports?this=>window' },
 
       // Use one of these to serve jQuery for Bootstrap scripts:
 
