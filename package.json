@@ -13,6 +13,7 @@
     "***REMOVED***client": "(cd client && npm run test --silent)",
     "lint": "(cd client && npm run lint --silent)",
     "build:clean": "rm app/assets/webpack/*",
+    "build:production": "(cd client && npm run build:production --silent)",
     "build:***REMOVED***client": "(cd client && npm run build:***REMOVED***client --silent)",
     "build:***REMOVED***server": "(cd client && npm run build:***REMOVED***server --silent)",
     "build:client": "(cd client && npm run build:client --silent)",
