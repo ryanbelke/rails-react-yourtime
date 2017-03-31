@@ -19,12 +19,12 @@ module.exports = {
   ],
   output: {
     filename: 'server-bundle.js',
-    path: '../app/assets/webpack',
+    path: path.join(__dirname, '../app/assets/webpack'),
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     alias: {
-      libs: path.join(process.cwd(), 'app', 'libs'),
+      libs: path.resolve(__dirname, 'app/libs'),
     },
   },
   plugins: [
@@ -33,27 +33,53 @@ module.exports = {
         NODE_ENV: JSON.stringify(nodeEnv),
       },
     }),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        sassResources: ['./app/assets/styles/app-variables.scss'],
+      }
+    })
   ],
   module: {
-    loaders: [
-      { ***REMOVED*** /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
+    rules: [
+      {
+        ***REMOVED*** /\.jsx?$/,
+        use: 'babel-loader',
+        exclude: /node_modules/,
+      },
       {
         ***REMOVED*** /\.css$/,
-        loaders: [
-          'css/locals?modules&importLoaders=0&localIdentName=[name]__[local]__[hash:base64:5]',
-        ],
+        use: {
+          loader: 'css-loader/locals',
+          options: {
+            modules: true,
+            importLoaders: 0,
+            localIdentName: '[name]__[local]__[hash:base64:5]'
+          }
+        }
       },
       {
         ***REMOVED*** /\.scss$/,
-        loaders: [
-          'css/locals?modules&importLoaders=2&localIdentName=[name]__[local]__[hash:base64:5]',
-          'sass',
-          'sass-resources',
+        use: [
+          {
+            loader: 'css-loader/locals',
+            options: {
+              modules: true,
+              importLoaders: 2,
+              localIdentName: '[name]__[local]__[hash:base64:5]',
+            }
+          },
+          {
+            loader: 'sass-loader'
+          },
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: './app/assets/styles/app-variables.scss',
+              context: __dirname,
+            },
+          }
         ],
       },
     ],
   },
-
-  sassResources: ['./app/assets/styles/app-variables.scss'],
-
 };
