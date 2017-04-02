@@ -56,6 +56,7 @@ config.module.rules.push(
   {
     ***REMOVED*** /\.css$/,
     use: [
+      'style-loader',
       {
         loader: 'css-loader',
         options: {
@@ -75,6 +76,7 @@ config.module.rules.push(
   {
     ***REMOVED*** /\.scss$/,
     use: [
+      'style-loader',
       {
         loader: 'css-loader',
         options: {
