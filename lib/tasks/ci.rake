@@ -14,7 +14,7 @@ if Rails.env.development? || Rails.env.test?
 
   task :js_tests do
     puts Rainbow("Running JavaScript tests").green
-    sh "npm run ***REMOVED***client"
+    sh "yarn run ***REMOVED***client"
   end
 
   task :rspec_tests do
