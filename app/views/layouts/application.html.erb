@@ -11,6 +11,11 @@
                           media: 'all',
                           'data-turbolinks-track': true) %>
 
+  <%= env_stylesheet_link_tag(static: 'application_static',
+                                      hot: 'application_non_webpack',
+                                      media: 'all',
+                                      'data-turbolinks-track' => "reload")  %>
+
   <%= javascript_pack_tag('vendor-bundle', 'data-turbolinks-track': true) %>
   <%= javascript_pack_tag('app-bundle', 'data-turbolinks-track': true) %>
 
@@ -22,7 +27,6 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans" rel="stylesheet">
-
 </head>
 <body>
 
