@@ -1,0 +1,4 @@
+
+<h3><%= current_user.first_name + ' ' + current_user.last_name %></h3>
+<span><%= link_to "view my profile", current_user %></span>
+<span><%= pluralize(current_user.purchases.count, "purchase") %></span>

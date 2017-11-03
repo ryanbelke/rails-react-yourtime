@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
+    ansi (1.5.0)
     archive-zip (0.7.0)
       io-like (~> 0.3.0)
     arel (8.0.0)
@@ -47,9 +48,15 @@ GEM
     autoprefixer-rails (6.7.7.1)
       execjs
     awesome_print (1.7.0)
+    bcrypt (3.1.11)
     bindex (0.5.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
+    bootstrap-will_paginate (1.0.0)
+      will_paginate
     brakeman (4.0.1)
     builder (3.2.3)
     bundler-audit (0.5.0)
@@ -102,30 +109,51 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
+    faker (1.7.3)
+      i18n (~> 0.5)
     ffi (1.9.18)
     foreman (0.84.0)
       thor (~> 0.19.1)
+    formatador (0.2.5)
     generator_spec (0.9.3)
       activesupport (>= 3.0.0)
       railties (>= 3.0.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
-    i18n (0.8.6)
+    guard (2.14.1)
+      formatador (>= 0.2.4)
+      listen (>= 2.7, < 4.0)
+      lumberjack (~> 1.0)
+      nenv (~> 0.1)
+      notiffany (~> 0.0)
+      pry (>= 0.9.12)
+      shellany (~> 0.0)
+      thor (>= 0.18.1)
+    guard-compat (1.2.1)
+    guard-minitest (2.4.6)
+      guard-compat (~> 1.2)
+      minitest (>= 3.0)
+    i18n (0.9.1)
+      concurrent-ruby (~> 1.0)
     interception (0.5)
     io-like (0.3.0)
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
       multi_json (~> 1.2)
+    jquery-rails (4.3.1)
+      rails-dom-testing (>= 1, < 3)
+      railties (>= 4.2.0)
+      thor (>= 0.14, < 2.0)
     json (1.8.6)
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (5.3.332.38.5)
-    listen (3.1.5)
+    listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
+    lumberjack (1.0.12)
     mail (2.6.6)
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
@@ -136,10 +164,19 @@ GEM
     mini_racer (0.1.9)
       libv8 (~> 5.3)
     minitest (5.10.3)
+    minitest-reporters (1.1.14)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
     multi_json (1.12.1)
+    nenv (0.3.0)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
+    notiffany (0.1.1)
+      nenv (~> 0.1)
+      shellany (~> 0.0)
     parser (2.4.0.0)
       ast (~> 2.2)
     pg (0.20.0)
@@ -185,6 +222,10 @@ GEM
       bundler (>= 1.3.0)
       railties (= 5.1.3)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.2)
+      actionpack (~> 5.x, >= 5.0.1)
+      actionview (~> 5.x, >= 5.0.1)
+      activesupport (~> 5.x)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -199,9 +240,9 @@ GEM
     rainbow (2.2.2)
       rake
     rake (12.0.0)
-    rb-fsevent (0.9.8)
-    rb-inotify (0.9.8)
-      ffi (>= 0.5.0)
+    rb-fsevent (0.10.2)
+    rb-inotify (0.9.10)
+      ffi (>= 0.5.0, < 2)
     rdoc (4.3.0)
     react_on_rails (10.0.0)
       addressable
@@ -239,7 +280,6 @@ GEM
       parser (~> 2.2)
       slop (~> 3.4, >= 3.4.7)
     ruby-progressbar (1.8.1)
-    ruby_dep (1.5.0)
     rubyzip (1.2.1)
     sass (3.4.23)
     sass-rails (5.0.6)
@@ -258,16 +298,20 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
+    shellany (0.0.1)
     simplecov (0.14.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     slop (3.6.0)
-    spring (2.0.1)
+    spring (2.0.2)
       activesupport (>= 4.2)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
+    spring-watcher-listen (2.0.1)
+      listen (>= 2.7, < 4.0)
+      spring (>= 1.2, < 3.0)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -275,18 +319,22 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sqlite3 (1.3.13)
     term-ansicolor (1.5.0)
       tins (~> 1.0)
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
     tins (1.13.2)
-    tzinfo (1.2.3)
+    turbolinks (5.0.1)
+      turbolinks-source (~> 5)
+    turbolinks-source (5.0.3)
+    tzinfo (1.2.4)
       thread_safe (~> 0.1)
     uglifier (3.1.13)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.1.3)
-    web-console (3.5.0)
+    web-console (3.5.1)
       actionview (>= 5.0)
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
@@ -299,6 +347,7 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    will_paginate (3.1.5)
     xpath (2.1.0)
       nokogiri (~> 1.3)
     yard (0.9.8)
@@ -309,8 +358,12 @@ PLATFORMS
 DEPENDENCIES
   autoprefixer-rails
   awesome_print
+  bcrypt (= 3.1.11)
+  bootstrap-sass (= 3.3.7)
+  bootstrap-will_paginate (= 1.0.0)
   brakeman
   bundler-audit
+  byebug (= 9.0.6)
   capybara
   capybara-screenshot
   capybara-webkit
@@ -319,13 +372,18 @@ DEPENDENCIES
   coveralls
   database_cleaner
   factory_girl_rails
+  faker (= 1.7.3)
   foreman
   generator_spec
+  guard (= 2.14.1)
+  guard-minitest (= 2.4.6)
   jbuilder
+  jquery-rails (= 4.3.1)
   launchy
-  listen
+  listen (= 3.0.8)
   mini_racer
-  pg
+  minitest-reporters (= 1.1.14)
+  pg (= 0.20.0)
   poltergeist
   pry
   pry-byebug
@@ -335,6 +393,7 @@ DEPENDENCIES
   pry-stack_explorer
   puma
   rails (~> 5)
+  rails-controller-testing (= 1.0.2)
   rails-html-sanitizer
   rainbow
   react_on_rails (= 10.0.0)
@@ -347,11 +406,16 @@ DEPENDENCIES
   scss_lint
   sdoc
   selenium-webdriver (< 3.0.0)
-  spring
+  spring (= 2.0.2)
   spring-commands-rspec
+  spring-watcher-listen (= 2.0.1)
+  sqlite3 (= 1.3.13)
+  turbolinks (= 5.0.1)
+  tzinfo-data
   uglifier
-  web-console
+  web-console (= 3.5.1)
   webpacker
+  will_paginate (= 3.1.5)
 
 RUBY VERSION
    ruby 2.4.1p111

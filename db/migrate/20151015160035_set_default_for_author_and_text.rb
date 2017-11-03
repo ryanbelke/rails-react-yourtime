@@ -1,11 +1,11 @@
 class SetDefaultForAuthorAndText < ActiveRecord::Migration
   def up
-    change_column_default(:comments, :author, "")
-    change_column_default(:comments, :text, "")
+    change_column_default(:purchasor, :author, "")
+    change_column_default(:purchasor, :text, "")
   end
 
   def down
-    change_column_default(:comments, :author, nil)
-    change_column_default(:comments, :text, nil)
+    change_column_default(:purchasor, :author, nil)
+    change_column_default(:purchasor, :text, nil)
   end
 end

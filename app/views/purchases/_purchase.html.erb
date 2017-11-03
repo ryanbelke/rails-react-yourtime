@@ -1,0 +1,16 @@
+<li id="purchase-<%= purchase.id %>">
+  <span class="image">  <%= image_tag("gas-station.png", :width=> 50, :height => 50, :alt => "purchase") %>
+</span>
+
+  <span class="content">
+    <span class="bold">Type:</span> <%= purchase.fuel_type %>
+    <span class="bold">Gallons: </span> <%= purchase.gallons %>
+    <span class="bold">Price: </span> $<%= purchase.price %>
+  </span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(purchase.created_at) %> ago.
+    <% if current_user?(purchase.user) %>
+
+    <% end %>
+  </span>
+</li>
