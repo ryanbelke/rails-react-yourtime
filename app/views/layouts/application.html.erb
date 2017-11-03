@@ -10,7 +10,7 @@
   <%= stylesheet_pack_tag('app-bundle',
                           media: 'all',
                           'data-turbolinks-track': true) %>
-
+  <!-- added for custom CSS into the header -->
   <%= env_stylesheet_link_tag(static: 'application_static',
                                       hot: 'application_non_webpack',
                                       media: 'all',
@@ -36,9 +36,9 @@
       <div class="alert alert-<%= message_type %>"><%= message %></div>
   <% end %>
   <%= yield %>
-  <%= render 'layouts/footer' %>
   <%= debug(params) if Rails.env.development? %>
 </div>
+<%= render 'layouts/footer' %>
 
 <!-- This is a placeholder for ReactOnRails to know where to render the store props for
      client side hydration -->
