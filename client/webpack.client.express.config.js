@@ -15,7 +15,7 @@ config.entry.app.push(
 
   // Shouldn't be necessary:
   // https://github.com/shakacode/react_on_rails/issues/504
-  './app/bundles/comments/startup/ClientRouterAppExpress',
+  './app/bundles/purchases/startup/ClientRouterAppExpress',
 
   // Webpack dev server
   `webpack-dev-server/client?http://localhost:${hotPort}`,

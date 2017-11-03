@@ -28,13 +28,13 @@ var server = new WebpackDevServer(webpack(config), {
 server.app.use(bodyParser.json(null));
 server.app.use(bodyParser.urlencoded({ extended: true }));
 
-server.app.get('/comments.json', (_req, res) => {
+server.app.get('/purchases.json', (_req, res) => {
   sleep.sleep(1);
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({ comments }));
 });
 
-server.app.post('/comments.json', (req, res) => {
+server.app.post('/purchases.json', (req, res) => {
   const comment = req.body.comment;
   comment.id = uuid.v4();
 

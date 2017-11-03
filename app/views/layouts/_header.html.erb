@@ -1,12 +1,21 @@
 <header class="navbar navbar-fixed-top  light-blue darken-1">
   <div class="container light-blue darken-1">
     <%= link_to "THE GALLON CARD", root_path, id: "logo" %>
-    <nav class="light-blue darken-1 z-depth-0">
+
+  <nav class="light-blue darken-1 z-depth-0">
+
       <ul class="nav navbar-nav navbar-right ">
+        <% if current_user.admin? %>
+            <li class="admin">Admin</li>
+        <% else %>
+        <% end %>
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
         <% if logged_in? %>
+            <% if current_user.admin? %>
           <li><%= link_to "Users", users_path %></li>
+                <% else %>
+                <% end %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Account <b class="caret"></b>

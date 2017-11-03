@@ -7,6 +7,8 @@ import { IntlProvider } from 'react-intl';
 import { translations } from 'libs/i18n/translations';
 import { defaultLocale } from 'libs/i18n/default';
 // polyfill for server-side rendering, required by react-intl
+import Purchasor from '../components/Purchasor/Purchasor';
+
 import Intl from 'intl';
 
 import CommentScreen from '../components/CommentScreen/CommentScreen';
@@ -33,7 +35,7 @@ class NonRouterCommentsContainer extends BaseComponent {
 
     return (
       <IntlProvider locale={locale} key={locale} messages={messages}>
-        <CommentScreen {...{ actions, data }} />
+        <Purchasor {...{ actions, data }} />
       </IntlProvider>
     );
   }
