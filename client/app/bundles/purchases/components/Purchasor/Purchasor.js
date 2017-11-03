@@ -6,7 +6,6 @@ const Purchasor = () => {
     <section className="PurchaseApp" style={styles.container}>
       <div>
         <div style={styles.div}>
-
           <h5>Current Price:</h5>
           <hr />
           <h5>$2.24</h5><small className="h5">for zip code: 78751</small>
@@ -14,7 +13,9 @@ const Purchasor = () => {
 
           <hr />
           <br />
-
+          <div style={styles.center}>
+          <span style={styles.center}>Zip Code</span>
+          </div>
           <div style={styles.textField}>
             <input
               id="number"
@@ -28,7 +29,7 @@ const Purchasor = () => {
               //margin="normal"
             />
             <br />
-            <button color="primary" > FIND PRICE </button>
+            <a className="waves-effect waves-light btn" > FIND PRICE </a>
           </div>
         </div>
 
@@ -39,9 +40,8 @@ const Purchasor = () => {
 export default Purchasor;
 
 const styles = {
-  container: {
-    padding: 3,
-  },
+  container: { padding: 3,},
+  center: { textAlign: 'center' },
   green: { color: '#26a69a' },
   div: { padding: 5 },
   textField: { textAlign: 'center' },

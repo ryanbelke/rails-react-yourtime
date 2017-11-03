@@ -1,9 +1,7 @@
 <header class="navbar navbar-fixed-top  light-blue darken-1">
   <div class="container light-blue darken-1">
     <%= link_to "THE GALLON CARD", root_path, id: "logo" %>
-
   <nav class="light-blue darken-1 z-depth-0">
-
       <ul class="nav navbar-nav navbar-right ">
         <% if current_user.admin? %>
             <li class="admin">Admin</li>
