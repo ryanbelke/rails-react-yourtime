@@ -1,7 +1,7 @@
 default: &default
   adapter: postgresql
-  username:
-  password:
+  username: ryan
+  password: Foodnetwork3!
   host: localhost
 
 ***REMOVED***
