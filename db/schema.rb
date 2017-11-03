@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20171030002859) do
     t.string "state"
     t.integer "zip"
     t.string "pin"
-    t.string "fuel_type"
+    
     t.integer "total_gallons_remaining"
     t.integer "last_purchase_gallons"
     t.integer "last_purchase_price"
