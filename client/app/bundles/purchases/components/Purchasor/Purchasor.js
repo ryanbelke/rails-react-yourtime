@@ -7,13 +7,13 @@ import css from './Purchasor.scss';
 class Purchasor extends BaseComponent {
   constructor(props) {
     super(props);
-    this.state = { segment: 'submitButton', click: 0, price: null, zip: '' }
+    this.state = { id: 'submitButton', click: 0, price: null, zip: '', display: 'display', noDisplay: 'noDisplay' }
   }
   onSubmit = () => {
     if (this.state.click===0) {
       this.setState({ segment: 'processing', click: this.state.click+1 });
       setTimeout(() => {
-        this.setState({ segment: 'done', price: '$2.32' });
+        this.setState({ segment: 'done', price: '$2.32', display: 'noDisplay', noDisplay: 'display', id: 'checkMark' });
       }, 2000);
     } else {
       console.log("second submit")
@@ -23,6 +23,10 @@ class Purchasor extends BaseComponent {
   handleChange = (event) => {
     let zip = event.target.value;
     this.setState( { zip: zip } );
+  };
+
+  handleSubmit = () => {
+    window.location.replace('/purchase')
   };
   render() {
     let currentState = this.state.segment;
@@ -77,11 +81,15 @@ class Purchasor extends BaseComponent {
              </CSSTransitionGroup>
             </div>
             <div style={styles.textField}>
-            <br />
-              <button id='submitButton' className={currentState} onClick={this.onSubmit}>
+              <button id={this.state.id} className={currentState  } onClick={this.onSubmit}>
                 <span>Submit</span>
                 <span>&#10004;</span>
               </button>
+              <br />
+              <button id='submitButton' className={this.state.noDisplay} onClick={this.handleSubmit}>
+                <span>BUY NOW</span>
+              </button>
+
             </div>
           </div>
         </div>

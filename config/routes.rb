@@ -4,31 +4,16 @@ Rails.application.routes.draw do
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'
 
-  #root "pages#index"
-
-  get "simple", to: "pages#simple"
-  get "no-router", to: "pages#no_router"
-
-  # React Router needs a wildcard
-  get "react-router(/*all)", to: "pages#index"
-
-
-
-  get 'hello_world', to: 'hello_world#index'
   root   'static_pages#home'
   get    '/help',    to: 'static_pages#help'
   get    '/about',   to: 'static_pages#about'
   get    '/contact', to: 'static_pages#contact'
   get    '/signup',  to: 'users#new'
   get    '/login',   to: 'sessions#new'
+  get    '/purchase', to: 'purchases#index'
+  post   '/purchase', to: 'purchases#create'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-
-  get "simple", to: "pages#simple"
-  get "no-router", to: "pages#no_router"
-
-  # React Router needs a wildcard
-  get "react-router(/*all)", to: "pages#index"
 
 
   resources :users do

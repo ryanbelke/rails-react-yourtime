@@ -13,6 +13,57 @@ $green: #1ecd97;
   z-index: 4;
 }
 
+#checkMark {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  border: none;
+  position: relative;
+  background-color: #fff;
+  outline: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 500ms ease-in-out;
+  &:hover {
+    background-color: $green;
+
+    span:first-child, span:last-child {
+      color: #fff;
+    }
+  }
+
+  span:first-child, span:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: $green;
+    font-weight: 600;
+    transition: transform 500ms ease-in-out;
+  }
+
+
+  &.done {
+    cursor: default;
+    pointer-events: none;
+
+    &:hover {
+      background-color: #fff;
+
+      span:first-child, span:last-child {
+        color: $green;
+      }
+    }
+
+    span:first-child, span:last-child {
+      transform: translate3d(0,-100%,0);
+    }
+  }
+}
 #submitButton {
   appearance: none;
   -moz-appearance: none;
@@ -89,7 +140,8 @@ $green: #1ecd97;
   }
 }
 
-
+.display { display: inline };
+.noDisplay { display: none };
 
 @media only screen and (max-width: 800px) {
   .user_info {
