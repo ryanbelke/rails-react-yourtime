@@ -1,41 +1,93 @@
 import React from 'react';
+import BaseComponent from 'libs/components/BaseComponent';
+import { CSSTransitionGroup } from 'react-transition-group';
 
+import css from './Purchasor.scss';
 
-const Purchasor = () => {
-  return (
-    <section className="PurchaseApp" style={styles.container}>
-      <div>
-        <div style={styles.div}>
-          <h5>Current Price:</h5>
-          <hr />
-          <h5>$2.24</h5><small className="h5">for zip code: 78751</small>
-          <h5 style={styles.green}>Find your price:</h5>
+class Purchasor extends BaseComponent {
+  constructor(props) {
+    super(props);
+    this.state = { segment: 'submitButton', click: 0, price: null, zip: '' }
+  }
+  onSubmit = () => {
+    if (this.state.click===0) {
+      this.setState({ segment: 'processing', click: this.state.click+1 });
+      setTimeout(() => {
+        this.setState({ segment: 'done', price: '$2.32' });
+      }, 2000);
+    } else {
+      console.log("second submit")
+    }
+  };
 
-          <hr />
-          <br />
-          <div style={styles.center}>
-          <span style={styles.center}>Zip Code</span>
-          </div>
-          <div style={styles.textField}>
-            <input
-              id="number"
-              type="text"
-              label="Zip Code"
-              autoFocus
-              //value={this.props.zip}
-              //onChange={this.handleChange('zip')}
+  handleChange = (event) => {
+    let zip = event.target.value;
+    this.setState( { zip: zip } );
+  };
+  render() {
+    let currentState = this.state.segment;
+    let inputNode;
 
-              style={styles.text}
-              //margin="normal"
-            />
+    if (this.state.click===0) {
+      inputNode =
+        <input
+          id="number"
+          type="text"
+          label="Zip Code"
+          autoFocus
+          key={this.state.click}
+          value={this.state.zip}
+          onChange={this.handleChange}
+          style={styles.text}
+        />
+    } else {
+      if(this.state.segment==='done') {
+      inputNode =
+        <div style={styles.textField}> <h5 key={this.state.click}>{this.state.zip} <br /> Price: {this.state.price}</h5></div>
+        }
+    }
+  //Staes are processing and done
+    const cssTransitionGroupClassNames = {
+      enter: css.elementEnter,
+      enterActive: css.elementEnterActive,
+      leave: css.elementLeave,
+      leaveActive: css.elementLeaveActive,
+    };
+
+    return (
+      <section className="PurchaseApp" style={styles.container}>
+        <div>
+          <div style={styles.div}>
+            <h5>Current Price:</h5>
+             <hr />
+            <h5>$2.24</h5>
+            <small className="h5">for zip code: 78751</small>
+            <h5 style={styles.green}>Find your price:</h5>
+              <hr />
+             <br />
+            <div style={styles.center}>
+              <span style={styles.center}>Zip Code</span>
+            </div>
+            <div style={styles.textField}>
+            <CSSTransitionGroup
+              transitionName={cssTransitionGroupClassNames}
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}>
+              {inputNode}
+             </CSSTransitionGroup>
+            </div>
+            <div style={styles.textField}>
             <br />
-            <a className="waves-effect waves-light btn" > FIND PRICE </a>
+              <button id='submitButton' className={currentState} onClick={this.onSubmit}>
+                <span>Submit</span>
+                <span>&#10004;</span>
+              </button>
+            </div>
           </div>
         </div>
-
-      </div>
-    </section>
-  )
+      </section>
+    )
+  }
 };
 export default Purchasor;
 
@@ -46,7 +98,7 @@ const styles = {
   div: { padding: 5 },
   textField: { textAlign: 'center' },
   text: {
-    fontSize: '2.5em',
+    fontSize: '2.0em',
     width: '50%',
 
   }
