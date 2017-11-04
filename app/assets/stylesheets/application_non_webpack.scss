@@ -153,6 +153,9 @@ $green: #1ecd97;
 .PurchaseApp {
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
   background: #fff;
+  -webkit-transition: height 4s; /* Safari */
+  transition:  height 4s;
+  
 }
 body {
   padding-top: 60px;

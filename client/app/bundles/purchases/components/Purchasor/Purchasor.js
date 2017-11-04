@@ -36,7 +36,7 @@ class Purchasor extends BaseComponent {
       inputNode =
         <input
           id="number"
-          type="text"
+          type="tel"
           label="Zip Code"
           autoFocus
           key={this.state.click}
@@ -62,7 +62,7 @@ class Purchasor extends BaseComponent {
       <section className="PurchaseApp" style={styles.container}>
         <div>
           <div style={styles.div}>
-            <h5>Current Price:</h5>
+            <h5>Last Purchase Price:</h5>
              <hr />
             <h5>$2.24</h5>
             <small className="h5">for zip code: 78751</small>
