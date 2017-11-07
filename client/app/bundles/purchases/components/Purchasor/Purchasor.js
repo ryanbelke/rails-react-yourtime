@@ -13,7 +13,7 @@ class Purchasor extends BaseComponent {
     if (this.state.click===0) {
       this.setState({ segment: 'processing', click: this.state.click+1 });
       setTimeout(() => {
-        this.setState({ segment: 'done', price: '$2.32', display: 'noDisplay', noDisplay: 'display', id: 'checkMark' });
+        this.setState({ segment: 'done', price: '2.32', display: 'noDisplay', noDisplay: 'display', id: 'checkMark' });
       }, 2000);
     } else {
       console.log("second submit")
@@ -26,7 +26,7 @@ class Purchasor extends BaseComponent {
   };
 
   handleSubmit = () => {
-    window.location.replace('/purchase')
+    window.location.replace(`/purchase#${this.state.price}`)
   };
   render() {
     let currentState = this.state.segment;
@@ -47,7 +47,7 @@ class Purchasor extends BaseComponent {
     } else {
       if(this.state.segment==='done') {
       inputNode =
-        <div style={styles.textField}> <h5 key={this.state.click}>{this.state.zip} <br /> Price: {this.state.price}</h5></div>
+        <div style={styles.textField}> <h5 key={this.state.click}>{this.state.zip} <br /> Price: ${this.state.price}</h5></div>
         }
     }
   //Staes are processing and done
@@ -81,7 +81,7 @@ class Purchasor extends BaseComponent {
              </CSSTransitionGroup>
             </div>
             <div style={styles.textField}>
-              <button id={this.state.id} className={currentState  } onClick={this.onSubmit}>
+              <button id={this.state.id} className={currentState } onClick={this.onSubmit}>
                 <span>Submit</span>
                 <span>&#10004;</span>
               </button>

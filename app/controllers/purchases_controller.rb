@@ -5,7 +5,7 @@ class PurchasesController < ApplicationController
 
 #GET /PURCHASE
   def index
-
+    @purchase = params[:price]
   end
 #POST /PURCHASE
   def create
