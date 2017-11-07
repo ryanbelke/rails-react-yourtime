@@ -25,9 +25,7 @@ ActiveRecord::Schema.define(version: 20171030002859) do
   end
 
   create_table "purchases", force: :cascade do |t|
-    t.string "fuel_type"
-    t.float "gallons"
-    t.float "price"
+
     t.integer "user_id"
     t.integer "order_number"
     t.datetime "created_at", null: false
