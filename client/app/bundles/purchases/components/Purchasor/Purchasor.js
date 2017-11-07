@@ -26,7 +26,7 @@ class Purchasor extends BaseComponent {
   };
 
   handleSubmit = () => {
-    window.location.replace(`/purchase#${this.state.price}`)
+    window.location.replace(`/purchase?price=${this.state.price}`)
   };
   render() {
     let currentState = this.state.segment;
