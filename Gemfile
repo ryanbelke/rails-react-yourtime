@@ -2,7 +2,7 @@ source "https://rubygems.org"
 ruby "2.4.1"
 
 gem "react_on_rails", "10.0.0"
-gem "webpacker"
+gem "webpacker", :github => 'rails/webpacker'
 
 
 gem 'bcrypt',                  '3.1.11'

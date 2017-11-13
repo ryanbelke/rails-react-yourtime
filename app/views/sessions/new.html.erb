@@ -3,14 +3,17 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
+    <h4>Test Account:</h4>
+    <h4>Email: ryan@example.org</h4>
+    <h4>Password: foobar</h4>
     <%= form_for(:session, url: login_path) do |f| %>
 
       <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.email_field :email, class: 'form-control', :value => 'ryan@example.org' %>
 
       <%= f.label :password %>
       <%= link_to "(forgot password)", new_password_reset_path %>
-      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.password_field :password, class: 'form-control', :value => 'foobar' %>
 
       <%= f.label :remember_me, class: "checkbox inline" do %>
         <%= f.check_box :remember_me %>

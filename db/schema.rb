@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030002859) do
+ActiveRecord::Schema.define(version: 20171107021336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.string "author", default: "", null: false
+    t.text "text", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"
@@ -25,11 +32,13 @@ ActiveRecord::Schema.define(version: 20171030002859) do
   end
 
   create_table "purchases", force: :cascade do |t|
-
     t.integer "user_id"
     t.integer "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "fuel_type"
+    t.float "gallons"
+    t.float "price"
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
@@ -63,7 +72,6 @@ ActiveRecord::Schema.define(version: 20171030002859) do
     t.string "state"
     t.integer "zip"
     t.string "pin"
-
     t.integer "total_gallons_remaining"
     t.integer "last_purchase_gallons"
     t.integer "last_purchase_price"
