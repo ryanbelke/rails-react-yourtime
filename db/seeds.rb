@@ -6,9 +6,6 @@ User.create!(name:  "Ryan Belke",
              admin:     true,
              activated: true,
              activated_at: Time.zone.now,
-             total_gallons_remaining: 24,
-             last_purchase_gallons: 100,
-             last_purchase_price: 2.24,
              first_name: 'Ryan',
              last_name: 'Belke',
              address: '4902 Avenue F',
@@ -19,7 +16,7 @@ User.create!(name:  "Ryan Belke",
 
 5.times do |n|
   name  = Faker::Name.name
-  email = "example-#{n+1}@railstutorial.org"
+  email = "example-#{n+1}@example.org"
   password = "password"
   User.create!(name:  name,
                email: email,
@@ -29,7 +26,10 @@ User.create!(name:  "Ryan Belke",
                activated_at: Time.zone.now)
 end
 
-# Purchases
+
+
+# Service
+=begin
 users = User.order(:created_at).take(6)
 20.times do |n|
   type = 'E85'
@@ -37,4 +37,5 @@ users = User.order(:created_at).take(6)
   price = '2.25'
   users.each { |user| user.purchases.create!(fuel_type: type, gallons: gallons, price: price) }
 end
+=end
 

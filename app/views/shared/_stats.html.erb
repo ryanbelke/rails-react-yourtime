@@ -1,10 +1,10 @@
 <% @user ||= current_user %>
 <div class="stats">
     <strong id="gallons_remaining" class="stat">
-      <h5><%= @user.total_gallons_remaining %> gallons remaining</h5>
+      <h5><%= @locations.count %> current locations</h5>
     </strong>
 <hr />
     <strong id="last_purchase" class="stat">
-      <h5>Last Purchase: <%= @user.last_purchase_gallons %> gallons</h5>
+      <h5>Current Services: <%= @locations.count %> </h5>
     </strong>
 </div>

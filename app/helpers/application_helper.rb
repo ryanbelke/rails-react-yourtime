@@ -3,15 +3,17 @@ module ApplicationHelper
   def admin?
     !current_user.admin?
   end
+
   # Returns the full title on a per-page basis.
   def full_title(page_title = '')
-    base_title = "THE GALLON CARD"
+    base_title = "YourTime"
     if page_title.empty?
       base_title
     else
       page_title + " | " + base_title
     end
   end
+
   def us_states
     [
         ['Alabama', 'AL'],

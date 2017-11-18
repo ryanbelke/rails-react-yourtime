@@ -10,11 +10,16 @@ Rails.application.routes.draw do
   get    '/contact', to: 'static_pages#contact'
   get    '/signup',  to: 'users#new'
   get    '/login',   to: 'sessions#new'
+  get    '/how', to: 'static_pages#how'
+  get    '/pricing', to: 'static_pages#pricing'
   get    '/purchase', to: 'purchases#index'
   post   '/purchase', to: 'purchases#create'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
+  get '/services', to: 'services#index'
+
+  resources :locations
 
   resources :users do
     member do

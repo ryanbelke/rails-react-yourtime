@@ -1,29 +1,54 @@
 <% if logged_in? %>
-  <div class="row">
-    <aside class="col-md-4">
-      <section class="user_info">
-        <%= render 'shared/user_info' %>
-      </section>
-      <section class="stats">
-        <%= render 'shared/stats' %>
-        <%= react_component("App", prerender: false) %>
+    <div class="container">
+      <div class="row">
+        <div class="col l3 m3 s6">
+          <section class="user_info">
+            <%= render 'shared/user_info' %>
+          </section>
+          <section class="stats">
+            <%= render 'shared/stats' %>
 
-      </section>
-      <section class="micropost_form">
+          </section>
+          <aside class="micropost_form">
 
-      </section>
-    </aside>
-    <div class="col-md-8">
-      <h3>Purchase Feed</h3>
-      <%= render 'shared/feed' %>
+          </aside>
+        </div>
+        <div class="microposts col l4 m4 s6 offset-l5">
+          <h4>Current Locations</h4>
+          <%= render 'shared/feed' %>
+        </div>
+      </div>
     </div>
-  </div>
-
-
 <% else %>
-  <div class="center jumbotron">
-    <h2>The Gallon Card Home Page Coming Soon Please Log In</h2>
-  </div>
+  <div class="jumbotron row">
+    <div class="left col l8 m8 s12">
+      <h4 class="left font-black">The best way to be productive without being busy. <br /></h4>
+      <div class="left col l8 m8 s12">
+        <h5 class="left">YourTime handles the things you have been meaning to do, whilte you work.</h5>
+        <hr />
+      <div class="row">
+       <br /> <hr /><br />
+        <h5 class="left col l4 m4 s6">Where do you currently park?</h5>
+        <div class="col l4 m4 s6 input-field parking-selector ">
+          <form action="/services" method="get">
+
+              <%= select_tag(:parking, options_for_select(@locations)) %>
+              <button class="waves-effect waves-light btn">Find My Services </button>
+          </form>
+        </div>
+      </div>
+
+      </div>
+
+    </div>
+      <div class="col l4 m4 s12">
+      </div>
+    </div>
+
+
 
 
 <% end %>
+<script>$(document).ready(function() {
+  $('select').material_select();
+});</script>

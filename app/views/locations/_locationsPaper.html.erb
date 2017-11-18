@@ -1,0 +1,14 @@
+ <div class="paper">
+  <li id="location-<%= location.id %>">
+    <span class="user"><%= link_to location.location_name, location.location_address %></span>
+    <% if logged_in? && current_user.admin? %>
+    <span class="timestamp">
+      Created <%= time_ago_in_words(location.created_at) %> ago.
+      <br />
+      <%= link_to "delete", location, method: :delete,
+                  data: { confirm: "You sure?" } %>
+      &nbsp; <%= link_to "edit", location, method: :edit %>
+    <% end %>
+    </span>
+  </li>
+ </div>
