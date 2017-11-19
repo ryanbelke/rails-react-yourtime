@@ -15,7 +15,7 @@ gem 'bootstrap-sass',          '3.3.7'
 
 gem 'jquery-rails',            '4.3.1'
 gem 'turbolinks',              '5.0.1'
-
+gem 'friendly_id', '~> 5.1.0'
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"

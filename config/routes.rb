@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   get '/services', to: 'services#index'
 
-  resources :workplaces
+  resources :workplaces do
+      resources :locations
+  end
 
   resources :users do
     member do

@@ -46,7 +46,7 @@ class WorkplacesController < ApplicationController
 
 private
   def workplace_params
-    params.require(:workplace).permit(:workplace_name, :location_address, :location_description)
+    params.require(:workplace).permit(:workplace_name, :location_address, :location_description, :slug)
   end
 
   def admin_user

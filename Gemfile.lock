@@ -124,6 +124,8 @@ GEM
     foreman (0.84.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     generator_spec (0.9.3)
       activesupport (>= 3.0.0)
       railties (>= 3.0.0)
@@ -379,6 +381,7 @@ DEPENDENCIES
   factory_girl_rails
   faker (= 1.7.3)
   foreman
+  friendly_id (~> 5.1.0)
   generator_spec
   guard (= 2.14.1)
   guard-minitest (= 2.4.6)
@@ -426,4 +429,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

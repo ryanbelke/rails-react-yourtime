@@ -31,11 +31,11 @@
        <br /> <hr /><br />
         <h5 class="left col l4 m4 s6">Where do you currently work?</h5>
         <div class="col l4 m4 s6 input-field parking-selector ">
-          <form action="/workplaces" method="get">
-
-              <%= select_tag(:workplace, options_for_select(@workplaces)) %>
+          <%= form_tag "", id: 'workplace-selection', method: 'get' do%>
+              <%= select_tag(:workplace, options_for_select(@workplaces.map{|workplace| [workplace.workplace_name, workplace.id,
+              { :'data-url' => workplace_locations_path(workplace.id)}]})) %>
               <button class="waves-effect waves-light btn">Find My Services </button>
-          </form>
+          <% end %>
         </div>
       </div>
 
@@ -52,4 +52,15 @@
 <% end %>
 <script>$(document).ready(function() {
   $('select').material_select();
-});</script>
+  var form_url = $('#workplace-selection').find(':selected').data('url');
+  $('#workplace-selection').prop('action', form_url);
+});
+
+</script>
+<script>
+
+  $("#workplace-selection").change(function() {
+    var form_url = $(this).find(':selected').data('url');
+    $('#workplace-selection').prop('action', form_url);
+  });
+</script>
