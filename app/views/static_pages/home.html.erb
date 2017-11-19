@@ -1,7 +1,7 @@
 <% if logged_in? %>
     <div class="container">
       <div class="row">
-        <div class="col l3 m3 s6">
+        <div class="col l3 m3 s6 paper">
           <section class="user_info">
             <%= render 'shared/user_info' %>
           </section>
@@ -13,8 +13,9 @@
 
           </aside>
         </div>
-        <div class="microposts col l4 m4 s6 offset-l5">
+        <div class="paper microposts col l3 m3 s6 offset-l6">
           <h4>Current Locations</h4>
+          <small><%= link_to "View Locations", locations_path %></small>
           <%= render 'shared/feed' %>
         </div>
       </div>
@@ -24,7 +25,7 @@
     <div class="left col l8 m8 s12">
       <h4 class="left font-black">The best way to be productive without being busy. <br /></h4>
       <div class="left col l8 m8 s12">
-        <h5 class="left">YourTime handles the things you have been meaning to do, whilte you work.</h5>
+        <h5 class="left">YourTime handles the things you have been meaning to do, while you work.</h5>
         <hr />
       <div class="row">
        <br /> <hr /><br />

@@ -5,13 +5,10 @@
       <ul class="nav navbar-nav navbar-right ">
         <% if  logged_in? && current_user.admin? %>
             <li class="admin">Admin</li>
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "New Location", new_location_path %></li>
         <% else %>
         <% end %>
-        <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "Services", services_path %></li>
-        <li><%= link_to "Locations", locations_path %></li>
-        <li><%= link_to "How It Works", how_path %></li>
-        <li><%= link_to "Pricing", pricing_path %></li>
 
         <% if logged_in? %>
             <% if current_user.admin? %>
@@ -32,6 +29,11 @@
             </ul>
           </li>
         <% else %>
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Services", services_path %></li>
+            <li><%= link_to "Locations", locations_path %></li>
+            <li><%= link_to "How It Works", how_path %></li>
+            <li><%= link_to "Pricing", pricing_path %></li>
           <li><%= link_to "Log in", login_path %></li>
         <% end %>
       </ul>

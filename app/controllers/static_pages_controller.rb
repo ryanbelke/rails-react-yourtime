@@ -5,7 +5,9 @@ class StaticPagesController < ApplicationController
     @locations = Location.all.pluck(:location_name)
     if logged_in?
      # @micropost  = current_user.microposts.build
-      @feed_items = Location.all.paginate(page: params[:page])
+      @feed_items = Location.where.not(location_name: "Not Listed").paginate(page: params[:page])
+
+
 
     end
   end
