@@ -2,10 +2,10 @@ class StaticPagesController < ApplicationController
   include ReactOnRails::Controller
   def home
     redux_store("commentsStore", props: {name: 'hello' })
-    @locations = Location.all.pluck(:location_name)
+    @workplaces = Workplace.all.pluck(:workplace_name)
     if logged_in?
      # @micropost  = current_user.microposts.build
-      @feed_items = Location.where.not(location_name: "Not Listed").paginate(page: params[:page])
+      @feed_items = Workplace.where.not(workplace_name: "Not Listed").paginate(page: params[:page])
 
 
 

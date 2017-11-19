@@ -1,5 +1,4 @@
 class Location < ApplicationRecord
-  belongs_to :user
-  default_scope -> { order(created_at: :asc) }
-
+  belong_to :workplace
+  has_many :services
 end

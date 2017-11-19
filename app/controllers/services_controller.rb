@@ -5,7 +5,7 @@ class ServicesController < ApplicationController
 
     #GET /SERVICE
     def index
-      @location = params[:parking]
+      @workplace = params[:parking]
     end
     #POST /SERVICE
     def create

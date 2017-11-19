@@ -6,7 +6,7 @@
         <% if  logged_in? && current_user.admin? %>
             <li class="admin">Admin</li>
             <li><%= link_to "Home", root_path %></li>
-            <li><%= link_to "New Location", new_location_path %></li>
+            <li><%= link_to "New Workplace", new_workplace_path %></li>
         <% else %>
         <% end %>
 
@@ -31,7 +31,7 @@
         <% else %>
             <li><%= link_to "Home", root_path %></li>
             <li><%= link_to "Services", services_path %></li>
-            <li><%= link_to "Locations", locations_path %></li>
+            <li><%= link_to "Workplaces", workplaces_path %></li>
             <li><%= link_to "How It Works", how_path %></li>
             <li><%= link_to "Pricing", pricing_path %></li>
           <li><%= link_to "Log in", login_path %></li>

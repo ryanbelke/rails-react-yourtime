@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
   has_many :purchases, dependent: :destroy
-  has_many :locations, dependent: :destroy
+  has_many :workplaces, dependent: :destroy
 
   has_many :active_relationships, class_name:  "Relationship",
                                   foreign_key: "follower_id",

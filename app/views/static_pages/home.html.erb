@@ -14,8 +14,8 @@
           </aside>
         </div>
         <div class="paper microposts col l3 m3 s6 offset-l6">
-          <h4>Current Locations</h4>
-          <small><%= link_to "View Locations", locations_path %></small>
+          <h4>Current workplaces</h4>
+          <small><%= link_to "View workplaces", workplaces_path %></small>
           <%= render 'shared/feed' %>
         </div>
       </div>
@@ -29,11 +29,11 @@
         <hr />
       <div class="row">
        <br /> <hr /><br />
-        <h5 class="left col l4 m4 s6">Where do you currently park?</h5>
+        <h5 class="left col l4 m4 s6">Where do you currently work?</h5>
         <div class="col l4 m4 s6 input-field parking-selector ">
-          <form action="/services" method="get">
+          <form action="/workplaces" method="get">
 
-              <%= select_tag(:parking, options_for_select(@locations)) %>
+              <%= select_tag(:workplace, options_for_select(@workplaces)) %>
               <button class="waves-effect waves-light btn">Find My Services </button>
           </form>
         </div>

@@ -1,0 +1,13 @@
+<%= form_for(@workplace) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="paper">
+      <%= f.label :workplace_name %>
+      <%= f.text_field :workplace_name, placeholder: "Workplace name", class: 'form-control' %>
+      <%= f.label :workplace_address %>
+      <%= f.text_field :workplace_address, placeholder: "Workplace address", class: 'form-control' %>
+      <%= f.label :workplace_description %>
+      <%= f.text_area :workplace_description, placeholder: "Workplace description", class: 'materialize-textarea' %>
+    </div>
+    <br/>
+    <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>
