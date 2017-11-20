@@ -26,7 +26,8 @@ User.create!(name:  "Ryan Belke",
                activated_at: Time.zone.now)
 end
 
-
+Workplace.create!(workplace_name: 'Silicon Labs')
+Workplace.create!(workplace_name: 'Not Listed')
 
 # Service
 =begin
