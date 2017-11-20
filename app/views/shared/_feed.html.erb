@@ -1,14 +1,14 @@
-<% if @feed_items.any? %>
-
-  <ol class="microposts">
-    <% if logged_in? && current_user.admin? %>
-    <li>New Workplace &nbsp; <span>
+<ol class="microposts">
+  <% if logged_in? && current_user.admin? %>
+      <li>New Workplace &nbsp; <span>
       <a href="/workplaces/new" class="location-button btn-floating btn-small waves-effect waves-light blue">
       <i class="location-icon material-icons">+</i></a>
     </span>
-    </li>
-        <% end %>
+      </li>
+  <% end %>
+<% if @feed_items.any? %>
     <%= render @feed_items %>
+      <hr />
   </ol>
   <%= will_paginate @feed_items %>
 <% end %>

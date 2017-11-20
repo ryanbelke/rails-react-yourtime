@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171119051306) do
+ActiveRecord::Schema.define(version: 20171119163335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,12 @@ ActiveRecord::Schema.define(version: 20171119051306) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.string "location_name"
+    t.string "location_address"
+    t.string "location_description"
+    t.bigint "workplace_id"
+    t.string "workplace_name"
+    t.index ["workplace_id"], name: "index_locations_on_workplace_id"
   end
 
   create_table "microposts", force: :cascade do |t|
@@ -118,6 +124,7 @@ ActiveRecord::Schema.define(version: 20171119051306) do
     t.index ["user_id"], name: "index_workplaces_on_user_id"
   end
 
+  add_foreign_key "locations", "workplaces"
   add_foreign_key "workplaces", "locations"
   add_foreign_key "workplaces", "users"
 end

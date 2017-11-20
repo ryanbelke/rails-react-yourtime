@@ -1,0 +1,13 @@
+<%= form_for @location, url: workplace_location_path do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="paper">
+      <%= f.label :location_name %>
+      <%= f.text_field :location_name, placeholder: "location name", class: 'form-control' %>
+      <%= f.label :location_address %>
+      <%= f.text_field :location_address, placeholder: "location address", class: 'form-control' %>
+      <%= f.label :location_description %>
+      <%= f.text_area :location_description, placeholder: "location description", class: 'materialize-textarea' %>
+    </div>
+    <br/>
+    <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>

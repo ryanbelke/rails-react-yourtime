@@ -8,9 +8,14 @@ class WorkplacesController < ApplicationController
     @workplace = Workplace.new
   end
 
+  def show
+    @workplace = Workplace.friendly.find(params[:id])
+  end
+
   def edit
     @workplace = Workplace.find_by(id: params[:id])
   end
+
   def create
     if @current_user.admin?
      @workplace = current_user.workplaces.build(workplace_params)
