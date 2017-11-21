@@ -34,7 +34,7 @@
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
-        <% if location.workplace_id==5 %>
+        <% if location.workplace_id==1 %>
             <span>Silicon Labs:</span>
             <% end %>
         <%= link_to location.location_name, workplace_location_path(location.workplace_id, location.slug) %></span>
