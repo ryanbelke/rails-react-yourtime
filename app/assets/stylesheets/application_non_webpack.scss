@@ -1,4 +1,7 @@
 $green: #1ecd97;
+$bg-color: #fff;
+//#e9ebee
+
 a:hover { text-decoration: none; }
 .white-text { display: inline; }
 @keyframes processing {
@@ -65,6 +68,10 @@ a:hover { text-decoration: none; }
     }
   }
 }
+.text-left { text-align: left; h5 {  margin: 10px 0; display: inline; } span { color: #3c763d; }}
+.text-left-small { text-align: left; h5 {  margin: 20px 0 !important; font-size: 1.5rem; display: inline; } span { color: #3c763d; }}
+.jumbotron { margin-top: 120px !important; background-color: $bg-color !important; }
+#workplace-selection { width: 60%; }
 #submitButton {
   appearance: none;
   -moz-appearance: none;
@@ -161,7 +168,7 @@ a:hover { text-decoration: none; }
 
 body {
   padding-top: 60px;
-  background-color: #e9ebee !important;
+  background-color: $bg-color !important;
   font-size: 18px !important;
   display: flex;
   min-height: 100vh;
@@ -187,7 +194,7 @@ h1 {
   display: inline;
 }
 h2 {
-  font-size: 1.2em;
+  font-size: 1.5em;
   letter-spacing: -1px;
   margin-bottom: 30px;
 
@@ -195,14 +202,17 @@ h2 {
   color: #777;
 }
 h5 {
-  font-size: .72em;
+  font-size: 1.75em;
   letter-spacing: -1px;
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
+
   color: #777;
 }
 .h5 {
+  font-size: 1.0em;
+
   letter-spacing: -1px;
   margin-bottom: 30px;
   text-align: center;
@@ -239,7 +249,7 @@ p {  font-size: 1.1em;  line-height: 1.7em;  }
 .flex-right-half { flex: 0 0 50%;   -webkit-flex: 1; margin: 10px; order: 2; padding: 10px;  }
 .user_info { text-align: center; }
 .center { height: 80vh; }
-.font-black { font-weight: 400; font-size: 32px; font-style: normal; }
+.font-black { font-weight: 600; font-size: 2.5rem; font-style: normal; }
 .form-control { font-size: 1.55rem !important; }
 .select-wrapper span { border-color: transparent !important; }
 .parking-selector { width: 60% !important; margin: 0 auto; }
@@ -414,5 +424,6 @@ span.picture {
   .flex-left-half { flex: 0 0 100%; }
   .flex-right-half { flex: 0 0 100%; }
   .parking-selector { width: 100% !important; margin: 0 auto; }
+  .jumbotron{ margin-top: 50px !important;  }
 
 }
