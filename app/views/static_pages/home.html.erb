@@ -1,5 +1,4 @@
 <% if logged_in? %>
-    <div class="container">
       <div class="row">
         <div class="col l3 m3 s6 paper">
           <section class="user_info">
@@ -7,10 +6,8 @@
           </section>
           <section class="stats">
             <%= render 'shared/stats' %>
-
           </section>
           <aside class="micropost_form">
-
           </aside>
         </div>
         <div class="paper microposts col l3 m3 s6 offset-l6">
@@ -18,11 +15,9 @@
           <small><%= link_to "View workplaces", workplaces_path %></small>
           <%= render 'shared/feed' %>
           <h4>Current Locations</h4>
-          <small><%= link_to "View locations", '' %></small>
           <%= render 'shared/location_feed' %>
         </div>
       </div>
-    </div>
 <% else %>
   <div class="jumbotron row">
     <div class="left col l8 m8 s12">
@@ -48,9 +43,6 @@
       <div class="col l4 m4 s12">
       </div>
     </div>
-
-
-
 
 <% end %>
 <script>$(document).ready(function() {

@@ -7,7 +7,9 @@
         <i class="location-icon material-icons">+</i>
     <% end %>
     <% end %>
-    <h3>Locations for <%= @workplace.workplace_name %> </h3>
+    <h3><% if @workplace.workplace_name != 'Not Listed' %>
+          Locations for <%= @workplace.workplace_name %> </h3>
+          <% end %>
     <%= render 'shared/location_feed' %>
   </div>
 </div>

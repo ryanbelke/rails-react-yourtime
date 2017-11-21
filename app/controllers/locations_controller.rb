@@ -2,8 +2,10 @@ class LocationsController < ApplicationController
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
 
   def index
+
     @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
-    @location_feed_items = @workplace.locations.where.not(location_name: "Not Listed").paginate(page: params[:page])
+    @location_feed_items = @workplace.locations.paginate(page: params[:page])
+    puts  "******" + @workplace.to_s + @location_feed_items.to_s
   end
 
   def new
@@ -22,7 +24,7 @@ class LocationsController < ApplicationController
       @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
       @location = @workplace.locations.build(location_params)
       if @location.save
-        flash[:success] = "Workplace created"
+        flash[:success] = "Location created"
         redirect_to root_url
       else
         @feed_items = []
@@ -44,7 +46,7 @@ class LocationsController < ApplicationController
 
   def destroy
     if current_user.admin?
-      Location.find(params[:id]).destroy
+      Location.friendly.find(params[:id]).destroy
       flash[:success] = "Location deleted"
       redirect_to request.referrer || root_url
     end
@@ -58,7 +60,7 @@ class LocationsController < ApplicationController
   private
 
   def location_params
-    params.require(:location).permit(:location_name, :location_address, :location_description, :workplace_name)
+    params.require(:location).permit(:location_name, :location_address, :location_description)
   end
 
   def admin_user

@@ -1,6 +1,36 @@
-<ol class="microposts">
-<% if @location_feed_items.any? %>
-      <%= render @location_feed_items %>
-    </ol>
-    <%= will_paginate @location_feed_items %>
+<% if request.original_url.to_s.include? 'Listed' %>
+  <div class="row">
+    <div class="col l4 m5 s12 offset-l4">
+      <h3>YourTime is actively working to expand.</h3>
+      <h5>We would love to hear your feedback on where to go next!</h5>
+      <h5>Submit your workplace and location below and we will email you when we arrive!</h5>
+      <br />
+      <%= form_for @workplace do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+          <div class="paper">
+            <h5>YourTime</h5>
+            <hr />
+            <%= f.label :workplace_name %>
+            <%= f.text_field :workplace_name, value: '', placeholder: "where do you work?", class: 'form-control' %>
+            <%= f.label :workplace_address %>
+            <%= f.text_field :workplace_address, placeholder: "what is the location?", class: 'form-control' %>
+            <%= f.label :workplace_description %>
+            <%= f.text_area :workplace_description, placeholder: "tell us a little bit about it", class: 'materialize-textarea' %>
+            <%= f.submit "Submit", class: "btn btn-small float-right btn-primary" %>
+            <h5>Stay tuned!</h5>
+
+          </div>
+
+      <% end %>
+    </div>
+  </div>
+
+    <% else %>
+    <ol class="microposts">
+      <% if @location_feed_items.any? %>
+          <%= render @location_feed_items %>
+          </ol>
+          <%= will_paginate @location_feed_items %>
+      <% end %>
 <% end %>
+

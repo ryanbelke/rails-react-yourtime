@@ -13,6 +13,20 @@ User.create!(name:  "Ryan Belke",
              state:'Texas',
              zip: '78751',
             )
+User.create!(name:  "Ryan Belke",
+             email: "noadmin@example.org",
+             password:              "foobar",
+             password_confirmation: "foobar",
+             admin:     false,
+             activated: true,
+             activated_at: Time.zone.now,
+             first_name: 'Ryan',
+             last_name: 'Belke',
+             address: '4902 Avenue F',
+             city: 'Austin',
+             state:'Texas',
+             zip: '78751',
+)
 
 5.times do |n|
   name  = Faker::Name.name
@@ -28,6 +42,7 @@ end
 
 Workplace.create!(workplace_name: 'Silicon Labs')
 Workplace.create!(workplace_name: 'Not Listed')
+
 
 # Service
 =begin

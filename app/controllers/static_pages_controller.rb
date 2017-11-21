@@ -5,7 +5,10 @@ class StaticPagesController < ApplicationController
     @workplaces = Workplace.all
     if logged_in?
       @feed_items = Workplace.where.not(workplace_name: "Not Listed").paginate(page: params[:page])
+      puts "*** FEED ITEMS " + @feed_items.to_yaml
+
       @location_feed_items = Location.all.paginate(page: params[:page])
+
     end
   end
 

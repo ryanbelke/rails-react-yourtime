@@ -24,7 +24,7 @@
           </span>
                 <%= link_to "delete", workplace_location_path(@workplace.id, location.id), method: :delete,
                             data: { confirm: "You sure?" } %>
-                &nbsp; <%= link_to "edit", edit_workplace_location_path(@workplace.id, location.slug) %>
+                &nbsp; <%= link_to "edit", edit_workplace_location_path(@workplaces.id, location.slug) %>
             <% end %>
           </li>
         </div>
@@ -34,17 +34,16 @@
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
-        <% if location.workplace_id==1 %>
-        Silicon Labs
-        <% end %>
-        <%= link_to location.location_name, location.location_address %></span>
+        <span>Location.workplace_id<%= location.workplace_id %></span>
+<br/>
+        <%= link_to location.location_name, workplace_location_path(location.workplace_id, location.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">
         Created <%= time_ago_in_words(location.created_at) %> ago.
         <br />
-        <%= link_to "delete", workplace_location_path(@workplaces.ids, location.id), method: :delete,
+        <%= link_to "delete", workplace_location_path(location.workplace_id, location.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
-        &nbsp;  <%= link_to "edit", edit_workplace_location_path(@workplaces.ids, location.slug) %>
+        &nbsp;  <%= link_to "edit", edit_workplace_location_path(location.workplace_id, location.slug) %>
       <% end %>
       </span>
     </li>

@@ -10,6 +10,7 @@ class WorkplacesController < ApplicationController
 
   def show
     @workplace = Workplace.friendly.find(params[:id])
+
   end
 
   def edit
@@ -31,7 +32,7 @@ class WorkplacesController < ApplicationController
   end
 
   def update
-    @workplace = Workplace.find(params[:id])
+    @workplace = Workplace.friendly.find(params[:id])
     if @workplace.update_attributes(workplace_params)
       flash[:success] = "Workplace updated"
       redirect_to root_url
@@ -39,10 +40,10 @@ class WorkplacesController < ApplicationController
       render 'edit'
     end
   end
-
+#POST /DELETE
   def destroy
     if current_user.admin?
-    Workplace.find(params[:id]).destroy
+    Workplace.friendly.find(params[:id]).destroy
     flash[:success] = "Workplace deleted"
     redirect_to request.referrer || root_url
     end
@@ -51,7 +52,7 @@ class WorkplacesController < ApplicationController
 
 private
   def workplace_params
-    params.require(:workplace).permit(:workplace_name, :location_address, :location_description, :slug)
+    params.require(:workplace).permit(:workplace_name, :workplace_address, :workplace_description, :slug)
   end
 
   def admin_user

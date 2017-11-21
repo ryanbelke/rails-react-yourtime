@@ -10,17 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171119163335) do
+ActiveRecord::Schema.define(version: 20171121004400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "comments", force: :cascade do |t|
-    t.string "author", default: "", null: false
-    t.text "text", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
@@ -42,11 +35,10 @@ ActiveRecord::Schema.define(version: 20171119163335) do
     t.string "location_address"
     t.string "location_description"
     t.bigint "workplace_id"
-    t.string "workplace_name"
     t.index ["workplace_id"], name: "index_locations_on_workplace_id"
   end
 
-  create_table "microposts", force: :cascade do |t|
+  create_table "microposts", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -55,18 +47,7 @@ ActiveRecord::Schema.define(version: 20171119163335) do
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 
-  create_table "purchases", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "order_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "fuel_type"
-    t.float "gallons"
-    t.float "price"
-    t.index ["user_id"], name: "index_purchases_on_user_id"
-  end
-
-  create_table "relationships", force: :cascade do |t|
+  create_table "relationships", id: :serial, force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
     t.datetime "created_at", null: false
@@ -77,14 +58,15 @@ ActiveRecord::Schema.define(version: 20171119163335) do
   end
 
   create_table "services", force: :cascade do |t|
+    t.bigint "user_id"
     t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["location_id", "created_at"], name: "index_services_on_location_id_and_created_at"
     t.index ["location_id"], name: "index_services_on_location_id"
+    t.index ["user_id"], name: "index_services_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.datetime "created_at", null: false
@@ -103,20 +85,15 @@ ActiveRecord::Schema.define(version: 20171119163335) do
     t.string "city"
     t.string "state"
     t.integer "zip"
-    t.string "pin"
-    t.integer "total_gallons_remaining"
-    t.integer "last_purchase_gallons"
-    t.integer "last_purchase_price"
-    t.integer "purchases"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   create_table "workplaces", force: :cascade do |t|
-    t.string "workplace_name"
-    t.string "workplace_address"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.string "workplace_name"
+    t.string "workplace_address"
     t.string "workplace_description"
     t.bigint "location_id"
     t.string "slug"
@@ -125,6 +102,6 @@ ActiveRecord::Schema.define(version: 20171119163335) do
   end
 
   add_foreign_key "locations", "workplaces"
+  add_foreign_key "microposts", "users"
   add_foreign_key "workplaces", "locations"
-  add_foreign_key "workplaces", "users"
 end
