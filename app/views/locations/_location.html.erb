@@ -22,9 +22,9 @@
         <span class="timestamp">
           Created <%= time_ago_in_words(location.created_at) %> ago.
           </span>
-                <%= link_to "delete", workplace_location_path(@workplace.id, location.id), method: :delete,
+                <%= link_to "delete", workplace_location_path(location.workplace_id, location.id), method: :delete,
                             data: { confirm: "You sure?" } %>
-                &nbsp; <%= link_to "edit", edit_workplace_location_path(@workplaces.id, location.slug) %>
+                &nbsp; <%= link_to "edit", edit_workplace_location_path(location.workplace_id, location.slug) %>
             <% end %>
           </li>
         </div>
@@ -34,8 +34,9 @@
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
-        <span>Location.workplace_id<%= location.workplace_id %></span>
-<br/>
+        <% if location.workplace_id==5 %>
+            <span>Silicon Labs:</span>
+            <% end %>
         <%= link_to location.location_name, workplace_location_path(location.workplace_id, location.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">
