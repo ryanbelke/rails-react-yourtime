@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="card-action">
-          <%= link_to "View property info", workplace_locations_path(location.slug) %>
+          <%= link_to "View property info", workplace_location_path(location.workplace_id, location.slug) %>
           <li class="no-border" id="location-<%= location.id %>">
             <% if logged_in? && current_user.admin? %>
         <span class="timestamp">

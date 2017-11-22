@@ -23,6 +23,10 @@ Rails.application.routes.draw do
       resources :locations
   end
 
+  resources :locations do
+    resources :services
+  end
+
   resources :users do
     member do
       get :following, :followers

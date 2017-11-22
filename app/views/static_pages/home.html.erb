@@ -16,6 +16,8 @@
           <%= render 'shared/feed' %>
           <h4>Current Locations</h4>
           <%= render 'shared/location_feed' %>
+          <h4>Services:</h4>
+          <%= render 'shared/services_feed' %>
         </div>
       </div>
 <% else %>
@@ -27,7 +29,7 @@
         <hr />
       <div class="row">
        <br /> <hr /><br />
-        <h5 class="left col l4 m4 s12">Where do you currently work?</h5>
+        <h5 class="left col l4 m4 s12">Choose your workplace.</h5>
         <div class="col l4 m4 s6 input-field parking-selector ">
           <%= form_tag "", id: 'workplace-selection', method: 'get' do%>
               <%= select_tag(:workplace, options_for_select(@workplaces.map{|workplace| [workplace.workplace_name, workplace.id,

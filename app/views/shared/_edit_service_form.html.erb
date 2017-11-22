@@ -1,0 +1,11 @@
+<%= form_for @service, url: edit_location_service_path(@service.id) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="paper">
+      <%= f.label :service_name %>
+      <%= f.text_field :service_name, placeholder: "service name", class: 'form-control' %>
+      <%= f.label :service_description %>
+      <%= f.text_area :service_description, placeholder: "service description", class: 'materialize-textarea' %>
+    </div>
+    <br/>
+    <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>
