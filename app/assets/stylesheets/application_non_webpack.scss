@@ -1,5 +1,6 @@
 $green: #1ecd97;
-$bg-color: #fff;
+$bg-color: #e9ebee;
+$fb-gray: #fff ;
 //#e9ebee
 
 #howSection { margin-top: 13%; }
@@ -167,7 +168,7 @@ a:hover { text-decoration: none; }
   }
 }
 .paper {   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-           background: #e9ebee; padding: 20px; }
+           background: $fb-gray !important; padding: 20px; }
 .locations {
 
   float: left !important;
