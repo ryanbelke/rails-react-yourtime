@@ -26,9 +26,9 @@
       <h4 class="left font-black">The best way to get things done. <br /></h4>
       <div class="left col l9 m8 s12">
         <h5 class="left">YourTime handles the stuff you've been putting off, while you work.</h5>
-        <hr />
+        <hr /><br />
+
       <div class="row">
-       <br /> <hr /><br />
         <h5 class="left col l4 m4 s12">Choose your workplace.</h5>
         <div class="col l4 m4 s6 input-field parking-selector ">
           <%= form_tag "", id: 'workplace-selection', method: 'get' do%>
@@ -41,21 +41,17 @@
       </div>
     </div>
         <div class="col l5 m4 s12 ">
-          <%= image_tag("rocket-man-productive-level.svg", height: '400px', width: '100%' )%>
+          <%= image_tag("productivity-8bit.svg", height: '400px', width: '100%' )%>
         </div>
     </div>
-    <br />    <br />    <br />    <br />    <br />
 
-
-
-
-    <div class="row">
+    <div class="row" id="howSection">
       <div class="col l12 m12 s12 text-center">
         <h3>How does it work?</h3>
-        <hr /><br /><br /><br/>
+
       </div>
     </div>
-    <div class="row">
+    <div class="row" id="scheduleSection">
       <div class="col l4 m5 s12 offset-l2 text-left">
         <h3>Schedule your service online.</h3>
         <hr/><br/>
@@ -72,13 +68,8 @@
         <%= image_tag('rocket-man-laptop.png', width: '100%', height: '100%') %>
       </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
 
-    <div class="row">
+    <div class="row" id="driveSection">
       <div class="col l4 m5 s12 offset-l2">
         <br /><br />
         <%= image_tag('car-svg.svg', width: '300px', height: '150px') %>
@@ -86,15 +77,85 @@
       <div class="col l5 m5 s12 text-left-small">
         <h3>Drive to work.</h3>
         <hr/><br/>
-        <span>	&#10004;</span><h5> &nbsp;  Park your car on the top floor of the garage.</h5>
+        <span>&#9679;</span><h5> &nbsp;  Park your car on the top floor of the garage.</h5>
         <br />
-        <span>	&#10004;</span><h5> &nbsp; We will meet you in the lobby to exchange the key. </h5>
+        <span>&#9679;</span><h5> &nbsp; We will meet you in the lobby to exchange the key. </h5>
         <br />
-        <span>	&#10004;</span><h5> &nbsp; Continue to be a productive master.</h5>
+        <span>&#9679;</span><h5> &nbsp; Continue to be a productive master.</h5>
         <br />
       </div>
     </div>
 
+    <div class="row" id="driveSection2">
+      <div class="col l4 m5 s12 offset-l2 text-left-small">
+        <h4>YourTime will transport your car to our mechanic provider for:</h4>
+        <hr/><br/>
+        <span>&#9679;</span><h5> &nbsp;  Oil Changes</h5>
+        <br />
+        <span>&#9679;</span><h5> &nbsp;  Routine Flushes </h5>
+        <br />
+        <span>&#9679;</span><h5> &nbsp; State Registration Inspections</h5>
+        <br />
+        <span>&#9679;</span><h5> &nbsp; Tire Rotations</h5>
+        <br />
+        <span>&#9679;</span><h5> &nbsp; Tune ups</h5>
+
+
+      </div>
+      <div class="col l4 m5 s12 offset-l1">
+        <br /><br />
+        <%= image_tag('mechanic-yellow.svg', width: '280px', height: '280px', id: 'mechanic-image') %>
+      </div>
+    </div>
+
+    <div class="row" id="timeSection">
+      <div class="col l4 m5 s12 offset-l2">
+        <br /><br />
+        <%= image_tag('man-time.svg', width: '280px', height: '280px', id: 'mechanic-image') %>
+      </div>
+      <div class="col l4 m5 s12  text-left-small">
+        <h4>You can't stop time.</h4>
+        <h5>But you can use YourTime to maximize every minute.</h5>
+        <hr/><br/>
+        <span>	&#10004;</span><h5> &nbsp;  Finish your TPS reports</h5>
+        <br />
+        <span>	&#10004;</span><h5> &nbsp;  Clear that stack of files on your desk</h5>
+        <br />
+        <span>	&#10004;</span><h5> &nbsp; Attend that boring meeting</h5>
+        <br />
+        <span>	&#10004;</span><h5> &nbsp; Get paid for being at work</h5>
+        <br />
+
+      </div>
+
+    </div>
+
+    <div class="row" id="driveSection3">
+      <div class="col l4 m5 s12 offset-l2  text-left-small">
+        <h4>When your service is done</h4>
+        <h5>YourTime will transport your vehicle back to the designated location to exchange the key</h5>
+        <hr/><br/>
+        <span>	&#10004;</span><h5> &nbsp;  That's all folks</h5>
+        <br />
+
+
+      </div>
+      <div class="col l4 m5 s12 offset-l1">
+        <br /><br />
+        <%= image_tag('car-opposite.svg', width: '300px', height: '150px') %>
+      </div>
+    </div>
+
+    <div class="row" id="winner">
+      <div class="col l2 m5 s12 offset-l3">
+        <%= image_tag('winner.svg', width: '150px', height: '300px') %>
+      </div>
+      <div class="col l3 m5 s12  text-left-small">
+        <h4>Declare yourself the winner,</h4>
+        <h5>knowing how much you finished in one day using YourTime.</h5>
+      </div>
+
+    </div>
 <% end %>
 <script>$(document).ready(function() {
   $('select').material_select();
