@@ -1,0 +1,17 @@
+
+<ol class="microposts">
+  <li>New Appointment &nbsp;
+    <span>
+          <%= link_to new_user_appointment_path(current_user.id) do %>
+           <div class='location-button btn-floating btn-small waves-effect waves-light blue'>
+              <i class="location-icon material-icons">+</i>
+           </div>
+
+          </span>
+          </li>
+        <% end %>
+  <% if @appointment_feed.any? %>
+      <%= render @appointment_feed%>
+      <%= will_paginate @appointment_feed %>
+  <% end %>
+</ol>

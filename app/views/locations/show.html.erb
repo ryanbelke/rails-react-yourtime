@@ -2,7 +2,7 @@
   <div class="col l8 m8 s12 offset-l2">
     <h3><%= @location.location_name %> </h3>
     <h5>Information</h5>
-    <h5>Locations <%= link_to "View locations", workplace_locations_path(@location.slug) %></h5>
+    <h5>Locations <%= link_to "View Services", location_services_path(@location.slug) %></h5>
     <h5><%= link_to "Create New Service", new_location_service_path(@location.slug) %></h5>
   </div>
 </section>

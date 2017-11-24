@@ -2,7 +2,9 @@ class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
   has_many :purchases, dependent: :destroy
   has_many :workplaces, dependent: :destroy
-  has_many :services, :through => :locations
+
+  has_many :services, :through => :appointments
+  has_many :appointments
 
   has_many :active_relationships, class_name:  "Relationship",
                                   foreign_key: "follower_id",

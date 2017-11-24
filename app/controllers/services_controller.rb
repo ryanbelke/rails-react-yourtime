@@ -5,7 +5,9 @@ class ServicesController < ApplicationController
 
     #GET /SERVICE
     def index
-      @workplace = params[:parking]
+      @location = Location.friendly.find(params[:location_id])
+      @service_feed_items = @location.services.paginate(page: params[:page])
+
     end
 
     def new

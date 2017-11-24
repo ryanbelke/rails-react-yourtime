@@ -4,7 +4,7 @@
         <div class="card-image">
           <%= image_tag "siliconlabs.png" %>
 
-          <span class="card-title"><%= link_to location.location_name, workplace_locations_path(location.slug) %></span>
+          <span class="card-title"><%= link_to location.location_name, location_services_path(location.slug) %></span>
         </div>
         <div class="card-content">
           <h5>Address: </h5> <span><%= location.location_address %><hr /></span>
@@ -16,6 +16,8 @@
           </div>
         </div>
         <div class="card-action">
+          <%= link_to "View Services", location_services_path(location.slug) %>
+
           <%= link_to "View property info", workplace_location_path(location.workplace_id, location.slug) %>
           <li class="no-border" id="location-<%= location.id %>">
             <% if logged_in? && current_user.admin? %>
@@ -34,9 +36,8 @@
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
-        <% if location.workplace_id==1 %>
-            <span>Silicon Labs:</span>
-            <% end %>
+
+        <%= workplace_name(location.workplace_id) %>
         <%= link_to location.location_name, workplace_location_path(location.workplace_id, location.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">

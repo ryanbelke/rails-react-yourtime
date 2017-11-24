@@ -1,4 +1,9 @@
-  <h5>Services<%= @services %></h5>
-  <h5>Coming Soon</h5>
+<div class="row">
+  <div class="col l6 m8 s12 offset-l3">
+    <h5>Services for <%= @location.location_name %></h5>
+    <%= render 'shared/services_feed' %>
+
+  </div>
+</div>
 
 

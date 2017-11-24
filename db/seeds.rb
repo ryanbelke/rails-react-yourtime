@@ -41,7 +41,10 @@ User.create!(name:  "Ryan Belke",
 end
 
 Workplace.create!(workplace_name: 'Silicon Labs')
+Workplace.create!(workplace_name: 'Spredfast')
 Workplace.create!(workplace_name: 'Not Listed')
+
+
 
 
 # Service

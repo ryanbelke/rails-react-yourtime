@@ -14,6 +14,17 @@ module ApplicationHelper
     end
   end
 
+  def workplace_name(id)
+    case id
+      when 1
+        "Silicon Labs"
+      when 3
+        "Spredfast"
+      else
+        "Workplace Not Found"
+    end
+  end
+
   def us_states
     [
         ['Alabama', 'AL'],

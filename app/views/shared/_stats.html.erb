@@ -1,11 +1,14 @@
 <% @user ||= current_user %>
 <div class="stats">
-  <h5>  Current Application Stats:
+  <h5> Application Stats:
   </h5>
     <strong id="gallons_remaining" class="stat">
-      <h5>Workplaces: <%= @workplaces.count %></h5>
+      <h5>Workplaces: <%= @workplaces.count - 1 %></h5>
     </strong>
 <hr />
+  <strong id="last_purchase" class="stat">
+    <h5>Locations: <%= @locations.count %> </h5>
+  </strong>
     <strong id="last_purchase" class="stat">
       <h5>Services: <%= @services.count %> </h5>
     </strong>

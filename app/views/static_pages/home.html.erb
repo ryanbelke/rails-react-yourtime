@@ -1,6 +1,6 @@
 <% if logged_in? %>
       <div class="row">
-        <div class="col l3 m3 s6 paper">
+        <div class="col l2 m3 s12 paper">
           <section class="user_info">
             <%= render 'shared/user_info' %>
           </section>
@@ -10,7 +10,25 @@
           <aside class="micropost_form">
           </aside>
         </div>
-        <div class="paper microposts col l3 m3 s6 offset-l6">
+        <div class="paper col l6 m5 s12 ">
+          <h5>Appointments</h5>
+          <table class="highlight responsive-table">
+            <thead>
+            <tr>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Service</th>
+              <th>Location</th>
+              <th>Price</th>
+              <th>Actions</th>
+
+            </tr>
+            </thead>
+            <%= render 'shared/appointment_feed' %>
+          </table>
+        </div>
+
+        <div class="paper microposts col l3 m3 s12">
           <h4>Current workplaces</h4>
           <small><%= link_to "View workplaces", workplaces_path %></small>
           <%= render 'shared/feed' %>

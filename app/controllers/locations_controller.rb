@@ -2,10 +2,15 @@ class LocationsController < ApplicationController
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
 
   def index
-
+    #workplace is being passed in the URL from the form on the front page
     @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
     @location_feed_items = @workplace.locations.paginate(page: params[:page])
-    puts  "******" + @workplace.to_s + @location_feed_items.to_s
+     if @location_feed_items.count == 1
+       #Take First Location, redirect to that locations services
+       @location = @location_feed_items.first
+       redirect_to location_services_path(@location.slug)
+     end
+
   end
 
   def new

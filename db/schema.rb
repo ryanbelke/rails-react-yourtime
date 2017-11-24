@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171122001829) do
+ActiveRecord::Schema.define(version: 20171123235040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "appointments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "appointment_date"
+    t.string "appointment_location"
+    t.string "appointment_description"
+    t.string "appointment_status"
+    t.string "appointment_price"
+    t.index ["service_id"], name: "index_appointments_on_service_id"
+    t.index ["user_id"], name: "index_appointments_on_user_id"
+  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
@@ -93,6 +107,7 @@ ActiveRecord::Schema.define(version: 20171122001829) do
     t.string "city"
     t.string "state"
     t.integer "zip"
+    t.integer "default_location"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
