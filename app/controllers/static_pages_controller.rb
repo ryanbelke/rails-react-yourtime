@@ -6,11 +6,13 @@ class StaticPagesController < ApplicationController
     @locations = Location.all
     @services = Service.all
 
-    if logged_in?
+    if current_user.admin?
       @feed_items = Workplace.where.not(workplace_name: "Not Listed").paginate(page: params[:page])
       @location_feed_items = Location.all.paginate(page: params[:page])
       @service_feed_items = Service.all.paginate(page: params[:page])
       @appointment_feed = current_user.appointments.paginate(page: params[:page])
+
+      @service = @appointment_feed.collect(&:service).pluck(:service_name)
     end
   end
 

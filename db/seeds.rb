@@ -64,7 +64,7 @@ Workplace.create!(workplace_name: 'Not Listed')
 @location2.services.create!(service_name: 'Oil Change', service_description: 'Chang the oil')
 
 
-@date = Date.parse('2017-11-14')
+@date = Date.strptime('11/14/2017','%m/%d/%Y')
 @user = User.find_by id: 1
 @user.appointments.create!(appointment_status: 'Pending', appointment_date: @date,
                           service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')

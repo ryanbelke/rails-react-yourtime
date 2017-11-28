@@ -3,7 +3,7 @@
 <tr>
   <td><%= appointment.appointment_status %></td>
   <td><%= appointment.appointment_date %></td>
-  <td><%= appointment.appointment_description %></td>
+  <td><%= @service %></td>
   <td><%= appointment.appointment_location%></td>
   <td><%= appointment.appointment_price %></td>
   <td id="table-buttons"><%= link_to 'View', user_appointment_path(current_user.id, appointment.id),

@@ -18,10 +18,10 @@ module ApplicationHelper
     case id
       when 1
         "Silicon Labs"
-      when 3
+      when 2
         "Spredfast"
       else
-        "Workplace Not Found"
+        ""
     end
   end
 
