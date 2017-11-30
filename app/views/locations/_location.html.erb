@@ -36,7 +36,6 @@
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
-
         <%= workplace_name(location.workplace_id) %>
         <%= link_to location.location_name, workplace_location_path(location.workplace_id, location.slug) %></span>
       <% if logged_in? && current_user.admin? %>

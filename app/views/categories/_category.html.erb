@@ -1,0 +1,15 @@
+<hr />
+<li id="category-<%= category.id %>">
+      <span class="user">
+        <%= category.workplace.workplace_name %>
+        <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug) %></span>
+  <% if logged_in? && current_user.admin? %>
+      <span class="timestamp">
+        Created <%= time_ago_in_words(category.created_at) %> ago.
+        <br />
+        <%= link_to "delete", workplace_category_path(category.workplace_id, category.slug), method: :delete,
+                    data: { confirm: "You sure?" } %>
+        &nbsp;  <%= link_to "edit", edit_workplace_category_path(category.workplace_id, category.slug) %>
+  <% end %>
+  </span>
+</li>

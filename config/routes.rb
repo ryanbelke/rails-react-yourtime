@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get '/services', to: 'services#index'
 
   resources :workplaces do
-      resources :locations
+      resources :categories
   end
 
   resources :locations do

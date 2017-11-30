@@ -47,21 +47,44 @@ Workplace.create!(workplace_name: 'Not Listed')
 @workplace_silicon = Workplace.find_by id: 1
 @workplace_spredfast = Workplace.find_by id: 2
 
+@workplace_silicon.categories.create!(category_name: 'Car Wash', category_description: 'Description for car wash category')
+@workplace_silicon.categories.create!(category_name: 'Auto Maintenance', category_description: 'Description for the auto/mechanic category')
 
-@workplace_silicon.locations.create!(location_name: 'Building 400', location_address: '450 West Cesar Chavez',
-                                    location_description: 'Description for building 400')
-@workplace_silicon.locations.create!(location_name: 'Building 600', location_address: '450 West Cesar Chavez',
-                                     location_description: 'Description for building 600')
-@workplace_spredfast.locations.create!(location_name: 'Building 1000', location_address: '350 West Cesar Chavez',
-                                     location_description: 'Description for building 1000')
-@location1 = Location.find_by id: 1
-@location2 = Location.find_by id: 2
+@workplace_spredfast.categories.create!(category_name: 'Car Wash', category_description: 'Description auto/mechanic')
+@workplace_spredfast.categories.create!(category_name: 'Auto Maintenance', category_description: 'Description auto/mechanic')
+@workplace_spredfast.categories.create!(category_name: 'Haircuts', category_description: 'Description auto/mechanic')
 
-@location1.services.create!(service_name: 'Oil Change', service_description: 'Change the oil')
-@location1.services.create!(service_name: 'Radiator Flush', service_description: 'Flush the radiator')
+@category1 = Category.find_by id: 1
+@category2 = Category.find_by id: 2
+@category3 = Category.find_by id: 3
+@category4 = Category.find_by id: 4
+@category5 = Category.find_by id: 5
 
-@location2.services.create!(service_name: 'Tire Rotation', service_description: 'Roate The Tires')
-@location2.services.create!(service_name: 'Oil Change', service_description: 'Chang the oil')
+
+@category1.services.create!(service_name: 'Basic Detail', service_description: 'interior')
+@category1.services.create!(service_name: 'Premium Detail', service_description: 'interior')
+@category1.services.create!(service_name: 'Deluxe Detail', service_description: 'interior')
+
+@category1.services.create!(service_name: 'Basic Wash', service_description: 'exterior')
+@category1.services.create!(service_name: 'Premium Wash', service_description: 'exterior')
+@category1.services.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
+
+@category3.services.create!(service_name: 'Basic Detail', service_description: 'interior')
+@category3.services.create!(service_name: 'Premium Detail', service_description: 'interior')
+@category3.services.create!(service_name: 'Deluxe Detail', service_description: 'interior')
+
+@category3.services.create!(service_name: 'Basic Wash', service_description: 'exterior')
+@category3.services.create!(service_name: 'Premium Wash', service_description: 'exterior')
+@category3.services.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
+
+@category4.services.create!(service_name: 'Routine Maintenance', service_description: 'routine')
+@category4.services.create!(service_name: 'Major Mechanical', service_description: 'major')
+@category4.services.create!(service_name: 'State Inspection', service_description: 'state')
+
+@category5.services.create!(service_name: 'Mens', service_description: 'cut')
+@category5.services.create!(service_name: 'Womens', service_description: 'cut')
+
+
 
 
 @date = Date.strptime('11/14/2017','%m/%d/%Y')

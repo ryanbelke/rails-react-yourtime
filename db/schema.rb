@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123235040) do
+ActiveRecord::Schema.define(version: 20171129053802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 20171123235040) do
     t.string "appointment_price"
     t.index ["service_id"], name: "index_appointments_on_service_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "category_name"
+    t.integer "workplace_id"
+    t.string "category_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -84,6 +93,8 @@ ActiveRecord::Schema.define(version: 20171123235040) do
     t.boolean "service_purchased"
     t.string "service_vendor"
     t.string "slug"
+    t.integer "category_id"
+    t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["location_id"], name: "index_services_on_location_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end

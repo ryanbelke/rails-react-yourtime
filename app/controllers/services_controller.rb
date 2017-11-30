@@ -7,7 +7,6 @@ class ServicesController < ApplicationController
     def index
       @location = Location.friendly.find(params[:location_id])
       @service_feed_items = @location.services.paginate(page: params[:page])
-
     end
 
     def new
@@ -16,7 +15,6 @@ class ServicesController < ApplicationController
     end
     #POST /SERVICE
     def create
-
         @location = Location.friendly.find(params[:location_id])
         @service =@location.services.build(service_params)
         if @location.save
@@ -46,7 +44,6 @@ class ServicesController < ApplicationController
     end
 
     # Before filters
-
     # Confirms the correct user.
     def correct_user
       @user = User.find(params[:id])

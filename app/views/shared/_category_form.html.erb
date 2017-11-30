@@ -1,0 +1,11 @@
+<%= form_for [:workplace, @category] do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="paper">
+      <%= f.label :category_name %>
+      <%= f.text_field :category_name, placeholder: "category name", class: 'form-control' %>
+      <%= f.label :category_description %>
+      <%= f.text_area :category_description, placeholder: "category description", class: 'materialize-textarea' %>
+    </div>
+    <br/>
+    <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>
