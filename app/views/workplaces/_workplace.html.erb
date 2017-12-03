@@ -40,8 +40,6 @@
 
           <% end %>
       <span class="timestamp">
-        Created <%= time_ago_in_words(workplace.created_at) %> ago.
-        <br />
         <%= link_to "delete", workplace, method: :delete,
                     data: { confirm: "You sure?" } %>
     &nbsp;  <%= link_to "edit", edit_workplace_path(workplace.id) %>
