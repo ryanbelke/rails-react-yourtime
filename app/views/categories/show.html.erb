@@ -9,6 +9,10 @@
     <h3><i class='fa <%= @category.category_icon %> fa-3x' id="fa-icon"></i></h3>
     <br />
     <%= link_to "View Services", category_services_path(@category.slug), class: 'waves-effect waves-light btn' %>
+    <br /> <br />
+    <% if current_user.admin? %>
+        <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: 'waves-effect waves-light btn' %>
+    <% end %>
   </div>
   <div class="col l6 m16 s12">
 
@@ -30,10 +34,7 @@
 
       </div>
       <div class="card-action">
-        <% if current_user.admin? %>
-            <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: green_button_class %>
 
-        <% end %>
       </div>
     </div>
   </div>
