@@ -1,8 +1,33 @@
 <section class="row">
-  <div class="col l8 m8 s12 offset-l2">
+  <div class="col l3 m6 s12 left-align">
     <h3><%= @workplace.workplace_name %> </h3>
-    <h5>Information</h5>
-    <h5>Locations <%= link_to "View locations", workplace_locations_path(@workplace.slug) %></h5>
-    <h5><%= link_to "Create New Location", new_workplace_location_path(@workplace.slug) %></h5>
+    <hr />
+    <h5 class="left-align">Categories:</h5>
+    <%= render 'shared/infoShims/display_categories' %>
+    <%= link_to new_workplace_category_path(@workplace.slug) do %>
+        <span>add new category &nbsp;</span>
+        <div class="location-button btn-floating btn-small waves-effect waves-light blue">
+         <i class="location-icon material-icons">+</i>
+        </div>
+    <% end %>
+    <br/>
+    <h4>Info:</h4>
+    <hr />
+    <span><h6>City:</h6> <%= @workplace.workplace_city %></span>
+    <br/>
+    <span><h6>State:</h6> <%= @workplace.workplace_state %></span>
+    <br/>
+    <span><h6>Zip:</h6> <%= @workplace.workplace_zip %></span>    <br/>
+    <span><h6>Description: </h6><br/> <%= @workplace.workplace_description %></span>
+    <br />
+    <span><%= link_to "edit", edit_workplace_path(@workplace.id), class: green_button_class %></span>
   </div>
+  <div class="col l4 m6 s12 left-align">
+    <br/>
+  </div>
+</section>
+
+<section class="row">
+
+
 </section>

@@ -34,6 +34,11 @@
     <li id="workplace-<%= workplace.id %>">
       <span class="user"><%= link_to workplace.workplace_name, workplace_path(workplace.slug) %></span>
       <% if logged_in? && current_user.admin? %>
+          <br /><span>create new category</span>
+          <%= link_to new_workplace_category_path(workplace) do |f| %>
+              <span class="location-icon material-icons">+</span>
+
+          <% end %>
       <span class="timestamp">
         Created <%= time_ago_in_words(workplace.created_at) %> ago.
         <br />

@@ -14,15 +14,8 @@ module ApplicationHelper
     end
   end
 
-  def workplace_name(id)
-    case id
-      when 1
-        "Silicon Labs"
-      when 2
-        "Spredfast"
-      else
-        ""
-    end
+  def green_button_class
+    'waves-effect waves-light btn custom-btn-small'
   end
 
   def us_states

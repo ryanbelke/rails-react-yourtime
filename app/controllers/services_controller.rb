@@ -5,8 +5,8 @@ class ServicesController < ApplicationController
 
     #GET /SERVICE
     def index
-      @location = Location.friendly.find(params[:location_id])
-      @service_feed_items = @location.services.paginate(page: params[:page])
+      @category = Category.friendly.find(params[:category_id])
+      @service_feed_items = @category.services.paginate(page: params[:page])
     end
 
     def new
@@ -36,6 +36,9 @@ class ServicesController < ApplicationController
       redirect_to request.referrer || root_url
     end
 
+    def show
+
+    end
     private
 
     def service_params

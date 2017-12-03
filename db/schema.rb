@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129053802) do
+ActiveRecord::Schema.define(version: 20171202231507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 20171129053802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.string "category_info"
+    t.string "category_icon"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -131,6 +133,11 @@ ActiveRecord::Schema.define(version: 20171129053802) do
     t.string "workplace_description"
     t.bigint "location_id"
     t.string "slug"
+    t.string "workplace_city"
+    t.string "workplace_state"
+    t.integer "workplace_zip"
+    t.string "workplace_building_number"
+    t.string "workplace_image"
     t.index ["location_id"], name: "index_workplaces_on_location_id"
     t.index ["user_id"], name: "index_workplaces_on_user_id"
   end

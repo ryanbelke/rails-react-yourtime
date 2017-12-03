@@ -11,14 +11,14 @@
 <hr />
     <li id="service-<%= service.id %>">
       <span class="user">
-        <%= link_to service.service_name, location_service_path(service.location_id, service.slug) %></span>
+        <%= link_to service.service_name, category_service_path(service.categoy_id, service.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">
         Created <%= time_ago_in_words(service.created_at) %> ago.
         <br />
-        <%= link_to "delete", location_service_path(service.location_id, service.slug), method: :delete,
+        <%= link_to "delete", category_service_path(service.category_id, service.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
-        &nbsp;  <%= link_to "edit", edit_location_service_path(service.location_id, service.slug) %>
+        &nbsp;  <%= link_to "edit", edit_category_service_path(service.category_id, service.slug) %>
       <% end %>
       </span>
     </li>

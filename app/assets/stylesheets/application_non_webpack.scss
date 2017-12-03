@@ -188,6 +188,8 @@ body {
   min-height: 100vh;
   flex-direction: column;
 }
+small { color: gray; font-size: 1rem !important; font-weight: bolder !important; }
+.iconpicker-popover { width: 330px !important; }
 main {  flex: 1 0 auto;  }
 section {  overflow: auto;  }
 textarea {  resize: vertical;  }
@@ -198,8 +200,8 @@ textarea {  resize: vertical;  }
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
   font-family: 'Open Sans', 'Lato', sans-serif;
-
 }
+.card-content
 h1 {
   font-size: 3em;
   letter-spacing: -2px;
@@ -215,13 +217,23 @@ h2 {
   font-weight: normal;
   color: #777;
 }
+h3 { margin: 10px 0 !important; }
+h4 {
+  margin: 0;
+  text-align: left;
+  font-size: 1.5em !important;
+  color: #777;
+}
+h6 { font-size: 1.5rem !important;
+     margin: 0;
+     display: inline;
+}
 h5 {
   font-size: 1.75em;
   letter-spacing: -1px;
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-
   color: #777;
 }
 .h5 {

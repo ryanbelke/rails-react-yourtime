@@ -3,8 +3,20 @@
     <div class="paper">
       <%= f.label :workplace_name %>
       <%= f.text_field :workplace_name, placeholder: "Workplace name", class: 'form-control' %>
-      <%= f.label :workplace_address %>
-      <%= f.text_field :workplace_address, placeholder: "Workplace address", class: 'form-control' %>
+
+      <%= f.label :city %>
+      <%= f.text_field :workplace_city, placeholder: "Workplace city", class: 'form-control' %>
+
+      <%= f.label :state %>
+
+      <%= f.select :workplace_state, options_for_select(us_states), {}, class: 'form-control' %>
+
+      <%= f.label :zip %>
+      <%= f.text_field :workplace_zip, placeholder: "Workplace zip", class: 'form-control' %>
+
+      <%= f.label :workplace_building_number %>
+      <%= f.text_field :workplace_building_number, placeholder: "Workplace building number", class: 'form-control' %>
+
       <%= f.label :workplace_description %>
       <%= f.text_area :workplace_description, placeholder: "Workplace description", class: 'materialize-textarea' %>
     </div>

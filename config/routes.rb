@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       resources :categories
   end
 
-  resources :locations do
+  resources :categories do
     resources :services
   end
 
