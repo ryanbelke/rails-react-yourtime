@@ -1,11 +1,13 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="col-md-4 paper user_info">
+  <aside class="col-md-2 paper user_info">
     <section>
       <h3>
         <%= @user.name %>
       </h3>
-      <h5>Admin: <%= current_user.admin? %></h5>
+      <% if current_user.admin? %>
+           <h5>Admin: <%= current_user.admin? %></h5>
+          <% end %>
     </section>
     <section class="stats">
       <%= render 'shared/stats' %>

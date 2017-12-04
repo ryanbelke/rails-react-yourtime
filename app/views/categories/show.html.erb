@@ -6,13 +6,15 @@
     <small>Category:</small>
     <h3><%= @category.category_name %></h3>
     <small>Icon: &nbsp;</small>
-    <h3><i class='fa <%= @category.category_icon %> fa-3x' id="fa-icon"></i></h3>
+    <h3><i class='fa <%= @category.category_icon %> fa-2x' id="fa-icon"></i></h3>
     <br />
-    <%= link_to "View Services", category_services_path(@category.slug), class: 'waves-effect waves-light btn' %>
-    <br /> <br />
     <% if current_user.admin? %>
         <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: 'waves-effect waves-light btn' %>
+        <%= link_to "new category", new_workplace_category_path(@category.workplace_id), class: 'waves-effect waves-light btn' %>
+        <br /> <br />
     <% end %>
+    <%= link_to "View Services", category_services_path(@category.slug), class: 'waves-effect waves-light btn' %>
+
   </div>
   <div class="col l6 m16 s12">
 

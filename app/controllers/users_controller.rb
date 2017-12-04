@@ -11,8 +11,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     redirect_to root_url and return unless @user.activated?
-    #@feed_items = Workplace.where.not(location_name: "Not Listed").paginate(page: params[:page])
-    @workplaces = Workplace.where.not(workplace_name: "Not listed").paginate(page: params[:page])
+    @workplaces = Workplace.all.sort_by &:created_at
+    @categories = Category.all
+    @services = Service.all
   end
 
   def new
