@@ -2,12 +2,15 @@
 <li id="category-<%= category.id %>">
       <span class="user">
         <%= category.workplace.workplace_name %>
+        <br />
         <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug) %></span>
-  <% if logged_in? && current_user.admin? %>
+        <br />
+      <small>Services: (<%= category.services.count %>) </small>
+        &nbsp; &nbsp; <%= link_to 'New', new_category_service_path(category.slug), class: small_button('blue lighten-1') %>
       <span class="timestamp">
         <%= link_to "delete", workplace_category_path(category.workplace_id, category.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
         &nbsp;  <%= link_to "edit", edit_workplace_category_path(category.workplace_id, category.slug) %>
-  <% end %>
+
   </span>
 </li>

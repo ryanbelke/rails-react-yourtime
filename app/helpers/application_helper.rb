@@ -17,6 +17,9 @@ module ApplicationHelper
   def green_button_class
     'waves-effect waves-light btn custom-btn-small'
   end
+  def small_button(color)
+    'waves-effect waves-light btn custom-btn-small2 ' + color
+  end
 
   def us_states
     [

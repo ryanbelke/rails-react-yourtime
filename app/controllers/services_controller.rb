@@ -10,18 +10,18 @@ class ServicesController < ApplicationController
     end
 
     def new
-      @location = Location.friendly.find(params[:location_id])
-      @service = @location.services.build
+      @category = Category.friendly.find(params[:category_id])
+      @service = @category.services.build
     end
     #POST /SERVICE
     def create
-        @location = Location.friendly.find(params[:location_id])
-        @service =@location.services.build(service_params)
-        if @location.save
+        @category = Category.friendly.find(params[:category_id])
+        @service = @category.services.build(service_params)
+        if @service.save
           flash[:success] = "Service created"
           redirect_to root_url
         else
-          @feed_items = []
+          @services_feed_items = []
           render 'static_pages/home'
         end
     end

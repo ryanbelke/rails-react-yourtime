@@ -11,6 +11,10 @@ $fb-gray: #fff ;
 #driveSection3 { margin-top: 12%; }
 #winner { margin-top: 10%; }
 .custom-btn-small { width: 50px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 25px !important; }
+.custom-btn-small2 { width: 50px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 15px !important; }
+.flash-container { width: 100%; margin: 5px 0; text-align: center;
+.alert{ height: 50px !important; }
+}
 #table-buttons { padding: 15px 5px !important; float:left; }
 #mechanic-image { border-radius: 20%; }
 td { font-family: 'Open Sans', 'sans-serif' }
@@ -188,14 +192,17 @@ body {
   min-height: 100vh;
   flex-direction: column;
 }
-small { color: gray; font-size: 1rem !important; font-weight: bolder !important; }
+small { color: gray; font-size: 1rem !important;
+  font-weight: bolder !important;
+
+}
 .iconpicker-popover { width: 330px !important; }
 main {  flex: 1 0 auto;  }
 section {  overflow: auto;  }
 textarea {  resize: vertical;  }
 .center {  text-align: center;  }
 .center h1 {  margin-bottom: 10px;  }
-.admin { font-weight: bold;  }
+.admin { font-weight: bold; margin: 13px 30px; }
 /* typography */
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
@@ -266,7 +273,7 @@ p {  font-size: 1.1em;  line-height: 1.7em;  }
   font-family: 'Lato', sans-serif;
   font-weight: bold;
 }
-.container { width: 100vw !important; max-width: 1400px !important; }
+.container { width: 100vw !important; max-width: 1300px !important; }
 #logo:hover {  color: #fff;  text-decoration: none;  }
 .flex-container-column {  display: flex ; display: -webkit-flex;-webkit-flex-direction: column; flex-direction: column; width: 100%; flex-wrap: wrap; padding: 10px; }
 .flex-container-row {  display: flex;  flex-direction: row; -webkit-flex-direction: row; width: 100%; flex-wrap: wrap; padding: 10px; }
@@ -445,11 +452,12 @@ span.picture {
     border: 0;
   }
 }
-
+.admin { width: 50px; height: 50px; margin: 0px 20px; }
 @media (max-width: 800px) {
   .flex-left-half { flex: 0 0 100%; }
   .flex-right-half { flex: 0 0 100%; }
   .parking-selector { width: 100% !important; margin: 0 auto; }
   .jumbotron{ margin-top: 50px !important;  }
+  #logo { display: block; width: 50px; height: 50px; }
 
 }
