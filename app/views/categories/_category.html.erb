@@ -1,16 +1,21 @@
 <% if request.original_url.to_s.include? 'categories' %>
     <div class="col l4 m6 s12">
-      <div class="card-panel">
+      <div class="card sticky-action card-panel">
         <div class="card-image">
-          <i class='fa <%= category.category_icon %> fa-5x' id="fa-icon"></i>
-          <h3 class="card-title"><%= category.category_name %></h3>
+          <i class='fa <%= category.category_icon %> fa-5x activator' id="fa-icon"></i>
+          <h3 class=" activator"><%= category.category_name %>
+            <i class="material-icons right activator">info_outline</i></h3>
         </div>
-        <br /><hr />
         <div class="card-content">
           <p><%= category.category_description %></p>
         </div>
         <div class="card-action">
-          <a href="#">This is a link</a>
+          <a href="#" class="">BOOK IT</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">More Info
+            <i class="material-icons right">close</i></span>
+          <p><%= category.category_info %></p>
         </div>
       </div>
     </div>

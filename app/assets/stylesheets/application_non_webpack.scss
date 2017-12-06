@@ -186,8 +186,9 @@ a:hover { text-decoration: none; }
 .card-image { background-color: #fff; width: 100%;
               height: 200px;
               text-align: center;
-  .card-title { color: black !important; padding: 10px; margin: 10px; }
+  h3 { font-size: 2.4em; font-weight: bold; margin: 30px 0 5px 0 !important; color: gray; }
 }
+.activator:hover { cursor: pointer; }
 body {
   padding-top: 60px;
   background-color: $bg-color !important;
