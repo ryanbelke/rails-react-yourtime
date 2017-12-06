@@ -183,7 +183,11 @@ a:hover { text-decoration: none; }
   margin: 25px;
 }
 .card-title a { color: #fff !important; }
-
+.card-image { background-color: #fff; width: 100%;
+              height: 200px;
+              text-align: center;
+  .card-title { color: black !important; padding: 10px; margin: 10px; }
+}
 body {
   padding-top: 60px;
   background-color: $bg-color !important;

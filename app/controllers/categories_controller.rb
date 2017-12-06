@@ -1,11 +1,22 @@
 class CategoriesController < ApplicationController
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
 
+  def index
+    @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
+    @category_feed = @workplace.categories
+
+    if @category_feed.count == 1
+      #Take First Location, redirect to that locations services
+      @category = @category_feed.first
+      redirect_to workplace_category_path(@workplace.slug, @category.slug)
+    end
+    puts @category_feed.to_yaml
+  end
+
   def new
     @workplace = Workplace.friendly.find(params[:workplace_id])
     @category = @workplace.categories.build
     @category_names = @workplace.categories.pluck(:category_name)
-
   end
 
   def edit
@@ -36,6 +47,8 @@ class CategoriesController < ApplicationController
       end
     end
   end
+
+
 
   def show
     @workplace = Workplace.friendly.find(params[:workplace_id])
