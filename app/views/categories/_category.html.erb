@@ -3,7 +3,9 @@
       <div class="card sticky-action card-panel">
         <div class="card-image">
           <i class='fa <%= category.category_icon %> fa-5x activator' id="fa-icon"></i>
-          <h3 class=" activator"><%= category.category_name %>
+          <div class="left-align labels"><%= category.workplace.workplace_name %>
+          </div>
+          <h3 class="activator left-align"><%= category.category_name %>
             <i class="material-icons right activator">info_outline</i></h3>
         </div>
         <div class="card-content">
@@ -14,6 +16,7 @@
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">More Info
+            <hr /><br />
             <i class="material-icons right">close</i></span>
           <p><%= category.category_info %></p>
         </div>
