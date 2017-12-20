@@ -7,6 +7,9 @@ class CreateAppointmentsTable < ActiveRecord::Migration[5.1]
 
       t.string :appointment_status
       t.string :appointment_description
+      t.integer :appointment_price
+      t.date :appointment_date
+      t.string :appointment_location
       t.timestamps
     end
   end
