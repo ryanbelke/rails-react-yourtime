@@ -11,6 +11,7 @@
           <%= f.text_field :category_icon, placeholder: "icon ", id: 'iconPicker', class: 'form-control' %>
         </div>
       </div>
+
       <%= f.label :additional_info %>
       <%= f.text_area :category_info, placeholder: "Info", class: 'materialize-textarea' %>
 
@@ -18,9 +19,11 @@
       <%= f.text_area :category_description, placeholder: "Description", class: 'materialize-textarea' %>
     </div>
     <br/>
-    <div class="col l5 m6 s12">
+    <div class="col l4 m6 s12">
       <%= f.submit "Post", class: "btn btn-primary" %>
-
+    </div>
+    <div class="col l8 m6 s12">
+      <%= f.submit "Create and Add Dates", class: 'btn btn-primary', name: 'create_and_add' %>
     </div>
 
 <% end %>

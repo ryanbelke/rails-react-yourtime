@@ -39,8 +39,14 @@ class CategoriesController < ApplicationController
       @workplace = Workplace.friendly.find(params[:workplace_id])
       @category = @workplace.categories.build(category_params)
       if @category.save
-        flash[:success] = "Category created"
-        redirect_to root_url
+        if params[:create_and_add]
+          flash[:success] = "Category Created, adding dates"
+          redirect_to new_category_schedule_path(@category.slug)
+        else
+          flash[:success] = "Category created"
+          redirect_to root_url
+        end
+
       else
         @feed_items = []
         render 'static_pages/home'
@@ -53,6 +59,8 @@ class CategoriesController < ApplicationController
   def show
     @workplace = Workplace.friendly.find(params[:workplace_id])
     @category = Category.friendly.find(params[:id])
+
+    @schedule_feed = @category.schedules
   end
 
   private

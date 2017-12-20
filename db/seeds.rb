@@ -47,12 +47,14 @@ Workplace.create!(workplace_name: 'Not Listed')
 @workplace_silicon = Workplace.find_by id: 1
 @workplace_spredfast = Workplace.find_by id: 2
 
-@workplace_silicon.categories.create!(category_name: 'Car Wash', category_description: 'Description for car wash category')
-@workplace_silicon.categories.create!(category_name: 'Auto Maintenance', category_description: 'Description for the auto/mechanic category')
+content = Faker::Lorem.paragraph(sentence_count = 3)
 
-@workplace_spredfast.categories.create!(category_name: 'Car Wash', category_description: 'Description auto/mechanic')
-@workplace_spredfast.categories.create!(category_name: 'Auto Maintenance', category_description: 'Description auto/mechanic')
-@workplace_spredfast.categories.create!(category_name: 'Haircuts', category_description: 'Description auto/mechanic')
+@workplace_silicon.categories.create!(category_name: 'Car Wash', category_description: content, category_info: content)
+@workplace_silicon.categories.create!(category_name: 'Auto Maintenance', category_description: content, category_info: content)
+
+@workplace_spredfast.categories.create!(category_name: 'Car Wash', category_description: content, category_info: content)
+@workplace_spredfast.categories.create!(category_name: 'Auto Maintenance', category_description: content, category_info: content)
+@workplace_spredfast.categories.create!(category_name: 'Haircuts', category_description: content, category_info: content)
 
 @category1 = Category.find_by id: 1
 @category2 = Category.find_by id: 2

@@ -4,4 +4,5 @@ class Category < ApplicationRecord
 
   has_many :services
   belongs_to :workplace
+  has_many :schedules
 end

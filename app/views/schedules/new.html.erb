@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col l3 m6 s12 offset-l2">
+    <small><%= @category.workplace.workplace_name %></small>
+    <h3> <%= @category.category_name %></h3>
+    <hr />
+    <%= render 'shared/infoShims/schedule_feed'%>
+  </div>
+  <div class="col l3 m6 s12 paper">
+    <%= form_for [:category, @schedule] do |f| %>
+        <%= f.label :date %>
+        <%= f.text_field :date, placeholder: 'Select Date', class:'datepicker' %>
+
+       <div class="capacity">
+         <%= f.label :capacity %>
+         <%= f.number_field :date_capacity, class: 'form-control' %>
+       </div>
+
+        <%= f.label :add_dates %>
+        <%= f.button name: 'create_and_add', class: 'location-button btn-floating btn-small waves-effect waves-light blue' do %>
+          <span class="location-icon material-icons">+</span>
+        <% end %>
+        <br />
+        <br />
+
+        <%= f.submit "Create", class: 'btn btn-primary' %>
+      <br/>
+      <div class="row">
+        <div class="col l2 m6 s12">
+
+        </div>
+        <div class="col l4 m6 s12">
+
+        </div>
+      </div>
+    <% end %>
+
+      </div>
+</div>
+
+<script>
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: false // Close upon selecting a date,
+    });
+</script>

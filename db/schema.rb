@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171202231507) do
+ActiveRecord::Schema.define(version: 20171218010028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,13 +18,16 @@ ActiveRecord::Schema.define(version: 20171202231507) do
   create_table "appointments", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "service_id"
+    t.bigint "location_id"
+    t.date "date"
+    t.string "appointment_status"
+    t.string "appointment_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "appointment_date"
+    t.integer "appointment_price"
     t.string "appointment_location"
-    t.string "appointment_description"
-    t.string "appointment_status"
-    t.string "appointment_price"
+    t.index ["location_id"], name: "index_appointments_on_location_id"
     t.index ["service_id"], name: "index_appointments_on_service_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
   end
@@ -38,6 +41,10 @@ ActiveRecord::Schema.define(version: 20171202231507) do
     t.string "slug"
     t.string "category_info"
     t.string "category_icon"
+    t.date "date"
+    t.integer "capacity"
+    t.date "category_date"
+    t.integer "category_capacity"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -80,6 +87,20 @@ ActiveRecord::Schema.define(version: 20171202231507) do
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "booking_id"
+    t.date "date"
+    t.integer "date_capacity"
+    t.integer "date_reserved"
+    t.boolean "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["booking_id"], name: "index_schedules_on_booking_id"
+    t.index ["category_id"], name: "index_schedules_on_category_id"
   end
 
   create_table "services", force: :cascade do |t|

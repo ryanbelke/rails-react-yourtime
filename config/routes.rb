@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     resources :services
   end
 
+  resources :categories do
+    resources :schedules
+  end
+
   resources :users do
     resources :appointments
   end

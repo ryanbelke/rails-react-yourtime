@@ -1,6 +1,6 @@
 <br/><br/>
 <div class="row">
-  <div class="col l3 m6 s6 offset-l1">
+  <div class="col l3 m6 s6 ">
     <small>Workplace:</small>
       <h3><%= @category.workplace.workplace_name %></h3>
     <small>Category:</small>
@@ -12,11 +12,11 @@
         <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: 'waves-effect waves-light btn' %>
         <%= link_to "new category", new_workplace_category_path(@category.workplace_id), class: 'waves-effect waves-light btn' %>
         <br /> <br />
-    <% end %>
-    <%= link_to "View Services", category_services_path(@category.slug), class: 'waves-effect waves-light btn' %>
+        <%= link_to "Add Dates", new_category_schedule_path(@category.slug), class: 'waves-effect waves-light btn' %>
+      <br /> <br />
 
-  </div>
-  <div class="col l6 m16 s12">
+  <% end %>
+    <%= link_to "View Services", category_services_path(@category.slug), class: 'waves-effect waves-light btn' %>
 
   </div>
   <div class="col l6 s12 m7">
@@ -39,5 +39,9 @@
 
       </div>
     </div>
+  </div>
+  <div class="col l2 m4 s12">
+    <small>Date Feed:</small>
+    <%= render 'shared/infoShims/schedule_feed' %>
   </div>
 </div>

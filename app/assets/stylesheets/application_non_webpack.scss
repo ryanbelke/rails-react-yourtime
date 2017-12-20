@@ -2,7 +2,13 @@ $green: #1ecd97;
 $bg-color: #e9ebee;
 $fb-gray: #fff ;
 //#e9ebee
-
+label { color: #2E2F30 !important; }
+input { color: #2E2F30 !important; }
+.btn-floating i {
+  line-height: 0 !important;
+  margin-left: 1px;
+}
+.btn {color: white !important; }
 #howSection { margin-top: 13%; }
 #scheduleSection { margin-top: 7%; }
 #driveSection { margin-top: 12%; }
@@ -15,6 +21,7 @@ $fb-gray: #fff ;
 .flash-container { width: 100%; margin: 5px 0; text-align: center;
 .alert{ height: 50px !important; }
 }
+#datePicker { height: 50px; }
 #fa-icon { font-size: 3x.5em; }
 #table-buttons { padding: 15px 5px !important; float:left; }
 #mechanic-image { border-radius: 20%; }
@@ -281,7 +288,14 @@ p {  font-size: 1.1em;  line-height: 1.7em;  }
 /* header */
 .no-border { border: none !important; }
 .location-button { height: 30px !important; width: 30px !important; text-align: center !important; }
-.location-icon { font-size: 1.8rem !important; padding-right: 3px !important; padding-bottom: 5px !important; position: relative !important; left: 0 !important; line-height: 0 !important; }
+.location-icon { font-size: 1.8rem !important;
+  padding-right: 3px !important;
+  padding-bottom: 5px !important;
+  position: relative !important;
+  left: 1px !important; line-height: -10px !important;
+  bottom: 5px;
+}
+.capacity {width: 30%; }
 #logo {
   float: left;
   margin-right: 10px;
