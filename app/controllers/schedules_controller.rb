@@ -18,6 +18,18 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def destroy
+    Schedule.friendly.find(params[:id]).destroy
+    flash[:success] = "Schedule deleted"
+    redirect_to request.referrer || root_url
+  end
+
+  def edit
+    @category = Category.friendly.find(params[:category] || params[:category_id])
+    @schedule = @category.schedules.friendly.find(params[:id])
+    @schedule_feed = @category.schedules
+  end
+
   private
 
   def admin_user
