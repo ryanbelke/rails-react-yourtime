@@ -1,5 +1,24 @@
-<br/><br/>
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: 'waves-effect waves-light btn grey lighten-4' %>
+      </li>
+      <li>
+        <%= link_to "new category", new_workplace_category_path(@category.workplace_id), class: 'waves-effect waves-light btn grey lighten-4' %>
+      </li>
+      <li>
+        <%= link_to "add dates", new_category_schedule_path(@category.slug), class: 'waves-effect waves-light btn grey lighten-4' %>
+      </li>
+  <% end %>
+  <li>
+    <%= link_to "view services", category_services_path(@category.slug), class: 'waves-effect waves-light btn grey lighten-4' %>
+  </li>
+  </ul>
+
+</div>
 <div class="row">
+
   <div class="col l3 m6 s6 ">
     <small>Workplace:</small>
       <h3><%= @category.workplace.workplace_name %></h3>
@@ -8,15 +27,6 @@
     <small>Icon: &nbsp;</small>
     <h3><i class='fa <%= @category.category_icon %> fa-2x' id="fa-icon"></i></h3>
     <br />
-    <% if logged_in? && current_user.admin? %>
-        <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: 'waves-effect waves-light btn' %>
-        <%= link_to "new category", new_workplace_category_path(@category.workplace_id), class: 'waves-effect waves-light btn' %>
-        <br /> <br />
-        <%= link_to "Add Dates", new_category_schedule_path(@category.slug), class: 'waves-effect waves-light btn' %>
-      <br /> <br />
-
-  <% end %>
-    <%= link_to "View Services", category_services_path(@category.slug), class: 'waves-effect waves-light btn' %>
 
   </div>
   <div class="col l6 s12 m7">

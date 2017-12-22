@@ -10,6 +10,31 @@ input { color: #2E2F30 !important; }
 }
 .header-link { color: #2E2F30; }
 .btn {color: white !important; }
+.navbar {
+  margin-bottom: 0 !important;
+  height: 60px !important;
+}
+.header-nav {
+  width: 100vw;
+  height: 53px;
+  left: 0;
+  top: 68px;
+  z-index: 2;
+  position: fixed;
+  border-bottom: 1px solid #E0E0E0;
+  padding: 8px 25px 0 45px;
+  background-color: #FAFAFA;
+  float: right;
+  li {
+    float: left;
+    margin: 0 5px;
+    list-style: none;
+  }
+  a {
+    color: #424242 !important;
+
+  }
+}
 #howSection { margin-top: 13%; }
 #scheduleSection { margin-top: 7%; }
 #driveSection { margin-top: 12%; }
@@ -19,9 +44,13 @@ input { color: #2E2F30 !important; }
 #winner { margin-top: 10%; }
 .custom-btn-small { width: 60px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 25px !important; }
 .custom-btn-small2 { width: 50px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 15px !important; }
-.flash-container { width: 100%; margin: 5px 0; text-align: center;
+.flash-container { width: 100%; position: absolute; margin: 5px 0; text-align: center;
 .alert{ height: 50px !important; }
 }
+.container-header {
+  padding: 5px 35px 0 25px;
+}
+
 #datePicker { height: 50px; }
 #fa-icon { font-size: 3x.5em; }
 #table-buttons { padding: 15px 5px !important; float:left; }
@@ -311,7 +340,12 @@ p {  font-size: 1.1em;  line-height: 1.7em;  }
   font-family: 'Lato', sans-serif;
   font-weight: bold;
 }
-.container { width: 100vw !important; max-width: 1300px !important; }
+.container {
+  width: 100vw !important;
+  max-width: 1300px !important;
+  position: relative;
+  top: 70px;
+}
 #logo:hover {  color: #fff;  text-decoration: none;  }
 .flex-container-column {  display: flex ; display: -webkit-flex;-webkit-flex-direction: column; flex-direction: column; width: 100%; flex-wrap: wrap; padding: 10px; }
 .flex-container-row {  display: flex;  flex-direction: row; -webkit-flex-direction: row; width: 100%; flex-wrap: wrap; padding: 10px; }
