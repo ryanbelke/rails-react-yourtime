@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171218010028) do
+ActiveRecord::Schema.define(version: 20171222040221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20171218010028) do
     t.bigint "user_id"
     t.bigint "service_id"
     t.bigint "location_id"
+    t.bigint "schedule_id"
     t.date "date"
     t.string "appointment_status"
     t.string "appointment_description"
@@ -30,6 +31,8 @@ ActiveRecord::Schema.define(version: 20171218010028) do
     t.index ["location_id"], name: "index_appointments_on_location_id"
     t.index ["service_id"], name: "index_appointments_on_service_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
+    t.index ["schedule_id"], name: "index_appointments_on_schedule_id"
+
   end
 
   create_table "categories", force: :cascade do |t|
@@ -91,7 +94,7 @@ ActiveRecord::Schema.define(version: 20171218010028) do
 
   create_table "schedules", force: :cascade do |t|
     t.bigint "category_id"
-    t.bigint "booking_id"
+    t.bigint "appointment_id"
     t.date "date"
     t.integer "date_capacity"
     t.integer "date_reserved"
@@ -99,7 +102,7 @@ ActiveRecord::Schema.define(version: 20171218010028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.index ["booking_id"], name: "index_schedules_on_booking_id"
+    t.index ["appointment_id"], name: "index_schedules_on_booking_id"
     t.index ["category_id"], name: "index_schedules_on_category_id"
   end
 

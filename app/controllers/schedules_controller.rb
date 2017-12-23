@@ -18,6 +18,28 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def update
+    @category = Category.friendly.find(params[:category_id])
+    @schedule = @category.schedules.friendly.find(params[:id])
+    if params[:create_and_add]
+      if @schedule.update_attributes(schedule_params)
+      flash[:success] = 'Schedule updated'
+      redirect_to edit_category_schedule_path(@category, @schedule)
+      else
+        render 'edit'
+      end
+
+    else
+      if @schedule.update_attributes(schedule_params)
+        flash[:success] = "Schedule updated"
+        redirect_to root_url
+      else
+        render 'edit'
+      end
+    end
+
+  end
+
   def destroy
     Schedule.friendly.find(params[:id]).destroy
     flash[:success] = "Schedule deleted"
@@ -25,8 +47,8 @@ class SchedulesController < ApplicationController
   end
 
   def edit
-    @category = Category.friendly.find(params[:category] || params[:category_id])
-    @schedule = @category.schedules.friendly.find(params[:id])
+    @category = Category.friendly.find(params[:category_id])
+    @schedule = Schedule.friendly.find(params[:id])
     @schedule_feed = @category.schedules
   end
 

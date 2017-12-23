@@ -1,4 +1,4 @@
-<% if request.original_url.to_s.include? 'services' %>
+<% if request.original_url.to_s.include? 'categories' %>
     <div class="col l4 m4 s12">
       <div class="paper locations card">
        <%= service.service_name %>
@@ -8,7 +8,7 @@
 <hr />
     <li id="service-<%= service.id %>">
       <span class="user">
-        <%= link_to service.service_name, category_service_path(service.categoy_id, service.slug) %></span>
+        <%= link_to service.service_name, category_service_path(service.category_id, service.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">
         Created <%= time_ago_in_words(service.created_at) %> ago.

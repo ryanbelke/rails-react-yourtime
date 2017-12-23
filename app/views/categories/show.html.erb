@@ -2,20 +2,19 @@
   <% if logged_in? && current_user.admin? %>
     <ul>
       <li>
-        <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: 'waves-effect waves-light btn grey lighten-4' %>
+        <%= link_to "edit", edit_workplace_category_path(@category.workplace_id, @category.slug), class: 'waves-effect waves-light btn white' %>
       </li>
       <li>
-        <%= link_to "new category", new_workplace_category_path(@category.workplace_id), class: 'waves-effect waves-light btn grey lighten-4' %>
+        <%= link_to "new category", new_workplace_category_path(@category.workplace_id), class: 'waves-effect waves-light btn white' %>
       </li>
       <li>
-        <%= link_to "add dates", new_category_schedule_path(@category.slug), class: 'waves-effect waves-light btn grey lighten-4' %>
+        <%= link_to "dates", new_category_schedule_path(@category.slug), class: 'waves-effect waves-light btn white' %>
       </li>
   <% end %>
   <li>
-    <%= link_to "view services", category_services_path(@category.slug), class: 'waves-effect waves-light btn grey lighten-4' %>
+    <%= link_to "view services", category_services_path(@category.slug), class: 'waves-effect waves-light btn white' %>
   </li>
   </ul>
-
 </div>
 <div class="row">
 

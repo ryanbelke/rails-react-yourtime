@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     resources :schedules
   end
 
+  resources :categories do
+    resources :appointments
+  end
   resources :users do
     resources :appointments
   end

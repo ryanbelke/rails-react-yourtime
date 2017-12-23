@@ -5,14 +5,15 @@
           <i class='fa <%= category.category_icon %> fa-5x activator' id="fa-icon"></i>
           <div class="left-align labels"><%= category.workplace.workplace_name %>
           </div>
-          <h3 class="activator left-align"><%= category.category_name %>
+          <h3 class="left-align">
+            <%= link_to category.category_name, new_category_appointment_path(category.slug) %>
             <i class="material-icons right activator">info_outline</i></h3>
         </div>
         <div class="card-content">
           <p><%= category.category_description %></p>
         </div>
         <div class="card-action">
-          <a href="#" class="">BOOK IT</a>
+          <%= link_to 'Book now', new_category_appointment_path(category.slug) %>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">More Info

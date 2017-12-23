@@ -1,3 +1,18 @@
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        Create New Schedule
+      </li>
+      <li>
+      </li>
+      <li>
+      </li>
+  <% end %>
+  <li>
+  </li>
+  </ul>
+</div>
 <div class="row">
   <div class="col l3 m6 s12 offset-l2">
     <small><%= @category.workplace.workplace_name %></small>
