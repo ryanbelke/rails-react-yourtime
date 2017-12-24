@@ -1,9 +1,17 @@
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        <h6>Edit <%= @service.service_name %></h6>
+      </li>
+      <li>
+        <%= link_to "new service", new_category_service_path(@category.slug), class: 'waves-effect waves-light btn white' %>
+      </li>
+
+  <% end %>
+
+  </ul>
+</div>
 <div class="row">
-  <div class="col l4 m6 s12 offset-l4 offset-m6">
-    <br/>
-    <br/>
-    <br/>
-    <h5>Edit <%= @service.service_name %></h5>
     <%= render 'shared/service_form' %>
-  </div>
 </div>

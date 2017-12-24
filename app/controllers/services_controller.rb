@@ -1,5 +1,4 @@
 class ServicesController < ApplicationController
-    before_action :logged_in_user, only: [ :create ]
     #before_action :correct_user,   only: [:create, :index]
     before_action :admin_user,     only: [:edit, :create, :destroy, :new]
 
@@ -7,6 +6,7 @@ class ServicesController < ApplicationController
     def index
       @category = Category.friendly.find(params[:category_id])
       @service_feed_items = @category.services
+      puts @service_feed_items.to_yaml
     end
 
     def new
@@ -25,8 +25,20 @@ class ServicesController < ApplicationController
           render 'static_pages/home'
         end
     end
+
+    #POST /Service/:id
+    def update
+      @service = Service.friendly.find(params[:id])
+      if @service.update_attributes(service_params)
+        flash[:success] = "Service updated"
+        redirect_to root_url
+      else
+        render 'edit'
+      end
+    end
     #PUT /SERVICE/:ID
     def edit
+      @category = Category.friendly.find(params[:category_id])
       @service = Service.friendly.find(params[:id])
     end
     #DELETE /SERVICE/:ID
@@ -43,7 +55,7 @@ class ServicesController < ApplicationController
 
     def service_params
       params.require(:service).permit(:service_name, :service_description, :service_price,
-                                      :service_time_to_complete)
+                                      :service_time_to_complete, :service_info, :service_vendor, :picture)
     end
 
     # Before filters

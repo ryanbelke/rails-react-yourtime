@@ -1,7 +1,47 @@
 <% if request.original_url.to_s.include? 'categories' %>
     <div class="col l4 m4 s12">
-      <div class="paper locations card">
-       <%= service.service_name %>
+      <div class="card sticky-action card-panel">
+        <div class="card-image">
+          <%= image_tag service.picture.url if service.picture? %>
+        </div>
+        <div class="card-title">
+          <%= service.service_name %>
+          <i class="material-icons right activator">info_outline</i>
+          <hr />
+        </div>
+        <span class="card-subtitle">
+          $<%= service.service_price %>
+        </span>
+        <span class="card-subtitle">
+          <small>&nbsp; &nbsp; Time:</small>
+          <% if service.service_time_to_complete <= 8 %>
+          <%= 'Same Day' %>
+            <% else %>
+          <%= 'Extended Completion Time' %>
+            <% end %>
+        </span>
+        <span class="card-subtitle">
+          <small>&nbsp; &nbsp; Vendor: </small><%= service.service_vendor %>
+        </span>
+        <div class="card-content">
+          <p><%= service.service_description %></p>
+        </div>
+        <div class="card-action">
+          <% if logged_in? && current_user.admin? %>
+            <%= link_to 'edit', edit_category_service_path(service.category.id, service.slug) %>
+            <%= link_to 'delete', category_service_path(service.category.id, service.slug),
+            method: 'delete', data: { confirm: 'are you sure?' } %>
+        <% end %>
+            </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>
+            More Info <hr /><br/>
+          </span>
+          <p>
+            <%= service.service_info %>
+          </p>
+        </div>
       </div>
     </div>
 <% else %>

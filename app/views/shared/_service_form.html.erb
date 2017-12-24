@@ -1,11 +1,42 @@
+
 <%= form_for [:category, @service] do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
-    <div class="paper">
-      <%= f.label :service_name %>
-      <%= f.text_field :service_name, placeholder: "service name", class: 'form-control' %>
-      <%= f.label :service_description %>
-      <%= f.text_area :service_description, placeholder: "service description", class: 'materialize-textarea' %>
+  <div class="row">
+    <div class="col l3 m6 s12 offset-l1">
+      <section class="paper">
+        <%= f.label :service_name %>
+        <%= f.text_field :service_name, placeholder: "name", class: 'form-control' %>
+        <%= f.label :price %>
+        <%= f.number_field :service_price, placeholder: "$0.00", class: 'form-control' %>
+        <%= f.label :service_completion_time %>
+        <%= f.number_field :service_time_to_complete, placeholder: "# hours", class: 'form-control' %>
+        <%= f.label :service_vendor %>
+        <%= f.text_field :service_vendor, placeholder: "vendor", class: 'form-control' %>
+        <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png, image/svg' %>
+      </section>
     </div>
-    <br/>
-    <%= f.submit "Post", class: "btn btn-primary" %>
+    <div class="col l6 m12 s12">
+      <div class="paper">
+        <%= f.label :service_description %>
+        <%= f.text_area :service_description, placeholder: "description", class: 'materialize-textarea' %>
+      </div>
+      <br />
+      <div class="paper">
+        <%= f.label :service_info %>
+        <%= f.text_area :service_info, placeholder: "info", class: 'materialize-textarea' %>
+      </div>
+      <br/>
+      <%= f.submit "Post", class: "btn btn-primary" %>
+    </div>
+  </div>
+
 <% end %>
+
+<script type="text/javascript">
+    $('#service_picture').bind('change', function() {
+        var size_in_megabytes = this.files[0].size/1024/1024;
+        if (size_in_megabytes > 5) {
+            alert('Maximum file size is 5MB. Please choose a smaller file.');
+        }
+    });
+</script>
