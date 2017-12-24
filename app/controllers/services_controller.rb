@@ -6,7 +6,6 @@ class ServicesController < ApplicationController
     def index
       @category = Category.friendly.find(params[:category_id])
       @service_feed_items = @category.services
-      puts @service_feed_items.to_yaml
     end
 
     def new
