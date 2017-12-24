@@ -14,7 +14,7 @@
         </span>
         <span class="card-subtitle">
           <small>&nbsp; &nbsp; Time:</small>
-          <% if service.service_time_to_complete <= 8 %>
+          <% if service.service_time_to_complete? && service.service_time_to_complete <= 8 %>
           <%= 'Same Day' %>
             <% else %>
           <%= 'Extended Completion Time' %>
