@@ -8,6 +8,7 @@ class Service < ApplicationRecord
   belongs_to :category
   #Services will have my FOREIGN KEY to pull the USD ID AND CATEGORY ID
 
+
   private
 
   # Validates the size of an uploaded picture.
