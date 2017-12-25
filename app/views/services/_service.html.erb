@@ -1,3 +1,4 @@
+
 <% if request.original_url.to_s.include? 'categories' %>
     <div class="col l4 m4 s12">
       <div class="card sticky-action card-panel">
@@ -31,8 +32,9 @@
             <%= link_to 'edit', edit_category_service_path(service.category.id, service.slug) %>
             <%= link_to 'delete', category_service_path(service.category.id, service.slug),
             method: 'delete', data: { confirm: 'are you sure?' } %>
-        <% end %>
-            </div>
+          <% end %>
+          <a href="?service=<%= service.slug %>">Book Now</a>
+        </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">
             <i class="material-icons right">close</i>

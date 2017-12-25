@@ -5,9 +5,7 @@ class ServicesController < ApplicationController
     #GET /SERVICE
     def index
       @category = Category.friendly.find(params[:category_id])
-      
       @service_feed_items = @category.services
-
     end
 
     def new

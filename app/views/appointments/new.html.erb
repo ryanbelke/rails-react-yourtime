@@ -1,5 +1,46 @@
-<div class="row">
-  <div class="col l12 m6 s12">
-    <%= render 'shared/services_feed' %>
-  </div>
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        <h6>        <%= @category.category_name %>
+        </h6>
+      </li>
+      <li>
+      </li>
+      <li>
+      </li>
+  <% end %>
+  <li>
+    <%= link_to "back", :back, class: 'waves-effect waves-light btn white' %>
+  </li>
+  </ul>
 </div>
+
+<% if request.original_url.to_s.include? 'service' %>
+  <label>Select a date</label>
+  <%= @dates.join.to_s.gsub('"', '') %>
+  <input class="datepicker", placeholder='Date'> </input>
+  <script>
+
+      $('.datepicker').pickadate({
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 15, // Creates a dropdown of 15 years to control year,
+          today: 'Today',
+          clear: 'Clear',
+          close: 'Ok',
+          closeOnSelect: false, // Close upon selecting a date,
+          disable: [
+              true,
+              <% @dates.each do |a| %>
+              <%= a.to_s.gsub('"', '') + ',' %>
+              <% end %>
+          ]
+      });
+  </script>
+<% else %>
+  <div class="row">
+    <div class="col l12 m6 s12">
+      <%= render 'shared/services_feed' %>
+    </div>
+  </div>
+<% end %>
