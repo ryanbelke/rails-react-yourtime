@@ -1,7 +1,7 @@
 <% if request.original_url.to_s.include? 'categories' %>
     <div class="col l4 m6 s12">
       <div class="card sticky-action card-panel">
-        <div class="card-image">
+        <div class="card-image category-image">
           <i class='fa <%= category.category_icon %> fa-5x activator' id="fa-icon"></i>
           <div class="left-align labels"><%= category.workplace.workplace_name %>
           </div>

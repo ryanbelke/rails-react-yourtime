@@ -5,7 +5,9 @@ class ServicesController < ApplicationController
     #GET /SERVICE
     def index
       @category = Category.friendly.find(params[:category_id])
+      
       @service_feed_items = @category.services
+
     end
 
     def new
@@ -54,7 +56,8 @@ class ServicesController < ApplicationController
 
     def service_params
       params.require(:service).permit(:service_name, :service_description, :service_price,
-                                      :service_time_to_complete, :service_info, :service_vendor, :picture)
+                                      :service_time_to_complete, :service_info, :service_vendor,
+                                      :picture, :link)
     end
 
     # Before filters

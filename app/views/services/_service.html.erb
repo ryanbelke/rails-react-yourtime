@@ -1,7 +1,7 @@
 <% if request.original_url.to_s.include? 'categories' %>
     <div class="col l4 m4 s12">
       <div class="card sticky-action card-panel">
-        <div class="card-image">
+        <div class="card-image card-gradient">
           <%= image_tag service.picture.url if service.picture? %>
         </div>
         <div class="card-title">
@@ -13,7 +13,7 @@
           $<%= service.service_price %>
         </span>
         <span class="card-subtitle">
-          <small>&nbsp; &nbsp; Time:</small>
+          <small> &nbsp; Time:</small>
           <% if service.service_time_to_complete? && service.service_time_to_complete <= 8 %>
           <%= 'Same Day' %>
             <% else %>
@@ -21,7 +21,7 @@
             <% end %>
         </span>
         <span class="card-subtitle">
-          <small>&nbsp; &nbsp; Vendor: </small><%= service.service_vendor %>
+          <small>&nbsp; Vendor: </small><%= service.service_vendor %>
         </span>
         <div class="card-content">
           <p><%= service.service_description %></p>

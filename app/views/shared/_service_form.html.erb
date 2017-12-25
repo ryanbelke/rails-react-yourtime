@@ -7,12 +7,15 @@
         <%= f.label :service_name %>
         <%= f.text_field :service_name, placeholder: "name", class: 'form-control' %>
         <%= f.label :price %>
-        <%= f.number_field :service_price, placeholder: "$0.00", class: 'form-control' %>
+        <%= f.number_field :service_price, step: :any, placeholder: "$0.00", class: 'form-control' %>
         <%= f.label :service_completion_time %>
-        <%= f.number_field :service_time_to_complete, placeholder: "# hours", class: 'form-control' %>
+        <%= f.number_field :service_time_to_complete, step: :any, placeholder: "# hours", class: 'form-control' %>
         <%= f.label :service_vendor %>
         <%= f.text_field :service_vendor, placeholder: "vendor", class: 'form-control' %>
-        <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+        <%= f.label :service_link %>
+        <%= f.text_field :link, placeholder: "link", class: 'form-control' %>
+
+        <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png, image/svg' %>
       </section>
     </div>
     <div class="col l6 m12 s12">
