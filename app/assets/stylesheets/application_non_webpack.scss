@@ -219,12 +219,67 @@ a:hover { text-decoration: none; }
 }
 .paper {   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
            background: $fb-gray !important; padding: 20px;
-           margin: 5px 15px; }
-.locations {
+           margin: 5px 15px;
+           border-radius: 0.75rem;
 
+}
+.paper-no-border {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+  background: $fb-gray !important;
+  margin: 5px 15px;
+  border-radius: 0.75rem;
+}
+.locations {
   float: left !important;
   padding: 10px;
   margin: 25px;
+}
+.date-selector {
+  margin-top: 15px;
+  padding: 20px;
+  input {
+    width: 70% !important;
+  }
+  label {
+    font-size: 1rem;
+  }
+}
+.css-flash {
+  height: 50px;
+  width: 100%;
+  background-color: #e8f7ff;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+.flash-text {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+  padding: 0.5rem 0.5rem;
+  color: #303f9f;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 900;
+  border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+
+.icon-div {
+  padding: 0.25rem;
+  color: #303f9f;
+  background-color: #72c3fc;
+  height: 100%;
+  width: 50px;
+  position: relative;
+  display: inline-block;
+  font-size: 2.0rem;
+  border-top-left-radius: 0.75rem;
+
+  svg {
+    margin: 0.5rem;
+  }
 }
 .category-image {
   padding-top: 20px;

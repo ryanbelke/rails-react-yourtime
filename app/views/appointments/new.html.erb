@@ -2,7 +2,7 @@
   <% if logged_in? && current_user.admin? %>
     <ul>
       <li>
-        <h6>        <%= @category.category_name %>
+        <h6>
         </h6>
       </li>
       <li>
@@ -17,9 +17,38 @@
 </div>
 
 <% if request.original_url.to_s.include? 'service' %>
-  <label>Select a date</label>
-  <%= @dates.join.to_s.gsub('"', '') %>
-  <input class="datepicker", placeholder='Date'> </input>
+  <div class="row">
+    <div class="col l3 m6 s12 offset-l1">
+      <div class="paper-no-border">
+        <div class="css-flash">
+          <div class="icon-div">
+            <i class="fal fa-calendar-alt"></i>
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Date</h6>
+          </div>
+        </div>
+        <div class="date-selector">
+          <label>Select a date</label>
+          <input class="datepicker", placeholder='Date' />
+        </div>
+      </div>
+    </div>
+    <div class="col l6 m6 s12 paper">
+      <br /> <h6>Appointment Info:</h6><hr />
+      <h4><span><%= @service.category.category_name %>: &nbsp; <%= @service.service_name %></span></h4>
+      <h6><span>Price: $<%= @service.service_price %> &nbsp; Vendor: <%= @service.service_vendor %></span></h6>
+      <h5>Time to Complete:
+        <% if @service.service_time_to_complete < 8 %>
+          <%= 'Same Day' %>
+          <% else %>
+        <%= 'Extended completion time' %>
+          <% end %>
+          </h5>
+    </div>
+
+  </div>
+
   <script>
 
       $('.datepicker').pickadate({

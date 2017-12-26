@@ -1,7 +1,7 @@
   <li id="schedule-<%= schedule.id %>">
     <% if schedule.date? %>
       <div>
-        <h6>Date: <%= link_to  schedule.date, category_schedule_path(schedule.category.id, schedule.slug),
+        <h6>Date: <%= link_to  schedule.date.strftime("%Y-%m-%d"), category_schedule_path(schedule.category.id, schedule.slug),
                                class: 'header-link' %><br /></h6>
         <small>Capacity: <%= schedule.date_capacity %></small>
       </div>

@@ -4,3 +4,4 @@
 Rails.application.config.assets.version = "1.0"
 #Added to precompile the custom css
 Rails.application.config.assets.precompile += %w( application_static.css )
+Rails.application.config.assets.precompile += %w( fontawesome-all.min.js )

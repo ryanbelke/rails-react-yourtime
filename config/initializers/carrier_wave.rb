@@ -1,3 +1,4 @@
+=begin
 if Rails.env.production?
   CarrierWave.configure do |config|
     config.fog_provider = 'fog/aws'
@@ -10,4 +11,4 @@ if Rails.env.production?
     config.storage = :fog
     config.fog_directory     =  ENV['S3_BUCKET']
   end
-end
+end=end
