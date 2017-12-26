@@ -22,7 +22,7 @@
       <div class="paper-no-border">
         <div class="css-flash">
           <div class="icon-div">
-            <i class="fal fa-calendar-alt"></i>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
           </div>
           <div class="flash-text">
             <h6>Appointment Date</h6>
@@ -34,17 +34,61 @@
         </div>
       </div>
     </div>
-    <div class="col l6 m6 s12 paper">
-      <br /> <h6>Appointment Info:</h6><hr />
-      <h4><span><%= @service.category.category_name %>: &nbsp; <%= @service.service_name %></span></h4>
-      <h6><span>Price: $<%= @service.service_price %> &nbsp; Vendor: <%= @service.service_vendor %></span></h6>
-      <h5>Time to Complete:
-        <% if @service.service_time_to_complete < 8 %>
-          <%= 'Same Day' %>
-          <% else %>
-        <%= 'Extended completion time' %>
-          <% end %>
-          </h5>
+    <div class="col l6 m6 s12">
+      <div class="paper-no-border">
+        <div class="css-flash">
+          <div class="icon-div-info">
+            <i class="fa fa-info" aria-hidden="true"></i>
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Info:</h6>
+          </div>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Category:</span>
+          <span class="form-text">&nbsp; <%= @service.category.category_name %></span>
+          <br />
+          <span class="form-header">Service: </span>
+          <span class="form-text">&nbsp;&nbsp;&nbsp; &nbsp; <%= @service.service_name %></span>
+          <br />
+          <span class="form-header">Price: </span>
+          <span class="form-text">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; $<%= @service.service_price %></span>
+          <br />
+          <span class="form-header">Vendor: </span>
+          <span class="form-text"> &nbsp;&nbsp;&nbsp; &nbsp;<%= @service.service_vendor %></span>
+          <br />
+          <span class="form-header">Time Frame: </span>
+          <span class="form-text">
+            <% if @service.service_time_to_complete < 8 %>
+             <%= 'Same Day' %>
+            <% else %>
+             <%= 'Extended completion time' %>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <br />
+      <div class="paper-no-border">
+        <div class="css-flash-warning">
+          <div class="icon-div-warning">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </div>
+          <div class="flash-text">
+            <h6>User Info</h6>
+          </div>
+        </div>
+      <div class="center-align" >
+        <br />
+
+        <h6><%= link_to 'Please sign in or register here', login_path %></h6>
+        <br />
+        <small>Don't worry, we will save this page and bring you back once you register</small>
+        <br />        <br />
+
+      </div>
+
+      </div>
+
     </div>
 
   </div>
