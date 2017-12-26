@@ -46,17 +46,21 @@
         </div>
         <div class="form-info">
           <span class="form-header">Category:</span>
-          <span class="form-text">&nbsp; <%= @service.category.category_name %></span>
-          <br />
+          <span class="form-text"> <%= @service.category.category_name %></span>
+        </div>
+        <div class="form-info">
           <span class="form-header">Service: </span>
-          <span class="form-text">&nbsp;&nbsp;&nbsp; &nbsp; <%= @service.service_name %></span>
-          <br />
+          <span class="form-text"> <%= @service.service_name %></span>
+        </div>
+        <div class="form-info">
           <span class="form-header">Price: </span>
-          <span class="form-text">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; $<%= @service.service_price %></span>
-          <br />
+          <span class="form-text"> $<%= @service.service_price %></span>
+        </div>
+        <div class="form-info">
           <span class="form-header">Vendor: </span>
-          <span class="form-text"> &nbsp;&nbsp;&nbsp; &nbsp;<%= @service.service_vendor %></span>
-          <br />
+          <span class="form-text"> <%= @service.service_vendor %></span>
+        </div>
+        <div class="form-info">
           <span class="form-header">Time Frame: </span>
           <span class="form-text">
             <% if @service.service_time_to_complete < 8 %>
@@ -80,7 +84,7 @@
       <div class="center-align" >
         <br />
 
-        <h6><%= link_to 'Please sign in or register here', login_path %></h6>
+        <h6><%= link_to 'Please sign in', login_path %> <small>or</small> <%= link_to 'Register', signup_path %></h6>
         <br />
         <small>Don't worry, we will save this page and bring you back once you register</small>
         <br />        <br />

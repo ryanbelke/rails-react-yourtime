@@ -393,15 +393,23 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', sans-serif;
   font-weight: 900;
   font-size: 1.5rem;
+  flex: 0.5;
+  padding-left: 2.5rem;
 }
 .form-text {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 1.5rem;
   color: $gray-text;
-  padding-right: 14vw;
+
+  flex: 0.75;
 }
-.form-info { padding: 10px; }
+.form-info {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid lightgray;
+}
 .card-content { padding: 8px !important; }
 h1 {
   font-size: 3em;
@@ -560,8 +568,6 @@ footer ul li {
 
 /* sidebar */
 
-
-
 .gravatar {
   float: left;
   margin-right: 10px;
@@ -570,8 +576,6 @@ footer ul li {
 .gravatar_edit {
   margin-top: 15px;
 }
-
-
 
 /* forms */
 
