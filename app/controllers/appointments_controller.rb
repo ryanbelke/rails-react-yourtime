@@ -5,11 +5,9 @@ class AppointmentsController < ApplicationController
     if params[:service]
       @service = Service.friendly.find(params[:service])
       @schedules = @category.schedules
-      puts "schedules = " + @schedules.to_yaml
       @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
-
+      @selected_date = params[:date]
       @service_feed_items = @schedules
-
     else
       @service_feed_items = @category.services
 
