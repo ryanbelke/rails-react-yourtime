@@ -36,7 +36,7 @@
         <div class="form-info no-border">
           <span class="form-header">
             <%= f.label :state %>
-            <%= select_tag :state, options_for_select(us_states), class: 'form-control' %>
+            <%= f.select :state, options_for_select(us_states), class: 'form-control' %>
           </span>
           <span class="form-text">
             <%= f.label :zip %>
@@ -46,7 +46,7 @@
         <div class="form-info no-border">
           <span class="form-header">
             <%= f.label :default_workplace %>
-            <%= select_tag :default_workplace, options_for_select(@workplaces.map{|workplace| [workplace.workplace_name]}), class: 'form-control' %>
+            <%= f.select(:default_workplace, options_for_select(@workplaces.map{|workplace| [workplace.workplace_name]}), class: 'form-control')  %>
           </span>
         </div>
         <div class="form-info no-border">
