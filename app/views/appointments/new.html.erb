@@ -33,7 +33,9 @@
             <%= label_tag :select_a_date %>
             <%= text_field_tag 'date', params[:date], placeholder: 'Date', class: 'datepicker'%>
             <%= hidden_field_tag 'service', @service.slug %>
-            <%= submit_tag 'save' %>
+            <%= button_tag type: 'submit', class: 'waves-effect waves-light btn' do %>
+              <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp; save
+              <% end %>
           <% end %>
         </div>
       </div>
@@ -63,6 +65,43 @@
         <div class="form-info">
           <span class="form-header">Vendor: </span>
           <span class="form-text"> <%= @service.service_vendor %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Time Frame: </span>
+          <span class="form-text">
+            <% if @service.service_time_to_complete < 8 %>
+             <%= 'Same Day' %>
+            <% else %>
+             <%= 'Extended completion time' %>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <br />
+      <div class="paper-no-border">
+        <div class="css-flash">
+          <div class="icon-div-dollar">
+            <i class="fa fa-money" aria-hidden="true"></i>
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Cost:</h6>
+          </div>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Discount Code:</span>
+          <span class="form-text"> submit at checkout</span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Estimate Tax: </span>
+          <span class="form-text"> $</span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">YourTime Fee: </span>
+          <span class="form-text"> $</span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Estimated Total </span>
+          <span class="form-text"> $</span>
         </div>
         <div class="form-info">
           <span class="form-header">Time Frame: </span>
