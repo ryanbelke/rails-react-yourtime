@@ -4,6 +4,7 @@ class WorkplacesController < ApplicationController
   def index
     @feed_items = Workplace.where.not(workplace_name: "Not Listed").paginate(page: params[:page])
   end
+
   def new
     @workplace = Workplace.new
   end

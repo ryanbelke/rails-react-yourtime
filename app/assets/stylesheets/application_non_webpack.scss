@@ -301,7 +301,7 @@ a:hover { text-decoration: none; }
 
  }
 .icon-div-dollar {
-  padding: 0.25rem 0.25rem 0.25rem 1rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
   color: #303f9f;
   background-color: #72c3fc;
   height: 100%;
@@ -325,6 +325,9 @@ a:hover { text-decoration: none; }
 }
 .category-image {
   padding-top: 20px;
+}
+.no-border {
+  border: none !important;
 }
 .card-gradient {
  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -411,8 +414,9 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   font-size: 1.5rem;
   color: $gray-text;
-
-  flex: 0.75;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex: 0.70;
 }
 .form-info {
   padding: 10px;

@@ -1,53 +1,77 @@
 <% provide(:title, "Edit user") %>
-<h1>Update your profile</h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@user) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
-        <div class="flex_container">
-          <div class="flex_row">
-              <div class="first_name">
-                <%= f.label :first_Name %>
-                <%= f.text_field :first_name, class: 'form-control' %>
-              </div>
-            <div class="last_name">
-              <%= f.label :last_Name %>
-              <%= f.text_field :last_name, class: 'form-control' %>
-            </div>
+      <div class="paper-no-border">
+        <div class="css-flash">
+          <div class="icon-div-info">
+            <i class="fa fa-info" aria-hidden="true"></i>
           </div>
-
-            <div class="address">
-              <%= f.label :address %>
-              <%= f.text_field :address, class: 'form-control' %>
-            </div>
-          <div class="flex_row">
-            <div class="city">
-              <%= f.label :city %>
-              <%= f.text_field :city, class: 'form-control' %>
-            </div>
-            <div class="state">
-              <%= f.label :state %>
-              <%= select_tag :state, options_for_select(us_states), class: 'form-control' %>
-            </div>
-            <div class="zip">
-              <%= f.label :zip %>
-              <%= f.text_field :zip, class: 'form-control' %>
-            </div>
-            </div>
-
+          <div class="flash-text">
+            <h6>User Info:</h6>
           </div>
-
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
-
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
-
-      <%= f.label :password_confirmation, "Confirmation" %>
-      <%= f.password_field :password_confirmation, class: 'form-control' %>
-
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
+        </div>
+        <div class="form-info no-border">
+          <span class="form-header">
+            <%= f.label :first_Name %>
+            <%= f.text_field :first_name, class: 'form-control' %>
+          </span>
+          <span class="form-text">
+            <%= f.label :last_Name %>
+            <%= f.text_field :last_name, class: 'form-control' %>
+          </span>
+        </div>
+        <div class="form-info no-border">
+          <span class="form-header">
+            <%= f.label :address %>
+            <%= f.text_field :address, class: 'form-control' %>
+          </span>
+          <span class="form-text">
+            <%= f.label :city %>
+            <%= f.text_field :city, class: 'form-control' %>
+          </span>
+        </div>
+        <div class="form-info no-border">
+          <span class="form-header">
+            <%= f.label :state %>
+            <%= select_tag :state, options_for_select(us_states), class: 'form-control' %>
+          </span>
+          <span class="form-text">
+            <%= f.label :zip %>
+            <%= f.text_field :zip, class: 'form-control' %>
+          </span>
+        </div>
+        <div class="form-info no-border">
+          <span class="form-header">
+            <%= f.label :default_workplace %>
+            <%= select_tag :default_workplace, options_for_select(@workplaces.map{|workplace| [workplace.workplace_name]}), class: 'form-control' %>
+          </span>
+        </div>
+        <div class="form-info no-border">
+          <span class="form-header">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: 'form-control' %>
+          </span>
+        </div>
+        <div class="form-info no-border">
+          <span class="form-header">
+            <%= f.label :password %>
+            <%= f.password_field :password, class: 'form-control' %>
+          </span>
+          <span class="form-text">
+            <%= f.label :password_confirmation, "Confirmation" %>
+            <%= f.password_field :password_confirmation, class: 'form-control' %>
+          </span>
+        </div>
+        <div class="form-info no-border">
+          <span class="form-header"></span>
+          <span class="form-text">
+            <%= f.submit "Save changes", class: "btn btn-primary" %>
+          </span>
+        </div>
+      </div>
         </div>
     <% end %>
   </div>

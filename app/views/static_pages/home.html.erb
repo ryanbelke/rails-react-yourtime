@@ -1,31 +1,30 @@
 <% if logged_in? %>
-      <div class="row">
-        <div class="col l2 m3 s12 paper">
-          <section class="user_info">
-            <%= render 'shared/user_info' %>
-          </section>
-          <section class="stats">
-            <%= render 'shared/stats' %>
-          </section>
-          <aside class="micropost_form">
-          </aside>
-        </div>
-        <div class="paper col l6 m5 s12 ">
-          <h5>Appointments</h5>
-          <table class="highlight responsive-table">
-            <thead>
-            <tr>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Service</th>
-              <th>Location</th>
-              <th>Price</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-            <%= render 'shared/appointment_feed' %>
-          </table>
-        </div>
+  <% if current_user.admin? %>
+    <div class="row">
+      <div class="col l2 m3 s12 paper">
+        <section class="user_info">
+          <%= render 'shared/user_info' %>
+        </section>
+        <section class="stats">
+          <%= render 'shared/stats' %>
+        </section>
+      </div>
+      <div class="paper col l6 m5 s12 ">
+        <h5>Appointments</h5>
+        <table class="highlight responsive-table">
+          <thead>
+          <tr>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Service</th>
+            <th>Location</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <%= render 'shared/appointment_feed' %>
+        </table>
+      </div>
         <div class="paper microposts col l3 m3 s12">
           <h4>Workplaces</h4>
           <small><%= link_to "View workplaces", workplaces_path %></small>
@@ -33,7 +32,45 @@
           <h4>Categories</h4>
           <%= render 'shared/category_feed' %>
         </div>
+    </div>
+    <% else %>
+    <div class="row">
+      <div class="col l3 m3 s12 paper offset-l1">
+        <section class="user_info">
+          <%= render 'shared/user_info' %>
+        </section>
+        <section class="stats">
+          <%= render 'shared/stats' %>
+        </section>
       </div>
+      <div class="paper col l7 m5 s12 ">
+        <h5>Appointments</h5>
+        <table class="highlight responsive-table">
+          <thead>
+          <tr>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Service</th>
+            <th>Location</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <%= render 'shared/appointment_feed' %>
+        </table>
+      </div>
+      <% if current_user.admin? %>
+        <div class="paper microposts col l3 m3 s12">
+          <h4>Workplaces</h4>
+          <small><%= link_to "View workplaces", workplaces_path %></small>
+          <%= render 'shared/feed' %>
+          <h4>Categories</h4>
+          <%= render 'shared/category_feed' %>
+        </div>
+      <% end %>
+    </div>
+    <% end %>
+
 <% else %>
   <div class="jumbotron row">
     <div class="left col l7 m8 s12">

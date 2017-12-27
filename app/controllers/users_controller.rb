@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @workplaces = Workplace.all.sort_by &:created_at
   end
 
   def create
@@ -32,6 +33,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @workplaces = Workplace.all.sort_by &:created_at
     @user = User.find(params[:id])
   end
 
@@ -70,7 +72,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :password,
                                    :password_confirmation, :first_name, :last_name, :address,
-                                   :city, :state, :zip )
+                                   :city, :state, :zip, :default_workplace )
     end
 
     # Before filters

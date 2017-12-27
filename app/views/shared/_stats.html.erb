@@ -1,4 +1,4 @@
-<% @user ||= current_user %>
+<% if current_user.admin? %>
 <div class="stats">
   <h5> Application Stats:</h5>
   <hr />
@@ -13,3 +13,12 @@
       <h5>Services: <%= @services.count %> </h5>
     </strong>
 </div>
+  <% else %>
+<div class="stats">
+  <h5>User Info:</h5>
+  <hr />
+  <strong id="gallons_remaining" class="stat">
+    <h5>Workplace: <%= current_user.state %></h5>
+  </strong>
+</div>
+<% end %>

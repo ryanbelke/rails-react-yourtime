@@ -4,6 +4,8 @@ class CategoriesController < ApplicationController
   def index
     @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
     @category_feed = @workplace.categories
+    #set workplace in info cookie
+    cookies[:workplace] =  @workplace.slug
 
     if @category_feed.count == 1
       #Take First Location, redirect to that locations services
