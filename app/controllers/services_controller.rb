@@ -65,6 +65,13 @@ class ServicesController < ApplicationController
 
         @service_feed_items = @category.services
 
+      #set tax information
+      @tax_amount1 = (0.09 * @service.service_price)
+      @tax_amount = sprintf('%.2f', @tax_amount1)
+      @your_time_amount1 = (0.05 * @service.service_price)
+      @your_time_amount = sprintf('%.2f', @your_time_amount1)
+      @total_price1 = @tax_amount1 + @your_time_amount1 + @service.service_price
+      @total_price = sprintf('%.2f', @total_price1)
 
 
     end
