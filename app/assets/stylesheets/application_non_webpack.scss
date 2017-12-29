@@ -255,10 +255,30 @@ a:hover { text-decoration: none; }
   border-top-right-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
+.css-flash-cost {
+  height: 50px;
+  width: 100%;
+  background-color: #DCEDC8;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
 .css-flash-warning {
   height: 50px;
   width: 100%;
   background-color: #ffebee;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+.css-flash-user {
+  height: 50px;
+  width: 100%;
+  background-color: #C5CAE9;
   vertical-align: middle;
   display: flex;
   flex-direction: row;
@@ -300,17 +320,27 @@ a:hover { text-decoration: none; }
    border-top-left-radius: 0.75rem;
 
  }
-.icon-div-dollar {
+.icon-div-user {
   padding: 0.25rem 0.25rem 0.25rem 0.5rem;
   color: #303f9f;
-  background-color: #72c3fc;
+  background-color: #9FA8DA;
   height: 100%;
   width: 50px;
   position: relative;
   display: inline-block;
   font-size: 2.0rem;
   border-top-left-radius: 0.75rem;
-
+}
+.icon-div-dollar {
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  color: #303f9f;
+  background-color: #AED581;
+  height: 100%;
+  width: 50px;
+  position: relative;
+  display: inline-block;
+  font-size: 2.0rem;
+  border-top-left-radius: 0.75rem;
 }
 .icon-div-warning {
   padding: 0.25rem 0.25rem 0.25rem 0.75rem;
@@ -323,6 +353,13 @@ a:hover { text-decoration: none; }
   font-size: 2.0rem;
   border-top-left-radius: 0.75rem;
 }
+.discount-text {
+  width: 130px;
+  font-size: 18px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
 .category-image {
   padding-top: 20px;
 }

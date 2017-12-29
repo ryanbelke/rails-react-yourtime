@@ -1,6 +1,6 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="col-md-2 paper user_info">
+  <div class="col l3 m6 s12 offset-l1 paper user_info">
     <section>
       <h3>
         <%= @user.name %>
@@ -12,5 +12,76 @@
     <section class="stats">
       <%= render 'shared/stats' %>
     </section>
-  </aside>
+  </div>
+<div class="col l6 m6 s12 ">
+  <div class="paper-no-border">
+    <div class="css-flash">
+      <div class="icon-div-info">
+        <i class="fa fa-info" aria-hidden="true"></i>
+      </div>
+      <div class="flash-text">
+        <h6>User Info:</h6>
+      </div>
+    </div>
+    <div class="form-info">
+          <span class="form-header">
+            <label>First Name:</label>
+            <br />
+            <%= current_user.first_name %>
+          </span>
+      <span class="form-text">
+        <label>Last Name</label>
+        <br />
+        <%= current_user.last_name %>
+      </span>
+    </div>
+    <div class="form-info ">
+      <span class="form-header">
+        <label>Address</label>
+        <br />
+        <%= current_user.address %>
+      </span>
+      <span class="form-text">
+        <label>City</label>
+        <br />
+        <%= current_user.city %>
+      </span>
+    </div>
+    <div class="form-info">
+      <span class="form-header">
+       <label>State:</label>
+        <br />
+        <%= current_user.state %>
+      </span>
+      <span class="form-text">
+        <label>Zip</label>
+        <br />
+        <%= current_user.zip %>
+      </span>
+    </div>
+    <div class="form-info">
+      <span class="form-header">
+        <label>Workplace:</label>
+        <br />
+        <%= current_user.default_workplace %>
+      </span>
+    </div>
+    <div class="form-info">
+      <span class="form-header">
+        <label>Email:</label>
+        <br />
+        <%= current_user.email  %>
+      </span>
+    </div>
+
+    <div class="form-info">
+      <span class="form-header"></span>
+      <span class="form-header"></span>
+
+      <span class="form-text">
+      <%= link_to 'Edit', edit_user_path(current_user), class: 'btn btn-primary' %>
+      </span>
+    </div>
+  </div>
+</div>
 </div>

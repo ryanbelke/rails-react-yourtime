@@ -33,7 +33,7 @@
             <%= link_to 'delete', category_service_path(service.category.id, service.slug),
             method: 'delete', data: { confirm: 'are you sure?' } %>
           <% end %>
-          <a href="?service=<%= service.slug %>">Book Now</a>
+          <%= link_to 'Book', category_service_path(service.category.slug, service.slug) %>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">

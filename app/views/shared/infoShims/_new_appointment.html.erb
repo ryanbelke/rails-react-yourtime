@@ -1,0 +1,191 @@
+  <div class="row">
+    <div class="col l3 m6 s12 offset-l1">
+      <div class="paper-no-border">
+        <div class="css-flash">
+          <div class="icon-div">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Date</h6>
+          </div>
+        </div>
+        <div class="date-selector">
+          <%= form_tag '', method: 'get' do %>
+            <%= label_tag :select_a_date %>
+            <%= text_field_tag 'date', @selected_date, placeholder: 'Date', class: 'datepicker'%>
+
+            <%= button_tag type: 'submit', class: 'waves-effect waves-light btn' do %>
+              <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp; save
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col l6 m6 s12">
+      <div class="paper-no-border">
+        <div class="css-flash">
+          <div class="icon-div-info">
+            <i class="fa fa-info" aria-hidden="true"></i>
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Info:</h6>
+          </div>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Workplace:</span>
+          <span class="form-text"> <%= @workplace.workplace_name %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Category:</span>
+          <span class="form-text"> <%= @service.category.category_name %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Service: </span>
+          <span class="form-text"> <%= @service.service_name %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Price: </span>
+          <span class="form-text"> $<%= @service.service_price %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Vendor: </span>
+          <span class="form-text"> <%= @service.service_vendor %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Time Frame: </span>
+          <span class="form-text">
+            <% if @service.service_time_to_complete < 8 %>
+             <%= 'Same Day' %>
+            <% else %>
+             <%= 'Extended completion time' %>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <br />
+      <div class="paper-no-border">
+        <div class="css-flash-cost">
+          <div class="icon-div-dollar">
+            <i class="fa fa-credit-card" aria-hidden="true"></i>
+
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Cost:</h6>
+          </div>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Price </span>
+          <span class="form-text"> $<%= @service.service_price %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Estimate Tax: </span>
+          <span class="form-text"> $<%= @tax_amount %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">YourTime Fee: </span>
+          <span class="form-text"> $<%= @your_time_amount %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Estimated Total </span>
+          <span class="form-text"> $<%= @total_price %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Discount Code:</span>
+          <span class="form-text">
+          <% if request.original_url.to_s.include? 'service' %>
+            <small>submit at checkout</small>
+              <% else %>
+            <span>
+              <%= form_tag '', method: 'get' do %>
+              <%= text_field_tag 'discount', nil, placeholder: 'discount code', class: 'browser-default discount-text' %>
+              <%= button_tag :save, type: 'submit', class: 'waves-effect waves-light btn custom-btn-small' %>
+              <% end %>
+            </span>
+            <% end %>
+          </span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Time Frame: </span>
+          <span class="form-text">
+            <% if @service.service_time_to_complete < 8 %>
+             <%= 'Same Day' %>
+            <% else %>
+             <%= 'Extended completion time' %>
+            <% end %>
+          </span>
+        </div>
+        <div class="form-info">
+          <span class="form-header"></span>
+          <span class="form-text">
+            <%= button_tag :purchase, type: 'submit', class: 'waves-effect waves-light btn' %>
+          </span>
+        </div>
+      </div>
+      <br />
+      <% if logged_in? %>
+        <div class="paper-no-border">
+          <div class="css-flash-user">
+            <div class="icon-div-user">
+              <i class="fa fa-credit-card" aria-hidden="true"></i>
+            </div>
+            <div class="flash-text">
+              <h6>User Info</h6>
+            </div>
+          </div>
+          <div class="form-info">
+            <span class="form-header">Name:</span>
+            <span class="form-text">
+              <%= current_user.first_name %>
+              <%= current_user.last_name %>
+            </span>
+          </div>
+          <div class="form-info">
+            <span class="form-header">Email </span>
+            <span class="form-text"><%= current_user.email %></span>
+          </div>
+
+        </div>
+        <% else %>
+        <div class="paper-no-border">
+          <div class="css-flash-warning">
+            <div class="icon-div-warning">
+              <i class="fa fa-user" aria-hidden="true"></i>
+            </div>
+            <div class="flash-text">
+              <h6>User Info</h6>
+            </div>
+          </div>
+          <div class="center-align" >
+            <br />
+            <h6>
+              <small>Please</small>
+              <%= link_to 'sign in', login_path %>
+              <small>or</small>
+              <%= link_to 'register', signup_path %>
+            </h6>
+            <br />
+            <small>Don't worry, we will save this page and bring you back once you register</small>
+            <br /><br />
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <script>
+
+      $('.datepicker').pickadate({
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 15, // Creates a dropdown of 15 years to control year,
+          today: 'Today',
+          clear: 'Clear',
+          close: 'Ok',
+          closeOnSelect: false, // Close upon selecting a date,
+          disable: [
+              true,
+              <% @dates.each do |a| %>
+              <%= a.to_s.gsub('"', '') + ',' %>
+              <% end %>
+          ]
+      });
+  </script>

@@ -48,8 +48,27 @@ class ServicesController < ApplicationController
     end
 
     def show
+      @category = Category.friendly.find(params[:category_id])
+      #set category cookie
+      cookies[:category] = @category.slug
+      puts "****** " + cookies[:category]
+      @workplace = Workplace.friendly.find(cookies[:workplace])
+        @service = Service.friendly.find(params[:id])
+        #set service cookie
+        cookies[:service] = @service.slug
+
+        @schedules = @category.schedules
+        @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
+        #grab selected date from the form to input when user hits save and create cookie for future use
+        @selected_date = params[:date]
+        cookies[:date] = @selected_date
+
+        @service_feed_items = @category.services
+
+
 
     end
+
     private
 
     def service_params
