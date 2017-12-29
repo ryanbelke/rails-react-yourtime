@@ -63,7 +63,7 @@ class ServicesController < ApplicationController
         @selected_date = params[:date]
         cookies[:date] = @selected_date
 
-        @service_feed_items = @category.services
+        @service_feed_items = []
 
       #set tax information
       @tax_amount1 = (0.09 * @service.service_price)
