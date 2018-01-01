@@ -4,6 +4,7 @@ ruby "2.4.1"
 gem "react_on_rails", "10.0.0"
 gem "webpacker", :github => 'rails/webpacker'
 
+gem 'stripe'
 
 gem 'bcrypt',                  '3.1.11'
 gem 'faker',                   '1.7.3'

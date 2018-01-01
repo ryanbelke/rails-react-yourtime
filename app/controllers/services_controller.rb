@@ -62,7 +62,7 @@ class ServicesController < ApplicationController
         #grab selected date from the form to input when user hits save and create cookie for future use
         @selected_date = params[:date]
         cookies[:date] = @selected_date
-
+        cookies[:redirect] = { value: true, expires: 1.hour.from_now }
         @service_feed_items = []
 
       #set tax information

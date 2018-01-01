@@ -12,6 +12,10 @@
     <%= link_to 'Edit', user_appointment_path(appointment.user_id, appointment.id),
   class: 'waves-effect waves-light btn custom-btn-small' %>
   </td>
+    <td id="table-buttons">
+      <%= link_to 'Delete', user_appointment_path(appointment.user_id, appointment.id), method: 'delete',
+                  data: { confirm: "you sure?" }, class: 'waves-effect waves-light btn custom-btn-small' %>
+    </td>
   <% end %>
 </tr>
 </tbody>

@@ -79,15 +79,15 @@
         </div>
         <div class="form-info">
           <span class="form-header">Estimate Tax: </span>
-          <span class="form-text"> $<%= @tax_amount %></span>
+          <span class="form-text"><%= number_to_currency(@tax_amount) %></span>
         </div>
         <div class="form-info">
           <span class="form-header">YourTime Fee: </span>
-          <span class="form-text"> $<%= @your_time_amount %></span>
+          <span class="form-text"><%= number_to_currency(@your_time_amount) %></span>
         </div>
         <div class="form-info">
           <span class="form-header">Estimated Total </span>
-          <span class="form-text"> $<%= @total_price %></span>
+          <span class="form-text"> <%= number_to_currency(@total_price) %></span>
         </div>
         <div class="form-info">
           <span class="form-header">Discount Code:</span>
@@ -117,8 +117,32 @@
         <div class="form-info">
           <span class="form-header"></span>
           <span class="form-text">
-            <%= button_tag :purchase, type: 'submit', class: 'waves-effect waves-light btn' %>
-          </span>
+            <% if logged_in? %>
+              <%= form_tag user_appointments_path(current_user) do %>
+                <%= hidden_field_tag :service_id, @service.id %>
+                <%= hidden_field_tag :workplace, @workplace %>
+                <%= hidden_field_tag :date, @selected_date %>
+                <%= hidden_field_tag :service, @service.id %>
+                <%= hidden_field_tag :service, @service.id %>
+                <%= hidden_field_tag :service, @service.id %>
+
+                <article>
+                    <% if flash[:error].present? %>
+                      <div id="error_explanation">
+                        <p><%= flash[:error] %></p>
+                      </div>
+                    <% end %>
+                  </article>
+               <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                  data-description="A month's subscription"
+                  data-amount="<%= @total_price * 100 %>"
+                  data-locale="auto"
+                  data-email="<%= current_user.email %>"></script>
+              <%= button_tag :purchase, type: 'submit', class: 'waves-effect waves-light btn' %>
+            <% end %>
+            <% end %>
+              </span>
         </div>
       </div>
       <br />

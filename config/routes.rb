@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
 
   get '/services', to: 'services#index'
+  resources :charges, only: [:new, :create]
 
   resources :workplaces do
       resources :categories

@@ -7,7 +7,11 @@ class StaticPagesController < ApplicationController
    #set appointment feed for a non admin user
     if logged_in?
      @appointment_feed = current_user.appointments
-   end
+     if cookies[:redirect]
+       redirect_to new_user_appointment_path(current_user)
+     end
+    end
+
 
 
 #check to see if a user exsists, if so is the user admin to see all the feeds
