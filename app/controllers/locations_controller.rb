@@ -2,20 +2,20 @@ class LocationsController < ApplicationController
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
 
   def index
-    #workplace is being passed in the URL from the form on the front page
-    @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
-    @location_feed_items = @workplace.locations.paginate(page: params[:page])
+    @category = Category.friendly.find(params[:category_id])
+    @location_feed_items = @category.locations
      if @location_feed_items.count == 1
        #Take First Location, redirect to that locations services
-       @location = @location_feed_items.first
-       redirect_to location_services_path(@location.slug)
+       #@location = @location_feed_items.first
+       #send to /locations/:id/services
+       #redirect_to location_services_path(@location.slug)
      end
 
   end
 
   def new
-    @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
-    @location = @workplace.locations.build
+    @category = Category.friendly.find(params[:category_id])
+    @location = @category.locations.new
   end
 
   def edit
@@ -26,8 +26,8 @@ class LocationsController < ApplicationController
 
   def create
     if @current_user.admin?
-      @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
-      @location = @workplace.locations.build(location_params)
+      @category = Category.friendly.find(params[:category_id])
+      @location = @category.locations.new(location_params)
       if @location.save
         flash[:success] = "Location created"
         redirect_to root_url
@@ -58,7 +58,7 @@ class LocationsController < ApplicationController
   end
 
   def show
-    @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
+    @category = Category.friendly.find(params[:category_id])
     @location = Location.friendly.find(params[:id])
   end
 

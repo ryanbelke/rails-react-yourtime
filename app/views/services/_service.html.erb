@@ -1,5 +1,18 @@
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        <%= link_to "new location", new_category_location_path(@location.category.slug), class: 'waves-effect waves-light btn white' %>
+      </li>
+      <li>
+      </li>
+      <li>
+      </li>
+  <% end %>
 
-<% if request.original_url.to_s.include? 'categories' %>
+  </ul>
+</div>
+<% if request.original_url.to_s.include? 'locations' %>
     <div class="col l4 m4 s12">
       <div class="card sticky-action card-panel">
         <div class="card-image card-gradient">
@@ -29,11 +42,11 @@
         </div>
         <div class="card-action">
           <% if logged_in? && current_user.admin? %>
-            <%= link_to 'edit', edit_category_service_path(service.category.id, service.slug) %>
-            <%= link_to 'delete', category_service_path(service.category.id, service.slug),
+            <%= link_to 'edit', edit_location_service_path(@location.slug, service.slug) %>
+            <%= link_to 'delete', location_service_path(@location.slug, service.slug),
             method: 'delete', data: { confirm: 'are you sure?' } %>
           <% end %>
-          <%= link_to 'Book', category_service_path(service.category.slug, service.slug) %>
+          <%= link_to 'Book', location_service_path(@location.slug, service.slug) %>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">

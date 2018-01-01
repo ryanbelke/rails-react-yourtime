@@ -1,3 +1,19 @@
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        <%= link_to "back", :back, class: 'waves-effect waves-light btn white' %>
+      </li>
+      <li>
+        <%= link_to 'new service', new_location_service_path(@location.slug),
+        class: 'waves-effect waves-light btn white' %>
+      </li>
+      <li>
+      </li>
+  <% end %>
+
+  </ul>
+</div>
 <div class="row">
   <%= render 'shared/services_feed' %>
 </div>

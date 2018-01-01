@@ -1,10 +1,12 @@
-<% if request.original_url.to_s.include? 'location' %>
+<% if request.original_url.to_s.include? 'categories' %>
     <div class="col l4 m4 s12">
       <div class="paper locations card">
         <div class="card-image">
-          <%= image_tag "siliconlabs.png" %>
 
-          <span class="card-title"><%= link_to location.location_name, location_services_path(location.slug) %></span>
+
+          <span class="card-title">
+            <%= link_to location.location_name, location_services_path(location.slug) %>
+          </span>
         </div>
         <div class="card-content">
           <h5>Address: </h5> <span><%= location.location_address %><hr /></span>
@@ -18,15 +20,15 @@
         <div class="card-action">
           <%= link_to "View Services", location_services_path(location.slug) %>
 
-          <%= link_to "View property info", workplace_location_path(location.workplace_id, location.slug) %>
+
           <li class="no-border" id="location-<%= location.id %>">
             <% if logged_in? && current_user.admin? %>
         <span class="timestamp">
           Created <%= time_ago_in_words(location.created_at) %> ago.
           </span>
-                <%= link_to "delete", workplace_location_path(location.workplace_id, location.id), method: :delete,
+                <%= link_to "delete", category_location_path(location.category_id, location.id), method: :delete,
                             data: { confirm: "You sure?" } %>
-                &nbsp; <%= link_to "edit", edit_workplace_location_path(location.workplace_id, location.slug) %>
+                &nbsp; <%= link_to "edit", edit_location_path(location.category_id, location.slug) %>
             <% end %>
           </li>
         </div>

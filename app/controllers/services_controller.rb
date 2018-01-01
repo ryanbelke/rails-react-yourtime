@@ -4,18 +4,18 @@ class ServicesController < ApplicationController
 
     #GET /SERVICE
     def index
-      @category = Category.friendly.find(params[:category_id])
-      @service_feed_items = @category.services
+      @location = Location.friendly.find(params[:location_id])
+      @service_feed_items = @location.services
     end
 
     def new
-      @category = Category.friendly.find(params[:category_id])
-      @service = @category.services.build
+      @location = Location.friendly.find(params[:location_id])
+      @service = @location.services.new
     end
     #POST /SERVICE
     def create
-        @category = Category.friendly.find(params[:category_id])
-        @service = @category.services.build(service_params)
+        @location = Location.friendly.find(params[:location_id])
+        @service = @location.services.new(service_params)
         if @service.save
           flash[:success] = "Service created"
           redirect_to root_url

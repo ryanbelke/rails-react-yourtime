@@ -1,3 +1,17 @@
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        Create new location for <%= @category.category_name %>
+      </li>
+      <li>
+      </li>
+      <li>
+      </li>
+  <% end %>
+
+  </ul>
+</div>
 <section class="row">
   <div class="col l8 m8 s12 offset-l2">
     <h3><%= @location.location_name %> </h3>
@@ -6,3 +20,7 @@
     <h5><%= link_to "Create New Service", new_location_service_path(@location.slug) %></h5>
   </div>
 </section>
+<div class="col l2 m4 s12">
+  <small>Date Feed:</small>
+  <%= render 'shared/infoShims/schedule_feed' %>
+</div>

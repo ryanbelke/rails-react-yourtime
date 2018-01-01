@@ -24,17 +24,25 @@ Rails.application.routes.draw do
       resources :categories
   end
 
+=begin
   resources :categories do
     resources :services
   end
+=end
 
   resources :categories do
+    resources :locations
+  end
+
+  resources :locations do
     resources :schedules
   end
 
-  resources :categories do
-    resources :appointments
+  resources :locations do
+    resources :services
   end
+
+
   resources :users do
     resources :appointments
   end

@@ -2,10 +2,10 @@
   <% if logged_in? && current_user.admin? %>
     <ul>
       <li>
-       <small><%= @category.workplace.workplace_name %> &nbsp; &nbsp;</small>
+       <small><%= @location.category.category_name %> &nbsp; &nbsp;</small>
       </li>
       <li>
-        <small> <%= @category.category_name %> - new service</small>
+        <small> <%= @location.location_name %> - new service</small>
       </li>
 
       <li>

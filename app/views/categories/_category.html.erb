@@ -31,7 +31,7 @@
           <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug) %></span>
           <br />
         <small>Services: (<%= category.services.count %>) </small>
-          &nbsp; &nbsp; <%= link_to 'New', new_category_service_path(category.slug), class: small_button('blue lighten-1') %>
+          &nbsp; &nbsp; <%= link_to 'New', new_category_location_path(category.slug), class: small_button('blue lighten-1') %>
         <span class="timestamp">
           <%= link_to "delete", workplace_category_path(category.workplace_id, category.slug), method: :delete,
                       data: { confirm: "You sure?" } %>

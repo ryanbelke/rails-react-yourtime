@@ -1,4 +1,18 @@
-<h4>Create new location for <%= @workplace.workplace_name %> </h4>
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+      <li>
+        <small>Create new location for</small> <%= @category.workplace.workplace_name %>
+      </li>
+      <li>
+         <%= @category.category_name %>
+      </li>
+      <li>
+      </li>
+  <% end %>
+
+  </ul>
+</div>
 <div class="row">
   <div class="col l4 m4 s12 offset-l4">
     <%= render 'shared/location_form' %>

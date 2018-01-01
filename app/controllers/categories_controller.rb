@@ -55,14 +55,16 @@ class CategoriesController < ApplicationController
       end
     end
   end
-
-
+  #POST DELETE
+  def destroy
+      Category.friendly.find(params[:id]).destroy
+      flash[:success] = "Category deleted"
+      redirect_to root_url
+  end
 
   def show
     @workplace = Workplace.friendly.find(params[:workplace_id])
     @category = Category.friendly.find(params[:id])
-
-    @schedule_feed = @category.schedules
   end
 
   private
