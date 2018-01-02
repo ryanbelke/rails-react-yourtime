@@ -1,16 +1,16 @@
   <li id="schedule-<%= schedule.id %>">
     <% if schedule.date? %>
       <div>
-        <h6>Date: <%= link_to  schedule.date.strftime("%Y-%m-%d"), category_schedule_path(schedule.category.id, schedule.slug),
+        <h6>Date: <%= link_to  schedule.date.strftime("%Y-%m-%d"), location_schedule_path(schedule.location.id, @location.slug),
                                class: 'header-link' %><br /></h6>
         <small>Capacity: <%= schedule.date_capacity %></small>
       </div>
       <span class="timestamp">
       <% if logged_in? && current_user.admin? %>
 
-    <%= link_to 'Edit', edit_category_schedule_path(schedule.category.slug, schedule.slug),
+    <%= link_to 'Edit', edit_location_schedule_path(schedule.location.slug, schedule.id),
                 class: 'waves-effect waves-light btn custom-btn-small' %>
-          <%= link_to 'Delete', category_schedule_path(schedule.category.slug, schedule.slug),
+          <%= link_to 'Delete', location_schedule_path(schedule.location.slug, schedule.id),
                       method: :delete,
                       data: { confirm: "You sure?" },
                       class: 'waves-effect waves-light btn custom-btn-small' %>

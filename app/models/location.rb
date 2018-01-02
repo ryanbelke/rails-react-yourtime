@@ -4,4 +4,5 @@ class Location < ApplicationRecord
 
   belongs_to :category
   has_many :services
+  has_many :schedules
 end

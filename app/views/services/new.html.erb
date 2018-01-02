@@ -2,7 +2,14 @@
   <% if logged_in? && current_user.admin? %>
     <ul>
       <li>
-       <small><%= @location.category.category_name %> &nbsp; &nbsp;</small>
+        <%= link_to "back", :back, class: 'waves-effect waves-light btn white' %>
+      </li>
+      <li>
+        <%= link_to 'new service', new_location_service_path(@location.slug),
+                    class: 'waves-effect waves-light btn white' %>
+      </li>
+      <li>
+       <small>&nbsp; &nbsp; <%= @location.category.category_name %> &nbsp; &nbsp;</small>
       </li>
       <li>
         <small> <%= @location.location_name %> - new service</small>

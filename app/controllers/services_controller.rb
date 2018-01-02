@@ -5,6 +5,7 @@ class ServicesController < ApplicationController
     #GET /SERVICE
     def index
       @location = Location.friendly.find(params[:location_id])
+      cookies[:location] = @location.slug
       @service_feed_items = @location.services
     end
 
@@ -37,7 +38,7 @@ class ServicesController < ApplicationController
     end
     #PUT /SERVICE/:ID
     def edit
-      @category = Category.friendly.find(params[:category_id])
+      @location = Location.friendly.find(params[:location_id])
       @service = Service.friendly.find(params[:id])
     end
     #DELETE /SERVICE/:ID
@@ -48,22 +49,22 @@ class ServicesController < ApplicationController
     end
 
     def show
-      @category = Category.friendly.find(params[:category_id])
+      @location = Location.friendly.find(params[:location_id])
+      @service = Service.friendly.find(params[:id])
+      #set service cookie
+      cookies[:service] = @service.slug
       #set category cookie
-      cookies[:category] = @category.slug
-      puts "****** " + cookies[:category]
-      @workplace = Workplace.friendly.find(cookies[:workplace])
-        @service = Service.friendly.find(params[:id])
-        #set service cookie
-        cookies[:service] = @service.slug
+      cookies[:location] = @location.slug
 
-        @schedules = @category.schedules
-        @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
-        #grab selected date from the form to input when user hits save and create cookie for future use
-        @selected_date = params[:date]
-        cookies[:date] = @selected_date
-        cookies[:redirect] = { value: true, expires: 1.hour.from_now }
-        @service_feed_items = []
+      @workplace = Workplace.friendly.find(cookies[:workplace])
+
+      @schedules = @location.schedules
+      @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
+      #grab selected date from the form to input when user hits save and create cookie for future use
+      @selected_date = params[:date]
+      cookies[:date] = @selected_date
+      cookies[:redirect] = { value: true, expires: 1.hour.from_now }
+      @service_feed_items = []
 
       #set tax information
       @tax_amount1 = (0.09 * @service.service_price)

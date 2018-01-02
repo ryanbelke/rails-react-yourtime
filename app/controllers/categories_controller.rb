@@ -10,7 +10,8 @@ class CategoriesController < ApplicationController
     if @category_feed.count == 1
       #Take First Location, redirect to that locations services
       @category = @category_feed.first
-      redirect_to workplace_category_path(@workplace.slug, @category.slug)
+      cookies[:category] = @category.slug
+      redirect_to category_locations_path(@category.slug)
     end
     puts @category_feed.to_yaml
   end
@@ -23,7 +24,7 @@ class CategoriesController < ApplicationController
 
   def edit
     @workplace = Workplace.friendly.find(params[:workplace_id])
-    @category = Category.friendly.find(params[:id])
+    @category = @workplace.friendly.find(params[:id])
   end
 
   def update

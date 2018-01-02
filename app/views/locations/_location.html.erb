@@ -2,14 +2,16 @@
     <div class="col l4 m4 s12">
       <div class="paper locations card">
         <div class="card-image">
-
-
-          <span class="card-title">
-            <%= link_to location.location_name, location_services_path(location.slug) %>
-          </span>
         </div>
-        <div class="card-content">
-          <h5>Address: </h5> <span><%= location.location_address %><hr /></span>
+
+        <div class="card-title ">
+          <h5>
+            <%= link_to location.location_name, category_location_path(location.category, location.slug) %>
+
+          </h5>
+          </div>
+        <div class="sub-title">
+          Address: <span><%= location.location_address %><hr /></span>
           <hr /><br/>
           <p><%= location.location_description %></p>
           <br />
@@ -26,9 +28,9 @@
         <span class="timestamp">
           Created <%= time_ago_in_words(location.created_at) %> ago.
           </span>
-                <%= link_to "delete", category_location_path(location.category_id, location.id), method: :delete,
+                <%= link_to "delete", category_location_path(@category.slug, location.slug), method: :delete,
                             data: { confirm: "You sure?" } %>
-                &nbsp; <%= link_to "edit", edit_location_path(location.category_id, location.slug) %>
+                &nbsp; <%= link_to "edit", edit_category_location_path(@category.slug, location.slug) %>
             <% end %>
           </li>
         </div>

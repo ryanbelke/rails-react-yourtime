@@ -1,30 +1,30 @@
 class SchedulesController < ApplicationController
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
   def new
-    @category = Category.friendly.find(params[:category_id])
-    @schedule = @category.schedules.build
-    @schedule_feed = @category.schedules
+    @location = Location.friendly.find(params[:location_id])
+    @schedule = @location.schedules.new
+    @schedule_feed = @location.schedules
   end
 
   def create
     if params[:create_and_add]
-      @category = Category.friendly.find(params[:category_id])
-      @schedule = @category.schedules.create!(schedule_params)
-      redirect_to new_category_schedule_path(@category)
+      @location = Location.friendly.find(params[:location_id])
+      @schedule = @location.schedules.create!(schedule_params)
+      redirect_to new_location_schedule_path(@location)
     else
-      @category = Category.friendly.find(params[:category_id])
-      @schedule = @category.schedules.create!(schedule_params)
+      @location = Location.friendly.find(params[:location_id])
+      @schedule = @location.schedules.create!(schedule_params)
       redirect_to root_url
     end
   end
 
   def update
-    @category = Category.friendly.find(params[:category_id])
-    @schedule = @category.schedules.friendly.find(params[:id])
+    @location = Location.friendly.find(params[:location_id])
+    @schedule = @location.schedules.friendly.find(params[:id])
     if params[:create_and_add]
       if @schedule.update_attributes(schedule_params)
       flash[:success] = 'Schedule updated'
-      redirect_to edit_category_schedule_path(@category, @schedule)
+      redirect_to edit_location_schedule_path(@location, @schedule)
       else
         render 'edit'
       end
@@ -47,9 +47,9 @@ class SchedulesController < ApplicationController
   end
 
   def edit
-    @category = Category.friendly.find(params[:category_id])
+    @location = Location.friendly.find(params[:location_id])
     @schedule = Schedule.friendly.find(params[:id])
-    @schedule_feed = @category.schedules
+    @schedule_feed = @location.schedules
   end
 
   private

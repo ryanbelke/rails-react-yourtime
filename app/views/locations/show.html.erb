@@ -2,10 +2,13 @@
   <% if logged_in? && current_user.admin? %>
     <ul>
       <li>
-        Create new location for <%= @category.category_name %>
+        <%= link_to 'add dates', new_location_schedule_path(@location.slug),
+                    class: 'waves-effect waves-light btn white' %>
       </li>
       <li>
+        Create new location for <%= @category.category_name %>
       </li>
+
       <li>
       </li>
   <% end %>

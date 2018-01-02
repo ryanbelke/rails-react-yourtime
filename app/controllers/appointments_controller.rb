@@ -7,9 +7,10 @@ class AppointmentsController < ApplicationController
     @workplace = Workplace.friendly.find(cookies[:workplace])
     @category = Category.friendly.find(cookies[:category])
     @service = Service.friendly.find(cookies[:service])
+    @location = Location.friendly.find(cookies[:location])
     @selected_date = cookies[:date]
     @schedule = Schedule.find_by date: @selected_date
-    @schedules = @category.schedules
+    @schedules = @location.schedules
     @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
 
     #set services feed to empty array to prevent from showing at the bottom

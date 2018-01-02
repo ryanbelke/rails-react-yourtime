@@ -2,11 +2,12 @@
   <% if logged_in? && current_user.admin? %>
     <ul>
       <li>
-        <h6>Edit <%= @service.service_name %></h6>
+        <%= link_to "new service", new_location_service_path(@location.slug), class: 'waves-effect waves-light btn white' %>
       </li>
       <li>
-        <%= link_to "new service", new_category_service_path(@category.slug), class: 'waves-effect waves-light btn white' %>
+        <h5>&nbsp; &nbsp; Edit <%= @service.service_name %></h5>
       </li>
+
 
   <% end %>
 

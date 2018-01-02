@@ -1,17 +1,4 @@
-<div class="header-nav">
-  <% if logged_in? && current_user.admin? %>
-    <ul>
-      <li>
-        <%= link_to "new location", new_category_location_path(@location.category.slug), class: 'waves-effect waves-light btn white' %>
-      </li>
-      <li>
-      </li>
-      <li>
-      </li>
-  <% end %>
 
-  </ul>
-</div>
 <% if request.original_url.to_s.include? 'locations' %>
     <div class="col l4 m4 s12">
       <div class="card sticky-action card-panel">

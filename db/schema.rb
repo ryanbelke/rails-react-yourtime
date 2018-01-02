@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180101034555) do
+ActiveRecord::Schema.define(version: 20180102063649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20180101034555) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.bigint "category_id"
+    t.bigint "location_id"
     t.datetime "date"
     t.integer "date_capacity"
     t.integer "date_reserved"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20180101034555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.index ["category_id"], name: "index_schedules_on_category_id"
+    t.index ["location_id"], name: "index_schedules_on_location_id"
   end
 
   create_table "services", force: :cascade do |t|

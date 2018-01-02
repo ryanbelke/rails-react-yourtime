@@ -1,7 +1,7 @@
 class CreateSchedules < ActiveRecord::Migration[5.1]
   def change
     create_table :schedules do |t|
-        t.belongs_to :category, index: true
+        t.belongs_to :location, index: true
         t.date :date
         t.integer :date_capacity
         t.integer :date_reserved
