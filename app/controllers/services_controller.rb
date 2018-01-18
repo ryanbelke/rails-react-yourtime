@@ -59,7 +59,12 @@ class ServicesController < ApplicationController
       @workplace = Workplace.friendly.find(cookies[:workplace])
 
       @schedules = @location.schedules
-      @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
+      #@dates = @schedules.pluck(:date).map{ |entry| [entry.to_time.to_i]}
+      puts "***** dates integer " + @dates.to_s
+
+      @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y,%m,%d").gsub("'", '')]}
+
+      puts "**** @dates = " + @dates.to_s
       #grab selected date from the form to input when user hits save and create cookie for future use
       @selected_date = params[:date]
       cookies[:date] = @selected_date

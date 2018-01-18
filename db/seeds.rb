@@ -63,6 +63,7 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 @category5 = Category.find_by id: 5
 
 
+=begin
 @category1.services.create!(service_name: 'Basic Detail', service_description: 'interior')
 @category1.services.create!(service_name: 'Premium Detail', service_description: 'interior')
 @category1.services.create!(service_name: 'Deluxe Detail', service_description: 'interior')
@@ -85,12 +86,14 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 
 @category5.services.create!(service_name: 'Mens', service_description: 'cut')
 @category5.services.create!(service_name: 'Womens', service_description: 'cut')
+=end
 
 
 
 
 @date = Date.strptime('11/14/2017','%m/%d/%Y')
 @user = User.find_by id: 1
+=begin
 @user.appointments.create!(appointment_status: 'Pending', appointment_date: @date,
                           service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')
 @user.appointments.create!(appointment_status: 'Scheduled', appointment_date: @date,
@@ -99,6 +102,7 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
                            service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')
 @user.appointments.create!(appointment_status: 'Completed', appointment_date: @date,
                            service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')
+=end
 
 
 # Service

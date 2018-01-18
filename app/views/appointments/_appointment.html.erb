@@ -2,9 +2,11 @@
 <tbody>
 <tr>
   <td><%= appointment.appointment_status %></td>
-  <td><%= appointment.schedule %></td>
-  <td><%= appointment.appointment_location%></td>
-  <td><%= appointment.appointment_price %></td>
+  <td><%= Date.strptime(appointment.schedule.date.to_s, "%Y-%m-%d") %></td>
+
+  <td><%= appointment.service.service_name %></td>
+  <td><%= appointment.location.location_name %></td>
+  <td><%= number_to_currency(appointment.appointment_price) %></td>
   <td id="table-buttons"><%= link_to 'View', user_appointment_path(current_user.id, appointment.id),
   class: 'waves-effect waves-light btn custom-btn-small' %></td>
   <% if current_user.admin? %>

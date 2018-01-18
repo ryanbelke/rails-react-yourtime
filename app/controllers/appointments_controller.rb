@@ -8,7 +8,7 @@ class AppointmentsController < ApplicationController
     @category = Category.friendly.find(cookies[:category])
     @service = Service.friendly.find(cookies[:service])
     @location = Location.friendly.find(cookies[:location])
-    @selected_date = cookies[:date]
+    @selected_date = params[:date] || cookies[:date]
     @schedule = Schedule.find_by date: @selected_date
     @schedules = @location.schedules
     @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
@@ -30,12 +30,26 @@ class AppointmentsController < ApplicationController
 
   def create
     @user = User.find_by id: params[:user_id]
-    @service = Service.find_by id: params[:service_id]
-    @schedule = Schedule.find_by date: params[:date]
+    service = Service.find_by id: params[:service_id]
+    @location = Location.friendly.find(cookies[:location])
+    puts '*** ' + @location.to_yaml
+    date = params[:date].to_datetime
+    puts '**** date' + date.to_s
+    #convert date to datetime for lookup in the database
+    schedule = @location.schedules.find_by date: date
+    puts "**** " + @location.schedules.to_yaml
 
-    @amount = (@service.service_price.to_i * 100)
+    #------------pricing
+    price = service.service_price
+    tax_amount = calculate_tax(price)
+    your_time_amount = calculate_fee(price)
+    total_amount = ((service.service_price + tax_amount + your_time_amount ))
 
-    @appointment = @user.appointments.new
+    @appointment = @user.appointments.create(
+        service_id: service.id, schedule_id: schedule.id,
+        appointment_status: 'Pending', location_id: @location.id,
+        appointment_price: total_amount
+    )
 
     if @appointment.save
       #TODO STORE CHARGE ID IN DATABASE
@@ -62,7 +76,6 @@ class AppointmentsController < ApplicationController
     else
       render 'edit'
     end
-
   end
 
   def destroy
@@ -97,5 +110,4 @@ class AppointmentsController < ApplicationController
     def admin_user
       redirect_to(root_url) unless current_user.admin?
     end
-
-  end
+end

@@ -5,6 +5,7 @@ $gray-text: #777;
 //#e9ebee
 label { color: #2E2F30 !important; }
 input { color: #2E2F30 !important; }
+.alert { z-index: 200; width: 40vw; position: absolute; right: 10vw;}
 .btn-floating i {
   line-height: 0 !important;
   margin-left: 1px;

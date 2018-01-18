@@ -31,6 +31,8 @@
           <%= render 'shared/feed' %>
           <h4>Categories</h4>
           <%= render 'shared/category_feed' %>
+          <h4>Locations</h4>
+          <%= render 'shared/location_feed' %>
         </div>
     </div>
     <% else %>
@@ -64,6 +66,8 @@
           <h4>Workplaces</h4>
           <small><%= link_to "View workplaces", workplaces_path %></small>
           <%= render 'shared/feed' %>
+          <h4>Locations</h4>
+          <%= render 'shared/location_feed' %>
           <h4>Categories</h4>
           <%= render 'shared/category_feed' %>
         </div>

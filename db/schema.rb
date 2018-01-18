@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180102063649) do
+ActiveRecord::Schema.define(version: 20180117021258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,12 +21,14 @@ ActiveRecord::Schema.define(version: 20180102063649) do
     t.bigint "schedule_id"
     t.string "appointment_status"
     t.string "appointment_description"
-    t.integer "appointment_price"
+    t.float "appointment_price"
     t.date "appointment_date"
     t.string "appointment_location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stripe_id"
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_appointments_on_location_id"
     t.index ["schedule_id"], name: "index_appointments_on_schedule_id"
     t.index ["service_id"], name: "index_appointments_on_service_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
@@ -118,6 +120,8 @@ ActiveRecord::Schema.define(version: 20180102063649) do
     t.string "service_info"
     t.string "picture"
     t.string "link"
+    t.integer "appointment_id"
+    t.index ["appointment_id"], name: "index_services_on_appointment_id"
     t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["location_id"], name: "index_services_on_location_id"
     t.index ["user_id"], name: "index_services_on_user_id"

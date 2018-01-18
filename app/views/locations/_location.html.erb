@@ -40,15 +40,14 @@
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
-        <%= workplace_name(location.workplace_id) %>
-        <%= link_to location.location_name, workplace_location_path(location.workplace_id, location.slug) %></span>
+        <%= link_to location.location_name, category_location_path(location.category_id, location.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">
         Created <%= time_ago_in_words(location.created_at) %> ago.
         <br />
-        <%= link_to "delete", workplace_location_path(location.workplace_id, location.slug), method: :delete,
+        <%= link_to "delete", category_location_path(location.category_id, location.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
-        &nbsp;  <%= link_to "edit", edit_workplace_location_path(location.workplace_id, location.slug) %>
+        &nbsp;  <%= link_to "edit", edit_category_location_path(location.category_id, location.slug) %>
       <% end %>
       </span>
     </li>

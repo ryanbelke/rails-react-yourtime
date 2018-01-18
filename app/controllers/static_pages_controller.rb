@@ -8,7 +8,9 @@ class StaticPagesController < ApplicationController
     if logged_in?
      @appointment_feed = current_user.appointments
      if cookies[:redirect]
+       flash[:info] = "You have been redirected to a saved order"
        redirect_to new_user_appointment_path(current_user)
+       cookies.delete :redirect
      end
     end
 
@@ -18,11 +20,11 @@ class StaticPagesController < ApplicationController
     if current_user && current_user.admin?
       @categories = Category.all
       @services = Service.all
-      @feed_items = Workplace.where.not(workplace_name: "Not Listed").paginate(page: params[:page])
-      @location_feed_items = Location.all.paginate(page: params[:page])
-      @service_feed_items = Service.all.paginate(page: params[:page])
-      @appointment_feed = current_user.appointments.paginate(page: params[:page])
-      @category_feed = Category.order(:workplace_id).paginate(page: params[:page])
+      @feed_items = Workplace.where.not(workplace_name: "Not Listed")
+      @location_feed_items = Location.all
+      @service_feed_items = Service.all
+      @appointment_feed = Appointment.all
+      @category_feed = Category.order(:workplace_id)
 
     end
   end

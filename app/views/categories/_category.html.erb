@@ -6,14 +6,14 @@
           <div class="left-align labels"><%= category.workplace.workplace_name %>
           </div>
           <h3 class="left-align">
-            <%= link_to category.category_name, category_services_path(category.slug) %>
+            <%= link_to category.category_name, category_locations_path(category.slug) %>
             <i class="material-icons right activator">info_outline</i></h3>
         </div>
         <div class="card-content">
           <p><%= category.category_description %></p>
         </div>
         <div class="card-action">
-          <%= link_to 'Book now', category_services_path(category.slug) %>
+          <%= link_to 'Book now', category_locations_path(category.slug) %>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">More Info
@@ -30,7 +30,7 @@
           <br />
           <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug) %></span>
           <br />
-        <small>Services: (<%= category.services.count %>) </small>
+        <small>Locations: (<%= category.locations.count %>) </small>
           &nbsp; &nbsp; <%= link_to 'New', new_category_location_path(category.slug), class: small_button('blue lighten-1') %>
         <span class="timestamp">
           <%= link_to "delete", workplace_category_path(category.workplace_id, category.slug), method: :delete,

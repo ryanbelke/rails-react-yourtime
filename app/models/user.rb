@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :workplaces, dependent: :destroy
 
   has_many :services, :through => :appointments
+  has_many :locations, :through => :appointments
+
   has_many :appointments, dependent: :destroy
 
   has_many :active_relationships, class_name:  "Relationship",
