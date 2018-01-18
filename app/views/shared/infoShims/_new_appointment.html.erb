@@ -13,7 +13,6 @@
           <%= form_tag '', method: 'get' do %>
             <%= label_tag :select_a_date %>
             <%= text_field_tag 'date', @selected_date, placeholder: 'Date', class: 'datepicker'%>
-
             <%= button_tag type: 'submit', class: 'waves-effect waves-light btn' do %>
               <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp; save
             <% end %>

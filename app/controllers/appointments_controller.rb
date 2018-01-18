@@ -9,7 +9,9 @@ class AppointmentsController < ApplicationController
     @service = Service.friendly.find(cookies[:service])
     @location = Location.friendly.find(cookies[:location])
     @selected_date = params[:date] || cookies[:date]
-    @schedule = Schedule.find_by date: @selected_date
+    if @selected_date.length > 1
+      @schedule = Schedule.find_by date: @selected_date
+    end
     @schedules = @location.schedules
     @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
 
@@ -32,28 +34,30 @@ class AppointmentsController < ApplicationController
     @user = User.find_by id: params[:user_id]
     service = Service.find_by id: params[:service_id]
     @location = Location.friendly.find(cookies[:location])
-    puts '*** ' + @location.to_yaml
-    date = params[:date].to_datetime
-    puts '**** date' + date.to_s
-    #convert date to datetime for lookup in the database
-    schedule = @location.schedules.find_by date: date
-    puts "**** " + @location.schedules.to_yaml
 
-    #------------pricing
-    price = service.service_price
-    tax_amount = calculate_tax(price)
-    your_time_amount = calculate_fee(price)
-    total_amount = ((service.service_price + tax_amount + your_time_amount ))
+    if params[:date].length > 1
+      date = params[:date].to_datetime
 
-    @appointment = @user.appointments.create(
-        service_id: service.id, schedule_id: schedule.id,
-        appointment_status: 'Pending', location_id: @location.id,
-        appointment_price: total_amount
-    )
+      #convert date to datetime for lookup in the database
+      schedule = @location.schedules.find_by date: date
+      puts "**** " + @location.schedules.to_yaml
 
-    if @appointment.save
-      #TODO STORE CHARGE ID IN DATABASE
-      # TODO STORE CUSTOMER STRIPE ID IN DATABASE
+      #------------pricing
+      price = service.service_price
+      tax_amount = calculate_tax(price)
+      your_time_amount = calculate_fee(price)
+      total_amount = ((service.service_price + tax_amount + your_time_amount ))
+
+      @appointment = @user.appointments.create(
+          service_id: service.id, schedule_id: schedule.id,
+          appointment_status: 'Pending', location_id: @location.id,
+          appointment_price: total_amount
+      )
+
+
+      if @appointment.save
+        #TODO STORE CHARGE ID IN DATABASE
+        # TODO STORE CUSTOMER STRIPE ID IN DATABASE
 =begin
       #Set customer charge
       customer = Stripe::Customer.create(
@@ -70,12 +74,18 @@ class AppointmentsController < ApplicationController
           )
 =end
 
-      cookies.delete :redirect
-      flash[:success] = "Thank you for making an appointment"
-      redirect_to root_url
+        cookies.delete :redirect
+        flash[:success] = "Thank you for making an appointment"
+        redirect_to root_url
+      else
+        render 'edit'
+      end
     else
-      render 'edit'
+      flash[:danger] = "please select date"
+      redirect_to new_user_appointment_path(current_user)
     end
+
+
   end
 
   def destroy
