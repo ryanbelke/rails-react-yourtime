@@ -6,14 +6,13 @@ class CategoriesController < ApplicationController
     @category_feed = @workplace.categories
     #set workplace in info cookie
     cookies[:workplace] =  @workplace.slug
-
     if @category_feed.count == 1
       #Take First Location, redirect to that locations services
       @category = @category_feed.first
       cookies[:category] = @category.slug
       redirect_to category_locations_path(@category.slug)
     end
-    puts @category_feed.to_yaml
+
   end
 
   def new

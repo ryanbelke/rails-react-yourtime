@@ -3,13 +3,9 @@ class LocationsController < ApplicationController
 
   def index
     @category = Category.friendly.find(params[:category_id])
-
     @location_feed_items = @category.locations
+    cookies[:category] = @category.slug
      if @location_feed_items.count == 1
-       #Take First Location, redirect to that locations services
-       #@location = @location_feed_items.first
-       #send to /locations/:id/services
-       #redirect_to location_services_path(@location.slug)
      end
 
   end
