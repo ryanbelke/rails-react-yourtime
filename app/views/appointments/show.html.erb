@@ -1,5 +1,127 @@
 <div class="row">
-  <div class="col l4 m6 s12 offset-l4">
-    <h3>Appointments Coming Soon</h3>
+  <div class="col l6 m6 s12">
+    <div class="paper-no-border">
+      <div class="css-flash">
+        <div class="icon-div-info">
+          <i class="fa fa-info" aria-hidden="true"></i>
+        </div>
+        <div class="flash-text">
+          <h6>Appointment Info:</h6>
+        </div>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Workplace:</span>
+        <span class="form-text"> <%= @workplace.workplace_name %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Location:</span>
+        <span class="form-text"> <%= @location.location_name %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Category:</span>
+        <span class="form-text"> <%= @location.category.category_name %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Service: </span>
+        <span class="form-text"> <%= @service.service_name %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Price: </span>
+        <span class="form-text"> $<%= @service.service_price %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Vendor: </span>
+        <span class="form-text"> <%= @service.service_vendor %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Time Frame: </span>
+        <span class="form-text">
+            <% if @service.service_time_to_complete < 8 %>
+             <%= 'Same Day' %>
+            <% else %>
+             <%= 'Extended completion time' %>
+            <% end %>
+          </span>
+      </div>
+    </div>
+    <br />
+  </div>
+  <div class="col l6 m6 s12">
+    <div class="paper-no-border">
+      <div class="css-flash-cost">
+        <div class="icon-div-dollar">
+          <i class="fa fa-credit-card" aria-hidden="true"></i>
+
+        </div>
+        <div class="flash-text">
+          <h6>Appointment Cost:</h6>
+        </div>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Price </span>
+        <span class="form-text"> $<%= @service.service_price %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Estimate Tax: </span>
+        <span class="form-text"><%= number_to_currency(@tax_amount) %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">YourTime Fee: </span>
+        <span class="form-text"><%= number_to_currency(@your_time_amount) %></span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Estimated Total </span>
+        <span class="form-text"> <%= number_to_currency(@total_price) %></span>
+      </div>
+
+      <div class="form-info">
+        <span class="form-header">Time Frame: </span>
+        <span class="form-text">
+            <% if @service.service_time_to_complete < 8 %>
+             <%= 'Same Day' %>
+            <% else %>
+             <%= 'Extended completion time' %>
+            <% end %>
+          </span>
+      </div>
+      <div class="form-info">
+        <span class="form-header"></span>
+        <span class="form-text">
+
+              </span>
+      </div>
+    </div>
   </div>
 </div>
+<div class="row">
+  <% if logged_in? %>
+    <div class="col l6 m6 s12">
+      <div class="paper-no-border">
+        <div class="css-flash-user">
+          <div class="icon-div-user">
+            <i class="fa fa-credit-card" aria-hidden="true"></i>
+          </div>
+          <div class="flash-text">
+            <h6>User Info</h6>
+          </div>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Name:</span>
+          <span class="form-text">
+              <%= current_user.first_name %>
+            <%= current_user.last_name %>
+            </span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Email </span>
+          <span class="form-text"><%= current_user.email %></span>
+        </div>
+      </div>
+
+
+    </div>
+  <% end %>
+</div>
+
+
+

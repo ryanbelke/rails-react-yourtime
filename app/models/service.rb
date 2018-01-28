@@ -7,7 +7,9 @@ class Service < ApplicationRecord
   belongs_to :user
   belongs_to :category
   belongs_to :appointment
+
   #Services will have my FOREIGN KEY to pull the USD ID AND CATEGORY ID
+  belongs_to :section
 
 
   private

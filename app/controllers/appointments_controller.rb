@@ -49,7 +49,7 @@ class AppointmentsController < ApplicationController
     service = Service.find_by id: params[:service_id]
     @location = Location.friendly.find(cookies[:location])
     date = params[:date].to_datetime
-
+    category = Category.friendly.find(cookies[:category])
     if date.nil?
       flash[:danger] = "please select date"
       redirect_to new_user_appointment_path(current_user)
@@ -71,7 +71,7 @@ class AppointmentsController < ApplicationController
       @appointment = @user.appointments.create(
           service_id: service.id, schedule_id: schedule.id,
           appointment_status: 'Pending', location_id: @location.id,
-          appointment_price: total_amount
+          appointment_price: total_amount, workplace_id: category.workplace.id
       )
 
 
@@ -101,8 +101,16 @@ class AppointmentsController < ApplicationController
         render 'edit'
       end
     end
+  end
 
+  def show
+    @appointment = Appointment.find params[:id]
 
+    @location = @appointment.location
+    category = @location.category
+    @workplace = category.workplace
+
+    @service = @appointment.service
   end
 
   def destroy
@@ -121,7 +129,8 @@ class AppointmentsController < ApplicationController
     end
 
     def appointment_params
-      params.require(:appointment).permit(:user_id, :service_id, :schedule_id, :appointment_status,
+      params.require(:appointment).permit(:user_id, :service_id, :schedule_id,
+                                          :workplace_id, :appointment_status,
                                           :appointment_description, :stripe_id)
     end
 

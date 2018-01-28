@@ -4,4 +4,5 @@ class Appointment < ApplicationRecord
   belongs_to :schedule
   belongs_to :service
   belongs_to :location
+  belongs_to :workplace
 end

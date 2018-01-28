@@ -7,4 +7,5 @@ class Location < ApplicationRecord
   has_many :services, dependent: :destroy
   has_many :schedules, dependent: :destroy
 
+
 end
