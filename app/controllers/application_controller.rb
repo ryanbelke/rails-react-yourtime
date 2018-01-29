@@ -3,6 +3,15 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   private
+  #delete all the cookies so you are redirected to create new appointment
+  def delete_cookies
+    cookies.delete :service
+    cookies.delete :section
+    cookies.delete :location
+    cookies.delete :workplace
+    cookies.delete :category
+    cookies.delete :date
+  end
 
   # Confirms a logged-in user.
   def logged_in_user

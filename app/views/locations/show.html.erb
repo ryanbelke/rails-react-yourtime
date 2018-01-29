@@ -2,28 +2,70 @@
   <% if logged_in? && current_user.admin? %>
     <ul>
       <li>
+      </li>
+      <li>
         <%= link_to 'add dates', new_location_schedule_path(@location.slug),
                     class: 'waves-effect waves-light btn white' %>
       </li>
-      <li>
-        Create new location for <%= @category.category_name %>
-      </li>
+      &nbsp;
+      <%= link_to "View Sections", location_sections_path(@location.slug),
+                  class: 'waves-effect waves-light btn white' %>
 
       <li>
+        &nbsp;
+        <%= link_to "Create New Section", new_location_section_path(@location.slug),
+                  class: 'waves-effect waves-light btn white' %>
+
+      </li>
+      <li>
+        &nbsp;
+        <%= link_to "Edit", edit_category_location_path(@category.slug, @location.slug),
+                    class: 'waves-effect waves-light btn white' %>
+
       </li>
   <% end %>
 
   </ul>
 </div>
-<section class="row">
-  <div class="col l8 m8 s12 offset-l2">
-    <h3><%= @location.location_name %> </h3>
-    <h5>Information</h5>
-    <h5>Locations <%= link_to "View Services", location_services_path(@location.slug) %></h5>
-    <h5><%= link_to "Create New Service", new_location_service_path(@location.slug) %></h5>
+
+<div class="row">
+    <div class="col l2 m6 s6 offset-l1">
+      <small>Category:</small>
+      <h4><%= @category.category_name %>
+      </h4>
+      <small>Location:</small>
+      <h4><%= @location.location_name %></h4>
+      <small>Sections:</small>
+      <%= render 'shared/section_feed' %>
+      <h5>
+      </h5>
+
+      <br />
+
+    </div>
+    <div class="col l6 s12 m7">
+      <div class="card">
+        <div class="card-content">
+          <h4>Location Description</h4>
+          <hr /><hr />
+          <div class="card-content">
+            <p><%= @location.location_description %></p>
+          </div>
+          <br />
+          <h4>Location Address </h4>
+          <hr />
+          <div class="card-content">
+            <p><%= @location.location_address %></p>
+          </div>
+
+        </div>
+        <div class="card-action">
+
+        </div>
+      </div>
+    </div>
+    <div class="col l2 m4 s12">
+      <small>Date Feed:</small>
+      <%= render 'shared/infoShims/schedule_feed' %>
+    </div>
   </div>
-</section>
-<div class="col l2 m4 s12">
-  <small>Date Feed:</small>
-  <%= render 'shared/infoShims/schedule_feed' %>
-</div>

@@ -1,0 +1,24 @@
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+
+      <li>
+        <%= link_to 'new section', new_location_section_path(@location.slug, @section.slug),
+                    class: 'waves-effect waves-light btn white' %>
+      </li>
+      <li>
+
+      </li>
+  <% else %>
+    <li>
+      <%= link_to "back", :back, class: 'waves-effect waves-light btn white' %>
+    </li>
+  <% end %>
+
+  </ul>
+</div>
+<ol class="feed-items">
+  <% if @section_feed_items.any? %>
+    <%= render @section_feed_items %>
+    </ol>
+  <% end %>

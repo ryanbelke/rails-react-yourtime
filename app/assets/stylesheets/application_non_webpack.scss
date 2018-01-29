@@ -3,6 +3,7 @@ $bg-color: #e9ebee;
 $fb-gray: #fff;
 $gray-text: #777;
 //#e9ebee
+.small-break { display: block; margin: -10px 0; }
 label { color: #2E2F30 !important; }
 input { color: #2E2F30 !important; }
 .alert { z-index: 200; width: 40vw; position: absolute; right: 10vw;}
@@ -15,6 +16,9 @@ input { color: #2E2F30 !important; }
 .navbar {
   margin-bottom: 0 !important;
   height: 60px !important;
+}
+.center-items {
+  margin: 0 auto;
 }
 .header-nav {
   width: 100vw;
@@ -32,10 +36,7 @@ input { color: #2E2F30 !important; }
     margin: 0 5px;
     list-style: none;
   }
-  a {
-    color: #424242 !important;
-
-  }
+  a { color: #424242 !important; }
 }
 #howSection { margin-top: 13%; }
 #scheduleSection { margin-top: 7%; }
@@ -51,6 +52,17 @@ input { color: #2E2F30 !important; }
 }
 .container-header {
   padding: 5px 35px 0 25px;
+}
+.btn-large {
+  width: 200px !important;
+  height: 100px !important;
+  padding: 30px;
+  font-size: 32px !important;
+  line-height: 100px !important;
+  font-weight: bold;
+  margin: 10px 30px !important;
+
+
 }
 .form-container {
   float: left;
@@ -685,13 +697,66 @@ hr {
   border-bottom: 1px solid gray;
 }
 /* microposts */
+.feed-container .feed-items {
+  display: flex;
+  flex-direction: column !important;
 
-.microposts {
+}
+.feed-container {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.feed-items {
   list-style: none;
-  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2px !important;
+
   li {
     padding: 10px 0;
     border-top: 1px solid #e8e8e8;
+    list-style:none;
+  }
+  .user {
+    margin-top: 5em;
+    padding-top: 0;
+    font-size: 1.5rem;
+  }
+  .content {
+    display: block;
+    margin-left: 60px;
+    img {
+      display: block;
+      padding: 5px 0;
+    }
+  }
+  .categories {
+    width: 30%;
+    height: 400px;
+    margin: 10px !important;
+    align-items: center;
+  }
+  .timestamp {  color:gray;  display: block; font-size: 1rem; }
+  .gravatar {  float: left;  margin-right: 10px;  margin-top: 5px;  }
+}
+
+.microposts {
+
+
+  .locations {
+    width: 30%;
+    height: 450px;
+    margin: 10px !important;
+    align-items: center;
+  }
+
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+
+
 
   }
   .user {

@@ -4,19 +4,19 @@ class ServicesController < ApplicationController
 
     #GET /SERVICE
     def index
-      @location = Location.friendly.find(params[:location_id])
-      cookies[:location] = @location.slug
-      @service_feed_items = @location.services
+      @section = Section.friendly.find(params[:section_id])
+      cookies[:section] = @section.slug
+      @service_feed_items = @section.services
     end
 
     def new
-      @location = Location.friendly.find(params[:location_id])
-      @service = @location.services.new
+      @section = Section.friendly.find(params[:section_id])
+      @service = @section.services.new
     end
     #POST /SERVICE
     def create
-        @location = Location.friendly.find(params[:location_id])
-        @service = @location.services.new(service_params)
+        @section = Section.friendly.find(params[:section_id])
+        @service = @section.services.new(service_params)
         if @service.save
           flash[:success] = "Service created"
           redirect_to root_url
@@ -38,7 +38,7 @@ class ServicesController < ApplicationController
     end
     #PUT /SERVICE/:ID
     def edit
-      @location = Location.friendly.find(params[:location_id])
+      @section = Section.friendly.find(params[:section_id])
       @service = Service.friendly.find(params[:id])
     end
     #DELETE /SERVICE/:ID
@@ -49,12 +49,14 @@ class ServicesController < ApplicationController
     end
 
     def show
-      @location = Location.friendly.find(params[:location_id])
+      @location = Location.friendly.find(cookies[:location])
       @service = Service.friendly.find(params[:id])
+
+      @section = Section.friendly.find(params[:section_id])
       #set service cookie
       cookies[:service] = @service.slug
       #set category cookie
-      cookies[:location] = @location.slug
+      cookies[:section] = @section.slug
 
       @workplace = Workplace.friendly.find(cookies[:workplace])
 

@@ -1,12 +1,25 @@
+
 <% if logged_in? %>
   <% if current_user.admin? %>
     <div class="row">
-      <div class="col l2 m3 s12 paper">
+      <div class="col l2 m3 s12 paper feed-container">
         <section class="user_info">
           <%= render 'shared/user_info' %>
         </section>
         <section class="stats">
           <%= render 'shared/stats' %>
+        </section>
+        <hr />
+        <br />
+        <section class="sections">
+          <h5 class="left-align">Sections:</h5>
+          <hr />
+          <%= render 'shared/section_feed' %>
+        </section>
+        <section class="service">
+          <h5 class="left-align">Services: </h5>
+          <hr />
+          <%= render 'shared/services_feed' %>
         </section>
       </div>
       <div class="paper col l7 m5 s12 ">
@@ -25,7 +38,7 @@
           <%= render 'shared/appointment_feed' %>
         </table>
       </div>
-        <div class="paper microposts col l2 m3 s12">
+        <div class="paper feed-items col l2 m3 s12 feed-container">
           <h4>Workplaces</h4>
           <small><%= link_to "View workplaces", workplaces_path %></small>
           <%= render 'shared/feed' %>

@@ -1,21 +1,25 @@
-<div class="header-nav">
-  <% if logged_in? && current_user.admin? %>
-    <ul>
+<% if request.original_url.to_s.include? 'sections' %>
+  <div class="header-nav">
+    <% if logged_in? && current_user.admin? %>
+      <ul>
+
+        <li>
+          <%= link_to 'new service', new_section_service_path(@section.slug),
+                      class: 'waves-effect waves-light btn white' %>
+        </li>
+        <li>
+
+        </li>
+      <% else %>
       <li>
         <%= link_to "back", :back, class: 'waves-effect waves-light btn white' %>
       </li>
-      <li>
-        <%= link_to 'new service', new_location_service_path(@location.slug),
-                    class: 'waves-effect waves-light btn white' %>
-      </li>
-      <li>
+    <% end %>
 
-      </li>
-  <% end %>
-
-  </ul>
-</div>
-<ol class="microposts">
+    </ul>
+  </div>
+<% end %>
+<ol class="feed-items">
       <% if @service_feed_items.any? %>
           <%= render @service_feed_items %>
       <% end %>

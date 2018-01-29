@@ -1,13 +1,11 @@
 <% if request.original_url.to_s.include? 'categories' %>
-    <div class="col l4 m4 s12">
       <div class="paper locations card">
         <div class="card-image">
         </div>
 
         <div class="card-title ">
           <h5>
-            <%= link_to location.location_name, category_location_path(location.category, location.slug) %>
-
+            <%= link_to location.location_name, location_sections_path(location.slug) %>
           </h5>
           </div>
         <div class="sub-title">
@@ -20,7 +18,7 @@
           </div>
         </div>
         <div class="card-action">
-          <%= link_to "View Services", location_services_path(location.slug) %>
+          <%= link_to "View Sections", location_sections_path(location.slug) %>
 
 
           <li class="no-border" id="location-<%= location.id %>">
@@ -35,11 +33,18 @@
           </li>
         </div>
       </div>
-    </div>
 
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
+        <small>
+          <%= location.category.workplace.workplace_name %>
+          <div class="small-break"></div>
+        </small>
+        <small>
+          <%= location.category.category_name %>
+          <br />
+        </small>
         <%= link_to location.location_name, category_location_path(location.category_id, location.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">

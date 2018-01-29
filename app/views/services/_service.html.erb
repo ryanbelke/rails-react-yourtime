@@ -1,7 +1,6 @@
 
-<% if request.original_url.to_s.include? 'locations' %>
-    <div class="col l4 m4 s12">
-      <div class="card sticky-action card-panel">
+<% if request.original_url.to_s.include? 'sections' %>
+      <div class="card sticky-action card-panel services">
         <div class="card-image card-gradient">
           <%= image_tag service.picture.url if service.picture? %>
         </div>
@@ -29,11 +28,11 @@
         </div>
         <div class="card-action">
           <% if logged_in? && current_user.admin? %>
-            <%= link_to 'edit', edit_location_service_path(@location.slug, service.slug) %>
-            <%= link_to 'delete', location_service_path(@location.slug, service.slug),
+            <%= link_to 'edit', edit_section_service_path(@section.slug, service.slug) %>
+            <%= link_to 'delete', section_service_path(@section.slug, service.slug),
             method: 'delete', data: { confirm: 'are you sure?' } %>
           <% end %>
-          <%= link_to 'Book', location_service_path(@location.slug, service.slug) %>
+          <%= link_to 'Book', section_service_path(@section.slug, service.slug) %>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">
@@ -45,19 +44,22 @@
           </p>
         </div>
       </div>
-    </div>
 <% else %>
 <hr />
     <li id="service-<%= service.id %>">
       <span class="user">
-        <%= link_to service.service_name, category_service_path(service.category_id, service.slug) %></span>
+        <small>
+          <%= service.section.section_name %>
+        </small>
+        <br />
+        <%= link_to service.service_name, section_service_path(service.section.id, service.slug) %></span>
       <% if logged_in? && current_user.admin? %>
       <span class="timestamp">
         Created <%= time_ago_in_words(service.created_at) %> ago.
         <br />
-        <%= link_to "delete", category_service_path(service.category_id, service.slug), method: :delete,
+        <%= link_to "delete", section_service_path(service.section_id, service.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
-        &nbsp;  <%= link_to "edit", edit_category_service_path(service.category_id, service.slug) %>
+        &nbsp;  <%= link_to "edit", edit_section_service_path(service.section_id, service.slug) %>
       <% end %>
       </span>
     </li>

@@ -93,7 +93,7 @@ group :development, :test do
 
   ################################################################################
   # Manage application processes
-  gem "factory_girl_rails"
+  gem "factory_bot"
   gem "foreman"
 
   ################################################################################

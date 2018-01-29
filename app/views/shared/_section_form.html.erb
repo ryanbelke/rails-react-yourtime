@@ -1,0 +1,17 @@
+<%= form_for [:location, @section] do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="paper">
+    <%= f.label :section_name %>
+    <%= f.text_field :section_name, placeholder: "section name", class: 'form-control' %>
+    <%= f.label :section_description %>
+    <%= f.text_field :section_description, placeholder: "section description", class: 'form-control' %>
+  </div>
+  <br/>
+  <br/>
+  <div class="col l4 m6 s12">
+    <%= f.submit "Post", class: "btn btn-primary" %>
+  </div>
+  <div class="col l8 m6 s12">
+    <%= f.submit "Create and Add Service", class: 'btn btn-primary', name: 'create_and_add' %>
+  </div>
+<% end %>

@@ -25,7 +25,8 @@ class StaticPagesController < ApplicationController
       @service_feed_items = Service.all
       @appointment_feed = Appointment.all
       @category_feed = Category.order(:workplace_id)
-
+      @section_feed_items = Section.all
+      @service_feed_items = Service.all
     end
   end
 

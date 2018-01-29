@@ -1,0 +1,23 @@
+<% if request.original_url.to_s.include? 'sections' %>
+<div class="row">
+    <%= link_to section.section_name, section_services_path(section.slug),
+    class: 'waves-effect waves-light btn-large blue darken-1' %>
+</div>
+
+<% else %>
+  <li id="section-<%= section.id %>">
+      <span class="user">
+        <small><%= section.location.location_name %></small>
+        <br />
+        <%= link_to section.section_name, location_section_path(section.location_id, section.slug) %></span>
+    <% if logged_in? && current_user.admin? %>
+      <span class="timestamp">
+        Created <%= time_ago_in_words(section.created_at) %> ago.
+        <br />
+        <%= link_to "delete", location_section_path(section.location_id, section.slug), method: :delete,
+                    data: { confirm: "You sure?" } %>
+        &nbsp;  <%= link_to "edit", edit_location_section_path(section.location_id, section.slug) %>
+    <% end %>
+    </span>
+  </li>
+<% end %>

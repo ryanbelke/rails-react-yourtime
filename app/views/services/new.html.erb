@@ -5,14 +5,14 @@
         <%= link_to "back", :back, class: 'waves-effect waves-light btn white' %>
       </li>
       <li>
-        <%= link_to 'new service', new_location_service_path(@location.slug),
+        <%= link_to 'new service', new_section_service_path(@section.slug),
                     class: 'waves-effect waves-light btn white' %>
       </li>
       <li>
-       <small>&nbsp; &nbsp; <%= @location.category.category_name %> &nbsp; &nbsp;</small>
+       <small>&nbsp; &nbsp; <%= @section.location.location_name %> &nbsp; &nbsp;</small>
       </li>
       <li>
-        <small> <%= @location.location_name %> - new service</small>
+        <small> <%= @section.section_name %> - new service</small>
       </li>
 
       <li>

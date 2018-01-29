@@ -50,17 +50,18 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-    if current_user.admin?
       Location.friendly.find(params[:id]).destroy
       flash[:success] = "Location deleted"
+      #delete cookies from application_controller method
+      delete_cookies
       redirect_to request.referrer || root_url
-    end
   end
 
   def show
     @category = Category.friendly.find(params[:category_id])
     @location = Location.friendly.find(params[:id])
-    @schedule_feed = []
+    @schedule_feed = @location.schedules
+    @section_feed_items = @location.sections
   end
 
   private
@@ -68,6 +69,8 @@ class LocationsController < ApplicationController
   def location_params
     params.require(:location).permit(:location_name, :location_address, :location_description)
   end
+
+
 
   def admin_user
     redirect_to(root_url) unless current_user.admin?

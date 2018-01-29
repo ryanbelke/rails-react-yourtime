@@ -23,7 +23,7 @@ class CategoriesController < ApplicationController
 
   def edit
     @workplace = Workplace.friendly.find(params[:workplace_id])
-    @category = @workplace.friendly.find(params[:id])
+    @category = Category.friendly.find(params[:id])
   end
 
   def update

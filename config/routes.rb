@@ -39,6 +39,10 @@ Rails.application.routes.draw do
   end
 
   resources :locations do
+    resources :sections
+  end
+
+  resources :sections do
     resources :services
   end
 

@@ -1,0 +1,55 @@
+<div class="header-nav">
+  <% if logged_in? && current_user.admin? %>
+    <ul>
+
+      &nbsp;
+      <%= link_to "View Services", section_services_path(@section.slug),
+                  class: 'waves-effect waves-light btn white' %>
+
+      <li>
+        &nbsp;
+        <%= link_to "Create New Service", new_section_service_path(@section.slug),
+                    class: 'waves-effect waves-light btn white' %>
+
+      </li>
+      <li>
+        &nbsp;
+        <%= link_to "Edit", edit_location_section_path(@location.slug, @section.slug),
+                    class: 'waves-effect waves-light btn white' %>
+
+      </li>
+  <% end %>
+
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col l2 m6 s6 offset-l1">
+    <small>Location:</small>
+    <h4><%= @section.location.location_name %>
+    </h4>
+    <br />
+  </div>
+  <div class="col l6 s12 m7">
+    <div class="card">
+      <div class="card-content">
+        <h4>Section Name: <%= @section.section_name%>
+        </h4>
+
+        <hr /><hr />
+        <div class="card-content">
+        </div>
+        <br />
+        <h4>Section Description </h4>
+        <hr />
+        <div class="card-content">
+          <p><%= @section.section_description %></p>
+        </div>
+
+      </div>
+      <div class="card-action">
+
+      </div>
+    </div>
+  </div>
+</div>
