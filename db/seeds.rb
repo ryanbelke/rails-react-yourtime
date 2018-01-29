@@ -63,30 +63,49 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 @category5 = Category.find_by id: 5
 
 
+@category1.locations.create!(location_name: 'Building #400', location_description: 'Building 400 is located downtown Austin, Tx')
+@category2.locations.create!(location_name: 'Building #400', location_description: 'Building 400 is located downtown Austin, Tx')
+@category3.locations.create!(location_name: 'Building #400', location_description: 'Building 400 is located downtown Austin, Tx')
+@category4.locations.create!(location_name: 'Building #400', location_description: 'Building 400 is located downtown Austin, Tx')
+@category5.locations.create!(location_name: 'Building #400', location_description: 'Building 400 is located downtown Austin, Tx')
+
+@location1 = Location.find_by id: 1
+@location2 = Location.find_by id: 2
+@location3 = Location.find_by id: 3
+@location4 = Location.find_by id: 4
+@location5 = Location.find_by id: 5
+
+@location1.sections.create!(section_name: 'Interior')
+@location1.sections.create!(section_name: 'Exterior')
+
+@section1 = Section.find_by id: 1
+@section1.services.create!(service_name: 'Premium Detail', service_description: 'interior')
+
 =begin
-@category1.services.create!(service_name: 'Basic Detail', service_description: 'interior')
-@category1.services.create!(service_name: 'Premium Detail', service_description: 'interior')
-@category1.services.create!(service_name: 'Deluxe Detail', service_description: 'interior')
 
-@category1.services.create!(service_name: 'Basic Wash', service_description: 'exterior')
-@category1.services.create!(service_name: 'Premium Wash', service_description: 'exterior')
-@category1.services.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
+@category1.locations.create!(location_name: 'Premium Detail', service_description: 'interior')
+@category1.locations.create!(location_name: 'Deluxe Detail', service_description: 'interior')
 
-@category3.services.create!(service_name: 'Basic Detail', service_description: 'interior')
-@category3.services.create!(service_name: 'Premium Detail', service_description: 'interior')
-@category3.services.create!(service_name: 'Deluxe Detail', service_description: 'interior')
+@category1.locations.create!(service_name: 'Basic Wash', service_description: 'exterior')
+@category1.locations.create!(service_name: 'Premium Wash', service_description: 'exterior')
+@category1.locations.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
 
-@category3.services.create!(service_name: 'Basic Wash', service_description: 'exterior')
-@category3.services.create!(service_name: 'Premium Wash', service_description: 'exterior')
-@category3.services.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
+@category3.locations.create!(service_name: 'Basic Detail', service_description: 'interior')
+@category3.locations.create!(service_name: 'Premium Detail', service_description: 'interior')
+@category3.locations.create!(service_name: 'Deluxe Detail', service_description: 'interior')
 
-@category4.services.create!(service_name: 'Routine Maintenance', service_description: 'routine')
-@category4.services.create!(service_name: 'Major Mechanical', service_description: 'major')
-@category4.services.create!(service_name: 'State Inspection', service_description: 'state')
+@category3.locations.create!(service_name: 'Basic Wash', service_description: 'exterior')
+@category3.locations.create!(service_name: 'Premium Wash', service_description: 'exterior')
+@category3.locations.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
 
-@category5.services.create!(service_name: 'Mens', service_description: 'cut')
-@category5.services.create!(service_name: 'Womens', service_description: 'cut')
+@category4.locations.create!(service_name: 'Routine Maintenance', service_description: 'routine')
+@category4.locations.create!(service_name: 'Major Mechanical', service_description: 'major')
+@category4.locations.create!(service_name: 'State Inspection', service_description: 'state')
+
+@category5.locations.create!(service_name: 'Mens', service_description: 'cut')
+@category5.locations.create!(service_name: 'Womens', service_description: 'cut')
 =end
+
 
 
 
