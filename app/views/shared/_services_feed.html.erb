@@ -19,10 +19,19 @@
     </ul>
   </div>
 <% end %>
-<ol class="feed-items">
-      <% if @service_feed_items.any? %>
-          <%= render @service_feed_items %>
-      <% end %>
-</ol>
+<% if request.original_url.to_s.include? 'services' %>
+  <ul class="flex-row">
+    <% if @service_feed_items.any? %>
+      <%= render @service_feed_items %>
+    <% end %>
+  </ul>
+<% else %>
+  <ul class="feed-container">
+    <% if @service_feed_items.any? %>
+      <%= render @service_feed_items %>
+    <% end %>
+  </ul>
+<% end %>
+
 
 

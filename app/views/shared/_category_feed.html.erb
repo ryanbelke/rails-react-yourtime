@@ -1,7 +1,13 @@
-  <ol class="feed-items">
+<% if request.original_url.to_s.include? 'categories' %>
+  <ul class="flex-row">
     <% if @category_feed.any? %>
       <%= render @category_feed%>
     <% end %>
-  </ol>
-
-
+  </ul>
+<% else %>
+  <ul class="feed-container">
+    <% if @category_feed.any? %>
+      <%= render @category_feed%>
+    <% end %>
+  </ul>
+<% end %>

@@ -4,19 +4,20 @@ class AppointmentsController < ApplicationController
   before_action :admin_user,     only: :destroy
   def new
     workplace = cookies[:workplace]
-    puts " *** " + workplace.to_s
     category = cookies[:category]
     service = cookies[:service]
     location = cookies[:location]
-    if workplace.nil? || category.nil? ||
-        service.nil? || location.nil?
+    section = cookies[:section]
 
+    if workplace.nil? || category.nil? ||
+        service.nil? || location.nil? || section.nil?
       flash[:warning] = "please select workplace to begin"
       redirect_to workplaces_path
     else
       @user = current_user
       @workplace = Workplace.friendly.find(cookies[:workplace])
       @category = Category.friendly.find(cookies[:category])
+      @section = Section.friendly.find(cookies[:section])
       @service = Service.friendly.find(cookies[:service])
       @location = Location.friendly.find(cookies[:location])
       @selected_date = params[:date] || cookies[:date]

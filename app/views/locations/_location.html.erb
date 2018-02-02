@@ -39,21 +39,30 @@
       <span class="user">
         <small>
           <%= location.category.workplace.workplace_name %>
-          <div class="small-break"></div>
+          &nbsp;
+
         </small>
         <small>
-          <%= location.category.category_name %>
-          <br />
+          &nbsp; <%= location.category.category_name %>
         </small>
         <%= link_to location.location_name, category_location_path(location.category_id, location.slug) %></span>
-      <% if logged_in? && current_user.admin? %>
-      <span class="timestamp">
-        Created <%= time_ago_in_words(location.created_at) %> ago.
+      <br />
+
+      <small>
+          <% if logged_in? && current_user.admin? %>
+            <span>create new section</span>
+            <%= link_to new_location_section_path(location) do |f| %>
+              <span class="location-icon material-icons">+</span>
+            <% end %>
+        </small>
         <br />
+      <small class="timestamp">
+         &nbsp;
         <%= link_to "delete", category_location_path(location.category_id, location.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
         &nbsp;  <%= link_to "edit", edit_category_location_path(location.category_id, location.slug) %>
       <% end %>
-      </span>
+      </small>
     </li>
+  <hr />
 <% end %>

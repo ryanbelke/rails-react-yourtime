@@ -1,23 +1,15 @@
-<div class="header-nav">
-  <% if logged_in? && current_user.admin? %>
-    <ul>
-
-      <li>
-
-      </li>
-      <li>
-
-      </li>
-  <% else %>
-    <li>
-      <%= link_to "back", :back, class: 'waves-effect waves-light btn white' %>
-    </li>
-  <% end %>
-
+<% if request.original_url.to_s.include? 'sections' %>
+  <ul class="flex-row">
+    <% if @section_feed_items.any? %>
+      <%= render @section_feed_items %>
+    <% end %>
   </ul>
-</div>
-<ol class="feed-items">
-  <% if @section_feed_items.any? %>
-    <%= render @section_feed_items %>
-    </ol>
-  <% end %>
+<% else %>
+  <ul class="feed-container">
+    <% if @section_feed_items.any? %>
+      <%= render @section_feed_items %>
+    <% end %>
+  </ul>
+<% end %>
+
+

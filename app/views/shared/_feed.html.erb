@@ -1,16 +1,19 @@
-<ol class="feed-items">
-  <% if logged_in? && current_user.admin? %>
-      <li>New Workplace &nbsp; <span>
+<% if logged_in? && current_user.admin? %>
+  New Workplace &nbsp; <span>
       <a href="/workplaces/new" class="location-button btn-floating btn-small waves-effect waves-light blue">
       <i class="location-icon material-icons">+</i></a>
     </span>
-      </li>
-    <% if @feed_items.any? %>
-      <%= render @feed_items %>
-      <hr />
-      </ol>
-  <% end %>
-
+    <% if request.original_url.to_s.include? 'workplaces' %>
+    <ul class="flex-row">
+      <% if @feed_items.any? %>
+        <%= render @feed_items %>
+        </ul>
+      <% end %>
     <% else %>
-
+    <ul class="feed-container">
+      <% if @feed_items.any? %>
+        <%= render @feed_items %>
+        </ul>
+      <% end %>
+    <% end %>
 <% end %>

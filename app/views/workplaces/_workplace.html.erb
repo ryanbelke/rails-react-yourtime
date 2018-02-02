@@ -1,5 +1,4 @@
 <% if request.original_url.to_s.include? 'workplace' %>
-  <div class="col l4 m4 s12">
     <div class="paper workplaces card">
       <div class="card-image">
         <%= image_tag "siliconlabs.png" %>
@@ -28,7 +27,6 @@
         </li>
       </div>
     </div>
-  </div>
 
     <% else %>
     <li id="workplace-<%= workplace.id %>">
@@ -39,11 +37,12 @@
               <span class="location-icon material-icons">+</span>
 
           <% end %>
-      <span class="timestamp">
+      <small class="timestamp">
         <%= link_to "delete", workplace, method: :delete,
                     data: { confirm: "You sure?" } %>
     &nbsp;  <%= link_to "edit", edit_workplace_path(workplace.id) %>
       <% end %>
-      </span>
+      </small>
+      <hr />
     </li>
 <% end %>

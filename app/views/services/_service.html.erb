@@ -54,13 +54,12 @@
         <br />
         <%= link_to service.service_name, section_service_path(service.section.id, service.slug) %></span>
       <% if logged_in? && current_user.admin? %>
-      <span class="timestamp">
-        Created <%= time_ago_in_words(service.created_at) %> ago.
+      <small class="timestamp">
         <br />
         <%= link_to "delete", section_service_path(service.section_id, service.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
         &nbsp;  <%= link_to "edit", edit_section_service_path(service.section_id, service.slug) %>
       <% end %>
-      </span>
+      </small>
     </li>
 <% end %>

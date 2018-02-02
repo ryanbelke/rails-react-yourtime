@@ -51,7 +51,6 @@ class ServicesController < ApplicationController
     def show
       @location = Location.friendly.find(cookies[:location])
       @service = Service.friendly.find(params[:id])
-
       @section = Section.friendly.find(params[:section_id])
       #set service cookie
       cookies[:service] = @service.slug
@@ -74,6 +73,7 @@ class ServicesController < ApplicationController
       @service_feed_items = []
 
       #set tax information
+      puts "***** " + @service.to_yaml
       @tax_amount1 = (0.09 * @service.service_price)
       @tax_amount = sprintf('%.2f', @tax_amount1)
       @your_time_amount1 = (0.05 * @service.service_price)

@@ -2,8 +2,6 @@
     <div class="card sticky-action card-panel categories">
       <div class="card-image category-image">
         <i class='fa <%= category.category_icon %> fa-5x activator' id="fa-icon"></i>
-        <div class="left-align labels"><%= category.workplace.workplace_name %>
-        </div>
         <h3 class="left-align">
           <%= link_to category.category_name, category_locations_path(category.slug) %>
           <i class="material-icons right activator">info_outline</i></h3>
@@ -26,15 +24,16 @@
         <span class="user">
           <%= category.workplace.workplace_name %>
           <br />
-          <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug) %></span>
+         &nbsp; <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug) %></span>
           <br />
-        <small>Locations: (<%= category.locations.count %>) </small>
+        &nbsp; <small>Locations: (<%= category.locations.count %>) </small>
           &nbsp; &nbsp; <%= link_to 'New', new_category_location_path(category.slug), class: small_button('blue lighten-1') %>
-        <span class="timestamp">
+        &nbsp; <small class="timestamp"> &nbsp; &nbsp;
           <%= link_to "delete", workplace_category_path(category.workplace_id, category.slug), method: :delete,
                       data: { confirm: "You sure?" } %>
           &nbsp;  <%= link_to "edit", edit_workplace_category_path(category.workplace_id, category.slug) %>
 
-    </span>
+    </small>
+    <hr />
   </li>
 <% end %>

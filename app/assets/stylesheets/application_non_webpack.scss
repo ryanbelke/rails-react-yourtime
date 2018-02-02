@@ -390,13 +390,15 @@ a:hover { text-decoration: none; }
     height: 100%;
   }
 }
+
+
 .card-title {
       font-family: 'Open Sans', sans-serif !important;
     a {
 
     }
 }
-
+.card { width: 30%; margin-left: 30px !important; }
 .card-action a { font-weight: bold; }
 .card-panel { padding: 0 !important; }
 .card-content {
@@ -565,7 +567,12 @@ p {  font-size: 1.1em;  line-height: 1.7em;  }
 #logo:hover {  color: #fff;  text-decoration: none;  }
 .flex-container-column {  display: flex ; display: -webkit-flex;-webkit-flex-direction: column; flex-direction: column; width: 100%; flex-wrap: wrap; padding: 10px; }
 .flex-container-row {  display: flex;  flex-direction: row; -webkit-flex-direction: row; width: 100%; flex-wrap: wrap; padding: 10px; }
-.flex-row {  display: flex;  flex-direction: row;  }
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .flex-left-half { flex: 0 0 50%; -webkit-flex: 0 0 50%; margin: 10px; order: 1; padding: 10px;  }
 .flex-right-half { flex: 0 0 50%;   -webkit-flex: 1; margin: 10px; order: 2; padding: 10px;  }
 .user_info { text-align: center; }
@@ -696,6 +703,7 @@ hr {
   padding: 10px 0;
   border-bottom: 1px solid gray;
 }
+
 /* microposts */
 .feed-container .feed-items {
   display: flex;
@@ -705,6 +713,13 @@ hr {
 .feed-container {
   display: flex !important;
   flex-direction: column !important;
+  li {
+    width: 100%;
+  }
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
 }
 .feed-items {
   list-style: none;
@@ -713,9 +728,10 @@ hr {
   align-items: center;
   justify-content: center;
   padding: 0 2px !important;
+  width: 100%;
 
   li {
-    padding: 10px 0;
+    padding: 5px 0;
     border-top: 1px solid #e8e8e8;
     list-style:none;
   }
@@ -723,6 +739,10 @@ hr {
     margin-top: 5em;
     padding-top: 0;
     font-size: 1.5rem;
+
+  }
+  .link {
+    font-size: 16px !important;
   }
   .content {
     display: block;

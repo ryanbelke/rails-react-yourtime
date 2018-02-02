@@ -24,12 +24,19 @@
       <% end %>
     </div>
   </div>
-
     <% else %>
-    <ol class="feed-items">
+      <% if request.original_url.to_s.include? 'locations' %>
+    <ul class="flex-row">
       <% if @location_feed_items.any? %>
-          <%= render @location_feed_items %>
-          </ol>
+        <%= render @location_feed_items %>
       <% end %>
+    </ul>
+    <% else %>
+    <ul class="feed-container">
+      <% if @location_feed_items.any? %>
+        <%= render @location_feed_items %>
+      <% end %>
+    </ul>
+    <% end %>
 <% end %>
 
