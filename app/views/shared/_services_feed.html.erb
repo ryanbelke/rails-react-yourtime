@@ -20,6 +20,12 @@
   </div>
 <% end %>
 <% if request.original_url.to_s.include? 'services' %>
+  <div class="center-align">
+    <br />
+    <h3>Select service level: </h3>
+    <br />
+    <br />
+  </div>
   <ul class="flex-row">
     <% if @service_feed_items.any? %>
       <%= render @service_feed_items %>

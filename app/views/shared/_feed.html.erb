@@ -1,9 +1,24 @@
-<% if logged_in? && current_user.admin? %>
-  New Workplace &nbsp; <span>
-      <a href="/workplaces/new" class="location-button btn-floating btn-small waves-effect waves-light blue">
-      <i class="location-icon material-icons">+</i></a>
-    </span>
-    <% if request.original_url.to_s.include? 'workplaces' %>
+<% if request.original_url.to_s.include? 'workplaces' %>
+  <div class="header-nav">
+    <% if logged_in? && current_user.admin? %>
+      <ul>
+        <li>
+          <h5>New Workplace &nbsp;</h5>
+        </li>
+        <li>
+          <a href="/workplaces/new" class="location-button btn-floating btn-small waves-effect waves-light blue">
+            <i class="location-icon material-icons">+</i></a>
+        </li>
+    <% end %>
+
+    </ul>
+  </div>
+  <div class="center-align">
+    <br />
+    <h3>Where do you work?</h3>
+    <br />
+    <br />
+  </div>
     <ul class="flex-row">
       <% if @feed_items.any? %>
         <%= render @feed_items %>
@@ -15,5 +30,4 @@
         <%= render @feed_items %>
         </ul>
       <% end %>
-    <% end %>
 <% end %>

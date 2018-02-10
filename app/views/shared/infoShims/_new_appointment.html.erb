@@ -62,11 +62,7 @@
         <div class="form-info">
           <span class="form-header">Time Frame: </span>
           <span class="form-text">
-            <% if @service.service_time_to_complete < 8 %>
-             <%= 'Same Day' %>
-            <% else %>
-             <%= 'Extended completion time' %>
-            <% end %>
+            <%= @service.service_time_to_complete  %>
           </span>
         </div>
       </div>
@@ -115,11 +111,7 @@
         <div class="form-info">
           <span class="form-header">Time Frame: </span>
           <span class="form-text">
-            <% if @service.service_time_to_complete < 8 %>
-             <%= 'Same Day' %>
-            <% else %>
-             <%= 'Extended completion time' %>
-            <% end %>
+            <%=  @service.service_time_to_complete %>
           </span>
         </div>
         <div class="form-info">

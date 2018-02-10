@@ -1,5 +1,13 @@
+
 <% if request.original_url.to_s.include? 'categories' %>
+  <div class="center-align">
+    <br />
+    <h3>What type of service would you like?</h3>
+    <br />
+    <br />
+  </div>
   <ul class="flex-row">
+
     <% if @category_feed.any? %>
       <%= render @category_feed%>
     <% end %>

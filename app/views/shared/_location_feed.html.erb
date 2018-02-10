@@ -26,6 +26,12 @@
   </div>
     <% else %>
       <% if request.original_url.to_s.include? 'locations' %>
+    <div class="center-align">
+      <br />
+      <h3>Where do you usually park?</h3>
+      <br />
+      <br />
+    </div>
     <ul class="flex-row">
       <% if @location_feed_items.any? %>
         <%= render @location_feed_items %>
