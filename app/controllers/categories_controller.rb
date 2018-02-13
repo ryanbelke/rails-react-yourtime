@@ -1,9 +1,14 @@
 class CategoriesController < ApplicationController
+  include ReactOnRails::Controller
+
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
 
   def index
+    redux_store("commentsStore")
+
     @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
     @category_feed = @workplace.categories
+    @category_feed
     #set workplace in info cookie
     cookies[:workplace] =  @workplace.slug
     if @category_feed.count == 1

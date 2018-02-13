@@ -1,5 +1,8 @@
 <% if request.original_url.to_s.include? 'categories' %>
-    <div class="card sticky-action card-panel categories">
+  <%= react_component('App', props: category.as_json, prerender: false) %>
+
+  <div class="card sticky-action card-panel categories">
+
       <div class="card-image category-image">
         <i class='fa <%= category.category_icon %> fa-5x activator' id="fa-icon"></i>
         <h3 class="left-align">

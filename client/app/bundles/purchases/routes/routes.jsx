@@ -5,6 +5,8 @@ import TestReactRouter from '../components/TestReactRouter/TestReactRouter';
 import TestReactRouterRedirect from '../components/TestReactRouterRedirect/TestReactRouterRedirect';
 import RouterCommentsContainer from '../containers/RouterCommentsContainer';
 
+import CategoriesContainer from '../containers/CategoriesContainer';
+import CheckoutContainer from '../containers/CheckoutContainer';
 export default (
   <Layout>
     <Switch>
@@ -18,6 +20,11 @@ export default (
         component={TestReactRouter}
         exact
       />
+{/*      <Route
+        path="/workplaces/:workplaceName/categories"
+        component={CategoriesContainer}
+        exact
+        />*/}
       <Route
         path="/react-router/redirect"
         component={TestReactRouterRedirect}

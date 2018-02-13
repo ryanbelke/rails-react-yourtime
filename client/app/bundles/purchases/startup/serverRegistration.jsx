@@ -8,7 +8,7 @@ import commentsStore from '../store/commentsStore';
 
 ReactOnRails.register(
   {
-    App, RouterApp,
+    App
   },
 );
 

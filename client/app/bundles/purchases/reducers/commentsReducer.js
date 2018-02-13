@@ -10,7 +10,7 @@ export const $$initialState = Immutable.fromJS({
   submitCommentError: null,
   isFetching: false,
   isSaving: false,
-  locale: null,
+  categories: null,
 });
 
 export default function commentsReducer($$state = $$initialState, action = null) {

@@ -4,11 +4,13 @@ import loggerMiddleware from 'libs/middlewares/loggerMiddleware';
 import reducers, { initialStates } from '../reducers';
 
 export default (props, railsContext) => {
+  const categories = props.cateogry;
   const initialComments = props.comments;
   const { $$commentsState } = initialStates;
   const initialState = {
     $$commentsStore: $$commentsState.merge({
       $$comments: initialComments,
+      category: categories,
     }),
     railsContext,
   };
