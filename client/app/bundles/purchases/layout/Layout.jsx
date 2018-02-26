@@ -1,16 +1,17 @@
+/*
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
 
 import './Layout.scss';
 
-/* eslint-disable react/prefer-stateless-function */
+/!* eslint-disable react/prefer-stateless-function *!/
 export default class Layout extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
   };
 
-  /* eslint-disable react/no-unescaped-entities */
+  /!* eslint-disable react/no-unescaped-entities *!/
   render() {
     return (
       <section>
@@ -39,3 +40,4 @@ export default class Layout extends Component {
     );
   }
 }
+*/

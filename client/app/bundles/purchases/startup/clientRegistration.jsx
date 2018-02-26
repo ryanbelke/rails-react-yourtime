@@ -1,7 +1,7 @@
 import ReactOnRails from 'react-on-rails';
 
 import App from './App';
-import RouterApp from './ClientRouterApp';
+
 import routerCommentsStore from '../store/routerCommentsStore';
 import commentsStore from '../store/commentsStore';
 
@@ -11,7 +11,7 @@ ReactOnRails.setOptions({
 });
 
 ReactOnRails.register({
-  App, RouterApp,
+  App,
 
 });
 
