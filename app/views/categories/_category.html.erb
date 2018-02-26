@@ -1,27 +1,5 @@
 <% if request.original_url.to_s.include? 'categories' %>
-  <%= react_component('App', props: category.as_json, prerender: false) %>
 
-  <div class="card sticky-action card-panel categories">
-
-      <div class="card-image category-image">
-        <i class='fa <%= category.category_icon %> fa-5x activator' id="fa-icon"></i>
-        <h3 class="left-align">
-          <%= link_to category.category_name, category_locations_path(category.slug) %>
-          <i class="material-icons right activator">info_outline</i></h3>
-      </div>
-      <div class="card-content">
-        <p><%= category.category_description %></p>
-      </div>
-      <div class="card-action">
-        <%= link_to 'Book now', category_locations_path(category.slug) %>
-      </div>
-      <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4">More Info
-            <hr /><br />
-            <i class="material-icons right">close</i></span>
-        <p><%= category.category_info %></p>
-      </div>
-    </div>
 <% else %>
   <li id="category-<%= category.id %>">
         <span class="user">

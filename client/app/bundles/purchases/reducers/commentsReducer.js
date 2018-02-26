@@ -2,21 +2,41 @@
 
 import Immutable from 'immutable';
 
-import * as actionTypes from '../constants/commentsConstants';
+import * as actionTypes from '../constants/checkoutConstants';
 
 export const $$initialState = Immutable.fromJS({
-  $$comments: [],
-  fetchCommentError: null,
-  submitCommentError: null,
   isFetching: false,
   isSaving: false,
-  categories: null,
+  $$categories: [],
+  category: '',
+  selected: false,
 });
 
 export default function commentsReducer($$state = $$initialState, action = null) {
-  const { type, comment, comments, error, locale } = action;
+  const { category, type, comment, comments, error, locale, $$categories } = action;
 
   switch (type) {
+    case actionTypes.FETCH_CATEGORIES_SUCCESS: {
+      return $$state.merge({
+        $$categories: $$categories,
+        fetchCategoriesError: null,
+        isFetching: false,
+      });
+    }
+
+    case actionTypes.FETCH_CATEGORIES_FAILURE: {
+      return $$state.merge({
+        fetchCategoriesError: error,
+        isFetching: false,
+      });
+    }
+    case actionTypes.SELECT_CATEGORY: {
+      return $$state.merge({
+        category: category,
+        selected: true,
+      });
+    }
+
     case actionTypes.FETCH_COMMENTS_SUCCESS: {
       return $$state.merge({
         $$comments: comments,

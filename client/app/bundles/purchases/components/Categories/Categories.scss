@@ -1,9 +1,15 @@
+#loader {
+  position: absolute;
+  left: 45%;
+}
+
+
 .elementEnter {
   opacity: 0.01;
 
   &.elementEnterActive {
     opacity: 1;
-    transition: opacity 0.5s ease-in;
+    transition: opacity 0.2s ease-in;
   }
 }
 
@@ -12,6 +18,6 @@
 
   &.elementLeaveActive {
     opacity: 0.01;
-    transition: opacity 0.5s ease-in;
+    transition: opacity 0.2s ease-in;
   }
 }

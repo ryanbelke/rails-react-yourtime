@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Categories from '../components/Categories/Categories';
 
 
 import BaseComponent from 'libs/components/BaseComponent';
 
 
-import * as commentsActionCreators from '../actions/commentsActionCreators';
+import * as checkoutActionCreator from '../actions/checkoutActionCreator';
 
 
 
@@ -20,23 +21,22 @@ class CheckoutContainer extends BaseComponent {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
-    location: PropTypes.shape({
+/*    location: PropTypes.shape({
       state: PropTypes.object,
-    }).isRequired,
+    }).isRequired,*/
 
   };
 
+
   render() {
-/*    const { dispatch, data } = this.props;
-    const actions = bindActionCreators(commentsActionCreators, dispatch);
-    const locationState = this.props.location.state;*/
-
-
+   const { dispatch, data } = this.props;
+   const actions = bindActionCreators(checkoutActionCreator, dispatch);
+    //const locationState = this.props.location.state;
 
     return (
-      <div>
-        Heloo
-      </div>
+      <section>
+        <Categories actions={actions} data={data} />
+      </section>
     );
   }
 }

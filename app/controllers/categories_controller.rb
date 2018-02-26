@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
     cookies[:workplace] =  @workplace.slug
     if @category_feed.count == 1
       #Take First Location, redirect to that locations services
-      @category = @category_feed.first
+      @category = @category_fed.first
       cookies[:category] = @category.slug
       redirect_to category_locations_path(@category.slug)
     end
