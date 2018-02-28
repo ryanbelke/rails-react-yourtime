@@ -76,3 +76,38 @@ export function selectLocation(location) {
     locationSelection: location,
   }
 }
+
+//FETCH AND SELECT SECTIONS AFTER LOCATION IS SLEECTED
+export function fetchSections(section) {
+  return (dispatch) => {
+    dispatch(setIsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      request
+        .get('sections.json', { responseType: 'json' })
+        .then(res => dispatch(fetchSectionsSuccess(res.data)))
+        .catch(error => dispatch(fetchSectionsFailure(error)))
+    );
+  };
+}
+export function fetchSectionsSuccess(data) {
+  return {
+    type: actionTypes.FETCH_SECTIONS_SUCCESS,
+    $$sections: data.sections,
+  };
+}
+
+export function fetchSectionsFailure(error) {
+  return {
+    type: actionTypes.FETCH_SECTIONS_FAILURE,
+    error,
+  };
+}
+
+export function selectSection(section) {
+  return {
+    type: actionTypes.SELECT_SECTION,
+    sectionSelection: section,
+  }
+}

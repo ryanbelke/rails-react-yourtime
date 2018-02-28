@@ -1,0 +1,1 @@
+json.sections(@section_feed_items, partial: 'sections/section', as: :section)

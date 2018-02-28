@@ -9,6 +9,7 @@ export const $$initialState = Immutable.fromJS({
   isSaving: false,
   $$categories: [],
   $$locations: [],
+  $$sections: [],
   category: '',
   locationSelection: '',
   selected: false,
@@ -17,7 +18,8 @@ export const $$initialState = Immutable.fromJS({
 
 export default function commentsReducer($$state = $$initialState, action = null) {
   const { category, type, comment, comments, error,
-     $$categories, $$locations, locationSelection } = action;
+     $$categories, $$locations, locationSelection, $$sections,
+     sectionSelection } = action;
 
   switch (type) {
     case actionTypes.FETCH_CATEGORIES_SUCCESS: {
@@ -60,7 +62,26 @@ export default function commentsReducer($$state = $$initialState, action = null)
         selected: true,
       });
     }
+    case actionTypes.FETCH_SECTIONS_SUCCESS: {
+      return $$state.merge({
+        $$sections: $$sections,
+        fetchSectionsError: null,
+        isFetching: false,
+      });
+    }
 
+    case actionTypes.FETCH_SECTIONS_FAILURE: {
+      return $$state.merge({
+        fetchSectionsError: error,
+        isFetching: false,
+      });
+    }
+    case actionTypes.SELECT_SECTION: {
+      return $$state.merge({
+        sectionSelection: sectionSelection,
+        selected: true,
+      });
+    }
 
 
 

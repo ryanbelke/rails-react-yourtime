@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Categories from '../components/Categories/Categories';
 import Locations from '../components/Locations/Locations';
+import SectionsComponent from '../components/Sections/SectionsComponent';
 
 import BaseComponent from 'libs/components/BaseComponent';
 import * as checkoutActionCreator from '../actions/checkoutActionCreator';
@@ -30,8 +31,10 @@ class CheckoutContainer extends BaseComponent {
    //const locationState = this.props.location;
     if (location.includes('workplaces')) {
       renderNode = <Categories actions={actions} data={data} />
-    } else if (location.includes('locations')) {
+    } else if (location.includes('categories')) {
       renderNode = <Locations actions={actions} data={data} />
+    } else if (location.includes('locations')) {
+      renderNode = <SectionsComponent actions={actions} data={data} />
     }
     return (
       <section>

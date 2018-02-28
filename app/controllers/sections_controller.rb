@@ -1,4 +1,7 @@
 class SectionsController < ApplicationController
+  include ReactOnRails::Controller
+
+  
   def new
     @location = Location.friendly.find(params[:location_id])
     @section = @location.sections.new
@@ -23,6 +26,8 @@ class SectionsController < ApplicationController
   end
 
   def index
+    redux_store("commentsStore")
+
     @location = Location.friendly.find(params[:location_id])
     @section_feed_items = @location.sections
     cookies[:location] = @location.slug
