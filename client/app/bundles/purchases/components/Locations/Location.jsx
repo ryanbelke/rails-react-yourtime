@@ -2,10 +2,10 @@ import BaseComponent from 'libs/components/BaseComponent';
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import css from './location.scss';
+import css from './Location.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export default class location extends BaseComponent {
+export default class Location extends BaseComponent {
   static propTypes = {
     locationName: PropTypes.string.isRequired,
     locationDescription: PropTypes.string.isRequired,
