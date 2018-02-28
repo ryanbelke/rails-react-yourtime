@@ -3,14 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Categories from '../components/Categories/Categories';
-
+import Locations from '../components/Locations/Locations';
 
 import BaseComponent from 'libs/components/BaseComponent';
-
-
 import * as checkoutActionCreator from '../actions/checkoutActionCreator';
-
-
 
 function select(state) {
   // Which part of the Redux global state does our component want to receive as props?
@@ -24,18 +20,22 @@ class CheckoutContainer extends BaseComponent {
 /*    location: PropTypes.shape({
       state: PropTypes.object,
     }).isRequired,*/
-
   };
-
 
   render() {
    const { dispatch, data } = this.props;
    const actions = bindActionCreators(checkoutActionCreator, dispatch);
-    //const locationState = this.props.location.state;
-
+   const location = data.getIn(['railsContext', 'location']);
+   let renderNode;
+   //const locationState = this.props.location;
+    if (location.includes('workplaces')) {
+      renderNode = <Categories actions={actions} data={data} />
+    } else if (location.includes('locations')) {
+      renderNode = <Locations actions={actions} data={data} />
+    }
     return (
       <section>
-        <Categories actions={actions} data={data} />
+        {renderNode}
       </section>
     );
   }

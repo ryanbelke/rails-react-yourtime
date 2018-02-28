@@ -8,12 +8,16 @@ export const $$initialState = Immutable.fromJS({
   isFetching: false,
   isSaving: false,
   $$categories: [],
+  $$locations: [],
   category: '',
+  locationSelection: '',
   selected: false,
+
 });
 
 export default function commentsReducer($$state = $$initialState, action = null) {
-  const { category, type, comment, comments, error, locale, $$categories } = action;
+  const { category, type, comment, comments, error,
+     $$categories, $$locations, locationSelection } = action;
 
   switch (type) {
     case actionTypes.FETCH_CATEGORIES_SUCCESS: {
@@ -36,6 +40,29 @@ export default function commentsReducer($$state = $$initialState, action = null)
         selected: true,
       });
     }
+    case actionTypes.FETCH_LOCATIONS_SUCCESS: {
+      return $$state.merge({
+        $$locations: $$locations,
+        fetchLocationsError: null,
+        isFetching: false,
+      });
+    }
+
+    case actionTypes.FETCH_LOCATIONS_FAILURE: {
+      return $$state.merge({
+        fetchLocationsError: error,
+        isFetching: false,
+      });
+    }
+    case actionTypes.SELECT_LOCATION: {
+      return $$state.merge({
+        locationSelection: locationSelection,
+        selected: true,
+      });
+    }
+
+
+
 
     case actionTypes.FETCH_COMMENTS_SUCCESS: {
       return $$state.merge({

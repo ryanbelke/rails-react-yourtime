@@ -1,13 +1,9 @@
-#loader {
-  position: absolute;
-  left: 45%;
+.location {
+  height: 200px;
 }
-
-.categoriesSection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+.selectedLocation {
+  outline: 3px solid #303f9f;
+  box-shadow: 0 0 71px rgba(33,33,33,.5);
 }
 
 .elementEnter {

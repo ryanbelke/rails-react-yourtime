@@ -1,7 +1,11 @@
 class LocationsController < ApplicationController
+  include ReactOnRails::Controller
+
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
 
   def index
+    redux_store("commentsStore")
+
     @category = Category.friendly.find(params[:category_id])
     @location_feed_items = @category.locations
     cookies[:category] = @category.slug

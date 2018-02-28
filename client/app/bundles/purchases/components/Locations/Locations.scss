@@ -3,11 +3,17 @@
   left: 45%;
 }
 
-.categoriesSection {
+
+.locationsSection {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  span {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .elementEnter {

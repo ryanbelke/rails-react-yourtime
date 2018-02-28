@@ -244,11 +244,12 @@ a:hover { text-decoration: none; }
   margin: 5px 15px;
   border-radius: 0.75rem;
 }
-.locations {
+/*.locations {
   float: left !important;
   padding: 10px;
   margin: 25px;
-}
+  width: 30%;
+}*/
 .date-selector {
   margin-top: 15px;
   padding: 20px;
@@ -773,14 +774,6 @@ hr {
 }
 
 .microposts {
-
-
-  .locations {
-    width: 30%;
-    height: 450px;
-    margin: 10px !important;
-    align-items: center;
-  }
 
   li {
     padding: 10px 0;

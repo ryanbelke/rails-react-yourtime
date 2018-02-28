@@ -37,7 +37,7 @@ export default class Category extends BaseComponent {
     return (
         <div
           onClick={this.selectCategory}
-          className={`categories card sticky-action card-panel ${categoryId==category ?
+          className={`card sticky-action card-panel ${categoryId==category ?
             css.selectedCategory : ''}`}>
           <div className="card-image category-image">
             <i className={`fa ${categoryIcon} fa-5x activator`} id="fa-icon"></i>
@@ -54,7 +54,9 @@ export default class Category extends BaseComponent {
               transitionEnterTimeout={500}
               transitionLeaveTimeout={500}
             >
-              {categoryId==category ? <a className="waves-effect waves-light btn ">Select</a> : ''}
+              {categoryId==category ?
+                <a href={`/categories/${categoryId}/locations`} className="waves-effect waves-light btn blue ">Select</a>
+                : ''}
             </ReactCSSTransitionGroup>
           </div>
           <div className="card-reveal">

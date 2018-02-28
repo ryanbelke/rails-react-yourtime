@@ -42,3 +42,37 @@ export function selectCategory(category) {
     category: category,
   }
 }
+
+export function fetchLocations(workplace) {
+  return (dispatch) => {
+    dispatch(setIsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      request
+        .get('locations.json', { responseType: 'json' })
+        .then(res => dispatch(fetchLocationsSuccess(res.data)))
+        .catch(error => dispatch(fetchLocationsFailure(error)))
+    );
+  };
+}
+export function fetchLocationsSuccess(data) {
+  return {
+    type: actionTypes.FETCH_LOCATIONS_SUCCESS,
+    $$locations: data.locations,
+  };
+}
+
+export function fetchLocationsFailure(error) {
+  return {
+    type: actionTypes.FETCH_LOCATIONS_FAILURE,
+    error,
+  };
+}
+
+export function selectLocation(location) {
+  return {
+    type: actionTypes.SELECT_LOCATION,
+    locationSelection: location,
+  }
+}

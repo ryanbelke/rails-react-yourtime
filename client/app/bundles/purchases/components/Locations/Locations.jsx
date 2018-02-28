@@ -1,59 +1,58 @@
 import React from 'react';
 import _ from 'lodash';
 import Immutable from 'immutable';
-import Category from './Category';
-import css from './Categories.scss';
+import Location from './Location';
+import css from './Locations.scss';
 import BaseComponent from 'libs/components/BaseComponent';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-class Categories extends BaseComponent {
+class Locations extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      $$categories: Immutable.fromJS([]),
-      fetchCategoriesError: null,
+      $$locations: Immutable.fromJS([]),
+      fetchLocationsError: null,
       isFetching: false,
     };
-    _.bindAll(this, 'fetchCategories');
+    _.bindAll(this, 'fetchLocations');
 
   }
 
   componentDidMount() {
-    this.fetchCategories();
+    this.fetchLocations();
   }
 
-  fetchCategories() {
+  fetchLocations() {
     const  { data, actions } = this.props;
-    const location = data.getIn(['railsContext', 'location']);
-    const workplace = location.split('workplace=')[1];
-    actions.fetchCategories(workplace);
+    //const locationUrl = data.getIn(['railsContext', 'location']);
+    //const workplace = location.split('workplace=')[1];
+    actions.fetchLocations();
 
   }
   render() {
     const  { data, actions }   = this.props;
-    let categoryNodes = null;
+    let locationNodes = null;
     const isFetching = data.get('isFetching');
-    const categories = data.get('$$categories');
+    const locations = data.get('$$locations');
     const selected = data.get('selected');
-    let category = data.get('category');
+    let locationSelection = data.get('locationSelection');
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    if(categories != null) {
-       categoryNodes = categories.map(($$category, index) =>
-        (<Category
-          key={$$category.get('id')}
-          categoryName={$$category.get('category_name')}
-          categoryDescription={$$category.get('category_description')}
-          categoryIcon={$$category.get('category_icon')}
-          catgoryInfo={$$category.get('category_info')}
+    if(locations != null) {
+      locationNodes = locations.map(($$location, index) =>
+        (<Location
+          key={$$location.get('id')}
+          locationName={$$location.get('location_name')}
+          locationDescription={$$location.get('location_description')}
+          locationAddress={$$location.get('location_address')}
           selected={selected}
           actions={actions}
-          categoryId={$$category.get('id')}
-          category={category}
+          locationId={$$location.get('id')}
+          locationSelection={locationSelection}
         />),
       );
     }
@@ -61,7 +60,7 @@ class Categories extends BaseComponent {
      const actions = bindActionCreators(commentsActionCreators, dispatch);
      const locationState = this.props.location.state;*/
     return (
-      <section className={css.categoriesSection}>
+      <section className={css.locationsSection}>
         <section style={{display: isFetching ? '' : 'none'}} id={css.loader}>
           <div className="preloader-wrapper big active">
             <div className="spinner-layer spinner-blue-only">
@@ -79,11 +78,13 @@ class Categories extends BaseComponent {
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
+          component="span"
+          className={css.transition}
         >
-        {categoryNodes}
+          {locationNodes}
         </ReactCSSTransitionGroup>
       </section>
     );
   }
 }
-export default Categories;
+export default Locations;
