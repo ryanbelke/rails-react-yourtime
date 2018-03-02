@@ -1,7 +1,7 @@
 class SectionsController < ApplicationController
   include ReactOnRails::Controller
 
-  
+
   def new
     @location = Location.friendly.find(params[:location_id])
     @section = @location.sections.new
