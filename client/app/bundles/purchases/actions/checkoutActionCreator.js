@@ -111,3 +111,38 @@ export function selectSection(section) {
     sectionSelection: section,
   }
 }
+
+//FETCH AND SELECT SERVICES AFTER SECTION IS SELECTED
+export function fetchServices(service) {
+  return (dispatch) => {
+    dispatch(setIsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      request
+        .get('services.json', { responseType: 'json' })
+        .then(res => dispatch(fetchServicesSuccess(res.data)))
+        .catch(error => dispatch(fetchServicesFailure(error)))
+    );
+  };
+}
+export function fetchServicesSuccess(data) {
+  return {
+    type: actionTypes.FETCH_SERVICES_SUCCESS,
+    $$services: data.services,
+  };
+}
+
+export function fetchServicesFailure(error) {
+  return {
+    type: actionTypes.FETCH_SERVICES_FAILURE,
+    error,
+  };
+}
+
+export function selectService(service) {
+  return {
+    type: actionTypes.SELECT_SERVICE,
+    serviceSelection: service,
+  }
+}

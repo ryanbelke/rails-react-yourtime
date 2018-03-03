@@ -1,56 +1,58 @@
 import React from 'react';
 import _ from 'lodash';
 import Immutable from 'immutable';
-import Section from './Section';
-import css from './SectionsComponent.scss';
+import Service from './Service';
+import css from './ServicesComponent.scss';
 import BaseComponent from 'libs/components/BaseComponent';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-class SectionsComponent extends BaseComponent {
+class ServicesComponent extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      $$sections: Immutable.fromJS([]),
-      fetchSectionsError: null,
+      $$services: Immutable.fromJS([]),
+      fetchServicesError: null,
       isFetching: false,
     };
-    _.bindAll(this, 'fetchSections');
+    _.bindAll(this, 'fetchServices');
 
   }
 
   componentDidMount() {
-    this.fetchSections();
+    this.fetchServices();
   }
 
-  fetchSections() {
+  fetchServices() {
     const  { data, actions } = this.props;
     //const locationUrl = data.getIn(['railsContext', 'location']);
     //const workplace = location.split('workplace=')[1];
-    actions.fetchSections();
+    actions.fetchServices();
 
   }
   render() {
     const  { data, actions }   = this.props;
-    let sectionNodes = null;
+    let serviceNodes = null;
     const isFetching = data.get('isFetching');
-    const sections = data.get('$$sections');
+    const services = data.get('$$services');
     const selected = data.get('selected');
-    let sectionSelection = data.get('sectionSelection');
+    let serviceSelection = data.get('serviceSelection');
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    if(sections != null) {
-      sectionNodes = sections.map(($$section, index) =>
-        (<Section
-          key={$$section.get('id')}
-          sectionName={$$section.get('section_name')}
+    if(services != null) {
+      serviceNodes = services.map(($$service, index) =>
+        (<Service
+          key={$$service.get('id')}
+          serviceName={$$service.get('service_name')}
+          serviceDescription={$$service.get('service_description')}
+          serviceInfo={$$service.get('service_info')}
           selected={selected}
           actions={actions}
-          sectionId={$$section.get('id')}
-          sectionSelection={sectionSelection}
+          serviceId={$$service.get('id')}
+          serviceSelection={serviceSelection}
         />),
       );
     }
@@ -58,7 +60,7 @@ class SectionsComponent extends BaseComponent {
      const actions = bindActionCreators(commentsActionCreators, dispatch);
      const locationState = this.props.location.state;*/
     return (
-      <section className={css.sectionsSection}>
+      <section className={css.servicesSection}>
         <section style={{display: isFetching ? '' : 'none'}} id={css.loader}>
           <div className="preloader-wrapper big active">
             <div className="spinner-layer spinner-blue-only">
@@ -78,10 +80,10 @@ class SectionsComponent extends BaseComponent {
           transitionLeaveTimeout={500}
           component="span"
         >
-          {sectionNodes}
+          {serviceNodes}
         </ReactCSSTransitionGroup>
       </section>
     );
   }
 }
-export default SectionsComponent;
+export default ServicesComponent;

@@ -1,9 +1,10 @@
 class ServicesController < ApplicationController
     #before_action :correct_user,   only: [:create, :index]
     before_action :admin_user,     only: [:edit, :create, :destroy, :new]
-
+    include ReactOnRails::Controller
     #GET /SERVICE
     def index
+      redux_store("commentsStore")
       @section = Section.friendly.find(params[:section_id])
       cookies[:section] = @section.slug
       @service_feed_items = @section.services

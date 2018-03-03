@@ -1,0 +1,1 @@
+json.extract! service, :id, :service_name, :service_description, :service_info

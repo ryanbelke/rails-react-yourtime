@@ -10,6 +10,7 @@ export const $$initialState = Immutable.fromJS({
   $$categories: [],
   $$locations: [],
   $$sections: [],
+  $$services: [],
   category: '',
   locationSelection: '',
   selected: false,
@@ -19,7 +20,7 @@ export const $$initialState = Immutable.fromJS({
 export default function commentsReducer($$state = $$initialState, action = null) {
   const { category, type, comment, comments, error,
      $$categories, $$locations, locationSelection, $$sections,
-     sectionSelection } = action;
+     sectionSelection, $$services, serviceSelection } = action;
 
   switch (type) {
     case actionTypes.FETCH_CATEGORIES_SUCCESS: {
@@ -82,6 +83,27 @@ export default function commentsReducer($$state = $$initialState, action = null)
         selected: true,
       });
     }
+    case actionTypes.FETCH_SERVICES_SUCCESS: {
+      return $$state.merge({
+        $$services: $$services,
+        fetchServicesError: null,
+        isFetching: false,
+      });
+    }
+
+    case actionTypes.FETCH_SERVICES_FAILURE: {
+      return $$state.merge({
+        fetchServicesError: error,
+        isFetching: false,
+      });
+    }
+    case actionTypes.SELECT_SERVICE: {
+      return $$state.merge({
+        serviceSelection: serviceSelection,
+        selected: true,
+      });
+    }
+
 
 
 
