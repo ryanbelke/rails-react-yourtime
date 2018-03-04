@@ -97,14 +97,12 @@ export function fetchSectionsSuccess(data) {
     $$sections: data.sections,
   };
 }
-
 export function fetchSectionsFailure(error) {
   return {
     type: actionTypes.FETCH_SECTIONS_FAILURE,
     error,
   };
 }
-
 export function selectSection(section) {
   return {
     type: actionTypes.SELECT_SECTION,
@@ -132,17 +130,50 @@ export function fetchServicesSuccess(data) {
     $$services: data.services,
   };
 }
-
 export function fetchServicesFailure(error) {
   return {
     type: actionTypes.FETCH_SERVICES_FAILURE,
     error,
   };
 }
-
 export function selectService(service) {
   return {
     type: actionTypes.SELECT_SERVICE,
     serviceSelection: service,
+  }
+}
+
+//FETCH AND SELECT BOOKINGS
+export function fetchBookings(pathname) {
+  return (dispatch) => {
+    dispatch(setIsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      request
+        .get(`${pathname}.json`, { responseType: 'json' })
+        .then(res => dispatch(fetchBookingsSuccess(res.data)))
+        .catch(error => dispatch(fetchBookingsFailure(error)))
+    );
+  };
+}
+export function fetchBookingsSuccess(data) {
+  return {
+    type: actionTypes.FETCH_BOOKINGS_SUCCESS,
+    $$bookings: data.bookings,
+  };
+}
+
+export function fetchBookingsFailure(error) {
+  return {
+    type: actionTypes.FETCH_BOOKINGS_FAILURE,
+    error,
+  };
+}
+
+export function selectBooking(booking) {
+  return {
+    type: actionTypes.SELECT_BOOKING,
+    bookingSelection: booking,
   }
 }

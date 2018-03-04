@@ -1,65 +1,58 @@
 import React from 'react';
 import _ from 'lodash';
 import Immutable from 'immutable';
-import Service from './Service';
-import css from './ServicesComponent.scss';
+import Booking from './Booking';
+import css from './BookingsComponent.scss';
 import BaseComponent from 'libs/components/BaseComponent';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-class ServicesComponent extends BaseComponent {
+class BookingsComponent extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      $$services: Immutable.fromJS([]),
-      fetchServicesError: null,
+      $$bookings: Immutable.fromJS([]),
+      fetchBookingsError: null,
       isFetching: false,
     };
-    _.bindAll(this, 'fetchServices');
-
+    _.bindAll(this, 'fetchBookings');
   }
 
   componentDidMount() {
-    this.fetchServices();
+    this.fetchBookings();
   }
 
-  fetchServices() {
+  fetchBookings() {
     const  { data, actions } = this.props;
-    //const locationUrl = data.getIn(['railsContext', 'location']);
-    //const workplace = location.split('workplace=')[1];
-    actions.fetchServices();
+    let pathname = data.getIn(['railsContext', 'pathname']);
+    actions.fetchBookings(pathname);
 
   }
   render() {
     const  { data, actions }   = this.props;
-    let serviceNodes, sectionId = null;
-    let location = data.getIn(['railsContext', 'location']);
-
-    //assign sectionId to pass to service for appointment URL
-    sectionId = location.substring(location.lastIndexOf("s/")+2,location.lastIndexOf("/"));
-
+    let bookingNodes;
     const isFetching = data.get('isFetching');
-    const services = data.get('$$services');
-    const selected = data.get('selected');
-
-    let serviceSelection = data.get('serviceSelection');
+    const bookings = data.get('$$bookings');
+    //const selected = data.get('selected');
+    //let bookingSelection = data.get('serviceSelection');
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    if(services != null) {
-      serviceNodes = services.map(($$service, index) =>
-        (<Service
-          key={$$service.get('id')}
-          serviceName={$$service.get('service_name')}
-          serviceDescription={$$service.get('service_description')}
-          serviceInfo={$$service.get('service_info')}
-          selected={selected}
+    if(bookings != null) {
+      bookingNodes = bookings.map(($$booking, index) =>
+        (<Booking
+          key={$$booking.get('bookingId') || index }
+          workplaceName={$$booking.get('workplace')}
+          categoryName={$$booking.get('category')}
+          locationName={$$booking.get('location')}
+          sectionName={$$booking.get('section')}
+          service={$$booking.get('service')}
+          //selected={selected}
+          //serviceSelection={serviceSelection}
           actions={actions}
-          serviceId={$$service.get('id')}
-          sectionId={sectionId}
-          serviceSelection={serviceSelection}
+          //bookingId={sectionId}
         />),
       );
     }
@@ -67,7 +60,7 @@ class ServicesComponent extends BaseComponent {
      const actions = bindActionCreators(commentsActionCreators, dispatch);
      const locationState = this.props.location.state;*/
     return (
-      <section className={css.servicesSection}>
+      <section className={css.bookingsSection}>
         <section style={{display: isFetching ? '' : 'none'}} id={css.loader}>
           <div className="preloader-wrapper big active">
             <div className="spinner-layer spinner-blue-only">
@@ -85,12 +78,11 @@ class ServicesComponent extends BaseComponent {
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
-          component="span"
         >
-          {serviceNodes}
+          {bookingNodes}
         </ReactCSSTransitionGroup>
       </section>
     );
   }
 }
-export default ServicesComponent;
+export default BookingsComponent;

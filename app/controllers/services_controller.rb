@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  require 'securerandom'
     #before_action :correct_user,   only: [:create, :index]
     before_action :admin_user,     only: [:edit, :create, :destroy, :new]
     include ReactOnRails::Controller
@@ -50,39 +51,62 @@ class ServicesController < ApplicationController
     end
 
     def show
-      @location = Location.friendly.find(cookies[:location])
-      @service = Service.friendly.find(params[:id])
-      @section = Section.friendly.find(params[:section_id])
-      #set service cookie
-      cookies[:service] = @service.slug
+      redux_store("commentsStore")
+      #set booking feed to empty
+      @booking_feed = []
+
+      workplace = Workplace.friendly.find(cookies[:workplace])
+      category = Category.friendly.find(cookies[:category])
+      location = Location.friendly.find(cookies[:location])
+      section = Section.friendly.find(params[:section_id])
+      service = Service.friendly.find(params[:id])
+
       #set category cookie
-      cookies[:section] = @section.slug
+      cookies[:section] = section.slug
+      #set service cookie
+      cookies[:service] = service.slug
 
-      @workplace = Workplace.friendly.find(cookies[:workplace])
-
-      @schedules = @location.schedules
+      schedules = location.schedules
       #@dates = @schedules.pluck(:date).map{ |entry| [entry.to_time.to_i]}
       puts "***** dates integer " + @dates.to_s
 
-      @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y,%m,%d").gsub("'", '')]}
+      @dates = schedules.pluck(:date).map{ |entry| [entry.strftime("%Y,%m,%d").gsub("'", '')]}
 
       puts "**** @dates = " + @dates.to_s
       #grab selected date from the form to input when user hits save and create cookie for future use
       @selected_date = params[:date]
       cookies[:date] = @selected_date
+
+      booking = {
+          bookingId: SecureRandom.uuid,
+          workplace: workplace.workplace_name,
+          category: category.category_name,
+          location: location.location_name,
+          section: section.section_name,
+          service: service,
+          dates: @dates,
+      }
+
+      cookies[:booking] = { value: booking.to_json }
+      puts "=====" + JSON.parse(cookies[:booking]).to_s
+      #delete cookies after stored in booking cookie
+      #delete_cookies
+
+      @booking_feed.push(booking)
       cookies[:redirect] = { value: true, expires: 1.hour.from_now }
       @service_feed_items = []
 
       #set tax information
-      puts "***** " + @service.to_yaml
-      @tax_amount1 = (0.09 * @service.service_price)
+      puts "***** " + service.to_yaml
+      @tax_amount1 = (0.09 * service.service_price)
       @tax_amount = sprintf('%.2f', @tax_amount1)
-      @your_time_amount1 = (0.05 * @service.service_price)
+      @your_time_amount1 = (0.05 * service.service_price)
       @your_time_amount = sprintf('%.2f', @your_time_amount1)
-      @total_price1 = @tax_amount1 + @your_time_amount1 + @service.service_price
+      @total_price1 = @tax_amount1 + @your_time_amount1 + service.service_price
       @total_price = sprintf('%.2f', @total_price1)
+    end
 
-
+    def booking
     end
 
     private

@@ -23,7 +23,7 @@ export default class Service extends BaseComponent {
   render() {
     const { serviceName, serviceId, serviceSelection, serviceTime,
       serviceInfo, serviceDescription, servicePicture,
-      serviceVendor, servicePrice } = this.props;
+      serviceVendor, servicePrice, sectionId } = this.props;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -67,7 +67,7 @@ export default class Service extends BaseComponent {
             transitionLeaveTimeout={500}
           >
             {serviceId==serviceSelection ?
-              <a href={`/categories/${serviceId}/locations`} className="waves-effect waves-light btn blue ">Select</a>
+              <a href={`/sections/${sectionId}/services/${serviceId}?appointment`} className="waves-effect waves-light btn blue ">Select</a>
               : ''}
           </ReactCSSTransitionGroup>
         </div>

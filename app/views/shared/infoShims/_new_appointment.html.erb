@@ -21,112 +21,20 @@
       </div>
     </div>
     <div class="col l6 m6 s12">
-      <div class="paper-no-border">
-        <div class="css-flash">
-          <div class="icon-div-info">
-            <i class="fa fa-info" aria-hidden="true"></i>
-          </div>
-          <div class="flash-text">
-            <h6>Appointment Info:</h6>
-          </div>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Workplace:</span>
-          <span class="form-text"> <%= @workplace.workplace_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Location:</span>
-          <span class="form-text"> <%= @location.location_name %></span>
-        </div>
-
-        <div class="form-info">
-          <span class="form-header">Category:</span>
-          <span class="form-text"> <%= @location.category.category_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Service Section:</span>
-          <span class="form-text"><%= @section.section_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Service: </span>
-          <span class="form-text"> <%= @service.service_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Price: </span>
-          <span class="form-text"> $<%= @service.service_price %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Vendor: </span>
-          <span class="form-text"> <%= @service.service_vendor %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Time Frame: </span>
-          <span class="form-text">
-            <%= @service.service_time_to_complete  %>
-          </span>
-        </div>
-      </div>
-      <br />
-      <div class="paper-no-border">
-        <div class="css-flash-cost">
-          <div class="icon-div-dollar">
-            <i class="fa fa-credit-card" aria-hidden="true"></i>
-
-          </div>
-          <div class="flash-text">
-            <h6>Appointment Cost:</h6>
-          </div>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Price </span>
-          <span class="form-text"> $<%= @service.service_price %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Estimate Tax: </span>
-          <span class="form-text"><%= number_to_currency(@tax_amount) %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">YourTime Fee: </span>
-          <span class="form-text"><%= number_to_currency(@your_time_amount) %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Estimated Total </span>
-          <span class="form-text"> <%= number_to_currency(@total_price) %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Discount Code:</span>
-          <span class="form-text">
-          <% if request.original_url.to_s.include? 'service' %>
-            <small>submit at checkout</small>
-              <% else %>
-            <span>
-              <%= form_tag '', method: 'get' do %>
-              <%= text_field_tag 'discount', nil, placeholder: 'discount code', class: 'browser-default discount-text' %>
-              <%= button_tag :save, type: 'submit', class: 'waves-effect waves-light btn custom-btn-small' %>
-              <% end %>
-            </span>
-            <% end %>
-          </span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Time Frame: </span>
-          <span class="form-text">
-            <%=  @service.service_time_to_complete %>
-          </span>
-        </div>
-        <div class="form-info">
-          <span class="form-header"></span>
-          <span class="form-text">
+      <%= react_component('App',  prerender: false) %>
+      <div class="form-info">
+        <span class="form-header"></span>
+        <span class="form-text">
             <% if logged_in? %>
               <%= form_tag user_appointments_path(current_user) do %>
-                <%= hidden_field_tag :service_id, @service.id %>
-                <%= hidden_field_tag :workplace_id, @workplace.id %>
-                <%= hidden_field_tag :date, @selected_date %>
-                <%= hidden_field_tag :user_id, current_user.id %>
-                <%= hidden_field_tag :schedule_id, @schedule %>
-                <%= hidden_field_tag :service, @service.id %>
+                <%= hidden_field_tag :service_id, service.id %>
+              <%= hidden_field_tag :workplace_id, workplace.id %>
+              <%= hidden_field_tag :date, selected_date %>
+              <%= hidden_field_tag :user_id, current_user.id %>
+              <%= hidden_field_tag :schedule_id, schedule %>
+              <%= hidden_field_tag :service, service.id %>
 
-                <article>
+              <article>
                     <% if flash[:error].present? %>
                       <div id="error_explanation">
                         <p><%= flash[:error] %></p>
@@ -134,16 +42,15 @@
                     <% end %>
                   </article>
                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-                  data-description="A month's subscription"
-                  data-amount="<%= @total_price * 0 %>"
-                  data-locale="auto"
-                  data-email="<%= current_user.email %>"></script>
+                       data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                       data-description="A month's subscription"
+                       data-amount="<%= @total_price * 0 %>"
+                       data-locale="auto"
+                       data-email="<%= current_user.email %>"></script>
               <%= button_tag :purchase, type: 'submit', class: 'waves-effect waves-light btn' %>
             <% end %>
             <% end %>
               </span>
-        </div>
       </div>
       <br />
       <% if logged_in? %>
@@ -169,7 +76,7 @@
           </div>
 
         </div>
-        <% else %>
+      <% else %>
         <div class="paper-no-border">
           <div class="css-flash-warning">
             <div class="icon-div-warning">
@@ -195,6 +102,102 @@
       <% end %>
     </div>
   </div>
+
+ <!--   <div class="col l6 m6 s12">
+      <div class="paper-no-border">
+        <div class="css-flash">
+          <div class="icon-div-info">
+            <i class="fa fa-info" aria-hidden="true"></i>
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Info:</h6>
+          </div>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Workplace:</span>
+          <span class="form-text"> @workplace.workplace_name %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Location:</span>
+          <span class="form-text"> @location.location_name %></span>
+        </div>
+
+        <div class="form-info">
+          <span class="form-header">Category:</span>
+          <span class="form-text"> @location.category.category_name %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Service Section:</span>
+          <span class="form-text"> @section.section_name %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Service: </span>
+          <span class="form-text"> @service.service_name %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Price: </span>
+          <span class="form-text"> $ @service.service_price %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Vendor: </span>
+          <span class="form-text"> @service.service_vendor %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Time Frame: </span>
+          <span class="form-text">
+            @service.service_time_to_complete  %>
+          </span>
+        </div>
+      </div>
+      <br />
+      <div class="paper-no-border">
+        <div class="css-flash-cost">
+          <div class="icon-div-dollar">
+            <i class="fa fa-credit-card" aria-hidden="true"></i>
+
+          </div>
+          <div class="flash-text">
+            <h6>Appointment Cost:</h6>
+          </div>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Price </span>
+          <span class="form-text"> $ @service.service_price %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Estimate Tax: </span>
+          <span class="form-text"> number_to_currency(@tax_amount) %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">YourTime Fee: </span>
+          <span class="form-text">< number_to_currency(@your_time_amount) %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Estimated Total </span>
+          <span class="form-text">  number_to_currency(@total_price) %></span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Discount Code:</span>
+          <span class="form-text">
+           if request.original_url.to_s.include? 'service' %>
+            <small>submit at checkout</small>
+               else %>
+            <span>
+               form_tag '', method: 'get' do %>
+              text_field_tag 'discount', nil, placeholder: 'discount code', class: 'browser-default discount-text' %>
+               button_tag :save, type: 'submit', class: 'waves-effect waves-light btn custom-btn-small' %>
+               end %>
+            </span>
+             end %>
+          </span>
+        </div>
+        <div class="form-info">
+          <span class="form-header">Time Frame: </span>
+          <span class="form-text">
+              @service.service_time_to_complete %>
+          </span>
+        </div>
+        -->
 
   <script>
 

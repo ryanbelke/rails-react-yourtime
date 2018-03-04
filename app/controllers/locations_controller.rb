@@ -5,7 +5,6 @@ class LocationsController < ApplicationController
 
   def index
     redux_store("commentsStore")
-
     @category = Category.friendly.find(params[:category_id])
     @location_feed_items = @category.locations
     cookies[:category] = @category.slug

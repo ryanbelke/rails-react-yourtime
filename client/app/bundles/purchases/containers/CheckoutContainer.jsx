@@ -6,6 +6,7 @@ import Categories from '../components/Categories/Categories';
 import Locations from '../components/Locations/Locations';
 import SectionsComponent from '../components/Sections/SectionsComponent';
 import ServicesComponent from '../components/Services/ServicesComponent';
+import BookingsComponent from '../components/Bookings/BookingsComponent';
 
 import BaseComponent from 'libs/components/BaseComponent';
 import * as checkoutActionCreator from '../actions/checkoutActionCreator';
@@ -25,20 +26,25 @@ class CheckoutContainer extends BaseComponent {
   };
 
   render() {
-   const { dispatch, data } = this.props;
-   const actions = bindActionCreators(checkoutActionCreator, dispatch);
-   const location = data.getIn(['railsContext', 'location']);
-   let renderNode;
-   //const locationState = this.props.location;
+    const {dispatch, data} = this.props;
+    const actions = bindActionCreators(checkoutActionCreator, dispatch);
+    const location = data.getIn(['railsContext', 'location']);
+    const lastCharacter = location.substr(location.length - 1);
+
+    let renderNode;
+    //const locationState = this.props.location;
     if (location.includes('workplaces')) {
-      renderNode = <Categories actions={actions} data={data} />
+      renderNode = <Categories actions={actions} data={data}/>
     } else if (location.includes('categories')) {
-      renderNode = <Locations actions={actions} data={data} />
+      renderNode = <Locations actions={actions} data={data}/>
     } else if (location.includes('locations')) {
-      renderNode = <SectionsComponent actions={actions} data={data} />
-    } else if (location.includes('sections')) {
-      renderNode = <ServicesComponent actions={actions} data={data} />
+      renderNode = <SectionsComponent actions={actions} data={data}/>
+    } else if (location.includes('sections') && !location.includes('?appointment')) {
+      renderNode = <ServicesComponent actions={actions} data={data}/>
+    } else if (location.includes('?appointment')) {
+      renderNode = <BookingsComponent actions={actions} data={data} />
     }
+
     return (
       <section>
         {renderNode}
