@@ -100,9 +100,9 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 @section1.services.create!(service_name: 'Delux Detail', service_description: content, service_price: 59.99)
 
 @section2 = Section.find_by id: 2
-@section1.services.create!(service_name: 'Basic Wash', service_description: content, service_price: 29.99)
-@section1.services.create!(service_name: 'Premium Wash', service_description: content, service_price: 39.99)
-@section1.services.create!(service_name: 'Deluxe Wash', service_description: content, service_price: 59.99)
+@section2.services.create!(service_name: 'Basic Wash', service_description: content, service_price: 29.99)
+@section2.services.create!(service_name: 'Premium Wash', service_description: content, service_price: 39.99)
+@section2.services.create!(service_name: 'Deluxe Wash', service_description: content, service_price: 59.99)
 
 
 
