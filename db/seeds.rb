@@ -102,32 +102,7 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 @section2 = Section.find_by id: 2
 @section1.services.create!(service_name: 'Basic Wash', service_description: content, service_price: 29.99)
 @section1.services.create!(service_name: 'Premium Wash', service_description: content, service_price: 39.99)
-@section1.services.create!(service_name: 'Delux Wash', service_description: content, service_price: 59.99)
-
-=begin
-
-@category1.locations.create!(location_name: 'Premium Detail', service_description: 'interior')
-@category1.locations.create!(location_name: 'Deluxe Detail', service_description: 'interior')
-
-@category1.locations.create!(service_name: 'Basic Wash', service_description: 'exterior')
-@category1.locations.create!(service_name: 'Premium Wash', service_description: 'exterior')
-@category1.locations.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
-
-@category3.locations.create!(service_name: 'Basic Detail', service_description: 'interior')
-@category3.locations.create!(service_name: 'Premium Detail', service_description: 'interior')
-@category3.locations.create!(service_name: 'Deluxe Detail', service_description: 'interior')
-
-@category3.locations.create!(service_name: 'Basic Wash', service_description: 'exterior')
-@category3.locations.create!(service_name: 'Premium Wash', service_description: 'exterior')
-@category3.locations.create!(service_name: 'Deluxe Wash', service_description: 'exterior')
-
-@category4.locations.create!(service_name: 'Routine Maintenance', service_description: 'routine')
-@category4.locations.create!(service_name: 'Major Mechanical', service_description: 'major')
-@category4.locations.create!(service_name: 'State Inspection', service_description: 'state')
-
-@category5.locations.create!(service_name: 'Mens', service_description: 'cut')
-@category5.locations.create!(service_name: 'Womens', service_description: 'cut')
-=end
+@section1.services.create!(service_name: 'Deluxe Wash', service_description: content, service_price: 59.99)
 
 
 
@@ -135,26 +110,3 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 
 @date = Date.strptime('11/14/2017','%m/%d/%Y')
 @user = User.find_by id: 1
-=begin
-@user.appointments.create!(appointment_status: 'Pending', appointment_date: @date,
-                          service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')
-@user.appointments.create!(appointment_status: 'Scheduled', appointment_date: @date,
-                           service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')
-@user.appointments.create!(appointment_status: 'Error', appointment_date: @date,
-                           service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')
-@user.appointments.create!(appointment_status: 'Completed', appointment_date: @date,
-                           service_id: 1, appointment_price: '$29.99', appointment_location: 'Building 400')
-=end
-
-
-# Service
-=begin
-users = User.order(:created_at).take(6)
-20.times do |n|
-  type = 'E85'
-  gallons = n*2.345+5
-  price = '2.25'
-  users.each { |user| user.purchases.create!(fuel_type: type, gallons: gallons, price: price) }
-end
-=end
-
