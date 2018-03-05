@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180129015613) do
+ActiveRecord::Schema.define(version: 20180305030100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,8 +71,6 @@ ActiveRecord::Schema.define(version: 20180129015613) do
     t.string "location_description"
     t.bigint "workplace_id"
     t.integer "category_id"
-    t.bigint "section_id"
-    t.index ["section_id"], name: "index_locations_on_section_id"
     t.index ["workplace_id"], name: "index_locations_on_workplace_id"
   end
 
@@ -120,6 +118,7 @@ ActiveRecord::Schema.define(version: 20180129015613) do
   create_table "services", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "location_id"
+    t.bigint "section_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "service_name"
@@ -130,14 +129,9 @@ ActiveRecord::Schema.define(version: 20180129015613) do
     t.boolean "service_purchased"
     t.string "service_vendor"
     t.string "slug"
-    t.integer "category_id"
     t.string "service_info"
     t.string "picture"
-    t.string "link"
     t.integer "appointment_id"
-    t.bigint "section_id"
-    t.index ["appointment_id"], name: "index_services_on_appointment_id"
-    t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["location_id"], name: "index_services_on_location_id"
     t.index ["section_id"], name: "index_services_on_section_id"
     t.index ["user_id"], name: "index_services_on_user_id"
