@@ -49,9 +49,9 @@ Workplace.create!(workplace_name: 'Not Listed')
 
 content = Faker::Lorem.paragraph(sentence_count = 3)
 
-@workplace_spredfast.categories.create!(category_name: 'Car Wash', category_description: content, category_info: content, category_icon: 'fa-automobile')
-@workplace_spredfast.categories.create!(category_name: 'Auto Maintenance', category_description: content, category_info: content, category_icon: 'fa-gear')
-@workplace_spredfast.categories.create!(category_name: 'Haircuts', category_description: content, category_info: content)
+@workplace_spredfast.categories.create!(category_name: 'Car Wash', category_description: content, category_info: content, category_icon: 'fa-car')
+@workplace_spredfast.categories.create!(category_name: 'Auto Maintenance', category_description: content, category_info: content, category_icon: 'fa-cog')
+@workplace_spredfast.categories.create!(category_name: 'Haircuts', category_description: content, category_info: content, category_icon: 'fa-cut')
 
 @category1 = Category.find_by id: 1
 @category2 = Category.find_by id: 2
