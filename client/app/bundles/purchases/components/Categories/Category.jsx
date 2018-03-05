@@ -40,7 +40,7 @@ export default class Category extends BaseComponent {
           className={`card sticky-action card-panel ${categoryId==category ?
             css.selectedCategory : ''}`}>
           <div className="card-image category-image">
-            <i className={`fa ${categoryIcon} fa-5x activator`} id="fa-icon"></i>
+            <i className={`fas ${categoryIcon} fa-5x activator`} id="fa-icon"></i>
             <h3 className="left-align">
               {categoryName}
               <i className="material-icons right activator">info_outline</i></h3>

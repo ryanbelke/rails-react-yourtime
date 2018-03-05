@@ -1,8 +1,12 @@
 class AppointmentsController < ApplicationController
+  include ReactOnRails::Controller
+
   before_action :logged_in_user, only: [:new, :create, :destroy]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
   def new
+    redux_store("commentsStore")
+
     workplace = cookies[:workplace]
     category = cookies[:category]
     service = cookies[:service]
@@ -14,12 +18,13 @@ class AppointmentsController < ApplicationController
       flash[:warning] = "please select workplace to begin"
       redirect_to workplaces_path
     else
+
       @user = current_user
-      @workplace = Workplace.friendly.find(cookies[:workplace])
-      @category = Category.friendly.find(cookies[:category])
-      @section = Section.friendly.find(cookies[:section])
-      @service = Service.friendly.find(cookies[:service])
-      @location = Location.friendly.find(cookies[:location])
+      workplace = Workplace.friendly.find(cookies[:workplace])
+      category = Category.friendly.find(cookies[:category])
+      section = Section.friendly.find(cookies[:section])
+      service = Service.friendly.find(cookies[:service])
+      location = Location.friendly.find(cookies[:location])
       @selected_date = params[:date] || cookies[:date]
       if @selected_date.nil?
       else
@@ -42,6 +47,34 @@ class AppointmentsController < ApplicationController
       #@stripe_price = (@total_price1 * 100).to_i
       @appointment = @user.appointments.new
     end
+
+    booking = {
+        bookingId: SecureRandom.uuid,
+        workplace: workplace.workplace_name,
+        category: category.category_name,
+        location: location.location_name,
+        section: section.section_name,
+        service: service,
+        dates: @dates,
+    }
+
+    cookies[:booking] = { value: booking.to_json }
+    puts "=====" + JSON.parse(cookies[:booking]).to_s
+    #delete cookies after stored in booking cookie
+    #delete_cookies
+
+    @booking_feed.push(booking)
+    cookies[:redirect] = { value: true, expires: 1.hour.from_now }
+    @service_feed_items = []
+
+    #set tax information
+    puts "***** " + service.to_yaml
+    @tax_amount1 = (0.09 * service.service_price)
+    @tax_amount = sprintf('%.2f', @tax_amount1)
+    @your_time_amount1 = (0.05 * service.service_price)
+    @your_time_amount = sprintf('%.2f', @your_time_amount1)
+    @total_price1 = @tax_amount1 + @your_time_amount1 + service.service_price
+    @total_price = sprintf('%.2f', @total_price1)
 
   end
 
