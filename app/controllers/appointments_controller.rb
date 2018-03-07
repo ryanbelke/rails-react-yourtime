@@ -6,13 +6,20 @@ class AppointmentsController < ApplicationController
   before_action :admin_user,     only: :destroy
   def new
     redux_store("commentsStore")
+    @booking_feed = []
+    #parse booking cookie
+    booking_cookie = JSON.parse(cookies[:booking], symbolize_names: true)
 
-    workplace = cookies[:workplace]
-    category = cookies[:category]
-    service = cookies[:service]
-    location = cookies[:location]
-    section = cookies[:section]
+    workplace = booking_cookie[:workplaceSlug]
+    category = booking_cookie[:categorySlug]
+    location = booking_cookie[:locationSlug]
+    section = booking_cookie[:sectionSlug]
+    service = booking_cookie[:service]
 
+    dates = booking_cookie[:dates]
+    puts "booking_cookie = " + dates.to_s
+
+    #TODO: set path specific to what is not present
     if workplace.nil? || category.nil? ||
         service.nil? || location.nil? || section.nil?
       flash[:warning] = "please select workplace to begin"
@@ -20,12 +27,13 @@ class AppointmentsController < ApplicationController
     else
 
       @user = current_user
-      workplace = Workplace.friendly.find(cookies[:workplace])
-      category = Category.friendly.find(cookies[:category])
-      section = Section.friendly.find(cookies[:section])
-      service = Service.friendly.find(cookies[:service])
-      location = Location.friendly.find(cookies[:location])
+      @workplace = Workplace.friendly.find(workplace)
+      @category = Category.friendly.find(category)
+      @location = Location.friendly.find(location)
+      @section = Section.friendly.find(section)
+      @service = Service.friendly.find(service[:slug])
       @selected_date = params[:date] || cookies[:date]
+
       if @selected_date.nil?
       else
         @schedule = Schedule.find_by date: @selected_date
@@ -38,43 +46,27 @@ class AppointmentsController < ApplicationController
 
       #set tax information
       #use number_to_currency helper in the view to convert to cents
-      @tax_amount = calculate_tax(@service.service_price)
+      tax_amount = calculate_tax(@service.service_price)
       #@tax_amount1 = sprintf('%.2f', @tax_amount1)
-      @your_time_amount = calculate_fee(@service.service_price)
+      your_time_amount = calculate_fee(@service.service_price)
       #@your_time_amount1 = sprintf('%.2f', @your_time_amount1)
-      @total_price = @tax_amount + @your_time_amount + @service.service_price
+      @total_price = tax_amount + your_time_amount + @service.service_price
       #@total_price1 = sprintf('%.2f', @total_price1)
       #@stripe_price = (@total_price1 * 100).to_i
+      #bookingId = "booking" + rand(1...10000).to_s
+      booking = {
+          bookingId: SecureRandom.uuid,
+          workplace: @workplace.workplace_name,
+          category: @category.category_name,
+          location: @location.location_name,
+          section: @section.section_name,
+          service: @service,
+          dates: @dates,
+      }
+      @booking_feed.push(booking)
       @appointment = @user.appointments.new
     end
 
-    booking = {
-        bookingId: SecureRandom.uuid,
-        workplace: workplace.workplace_name,
-        category: category.category_name,
-        location: location.location_name,
-        section: section.section_name,
-        service: service,
-        dates: @dates,
-    }
-
-    cookies[:booking] = { value: booking.to_json }
-    puts "=====" + JSON.parse(cookies[:booking]).to_s
-    #delete cookies after stored in booking cookie
-    #delete_cookies
-
-    @booking_feed.push(booking)
-    cookies[:redirect] = { value: true, expires: 1.hour.from_now }
-    @service_feed_items = []
-
-    #set tax information
-    puts "***** " + service.to_yaml
-    @tax_amount1 = (0.09 * service.service_price)
-    @tax_amount = sprintf('%.2f', @tax_amount1)
-    @your_time_amount1 = (0.05 * service.service_price)
-    @your_time_amount = sprintf('%.2f', @your_time_amount1)
-    @total_price1 = @tax_amount1 + @your_time_amount1 + service.service_price
-    @total_price = sprintf('%.2f', @total_price1)
 
   end
 

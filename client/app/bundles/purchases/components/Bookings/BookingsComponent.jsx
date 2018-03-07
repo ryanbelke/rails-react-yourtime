@@ -5,6 +5,7 @@ import Booking from './Booking';
 import css from './BookingsComponent.scss';
 import BaseComponent from 'libs/components/BaseComponent';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Checkout from './Checkout';
 
 class BookingsComponent extends BaseComponent {
   constructor(props) {
@@ -49,6 +50,7 @@ class BookingsComponent extends BaseComponent {
           locationName={$$booking.get('location')}
           sectionName={$$booking.get('section')}
           service={$$booking.get('service')}
+          dates={$$booking.get('dates')}
           //selected={selected}
           //serviceSelection={serviceSelection}
           actions={actions}
@@ -74,13 +76,20 @@ class BookingsComponent extends BaseComponent {
             </div>
           </div>
         </section>
-        <ReactCSSTransitionGroup
-          transitionName={cssTransitionGroupClassNames}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
-          {bookingNodes}
-        </ReactCSSTransitionGroup>
+            <ReactCSSTransitionGroup
+              transitionName={cssTransitionGroupClassNames}
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}
+            >
+              {bookingNodes}
+            </ReactCSSTransitionGroup>
+        <section className={css.checkoutSection}>
+          <div className="row">
+            <div className="col l16 m6 s12 offset-l4 offset-m6">
+              <Checkout />
+            </div>
+          </div>
+        </section>
       </section>
     );
   }

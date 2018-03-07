@@ -3,11 +3,15 @@
   left: 45%;
 }
 
-
+.checkoutSection {
+  width: 100% !important;
+  position: relative;
+}
 .bookingsSection {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   span {
     width: 100%;
     display: flex;

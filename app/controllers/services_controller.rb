@@ -79,16 +79,20 @@ class ServicesController < ApplicationController
 
       booking = {
           bookingId: SecureRandom.uuid,
-          workplace: workplace.workplace_name,
-          category: category.category_name,
-          location: location.location_name,
-          section: section.section_name,
+          workplaceName: workplace.workplace_name,
+          categoryName: category.category_name,
+          locationName: location.location_name,
+          sectionName: section.section_name,
           service: service,
           dates: @dates,
+          workplaceSlug: workplace.slug,
+          categorySlug: category.slug,
+          locationSlug: location.slug,
+          sectionSlug: section.slug,
       }
 
       cookies[:booking] = { value: booking.to_json }
-      puts "=====" + JSON.parse(cookies[:booking]).to_s
+
       #delete cookies after stored in booking cookie
       #delete_cookies
 
@@ -97,7 +101,7 @@ class ServicesController < ApplicationController
       @service_feed_items = []
 
       #set tax information
-      puts "***** " + service.to_yaml
+      #puts "***** " + service.to_yaml
       @tax_amount1 = (0.09 * service.service_price)
       @tax_amount = sprintf('%.2f', @tax_amount1)
       @your_time_amount1 = (0.05 * service.service_price)

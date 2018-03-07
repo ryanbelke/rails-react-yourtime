@@ -1,5 +1,7 @@
   <div class="row">
-    <div class="col l3 m6 s12 offset-l1">
+    <%= react_component('App',  prerender: false) %>
+
+<!--    <div class="col l3 m6 s12 offset-l1">
       <div class="paper-no-border">
         <div class="css-flash">
           <div class="icon-div">
@@ -10,29 +12,24 @@
           </div>
         </div>
         <div class="date-selector">
-          <%= form_tag '', method: 'get' do %>
-            <%= label_tag :select_a_date %>
-            <%= text_field_tag 'date', @selected_date, placeholder: 'Date', class: 'datepicker'%>
-            <%= button_tag type: 'submit', class: 'waves-effect waves-light btn' do %>
+           form_tag '', method: 'get' do %>
+             label_tag :select_a_date %>
+             text_field_tag 'date', @selected_date, placeholder: 'Date', class: 'datepicker'%>
+            < button_tag type: 'submit', class: 'waves-effect waves-light btn' do %>
               <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp; save
-            <% end %>
-          <% end %>
+             end %>
+           end %>
         </div>
       </div>
-    </div>
-    <div class="col l6 m6 s12">
-      <%= react_component('App',  prerender: false) %>
+    </div>-->
+    <div class="col l6 m6 s12 offset-l4 m6">
       <div class="form-info">
         <span class="form-header"></span>
         <span class="form-text">
             <% if logged_in? %>
-              <%= form_tag user_appointments_path(current_user) do %>
-                <%= hidden_field_tag :service_id, service.id %>
-              <%= hidden_field_tag :workplace_id, workplace.id %>
-              <%= hidden_field_tag :date, selected_date %>
-              <%= hidden_field_tag :user_id, current_user.id %>
-              <%= hidden_field_tag :schedule_id, schedule %>
-              <%= hidden_field_tag :service, service.id %>
+
+            <%= form_tag user_appointments_path(current_user) do %>
+
 
               <article>
                     <% if flash[:error].present? %>
@@ -57,7 +54,7 @@
         <div class="paper-no-border">
           <div class="css-flash-user">
             <div class="icon-div-user">
-              <i class="fa fa-credit-card" aria-hidden="true"></i>
+              <i class="fas fa-credit-card" aria-hidden="true"></i>
             </div>
             <div class="flash-text">
               <h6>User Info</h6>
@@ -200,7 +197,7 @@
         -->
 
   <script>
-
+/*
       $('.datepicker').pickadate({
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 50, // Creates a dropdown of 15 years to control year,
@@ -211,11 +208,11 @@
           closeOnSelect: false, // Close upon selecting a date,
           disable: [
               true,
-              <% @dates.each do |a| %>
-              new Date('<%= a[0] %>'),
+               @dates.each do |a| %>
+              new Date(' a[0] %>'),
 
 
-              <% end %>
+               end %>
           ]
-      });
+      });*/
   </script>

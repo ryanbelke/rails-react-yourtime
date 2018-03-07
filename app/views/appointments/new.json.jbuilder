@@ -1,0 +1,1 @@
+json.bookings(@booking_feed, partial: "appointments/appointment", as: :appointment)

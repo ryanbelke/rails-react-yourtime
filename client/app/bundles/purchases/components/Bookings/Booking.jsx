@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import css from './Booking.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import $ from 'jquery';
 
 export default class Booking extends BaseComponent {
   static propTypes = {
@@ -14,20 +15,37 @@ export default class Booking extends BaseComponent {
     sectionName: PropTypes.string.isRequired,
     service: PropTypes.object.isRequired,
   };
-/*  constructor(props) {
+  constructor(props) {
     super(props);
-    _.bindAll(this, 'selectCategory');
+    _.bindAll(this, 'selectDate');
   }
 
-  selectCategory() {
-    const { actions } = this.props;
-    const categoryId = this.props.categoryId;
-    actions.selectCategory(categoryId);
-  }*/
+  selectDate() {
+    let {dates} = this.props;
+    let datesArray = [true];
+    dates = dates.toArray();
+    let date = dates.forEach((date, index) => {
+       return datesArray.push(new Date(date.get(0)))
+
+    });
+    console.log("dates = " + datesArray.toString())
+    let test = date;
+
+
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 50, // Creates a dropdown of 15 years to control year,
+      today: 'Today',
+      clear: 'Clear',
+      close: 'Ok',
+      closeOnSelect: false, // Close upon selecting a date,
+      disable: datesArray
+    });
+  }
 
   render() {
     let { workplaceName, categoryName,
-      locationName, sectionName, service } = this.props;
+      locationName, sectionName, service, dates } = this.props;
 
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
@@ -36,99 +54,82 @@ export default class Booking extends BaseComponent {
       leaveActive: css.elementLeaveActive,
     };
 
-    console.log("service = " + service )
+    console.log("service = " + dates )
     /* eslint-disable react/no-danger */
     return (
       <section className={css.booking}>
-        <div className="paper-no-border">
-          <div className="css-flash">
-            <div className="icon-div-info">
-              <i className="fa fa-info" aria-hidden="true"></i>
-            </div>
-            <div className="flash-text">
-              <h6>Booking Info:</h6>
-            </div>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Workplace:</span>
-            <span className="form-text"> {workplaceName} </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Location:</span>
-            <span className="form-text"> {locationName}</span>
-          </div>
+        <div className="row">
+          <div className="col l3 m6 s12 offset-l1">
+            <div className="paper-no-border">
+              <div className="css-flash">
+                <div className="icon-div">
+                  <i className="fa fa-calendar" aria-hidden="true"></i>
+                </div>
+                <div className="flash-text">
+                  <h6>Appointment Date</h6>
+                </div>
+              </div>
+              <div className="date-selector">
+                <form action="" acceptCharset="UTF-8" method="get">
+                  <label className="active">Select a date</label>
+                  <input onClick={this.selectDate} className="datepicker" placeholder="Date" name="date" type="text" />
 
-          <div className="form-info">
-            <span className="form-header">Category:</span>
-            <span className="form-text"> {categoryName}</span>
+                  <button name="button" type="submit" className="waves-effect waves-light btn">
+                    &nbsp; Save
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
-          <div className="form-info">
-            <span className="form-header">Service Section:</span>
-            <span className="form-text"> {sectionName} </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Service: </span>
-            <span className="form-text">{service.get('service_name')}</span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Price: </span>
-            <span className="form-text"> ${service.get('service_price')}</span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Vendor: </span>
-            <span className="form-text">{service.get('service_vendor')} </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Time Frame: </span>
-            <span className="form-text">{service.get('service_time_to_complete')}</span>
+          <div className="col l6 m6 s12">
+            <div className="paper-no-border">
+              <div className="css-flash">
+                <div className="icon-div-info">
+                  <i className="fas fa-info" aria-hidden="true"></i>
+                </div>
+                <div className="flash-text">
+                  <h6>Booking Info:</h6>
+                </div>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Workplace:</span>
+                <span className="form-text"> {workplaceName} </span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Location:</span>
+                <span className="form-text"> {locationName}</span>
+              </div>
+
+              <div className="form-info">
+                <span className="form-header">Category:</span>
+                <span className="form-text"> {categoryName}</span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Service Section:</span>
+                <span className="form-text"> {sectionName} </span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Service: </span>
+                <span className="form-text">{service.get('service_name')}</span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Price: </span>
+                <span className="form-text"> ${service.get('service_price')}</span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Vendor: </span>
+                <span className="form-text">{service.get('service_vendor')} </span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Time Frame: </span>
+                <span className="form-text">{service.get('service_time_to_complete')}</span>
+              </div>
+            </div>
+            <br />
+
           </div>
         </div>
-        <br />
-        <div className="paper-no-border">
-          <div className="css-flash-cost">
-            <div className="icon-div-dollar">
-              <i className="fa fa-credit-card" aria-hidden="true"></i>
 
-            </div>
-            <div className="flash-text">
-              <h6>Booking Cost:</h6>
-            </div>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Price </span>
-            <span className="form-text"> $ </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Estimate Tax: </span>
-            <span className="form-text"> </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">YourTime Fee: </span>
-            <span className="form-text">  </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Estimated Total </span>
-            <span className="form-text">  </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Discount Code:</span>
-            <span className="form-text">
-
-            <small>submit at checkout</small>
-
-            <span>
-
-            </span>
-
-          </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Time Frame: </span>
-            <span className="form-text">
-
-          </span>
-          </div>
-        </div>
       </section>
 
     );

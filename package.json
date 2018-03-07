@@ -42,6 +42,7 @@
   "homepage": "https://github.com/shakacode/react-webpack-rails-tutorial",
   "dependencies": {
     "material-ui": "^1.0.0-beta.19",
+    "pickadate": "^3.5.6",
     "styled-components": "^2.2.3"
   },
   "devDependencies": {},
