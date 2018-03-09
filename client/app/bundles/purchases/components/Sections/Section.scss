@@ -1,5 +1,9 @@
 .section {
   height: 180px;
+  h2 {
+    font-weight: bolder !important;
+    font-family: 'Open Sans', sans-serif !important;
+  }
 }
 .selectedSection {
   outline: 3px solid #303f9f;
@@ -23,3 +27,4 @@
     transition: opacity 0.2s ease-in;
   }
 }
+

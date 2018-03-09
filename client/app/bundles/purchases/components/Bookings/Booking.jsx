@@ -53,7 +53,7 @@ export default class Booking extends BaseComponent {
     /* eslint-disable react/no-danger */
     return (
       <section className={css.booking}>
-        <div className="row">
+        <div className="row" id={css.row}>
           <div className="col l3 m6 s12 offset-l1">
             <div className="paper-no-border">
               <div className="css-flash">

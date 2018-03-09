@@ -7,7 +7,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .elementEnter {
@@ -25,5 +30,14 @@
   &.elementLeaveActive {
     opacity: 0.01;
     transition: opacity 0.2s ease-in;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .categoriesSection {
+    section {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }

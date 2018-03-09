@@ -39,36 +39,38 @@ export default class Checkout extends BaseComponent {
 
     /* eslint-disable react/no-danger */
     return (
-      <section className={css.checkout}>
-        <div className="paper-no-border">
-          <div className="css-flash-cost">
-            <div className="icon-div-dollar">
-              <i className="fas fa-credit-card" aria-hidden="true"></i>
+      <div className="row" id={css.row}>
+        <div className="col l16 m6 s12 offset-l4 offset-m6">
+          <div className={css.checkout}>
+            <div className="paper-no-border">
+              <div className="css-flash-cost">
+                <div className="icon-div-dollar">
+                  <i className="fas fa-credit-card" aria-hidden="true"></i>
 
-            </div>
-            <div className="flash-text">
-              <h6>Booking Cost:</h6>
-            </div>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Price </span>
-            <span className="form-text"> $ </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Estimate Tax: </span>
-            <span className="form-text"> </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">YourTime Fee: </span>
-            <span className="form-text">  </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Estimated Total </span>
-            <span className="form-text">  </span>
-          </div>
-          <div className="form-info">
-            <span className="form-header">Discount Code:</span>
-            <span className="form-text">
+                </div>
+                <div className="flash-text">
+                  <h6>Total Cost:</h6>
+                </div>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Price </span>
+                <span className="form-text"> $ </span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Estimate Tax: </span>
+                <span className="form-text"> </span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">YourTime Fee: </span>
+                <span className="form-text">  </span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Estimated Total </span>
+                <span className="form-text">  </span>
+              </div>
+              <div className="form-info">
+                <span className="form-header">Discount Code:</span>
+                <span className="form-text">
 
             <small>submit at checkout</small>
 
@@ -77,10 +79,12 @@ export default class Checkout extends BaseComponent {
             </span>
 
           </span>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
 
+        </div>
+      </div>
     );
   }
 }

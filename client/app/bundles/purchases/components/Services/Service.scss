@@ -23,14 +23,25 @@
 }
 .subtitles {
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
 }
 .subtitle {
   font-size: 1.25em;
   padding-left: 3px;
+  float: left;
+
   small {
     color: #303f9f;
     font-weight: bolder;
     font-family: 'Open Sans', sans-serif;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .servicesSection {
+    section {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }

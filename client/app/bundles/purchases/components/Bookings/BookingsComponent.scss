@@ -3,20 +3,25 @@
   left: 45%;
 }
 
-.checkoutSection {
-  width: 100% !important;
-  position: relative;
-}
 .bookingsSection {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  span {
-    width: 100%;
+  section {
+    width: 100% !important;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+.bookingsSection:nth-child(2) {
+  width: 87% !important;
+}
+.checkoutSection {
+  width: 100%;
+  div:nth-child(1) {
   }
 }
 
@@ -35,5 +40,14 @@
   &.elementLeaveActive {
     opacity: 0.01;
     transition: opacity 0.2s ease-in;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .bookingsSection {
+    section {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }

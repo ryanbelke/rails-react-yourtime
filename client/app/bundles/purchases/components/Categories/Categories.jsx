@@ -79,6 +79,8 @@ class Categories extends BaseComponent {
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
+          component="section"
+
         >
         {categoryNodes}
         </ReactCSSTransitionGroup>

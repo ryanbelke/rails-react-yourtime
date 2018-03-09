@@ -63,7 +63,7 @@ class BookingsComponent extends BaseComponent {
      const locationState = this.props.location.state;*/
     return (
       <section className={css.bookingsSection}>
-        <section style={{display: isFetching ? '' : 'none'}} id={css.loader}>
+        <div style={{display: isFetching ? '' : 'none'}} id={css.loader}>
           <div className="preloader-wrapper big active">
             <div className="spinner-layer spinner-blue-only">
               <div className="circle-clipper left">
@@ -75,20 +75,20 @@ class BookingsComponent extends BaseComponent {
             </div>
             </div>
           </div>
-        </section>
+        </div>
             <ReactCSSTransitionGroup
               transitionName={cssTransitionGroupClassNames}
               transitionEnterTimeout={500}
               transitionLeaveTimeout={500}
+              component="section"
+
             >
               {bookingNodes}
             </ReactCSSTransitionGroup>
         <section className={css.checkoutSection}>
-          <div className="row">
-            <div className="col l16 m6 s12 offset-l4 offset-m6">
+
               <Checkout />
-            </div>
-          </div>
+
         </section>
       </section>
     );

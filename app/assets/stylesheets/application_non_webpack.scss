@@ -304,7 +304,8 @@ a:hover { text-decoration: none; }
   display: inline-block;
   height: 100%;
   position: relative;
-  padding: 0.5rem 0.5rem;
+  padding: 0.25rem 0.25rem;
+
   color: #303f9f;
   font-family: 'Open Sans', sans-serif;
   font-weight: 900;
@@ -317,7 +318,7 @@ a:hover { text-decoration: none; }
   color: #303f9f;
   background-color: #72c3fc;
   height: 100%;
-  width: 50px;
+  width: 50px !important;
   position: relative;
   display: inline-block;
   font-size: 2.0rem;
@@ -328,7 +329,7 @@ a:hover { text-decoration: none; }
    color: #303f9f;
    background-color: #72c3fc;
    height: 100%;
-   width: 50px;
+   width: 50px !important;
    position: relative;
    display: inline-block;
    font-size: 2.0rem;
@@ -340,7 +341,7 @@ a:hover { text-decoration: none; }
   color: #303f9f;
   background-color: #9FA8DA;
   height: 100%;
-  width: 50px;
+  width: 50px !important;
   position: relative;
   display: inline-block;
   font-size: 2.0rem;
@@ -453,7 +454,7 @@ body {
   background-color: $bg-color !important;
   font-size: 18px !important;
   display: flex;
-  min-height: 100vh;
+  min-height: 600px;
   flex-direction: column;
 }
 small { color: gray; font-size: 1rem !important;

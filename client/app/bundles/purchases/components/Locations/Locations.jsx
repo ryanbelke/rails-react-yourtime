@@ -61,7 +61,7 @@ class Locations extends BaseComponent {
      const locationState = this.props.location.state;*/
     return (
       <section className={css.locationsSection}>
-        <section style={{display: isFetching ? '' : 'none'}} id={css.loader}>
+        <div style={{display: isFetching ? '' : 'none'}} id={css.loader}>
           <div className="preloader-wrapper big active">
             <div className="spinner-layer spinner-blue-only">
               <div className="circle-clipper left">
@@ -73,12 +73,12 @@ class Locations extends BaseComponent {
             </div>
             </div>
           </div>
-        </section>
+        </div>
         <ReactCSSTransitionGroup
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
-          component="span"
+          component="section"
           className={css.transition}
         >
           {locationNodes}

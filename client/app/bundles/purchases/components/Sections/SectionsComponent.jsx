@@ -76,7 +76,7 @@ class SectionsComponent extends BaseComponent {
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
-          component="span"
+          component="section"
         >
           {sectionNodes}
         </ReactCSSTransitionGroup>

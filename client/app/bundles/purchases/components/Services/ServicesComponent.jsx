@@ -85,7 +85,7 @@ class ServicesComponent extends BaseComponent {
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
-          component="span"
+          component="section"
         >
           {serviceNodes}
         </ReactCSSTransitionGroup>
