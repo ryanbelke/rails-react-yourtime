@@ -56,10 +56,10 @@ class AppointmentsController < ApplicationController
       #bookingId = "booking" + rand(1...10000).to_s
       booking = {
           bookingId: SecureRandom.uuid,
-          workplace: @workplace.workplace_name,
-          category: @category.category_name,
-          location: @location.location_name,
-          section: @section.section_name,
+          workplaceName: @workplace.workplace_name,
+          categoryName: @category.category_name,
+          locationName: @location.location_name,
+          sectionName: @section.section_name,
           service: @service,
           dates: @dates,
       }

@@ -45,10 +45,10 @@ class BookingsComponent extends BaseComponent {
       bookingNodes = bookings.map(($$booking, index) =>
         (<Booking
           key={$$booking.get('bookingId') || index }
-          workplaceName={$$booking.get('workplace')}
-          categoryName={$$booking.get('category')}
-          locationName={$$booking.get('location')}
-          sectionName={$$booking.get('section')}
+          workplaceName={$$booking.get('workplaceName')}
+          categoryName={$$booking.get('categoryName')}
+          locationName={$$booking.get('locationName')}
+          sectionName={$$booking.get('sectionName')}
           service={$$booking.get('service')}
           dates={$$booking.get('dates')}
           //selected={selected}

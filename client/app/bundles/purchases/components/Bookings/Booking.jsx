@@ -28,9 +28,6 @@ export default class Booking extends BaseComponent {
        return datesArray.push(new Date(date.get(0)))
 
     });
-    console.log("dates = " + datesArray.toString())
-    let test = date;
-
 
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
@@ -46,7 +43,6 @@ export default class Booking extends BaseComponent {
   render() {
     let { workplaceName, categoryName,
       locationName, sectionName, service, dates } = this.props;
-
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -54,7 +50,6 @@ export default class Booking extends BaseComponent {
       leaveActive: css.elementLeaveActive,
     };
 
-    console.log("service = " + dates )
     /* eslint-disable react/no-danger */
     return (
       <section className={css.booking}>
@@ -72,8 +67,9 @@ export default class Booking extends BaseComponent {
               <div className="date-selector">
                 <form action="" acceptCharset="UTF-8" method="get">
                   <label className="active">Select a date</label>
-                  <input onClick={this.selectDate} className="datepicker" placeholder="Date" name="date" type="text" />
-
+                  <br />
+                  <input onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
+                  <br />
                   <button name="button" type="submit" className="waves-effect waves-light btn">
                     &nbsp; Save
                   </button>

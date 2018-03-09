@@ -1,1 +1,1 @@
-json.extract! appointment, :bookingId, :workplace, :category, :location, :section, :service, :dates
+json.extract! appointment, :bookingId, :workplaceName, :categoryName, :locationName, :sectionName, :service, :dates

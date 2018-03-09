@@ -1,6 +1,14 @@
 .booking {
   width: 100%;
 }
+#datepicker {
+  height: 50px;
+  width: 150px !important;
+}
+#datepicker:hover {
+    cursor:pointer !important;
+}
+
 .selectedService {
   outline: 3px solid #303f9f;
   box-shadow: 0 0 71px rgba(33,33,33,.5);
