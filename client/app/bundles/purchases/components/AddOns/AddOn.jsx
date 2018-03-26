@@ -8,24 +8,27 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export default class AddOn extends BaseComponent {
   static propTypes = {
     addOnName: PropTypes.string.isRequired,
+    addOnDescription: PropTypes.string.isRequired,
+    addOnPrice: PropTypes.number.isRequired,
   };
   constructor(props) {
     super(props);
-    _.bindAll(this, 'selectAddOn');
+    _.bindAll(this, ['selectAddOn', 'deSelectAddOn']);
   }
 
   selectAddOn() {
-    const { actions } = this.props;
     const addOnId = this.props.addOnId;
-    this.props.selectaddOn(addOnId);
-
+    this.props.selectAddOn(addOnId);
+  }
+  deSelectAddOn() {
+    const addOnId = this.props.addOnId;
+    this.props.deSelectAddOn(addOnId);
   }
 
   render() {
 
-    const { addOnName, addOnId, addOnSelection, addOnTime,
-      addOnInfo, addOnDescription, addOnPicture,
-      addOnVendor, addOnPrice, sectionId, selected } = this.props;
+    const { addOnName, addOnId, addOnSelection, addOnDescription, addOnInfo,
+           addOnPrice, selected } = this.props;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -35,11 +38,10 @@ export default class AddOn extends BaseComponent {
     /* eslint-disable react/no-danger */
     return (
       <div
-        onClick={this.selectAddOn}
+        onClick={selected ? this.deSelectAddOn : this.selectAddOn}
         className={`card sticky-action card-panel addOns ${css.addOn} ${selected ?
           css.selectedAddOn : ''}`}>
         <div className="card-image card-gradient">
-          {addOnPicture}
         </div>
         <div className="card-title">
           {addOnName}
@@ -50,14 +52,7 @@ export default class AddOn extends BaseComponent {
           <span className={css.subtitle}>
           ${addOnPrice}
         </span>
-          <span className={css.subtitle}>
-          <small> &nbsp; Time:</small>
-            {addOnTime}
 
-        </span>
-          <span className={css.subtitle}>
-          <small>&nbsp; Vendor: </small>{addOnVendor}
-        </span>
         </section>
         <div className="card-content">
           <p>{addOnDescription}</p>

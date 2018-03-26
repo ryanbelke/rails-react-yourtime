@@ -23,11 +23,11 @@ export default class Section extends BaseComponent {
       fetchServicesError: null,
       isFetching: false,
       serviceSelection: null,
+      selectedAddOn: Immutable.fromJS([]),
     };
-    _.bindAll(this, ['fetchServices', 'selectService']);
+    _.bindAll(this, ['fetchServices', 'selectService', 'selectAddOn', 'deselectAddOn']);
   }
   componentDidMount() {
-    console.log("compon " +this.state.services);
     this.fetchServices();
   }
 
@@ -51,6 +51,18 @@ export default class Section extends BaseComponent {
   selectService(serviceId) {
     this.setState({serviceSelection: serviceId})
   }
+  selectAddOn(addOnId) {
+    let selectedAddOn = this.state.selectedAddOn;
+    selectedAddOn = selectedAddOn.push(addOnId);
+    this.setState({ selectedAddOn: selectedAddOn })
+  }
+  deselectAddOn(addOnId) {
+    let selectedAddOn = this.state.selectedAddOn;
+    let indexPosition = selectedAddOn.indexOf(addOnId);
+    selectedAddOn = selectedAddOn.remove(indexPosition);
+
+    this.setState({ selectedAddOn: selectedAddOn })
+  }
 
   render() {
     const cssTransitionGroupClassNames = {
@@ -66,7 +78,8 @@ export default class Section extends BaseComponent {
     //const services = data.get('$$services');
     //const selected = data.get('selected');
     //let serviceSelection = data.get('serviceSelection');
-    let serviceSelection = this.state.serviceSelection;
+    let { serviceSelection, selectedAddOn }  = this.state;
+    console.log("add on " + selectedAddOn );
     let services = this.state.services.get(0);
     let isFetching = this.state.isFetching;
 
@@ -74,7 +87,16 @@ export default class Section extends BaseComponent {
       serviceNodes = services.map(($$service, index) => {
         return (
           $$service.get('add_on')  == true ?
-            <AddOn addOnName="hello"/>
+            <AddOn
+              key={$$service.get('id')}
+              selectAddOn={this.selectAddOn}
+              deSelectAddOn={this.deselectAddOn}
+              addOnId={$$service.get('id')}
+              addOnName={$$service.get('service_name')}
+              addOnDescription={$$service.get('service_description')}
+              addOnPrice={$$service.get('service_price')}
+              selected={selectedAddOn.includes($$service.get('id'))}
+            />
             :
             <Service
               key={$$service.get('id')}
