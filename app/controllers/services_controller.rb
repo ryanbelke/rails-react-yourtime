@@ -6,7 +6,7 @@ class ServicesController < ApplicationController
     #GET /SERVICE
     def index
       redux_store("commentsStore")
-      @section = Section.friendly.find(params[:section_id])
+      @section = Section.friendly.find(params[:section])
       cookies[:section] = @section.slug
       @service_feed_items = @section.services
     end
@@ -54,25 +54,32 @@ class ServicesController < ApplicationController
       redux_store("commentsStore")
       #set booking feed to empty
       @booking_feed = []
-
-      workplace = Workplace.friendly.find(cookies[:workplace])
-      category = Category.friendly.find(cookies[:category])
-      location = Location.friendly.find(cookies[:location])
       section = Section.friendly.find(params[:section_id])
       service = Service.friendly.find(params[:id])
-
       #set category cookie
       cookies[:section] = section.slug
       #set service cookie
-      cookies[:service] = service.slug
+      cookies[:service] = service.id
+    end
+
+    def booking
+      redux_store("commentsStore")
+      #set booking feed to empty
+      @booking_feed = []
+      #get each booking cookie
+      if cookies[:booking]
+
+      else
+      end
+      workplace = Workplace.friendly.find(cookies[:workplace])
+      category = Category.friendly.find(cookies[:category])
+      location = Location.friendly.find(cookies[:location])
+      section = Section.friendly.find(cookies[:section])
+      service = Service.friendly.find(cookies[:service])
 
       schedules = location.schedules
-      #@dates = @schedules.pluck(:date).map{ |entry| [entry.to_time.to_i]}
-      puts "***** dates integer " + @dates.to_s
-
       @dates = schedules.pluck(:date).map{ |entry| [entry.strftime("%Y,%m,%d").gsub("'", '')]}
 
-      puts "**** @dates = " + @dates.to_s
       #grab selected date from the form to input when user hits save and create cookie for future use
       @selected_date = params[:date]
       cookies[:date] = @selected_date
@@ -108,9 +115,6 @@ class ServicesController < ApplicationController
       @your_time_amount = sprintf('%.2f', @your_time_amount1)
       @total_price1 = @tax_amount1 + @your_time_amount1 + service.service_price
       @total_price = sprintf('%.2f', @total_price1)
-    end
-
-    def booking
     end
 
     private

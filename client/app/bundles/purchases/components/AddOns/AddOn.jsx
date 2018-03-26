@@ -2,29 +2,30 @@ import BaseComponent from 'libs/components/BaseComponent';
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import css from './Service.scss';
+import css from './AddOn.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export default class Service extends BaseComponent {
+export default class AddOn extends BaseComponent {
   static propTypes = {
-    serviceName: PropTypes.string.isRequired,
+    addOnName: PropTypes.string.isRequired,
   };
   constructor(props) {
     super(props);
-    _.bindAll(this, 'selectService');
+    _.bindAll(this, 'selectAddOn');
   }
 
-  selectService() {
+  selectAddOn() {
     const { actions } = this.props;
-    const serviceId = this.props.serviceId;
-    //actions.selectService(serviceId);
-    this.props.selectService(serviceId);
+    const addOnId = this.props.addOnId;
+    this.props.selectaddOn(addOnId);
+
   }
 
   render() {
-    const { serviceName, serviceId, serviceSelection, serviceTime,
-      serviceInfo, serviceDescription, servicePicture,
-      serviceVendor, servicePrice, sectionId, selected } = this.props;
+
+    const { addOnName, addOnId, addOnSelection, addOnTime,
+      addOnInfo, addOnDescription, addOnPicture,
+      addOnVendor, addOnPrice, sectionId, selected } = this.props;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -34,32 +35,32 @@ export default class Service extends BaseComponent {
     /* eslint-disable react/no-danger */
     return (
       <div
-        onClick={this.selectService}
-        className={`card sticky-action card-panel services ${css.service} ${selected ?
-          css.selectedService : ''}`}>
+        onClick={this.selectAddOn}
+        className={`card sticky-action card-panel addOns ${css.addOn} ${selected ?
+          css.selectedAddOn : ''}`}>
         <div className="card-image card-gradient">
-          {servicePicture}
+          {addOnPicture}
         </div>
         <div className="card-title">
-          {serviceName}
+          {addOnName}
           <i className="material-icons right activator">info_outline</i>
           <hr />
         </div>
         <section className={css.subtitles}>
           <span className={css.subtitle}>
-          ${servicePrice}
+          ${addOnPrice}
         </span>
           <span className={css.subtitle}>
           <small> &nbsp; Time:</small>
-            {serviceTime}
+            {addOnTime}
 
         </span>
           <span className={css.subtitle}>
-          <small>&nbsp; Vendor: </small>{serviceVendor}
+          <small>&nbsp; Vendor: </small>{addOnVendor}
         </span>
         </section>
         <div className="card-content">
-          <p>{serviceDescription}</p>
+          <p>{addOnDescription}</p>
         </div>
         <div className="card-action center-align">
           <ReactCSSTransitionGroup
@@ -67,10 +68,10 @@ export default class Service extends BaseComponent {
             transitionEnterTimeout={500}
             transitionLeaveTimeout={500}
           >
-            {/*serviceId==serviceSelection ?
-              <a href={`/sections/${sectionId}/services/${serviceId}?appointment`} className="waves-effect waves-light btn blue ">Select</a>
-              : ''*/}
-            {serviceId==serviceSelection ? <h5>Selected</h5> : ''}
+            {/*addOnId==addOnSelection ?
+             <a href={`/sections/${sectionId}/addOns/${addOnId}?appointment`} className="waves-effect waves-light btn blue ">Select</a>
+             : ''*/}
+            {addOnId==addOnSelection ? <h5>Selected</h5> : ''}
           </ReactCSSTransitionGroup>
         </div>
         <div className="card-reveal">
@@ -79,7 +80,7 @@ export default class Service extends BaseComponent {
             More Info <hr /><br/>
           </span>
           <p>
-            {serviceInfo}
+            {addOnInfo}
           </p>
         </div>
       </div>

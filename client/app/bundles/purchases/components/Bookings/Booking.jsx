@@ -6,6 +6,8 @@ import Immutable from 'immutable';
 import css from './Booking.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import $ from 'jquery';
+import createHistory from "history/createBrowserHistory"
+
 
 export default class Booking extends BaseComponent {
   static propTypes = {
@@ -21,6 +23,18 @@ export default class Booking extends BaseComponent {
   }
 
   selectDate() {
+    const history = createHistory();
+
+// Get the current location.
+    const location = history.location;
+
+// Listen for changes to the current location.
+    const unlisten = history.listen((location, action) => {
+      // location is an object like window.location
+      //console.log(action, location.pathname, location.state)
+    });
+
+
     let {dates} = this.props;
     let datesArray = [true];
     dates = dates.toArray();
@@ -36,7 +50,11 @@ export default class Booking extends BaseComponent {
       clear: 'Clear',
       close: 'Ok',
       closeOnSelect: false, // Close upon selecting a date,
-      disable: datesArray
+      disable: datesArray,
+      //set parameter of selected date for cookie setting
+      onSet: (context) => {
+        history.push(`?appointment&date=${context.select}`)
+      },
     });
   }
 

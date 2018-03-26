@@ -18,7 +18,7 @@ class ServicesComponent extends BaseComponent {
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchServices();
   }
 
@@ -26,22 +26,22 @@ class ServicesComponent extends BaseComponent {
     const  { data, actions } = this.props;
     //const locationUrl = data.getIn(['railsContext', 'location']);
     //const workplace = location.split('workplace=')[1];
-    actions.fetchServices();
+    actions.fetchServices(this.props.sectionId);
 
   }
   render() {
-    const  { data, actions }   = this.props;
-    let serviceNodes, sectionId = null;
-    let location = data.getIn(['railsContext', 'location']);
-
+    const  { data, actions, sectionId } = this.props;
+    let serviceNodes = null;
+    //let location = data.getIn(['railsContext', 'location']);
     //assign sectionId to pass to service for appointment URL
-    sectionId = location.substring(location.lastIndexOf("s/")+2,location.lastIndexOf("/"));
+    // sectionId = location.substring(location.lastIndexOf("s/")+2,location.lastIndexOf("/"));
 
     const isFetching = data.get('isFetching');
     const services = data.get('$$services');
     const selected = data.get('selected');
 
     let serviceSelection = data.get('serviceSelection');
+    console.log("services = " + services);
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,

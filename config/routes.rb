@@ -17,8 +17,9 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
+  get '/booking', to: 'services#booking'
 
-  get '/services', to: 'services#index'
+  post '/services', to: 'services#index'
   resources :charges, only: [:new, :create]
 
   resources :workplaces do

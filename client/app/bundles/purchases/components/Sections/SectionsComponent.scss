@@ -8,11 +8,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  section {
-    width: 100%;
+  flex-direction: row;
+  span {
+    width: 100% !important;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+
   }
 }
 

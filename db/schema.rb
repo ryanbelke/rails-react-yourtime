@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305030100) do
+ActiveRecord::Schema.define(version: 20180326000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20180305030100) do
     t.string "service_info"
     t.string "picture"
     t.integer "appointment_id"
+    t.boolean "add_on"
     t.index ["location_id"], name: "index_services_on_location_id"
     t.index ["section_id"], name: "index_services_on_section_id"
     t.index ["user_id"], name: "index_services_on_user_id"

@@ -117,8 +117,7 @@ export function fetchServices(service) {
     return (
       //make a request conserving the workplace=id that is set from the home screen
       //sets state: $$categories = list of the categories
-      request
-        .get('services.json', { responseType: 'json' })
+         requestsManager.submitEntity(service)
         .then(res => dispatch(fetchServicesSuccess(res.data)))
         .catch(error => dispatch(fetchServicesFailure(error)))
     );
@@ -151,7 +150,7 @@ export function fetchBookings(pathname) {
       //make a request conserving the workplace=id that is set from the home screen
       //sets state: $$categories = list of the categories
       request
-        .get(`${pathname}.json`, { responseType: 'json' })
+        .get(`/booking.json`, { responseType: 'json' })
         .then(res => dispatch(fetchBookingsSuccess(res.data)))
         .catch(error => dispatch(fetchBookingsFailure(error)))
     );

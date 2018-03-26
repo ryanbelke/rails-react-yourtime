@@ -1,13 +1,29 @@
-.section {
-  height: 180px;
+#section {
+  width: 100%;
+
   h2 {
     font-weight: bolder !important;
     font-family: 'Open Sans', sans-serif !important;
   }
 }
+#sectionName {
+  padding-left: 3%;
+}
 .selectedSection {
   outline: 3px solid #303f9f;
   box-shadow: 0 0 71px rgba(33,33,33,.5);
+}
+
+.servicesSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .elementEnter {

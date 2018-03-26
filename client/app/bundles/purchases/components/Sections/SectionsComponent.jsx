@@ -51,6 +51,7 @@ class SectionsComponent extends BaseComponent {
           actions={actions}
           sectionId={$$section.get('id')}
           sectionSelection={sectionSelection}
+          data={data}
         />),
       );
     }
@@ -76,7 +77,7 @@ class SectionsComponent extends BaseComponent {
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
-          component="section"
+          component="span"
         >
           {sectionNodes}
         </ReactCSSTransitionGroup>
