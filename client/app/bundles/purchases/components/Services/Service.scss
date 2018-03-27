@@ -1,11 +1,27 @@
-.service {
-
+.green {
+  color: green;
 }
 .selectedService {
   outline: 3px solid #303f9f;
   box-shadow: 0 0 71px rgba(33,33,33,.5);
 }
 
+
+.subtitles {
+  display: flex;
+  flex-direction: row !important;
+}
+.subtitle {
+  font-size: 1.25em;
+  padding-left: 3px;
+  float: left;
+
+  small {
+    color: #303f9f;
+    font-weight: bolder;
+    font-family: 'Open Sans', sans-serif;
+  }
+}
 .elementEnter {
   opacity: 0.01;
 
@@ -23,22 +39,6 @@
     transition: opacity 0.2s ease-in;
   }
 }
-.subtitles {
-  display: flex;
-  flex-direction: row !important;
-}
-.subtitle {
-  font-size: 1.25em;
-  padding-left: 3px;
-  float: left;
-
-  small {
-    color: #303f9f;
-    font-weight: bolder;
-    font-family: 'Open Sans', sans-serif;
-  }
-}
-
 @media only screen and (max-width: 800px) {
   .servicesSection {
     section {

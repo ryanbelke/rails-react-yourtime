@@ -22,10 +22,10 @@ export default class Section extends BaseComponent {
       services: Immutable.fromJS([]),
       fetchServicesError: null,
       isFetching: false,
-      serviceSelection: null,
+      serviceSelection: Immutable.fromJS([]),
       selectedAddOn: Immutable.fromJS([]),
     };
-    _.bindAll(this, ['fetchServices', 'selectService', 'selectAddOn', 'deselectAddOn']);
+    _.bindAll(this, ['fetchServices', 'selectService', 'selectAddOn', 'deselectAddOn', 'deSelectService']);
   }
   componentDidMount() {
     this.fetchServices();
@@ -49,7 +49,16 @@ export default class Section extends BaseComponent {
     //actions.selectSection(sectionId);
   }*/
   selectService(serviceId) {
-    this.setState({serviceSelection: serviceId})
+    let serviceSelection = this.state.serviceSelection;
+    //clear array and push new value to allow only 1 service selection
+    serviceSelection = serviceSelection.clear().push(serviceId);
+    this.setState({ serviceSelection: serviceSelection })
+  }
+  deSelectService(serviceId) {
+    let serviceSelection = this.state.serviceSelection;
+    let indexPosition = serviceSelection.indexOf(serviceId);
+    serviceSelection = serviceSelection.remove(indexPosition);
+    this.setState({ serviceSelection: serviceSelection })
   }
   selectAddOn(addOnId) {
     let selectedAddOn = this.state.selectedAddOn;
@@ -79,10 +88,9 @@ export default class Section extends BaseComponent {
     //const selected = data.get('selected');
     //let serviceSelection = data.get('serviceSelection');
     let { serviceSelection, selectedAddOn }  = this.state;
-    console.log("add on " + selectedAddOn );
+    console.log("lists " + serviceSelection );
     let services = this.state.services.get(0);
     let isFetching = this.state.isFetching;
-
     if(services != null) {
       serviceNodes = services.map(($$service, index) => {
         return (
@@ -103,12 +111,13 @@ export default class Section extends BaseComponent {
               serviceName={$$service.get('service_name')}
               serviceDescription={$$service.get('service_description')}
               serviceInfo={$$service.get('service_info')}
-              selected={serviceSelection==$$service.get('id')}
+              selected={serviceSelection.includes($$service.get('id'))}
               actions={actions}
               serviceId={$$service.get('id')}
               sectionId={sectionId}
               serviceSelection={serviceSelection}
               selectService={this.selectService}
+              deSelectService={this.deSelectService}
             />
         )
     });
@@ -146,7 +155,7 @@ export default class Section extends BaseComponent {
         </section>
 
 
-        <div className="card-action center-align">
+        <div className="card-action right-align">
           <ReactCSSTransitionGroup
             transitionName={cssTransitionGroupClassNames}
             transitionEnterTimeout={500}
@@ -155,6 +164,7 @@ export default class Section extends BaseComponent {
          {/*   {sectionId==sectionSelection ?
               <a href={`/sections/${sectionId}/services`} className="waves-effect waves-light btn blue ">Select</a>
               : ''}*/}
+
           </ReactCSSTransitionGroup>
         </div>
       </div>

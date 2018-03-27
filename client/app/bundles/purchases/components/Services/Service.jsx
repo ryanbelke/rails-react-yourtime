@@ -11,20 +11,22 @@ export default class Service extends BaseComponent {
   };
   constructor(props) {
     super(props);
-    _.bindAll(this, 'selectService');
+    _.bindAll(this, ['selectService', 'deSelectService']);
   }
 
   selectService() {
-    const { actions } = this.props;
     const serviceId = this.props.serviceId;
-    //actions.selectService(serviceId);
     this.props.selectService(serviceId);
+  }
+  deSelectService() {
+    const serviceId = this.props.serviceId;
+    this.props.deSelectService(serviceId);
   }
 
   render() {
     const { serviceName, serviceId, serviceSelection, serviceTime,
       serviceInfo, serviceDescription, servicePicture,
-      serviceVendor, servicePrice, sectionId, selected } = this.props;
+      serviceVendor, servicePrice, selected } = this.props;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -34,7 +36,7 @@ export default class Service extends BaseComponent {
     /* eslint-disable react/no-danger */
     return (
       <div
-        onClick={this.selectService}
+        onClick={selected ? this.deSelectService : this.selectService}
         className={`card sticky-action card-panel services ${css.service} ${selected ?
           css.selectedService : ''}`}>
         <div className="card-image card-gradient">
@@ -70,7 +72,7 @@ export default class Service extends BaseComponent {
             {/*serviceId==serviceSelection ?
               <a href={`/sections/${sectionId}/services/${serviceId}?appointment`} className="waves-effect waves-light btn blue ">Select</a>
               : ''*/}
-            {serviceId==serviceSelection ? <h5>Selected</h5> : ''}
+            {selected ? <h5 className={css.green}>&#10004;</h5> : ''}
           </ReactCSSTransitionGroup>
         </div>
         <div className="card-reveal">

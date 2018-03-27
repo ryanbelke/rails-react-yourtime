@@ -41,19 +41,14 @@ export default class AddOn extends BaseComponent {
         onClick={selected ? this.deSelectAddOn : this.selectAddOn}
         className={`card sticky-action card-panel addOns ${css.addOn} ${selected ?
           css.selectedAddOn : ''}`}>
-        <div className="card-image card-gradient">
-        </div>
-        <div className="card-title">
+        <div className={`card-title left-align + ${css.subtitles}`}>
           {addOnName}
-          <i className="material-icons right activator">info_outline</i>
+
+          <small className={css.purple}> &nbsp; ${addOnPrice}</small>
+        {/*  <i className="material-icons right activator">info_outline</i>*/}
           <hr />
         </div>
-        <section className={css.subtitles}>
-          <span className={css.subtitle}>
-          ${addOnPrice}
-        </span>
 
-        </section>
         <div className="card-content">
           <p>{addOnDescription}</p>
         </div>
@@ -66,10 +61,10 @@ export default class AddOn extends BaseComponent {
             {/*addOnId==addOnSelection ?
              <a href={`/sections/${sectionId}/addOns/${addOnId}?appointment`} className="waves-effect waves-light btn blue ">Select</a>
              : ''*/}
-            {addOnId==addOnSelection ? <h5>Selected</h5> : ''}
+            {selected ? <h5 className={css.green}>&#10004;</h5> : ''}
           </ReactCSSTransitionGroup>
         </div>
-        <div className="card-reveal">
+{/*        <div className="card-reveal">
           <span className="card-title grey-text text-darken-4">
             <i className="material-icons right">close</i>
             More Info <hr /><br/>
@@ -77,7 +72,7 @@ export default class AddOn extends BaseComponent {
           <p>
             {addOnInfo}
           </p>
-        </div>
+        </div>*/}
       </div>
 
     );

@@ -13,8 +13,9 @@ class SectionsComponent extends BaseComponent {
       $$sections: Immutable.fromJS([]),
       fetchSectionsError: null,
       isFetching: false,
+      continueButton: false,
     };
-    _.bindAll(this, 'fetchSections');
+    _.bindAll(this, ['fetchSections', 'continueButton']);
 
   }
 
@@ -28,6 +29,10 @@ class SectionsComponent extends BaseComponent {
     //const workplace = location.split('workplace=')[1];
     actions.fetchSections();
 
+  }
+
+  continueButton() {
+    this.setState({ continueButton: true })
   }
   render() {
     const  { data, actions }   = this.props;
@@ -50,8 +55,8 @@ class SectionsComponent extends BaseComponent {
           selected={selected}
           actions={actions}
           sectionId={$$section.get('id')}
-          sectionSelection={sectionSelection}
           data={data}
+          continueButton={this.continueButton}
         />),
       );
     }
@@ -73,6 +78,7 @@ class SectionsComponent extends BaseComponent {
             </div>
           </div>
         </section>
+        {this.state.continueButton ? <h1>True </h1> : <h1>False</h1>}
         <ReactCSSTransitionGroup
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
