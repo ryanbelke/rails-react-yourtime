@@ -122,7 +122,7 @@ class ServicesController < ApplicationController
     def service_params
       params.require(:service).permit(:service_name, :service_description, :service_price,
                                       :service_time_to_complete, :service_info, :service_vendor,
-                                      :picture, :link)
+                                      :picture, :add_on)
     end
 
     # Before filters

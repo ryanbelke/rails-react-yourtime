@@ -37,11 +37,10 @@ export default class Section extends BaseComponent {
     requestsManager.submitEntity(sectionId)
       .then(res => this.setState(({services}) => ({
         services: services.set(services.size, Immutable.fromJS(res.data.services))
-
       })
 
       ))
-      .catch(error => error)
+      .catch(error => this.setState({ fetchServicesError: error }))
   }
 /*  selectSection() {
     const { actions } = this.props;
