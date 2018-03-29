@@ -78,7 +78,7 @@ class SectionsComponent extends BaseComponent {
             </div>
           </div>
         </section>
-        {this.state.continueButton ? <h1>True </h1> : <h1>False</h1>}
+        {this.state.continueButton ? '' : ''}
         <ReactCSSTransitionGroup
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}

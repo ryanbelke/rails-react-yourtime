@@ -93,7 +93,7 @@ export default class Section extends BaseComponent {
     if(services != null) {
       serviceNodes = services.map(($$service, index) => {
         return (
-          $$service.get('add_on')  == true ?
+          $$service.get('add_on') ?
             <AddOn
               key={$$service.get('id')}
               selectAddOn={this.selectAddOn}
