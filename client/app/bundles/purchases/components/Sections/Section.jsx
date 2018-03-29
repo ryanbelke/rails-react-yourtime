@@ -93,18 +93,7 @@ export default class Section extends BaseComponent {
     if(services != null) {
       serviceNodes = services.map(($$service, index) => {
         return (
-          $$service.get('add_on') ?
-            <AddOn
-              key={$$service.get('id')}
-              selectAddOn={this.selectAddOn}
-              deSelectAddOn={this.deselectAddOn}
-              addOnId={$$service.get('id')}
-              addOnName={$$service.get('service_name')}
-              addOnDescription={$$service.get('service_description')}
-              addOnPrice={$$service.get('service_price')}
-              selected={selectedAddOn.includes($$service.get('id'))}
-            />
-            :
+          !$$service.get('add_on') ?
             <Service
               key={$$service.get('id')}
               serviceName={$$service.get('service_name')}
@@ -117,6 +106,17 @@ export default class Section extends BaseComponent {
               serviceSelection={serviceSelection}
               selectService={this.selectService}
               deSelectService={this.deSelectService}
+            />
+            :
+            <AddOn
+              key={$$service.get('id')}
+              selectAddOn={this.selectAddOn}
+              deSelectAddOn={this.deselectAddOn}
+              addOnId={$$service.get('id')}
+              addOnName={$$service.get('service_name')}
+              addOnDescription={$$service.get('service_description')}
+              addOnPrice={$$service.get('service_price')}
+              selected={selectedAddOn.includes($$service.get('id'))}
             />
         )
     });
