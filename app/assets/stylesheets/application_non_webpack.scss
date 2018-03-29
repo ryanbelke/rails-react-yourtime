@@ -11,6 +11,10 @@ input { color: #2E2F30 !important; }
   line-height: 0 !important;
   margin-left: 1px;
 }
+#main-container {
+  min-height: 700px !important;
+  height: 100%;
+}
 .header-link { color: #2E2F30; }
 .btn {color: white !important; }
 .navbar {

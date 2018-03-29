@@ -61,7 +61,7 @@ class Locations extends BaseComponent {
      const locationState = this.props.location.state;*/
     return (
       <section className={css.locationsSection}>
-        <div style={{display: isFetching ? '' : 'none'}} id={css.loader}>
+        <div style={{display: isFetching ? 'block' : 'none'}} id={css.loader}>
           <div className="preloader-wrapper big active">
             <div className="spinner-layer spinner-blue-only">
               <div className="circle-clipper left">
