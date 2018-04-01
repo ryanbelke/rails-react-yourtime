@@ -15,12 +15,10 @@ export default class Service extends BaseComponent {
   }
 
   selectService() {
-    const serviceId = this.props.serviceId;
-    this.props.selectService(serviceId);
+    this.props.selectService(this.props.serviceId);
   }
   deSelectService() {
-    const serviceId = this.props.serviceId;
-    this.props.deSelectService(serviceId);
+    this.props.deSelectService(this.props.serviceId);
   }
 
   render() {

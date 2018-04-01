@@ -22,8 +22,9 @@ export default class Section extends BaseComponent {
       services: Immutable.fromJS([]),
       fetchServicesError: null,
       isFetching: false,
-      serviceSelection: Immutable.fromJS([]),
+      serviceSelection: Immutable.List(),
       selectedAddOn: Immutable.fromJS([]),
+      servicesInSectionRow: Immutable.List(),
     };
     _.bindAll(this, ['fetchServices', 'selectService', 'selectAddOn', 'deselectAddOn', 'deSelectService']);
   }
@@ -32,15 +33,15 @@ export default class Section extends BaseComponent {
   }
 
   fetchServices() {
-    const  { data, actions, sectionId } = this.props;
+    const  { sectionId } = this.props;
+    let { services, servicesInSectionRow } = this.state;
     //actions.fetchServices(this.props.sectionId);
     requestsManager.submitEntity(sectionId)
       .then(res => this.setState(({services}) => ({
-        services: services.set(services.size, Immutable.fromJS(res.data.services))
-      })
-
-      ))
+        services: services.set(services.size, Immutable.fromJS(res.data.services)),
+      })))
       .catch(error => this.setState({ fetchServicesError: error }))
+
   }
 /*  selectSection() {
     const { actions } = this.props;
@@ -48,16 +49,20 @@ export default class Section extends BaseComponent {
     //actions.selectSection(sectionId);
   }*/
   selectService(serviceId) {
-    let serviceSelection = this.state.serviceSelection;
+    let {services, serviceSelection } = this.state;
     //clear array and push new value to allow only 1 service selection
     serviceSelection = serviceSelection.clear().push(serviceId);
-    this.setState({ serviceSelection: serviceSelection })
+    this.props.continueButton(serviceSelection, 1, serviceId, services);
+
+    this.setState({ serviceSelection: serviceSelection });
+
   }
   deSelectService(serviceId) {
-    let serviceSelection = this.state.serviceSelection;
+    let { serviceSelection, services } = this.state;
     let indexPosition = serviceSelection.indexOf(serviceId);
     serviceSelection = serviceSelection.remove(indexPosition);
-    this.setState({ serviceSelection: serviceSelection })
+    this.setState({ serviceSelection: serviceSelection });
+    this.props.continueButton(serviceSelection, 2, serviceId, services);
   }
   selectAddOn(addOnId) {
     let selectedAddOn = this.state.selectedAddOn;
@@ -87,7 +92,6 @@ export default class Section extends BaseComponent {
     //const selected = data.get('selected');
     //let serviceSelection = data.get('serviceSelection');
     let { serviceSelection, selectedAddOn }  = this.state;
-    console.log("lists " + serviceSelection );
     let services = this.state.services.get(0);
     let isFetching = this.state.isFetching;
     if(services != null) {

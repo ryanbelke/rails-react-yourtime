@@ -9,7 +9,7 @@ export default class AddOn extends BaseComponent {
   static propTypes = {
     addOnName: PropTypes.string.isRequired,
     addOnDescription: PropTypes.string.isRequired,
-    addOnPrice: PropTypes.number.isRequired,
+    //addOnPrice: PropTypes.number.isRequired,
   };
   constructor(props) {
     super(props);

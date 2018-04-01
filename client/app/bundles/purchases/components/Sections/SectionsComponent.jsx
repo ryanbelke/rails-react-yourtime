@@ -13,7 +13,8 @@ class SectionsComponent extends BaseComponent {
       $$sections: Immutable.fromJS([]),
       fetchSectionsError: null,
       isFetching: false,
-      continueButton: false,
+      continueButton: Immutable.fromJS([]),
+      selections: Immutable.List(),
     };
     _.bindAll(this, ['fetchSections', 'continueButton']);
 
@@ -31,8 +32,49 @@ class SectionsComponent extends BaseComponent {
 
   }
 
-  continueButton() {
-    this.setState({ continueButton: true })
+  continueButton(serviceSelection, action, serviceId, services) {
+    let selections = this.state.selections;
+    let servicesInRow = Immutable.List();
+    if (action == 1) {
+      services.map(($$service) => {
+        $$service.map(($ser) => {
+            servicesInRow = servicesInRow.push($ser.get('id'));
+          }
+        )
+      });
+      console.log("servicesInRow = " + servicesInRow);
+      console.log("selections = " + selections);
+      //iterate over all items in selections
+      selections.forEach(($$selection) => {
+        if (servicesInRow.includes($$selection)) {
+          //remove every selection but serviceId
+          console.log("remove all servicesInRow except serviceId ")
+          if($$selection != serviceId) {
+            console.log("$$selection != serviceId " + $$selection)
+            let index = selections.indexOf($$selection);
+            console.log("index = " + index)
+            selections = selections.remove(index)
+            this.setState({selections: selections});
+            console.log("state = " + this.state.selections)
+          }
+
+        }
+      });
+      //need to take the items in list thats passed in and add them to selections List
+      serviceSelection.size == 0 ?
+          this.setState({selections: selections.push(serviceSelection.get(0))})
+      :
+        serviceSelection.forEach(($$service, index) =>
+          this.setState({selections: selections.push($$service)})
+        );
+
+    } else if (action == 2) {
+      let indexPosition = selections.indexOf(serviceId);
+      selections = selections.remove(indexPosition);
+      this.setState({selections: selections})
+    }
+    //console.log(" selections === " + JSON.stringify(selections));
+
   }
   render() {
     const  { data, actions }   = this.props;
@@ -47,6 +89,7 @@ class SectionsComponent extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
+
     if(sections != null) {
       sectionNodes = sections.map(($$section, index) =>
         (<Section
@@ -78,7 +121,6 @@ class SectionsComponent extends BaseComponent {
             </div>
           </div>
         </section>
-        {this.state.continueButton ? '' : ''}
         <ReactCSSTransitionGroup
           transitionName={cssTransitionGroupClassNames}
           transitionEnterTimeout={500}
@@ -87,6 +129,8 @@ class SectionsComponent extends BaseComponent {
         >
           {sectionNodes}
         </ReactCSSTransitionGroup>
+        {this.state.continueButton ? 'True' : 'False'}
+
       </section>
     );
   }
