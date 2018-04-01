@@ -54,15 +54,22 @@ class ServicesController < ApplicationController
       redux_store("commentsStore")
       #set booking feed to empty
       @booking_feed = []
+=begin
       section = Section.friendly.find(params[:section_id])
       service = Service.friendly.find(params[:id])
       #set category cookie
       cookies[:section] = section.slug
       #set service cookie
       cookies[:service] = service.id
+=end
+    end
+#GET /services/booking
+    def booking
+      redux_store("commentsStore")
+      @booking_feed = []
     end
 
-    def booking
+    def booking_info
       redux_store("commentsStore")
       #set booking feed to empty
       @booking_feed = []

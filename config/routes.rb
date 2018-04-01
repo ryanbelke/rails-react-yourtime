@@ -16,10 +16,13 @@ Rails.application.routes.draw do
   post   '/purchase', to: 'purchases#create'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-
-  get '/booking', to: 'services#booking'
+#get booking info from server
+  get '/booking', to: 'services#booking_info'
+#view booking
+  get '/services/booking', to: 'services#booking'
 
   post '/services', to: 'services#index'
+
   resources :charges, only: [:new, :create]
 
   resources :workplaces do

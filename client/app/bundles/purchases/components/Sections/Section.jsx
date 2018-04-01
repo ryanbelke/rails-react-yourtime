@@ -68,13 +68,15 @@ export default class Section extends BaseComponent {
     let selectedAddOn = this.state.selectedAddOn;
     selectedAddOn = selectedAddOn.push(addOnId);
     this.setState({ selectedAddOn: selectedAddOn })
+    this.props.selectAddOn(selectedAddOn)
   }
   deselectAddOn(addOnId) {
     let selectedAddOn = this.state.selectedAddOn;
     let indexPosition = selectedAddOn.indexOf(addOnId);
     selectedAddOn = selectedAddOn.remove(indexPosition);
+    this.setState({ selectedAddOn: selectedAddOn });
+    this.props.selectAddOn(selectedAddOn)
 
-    this.setState({ selectedAddOn: selectedAddOn })
   }
 
   render() {

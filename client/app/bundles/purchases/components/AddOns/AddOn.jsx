@@ -19,10 +19,12 @@ export default class AddOn extends BaseComponent {
   selectAddOn() {
     const addOnId = this.props.addOnId;
     this.props.selectAddOn(addOnId);
+
   }
   deSelectAddOn() {
     const addOnId = this.props.addOnId;
     this.props.deSelectAddOn(addOnId);
+
   }
 
   render() {

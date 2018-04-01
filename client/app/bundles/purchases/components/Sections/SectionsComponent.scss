@@ -3,8 +3,20 @@
   left: 45%;
   top: 20%;
 }
+.continueButton {
+  position: absolute;
+  right: 50px;
+  float: right;
+  margin-right: 30px;
+}
+#button {
 
-
+  span {
+    font-size: 1.5rem !important;
+    font-weight: bold;
+    margin-bottom: 90px;
+  }
+}
 .sectionsSection {
   display: flex;
   justify-content: center;

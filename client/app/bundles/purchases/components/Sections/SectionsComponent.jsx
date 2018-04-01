@@ -15,8 +15,9 @@ class SectionsComponent extends BaseComponent {
       isFetching: false,
       continueButton: Immutable.fromJS([]),
       selections: Immutable.List(),
+      addOnSelections: Immutable.List(),
     };
-    _.bindAll(this, ['fetchSections', 'continueButton']);
+    _.bindAll(this, ['fetchSections', 'continueButton', 'selectAddOn']);
 
   }
 
@@ -48,12 +49,12 @@ class SectionsComponent extends BaseComponent {
       selections.forEach(($$selection) => {
         if (servicesInRow.includes($$selection)) {
           //remove every selection but serviceId
-          console.log("remove all servicesInRow except serviceId ")
+          console.log("remove all servicesInRow except serviceId ");
           if($$selection != serviceId) {
-            console.log("$$selection != serviceId " + $$selection)
+            console.log("$$selection != serviceId " + $$selection);
             let index = selections.indexOf($$selection);
-            console.log("index = " + index)
-            selections = selections.remove(index)
+            console.log("index = " + index);
+            selections = selections.remove(index);
             this.setState({selections: selections});
             console.log("state = " + this.state.selections)
           }
@@ -74,7 +75,10 @@ class SectionsComponent extends BaseComponent {
       this.setState({selections: selections})
     }
     //console.log(" selections === " + JSON.stringify(selections));
+  }
 
+  selectAddOn(addOnList) {
+    this.setState({ addOnSelections: addOnList })
   }
   render() {
     const  { data, actions }   = this.props;
@@ -100,6 +104,7 @@ class SectionsComponent extends BaseComponent {
           sectionId={$$section.get('id')}
           data={data}
           continueButton={this.continueButton}
+          selectAddOn={this.selectAddOn}
         />),
       );
     }
@@ -107,31 +112,41 @@ class SectionsComponent extends BaseComponent {
      const actions = bindActionCreators(commentsActionCreators, dispatch);
      const locationState = this.props.location.state;*/
     return (
-      <section className={css.sectionsSection}>
-        <section style={{display: isFetching ? 'block' : 'none'}} id={css.loader}>
-          <div className="preloader-wrapper big active">
-            <div className="spinner-layer spinner-blue-only">
-              <div className="circle-clipper left">
+      <div>
+        <section className={css.sectionsSection}>
+          <section style={{display: isFetching ? 'block' : 'none'}} id={css.loader}>
+            <div className="preloader-wrapper big active">
+              <div className="spinner-layer spinner-blue-only">
+                <div className="circle-clipper left">
+                  <div className="circle"></div>
+                </div><div className="gap-patch">
                 <div className="circle"></div>
-              </div><div className="gap-patch">
-              <div className="circle"></div>
-            </div><div className="circle-clipper right">
-              <div className="circle"></div>
+              </div><div className="circle-clipper right">
+                <div className="circle"></div>
+              </div>
+              </div>
             </div>
-            </div>
-          </div>
-        </section>
-        <ReactCSSTransitionGroup
-          transitionName={cssTransitionGroupClassNames}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-          component="span"
-        >
-          {sectionNodes}
-        </ReactCSSTransitionGroup>
-        {this.state.continueButton ? 'True' : 'False'}
+          </section>
+          <section>
+            <ReactCSSTransitionGroup
+              transitionName={cssTransitionGroupClassNames}
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}
+              component="span"
+            >
+              {sectionNodes}
+            </ReactCSSTransitionGroup>
+          </section>
+          <br />
 
-      </section>
+        </section>
+        <div className={css.continueButton}>
+          {this.state.selections.size > 0 ?
+            <a className="btn pulse" href="/services/booking" id={css.button}>
+             <span>Continue <i className="material-icons">arrow_forward</i></span></a>
+            : ''}
+        </div>
+      </div>
     );
   }
 }
