@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import Immutable from 'immutable';
+import { withCookies, Cookies } from 'react-cookie';
 import Booking from './Booking';
 import css from './BookingsComponent.scss';
 import BaseComponent from 'libs/components/BaseComponent';
@@ -23,9 +24,16 @@ class BookingsComponent extends BaseComponent {
   }
 
   fetchBookings() {
-    const  { data, actions } = this.props;
+    const  { data, actions, cookies } = this.props;
+    const serviceList = Immutable.List(cookies.get('services'))
+    console.log("serviceList = " + serviceList)
     let pathname = data.getIn(['railsContext', 'pathname']);
-    actions.fetchBookings(pathname);
+
+    actions.fetchBookings(serviceList.get(0));
+
+    serviceList.forEach(($$service) => {
+
+    })
 
   }
   render() {
@@ -94,4 +102,4 @@ class BookingsComponent extends BaseComponent {
     );
   }
 }
-export default BookingsComponent;
+export default withCookies(BookingsComponent);

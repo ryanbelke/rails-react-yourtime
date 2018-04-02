@@ -82,6 +82,7 @@
     "react": "^16.0.0",
     "react-addons-css-transition-group": "^15.6.0",
     "react-bootstrap": "^0.31.2",
+    "react-cookie": "^2.1.4",
     "react-dom": "^16.0.0",
     "react-intl": "^2.3.0",
     "react-on-rails": "^10.0.0",

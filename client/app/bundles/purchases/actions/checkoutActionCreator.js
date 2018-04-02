@@ -143,14 +143,13 @@ export function selectService(service) {
 }
 
 //FETCH AND SELECT BOOKINGS
-export function fetchBookings(pathname) {
+export function fetchBookings(service) {
   return (dispatch) => {
     dispatch(setIsFetching());
     return (
       //make a request conserving the workplace=id that is set from the home screen
       //sets state: $$categories = list of the categories
-      request
-        .get(`/booking.json`, { responseType: 'json' })
+        requestsManager.postBooking(service)
         .then(res => dispatch(fetchBookingsSuccess(res.data)))
         .catch(error => dispatch(fetchBookingsFailure(error)))
     );

@@ -67,8 +67,9 @@ class ServicesController < ApplicationController
     def booking
       redux_store("commentsStore")
       @booking_feed = []
-    end
 
+    end
+#POST /booking
     def booking_info
       redux_store("commentsStore")
       #set booking feed to empty
@@ -82,7 +83,7 @@ class ServicesController < ApplicationController
       category = Category.friendly.find(cookies[:category])
       location = Location.friendly.find(cookies[:location])
       section = Section.friendly.find(cookies[:section])
-      service = Service.friendly.find(cookies[:service])
+      service = Service.friendly.find(params[:service])
 
       schedules = location.schedules
       @dates = schedules.pluck(:date).map{ |entry| [entry.strftime("%Y,%m,%d").gsub("'", '')]}

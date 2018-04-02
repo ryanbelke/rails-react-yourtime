@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 #get booking info from server
-  get '/booking', to: 'services#booking_info'
+  post '/booking', to: 'services#booking_info'
 #view booking
   get '/services/booking', to: 'services#booking'
 

@@ -5,6 +5,7 @@ import Section from './Section';
 import css from './SectionsComponent.scss';
 import BaseComponent from 'libs/components/BaseComponent';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { withCookies, Cookies } from 'react-cookie';
 
 class SectionsComponent extends BaseComponent {
   constructor(props) {
@@ -34,6 +35,7 @@ class SectionsComponent extends BaseComponent {
   }
 
   continueButton(serviceSelection, action, serviceId, services) {
+    const { cookies } = this.props;
     let selections = this.state.selections;
     let servicesInRow = Immutable.List();
     if (action == 1) {
@@ -56,9 +58,9 @@ class SectionsComponent extends BaseComponent {
             console.log("index = " + index);
             selections = selections.remove(index);
             this.setState({selections: selections});
-            console.log("state = " + this.state.selections)
-          }
+            console.log("state = " + this.state.selections);
 
+          }
         }
       });
       //need to take the items in list thats passed in and add them to selections List
@@ -72,16 +74,16 @@ class SectionsComponent extends BaseComponent {
     } else if (action == 2) {
       let indexPosition = selections.indexOf(serviceId);
       selections = selections.remove(indexPosition);
-      this.setState({selections: selections})
+      this.setState({selections: selections});
+      cookies.set('services', selections);
     }
-    //console.log(" selections === " + JSON.stringify(selections));
   }
 
   selectAddOn(addOnList) {
     this.setState({ addOnSelections: addOnList })
   }
   render() {
-    const  { data, actions }   = this.props;
+    const  { data, actions, cookies }   = this.props;
     let sectionNodes = null;
     const isFetching = data.get('isFetching');
     const sections = data.get('$$sections');
@@ -93,6 +95,9 @@ class SectionsComponent extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
+    console.log("cookie = " + JSON.stringify(cookies.get('services')))
+    cookies.set('services', this.state.selections, { path: '/' });
+
 
     if(sections != null) {
       sectionNodes = sections.map(($$section, index) =>
@@ -150,4 +155,4 @@ class SectionsComponent extends BaseComponent {
     );
   }
 }
-export default SectionsComponent;
+export default withCookies(SectionsComponent);
