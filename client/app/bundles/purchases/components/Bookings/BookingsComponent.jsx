@@ -7,6 +7,7 @@ import css from './BookingsComponent.scss';
 import BaseComponent from 'libs/components/BaseComponent';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Checkout from './Checkout';
+import requestsManager from 'libs/requestsManager';
 
 class BookingsComponent extends BaseComponent {
   constructor(props) {
@@ -15,6 +16,7 @@ class BookingsComponent extends BaseComponent {
       $$bookings: Immutable.fromJS([]),
       fetchBookingsError: null,
       isFetching: false,
+      $$bookingServices: Immutable.fromJS([]),
     };
     _.bindAll(this, 'fetchBookings');
   }
@@ -25,22 +27,29 @@ class BookingsComponent extends BaseComponent {
 
   fetchBookings() {
     const  { data, actions, cookies } = this.props;
-    const serviceList = Immutable.List(cookies.get('services'))
+    const serviceList = Immutable.List(cookies.get('services'));
     console.log("serviceList = " + serviceList)
     let pathname = data.getIn(['railsContext', 'pathname']);
-
-    actions.fetchBookings(serviceList.get(0));
+    actions.fetchBookings();
+    //actions.fetchBookingServices(serviceList.get(0))
 
     serviceList.forEach(($$service) => {
-
+      requestsManager
+        .postService($$service)
+        .then(res => this.setState(({$$bookingServices}) => ({
+          $$bookingServices: $$bookingServices.push(Immutable.fromJS(res.data)),
+        })))
+        .catch(error => this.setState({ error: error }));
     })
-
   }
   render() {
     const  { data, actions }   = this.props;
     let bookingNodes;
     const isFetching = data.get('isFetching');
-    const bookings = data.get('$$bookings');
+    const bookings = Immutable.fromJS(data.get('$$bookings'));
+    let bookingServices = this.state.$$bookingServices;
+
+    // const bookings = this.state.$$bookings.getIn(['0', 'bookings']);
     //const selected = data.get('selected');
     //let bookingSelection = data.get('serviceSelection');
     const cssTransitionGroupClassNames = {
@@ -49,23 +58,24 @@ class BookingsComponent extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    if(bookings != null) {
+    if(bookings != null || undefined) {
       bookingNodes = bookings.map(($$booking, index) =>
-        (<Booking
-          key={$$booking.get('bookingId') || index }
-          workplaceName={$$booking.get('workplaceName')}
-          categoryName={$$booking.get('categoryName')}
-          locationName={$$booking.get('locationName')}
-          sectionName={$$booking.get('sectionName')}
-          service={$$booking.get('service')}
-          dates={$$booking.get('dates')}
-          //selected={selected}
-          //serviceSelection={serviceSelection}
-          actions={actions}
-          //bookingId={sectionId}
-        />),
-      );
+            (<Booking
+              key={$$booking.get('bookingId') || index }
+              workplaceName={$$booking.get('workplaceName')}
+              categoryName={$$booking.get('categoryName')}
+              locationName={$$booking.get('locationName')}
+              sectionName={$$booking.get('sectionName')}
+              services={bookingServices}
+              dates={$$booking.get('dates')}
+              //selected={selected}
+              //serviceSelection={serviceSelection}
+              actions={actions}
+              //bookingId={sectionId}
+            />),
+        )
     }
+
     /*    const { dispatch, data } = this.props;
      const actions = bindActionCreators(commentsActionCreators, dispatch);
      const locationState = this.props.location.state;*/
@@ -91,8 +101,9 @@ class BookingsComponent extends BaseComponent {
               component="section"
 
             >
-              {bookingNodes}
             </ReactCSSTransitionGroup>
+        {bookingNodes}
+
         <section className={css.checkoutSection}>
 
               <Checkout />

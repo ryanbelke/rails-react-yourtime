@@ -33,10 +33,19 @@ export default {
       data: {section: entity},
     });
   },
-  postBooking(service) {
+  postBooking() {
     return request({
       method: 'POST',
       url: '/booking',
+      responseType: 'json',
+      headers: ReactOnRails.authenticityHeaders(),
+
+    });
+  },
+  postService(service) {
+    return request({
+      method: 'POST',
+      url: '/service',
       responseType: 'json',
       headers: ReactOnRails.authenticityHeaders(),
       data: { service: service },

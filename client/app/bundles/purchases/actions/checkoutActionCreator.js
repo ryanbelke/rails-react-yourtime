@@ -143,13 +143,13 @@ export function selectService(service) {
 }
 
 //FETCH AND SELECT BOOKINGS
-export function fetchBookings(service) {
+export function fetchBookings() {
   return (dispatch) => {
     dispatch(setIsFetching());
     return (
       //make a request conserving the workplace=id that is set from the home screen
       //sets state: $$categories = list of the categories
-        requestsManager.postBooking(service)
+        requestsManager.postBooking()
         .then(res => dispatch(fetchBookingsSuccess(res.data)))
         .catch(error => dispatch(fetchBookingsFailure(error)))
     );
@@ -174,4 +174,30 @@ export function selectBooking(booking) {
     type: actionTypes.SELECT_BOOKING,
     bookingSelection: booking,
   }
+}
+
+export function fetchBookingServices(service) {
+  return (dispatch) => {
+    dispatch(setIsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      requestsManager.postService(service)
+        .then(res => dispatch(fetchBookingServicesSuccess(res.data)))
+        .catch(error => dispatch(fetchBookingServicesFailure(error)))
+    );
+  };
+}
+export function fetchBookingServicesSuccess(data) {
+  return {
+    type: actionTypes.FETCH_BOOKING_SERVICES_SUCCESS,
+    $$bookingServices: data.bookingServices,
+  };
+}
+
+export function fetchBookingServicesFailure(error) {
+  return {
+    type: actionTypes.FETCH_BOOKING_SERVICES_FAILURE,
+    error,
+  };
 }

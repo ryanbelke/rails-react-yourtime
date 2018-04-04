@@ -1,5 +1,6 @@
 class ServicesController < ApplicationController
   require 'securerandom'
+  skip_before_action :verify_authenticity_token
     #before_action :correct_user,   only: [:create, :index]
     before_action :admin_user,     only: [:edit, :create, :destroy, :new]
     include ReactOnRails::Controller
@@ -69,6 +70,13 @@ class ServicesController < ApplicationController
       @booking_feed = []
 
     end
+
+  #POST /service :ID
+    def service_info
+      @services = Service.friendly.find(params[:service])
+      @service_section = @services.section.section_name
+      puts "service section = " + @service_section
+    end
 #POST /booking
     def booking_info
       redux_store("commentsStore")
@@ -83,7 +91,6 @@ class ServicesController < ApplicationController
       category = Category.friendly.find(cookies[:category])
       location = Location.friendly.find(cookies[:location])
       section = Section.friendly.find(cookies[:section])
-      service = Service.friendly.find(params[:service])
 
       schedules = location.schedules
       @dates = schedules.pluck(:date).map{ |entry| [entry.strftime("%Y,%m,%d").gsub("'", '')]}
@@ -98,7 +105,7 @@ class ServicesController < ApplicationController
           categoryName: category.category_name,
           locationName: location.location_name,
           sectionName: section.section_name,
-          service: service,
+          #service: service,
           dates: @dates,
           workplaceSlug: workplace.slug,
           categorySlug: category.slug,
@@ -117,12 +124,14 @@ class ServicesController < ApplicationController
 
       #set tax information
       #puts "***** " + service.to_yaml
+=begin
       @tax_amount1 = (0.09 * service.service_price)
       @tax_amount = sprintf('%.2f', @tax_amount1)
       @your_time_amount1 = (0.05 * service.service_price)
       @your_time_amount = sprintf('%.2f', @your_time_amount1)
       @total_price1 = @tax_amount1 + @your_time_amount1 + service.service_price
       @total_price = sprintf('%.2f', @total_price1)
+=end
     end
 
     private

@@ -15,7 +15,7 @@ export default class Booking extends BaseComponent {
     categoryName: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
     sectionName: PropTypes.string.isRequired,
-    service: PropTypes.object.isRequired,
+    services: PropTypes.object.isRequired,
   };
   constructor(props) {
     super(props);
@@ -34,13 +34,11 @@ export default class Booking extends BaseComponent {
       //console.log(action, location.pathname, location.state)
     });
 
-
     let {dates} = this.props;
     let datesArray = [true];
     dates = dates.toArray();
-    let date = dates.forEach((date, index) => {
+    let date = dates.forEach((date) => {
        return datesArray.push(new Date(date.get(0)))
-
     });
 
     $('.datepicker').pickadate({
@@ -60,13 +58,41 @@ export default class Booking extends BaseComponent {
 
   render() {
     let { workplaceName, categoryName,
-      locationName, sectionName, service, dates } = this.props;
+      locationName, sectionName, services, dates } = this.props;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
+    let serviceNodes;
+    console.log('services ==== ' + services);
+    if(services != null || undefined) {
+        serviceNodes = services.map(($$service, index) => (
+          <div key={index}>
+            <div className="form-info">
+              <span className="form-header">Service Section:</span>
+              <span className="form-text"> {$$service.getIn(['service', 'section_name'])} </span>
+            </div>
+            <div className="form-info">
+              <span className="form-header">Service: </span>
+              <span className="form-text">{$$service.getIn(['service', 'service_name'])}</span>
+            </div>
+            <div className="form-info">
+              <span className="form-header">Price: </span>
+              <span className="form-text"> ${$$service.getIn(['service','service_price'])}</span>
+            </div>
+            <div className="form-info">
+              <span className="form-header">Vendor: </span>
+              <span className="form-text">{$$service.getIn(['service', 'service_vendor'])} </span>
+            </div>
+            <div className="form-info">
+              <span className="form-header">Time Frame: </span>
+              <span className="form-text">{$$service.getIn(['service', 'service_time_to_complete'])}</span>
+            </div>
+          </div>
+        ))
+    }
 
     /* eslint-disable react/no-danger */
     return (
@@ -118,26 +144,7 @@ export default class Booking extends BaseComponent {
                 <span className="form-header">Category:</span>
                 <span className="form-text"> {categoryName}</span>
               </div>
-              <div className="form-info">
-                <span className="form-header">Service Section:</span>
-                <span className="form-text"> {sectionName} </span>
-              </div>
-              <div className="form-info">
-                <span className="form-header">Service: </span>
-                <span className="form-text">{service.get('service_name')}</span>
-              </div>
-              <div className="form-info">
-                <span className="form-header">Price: </span>
-                <span className="form-text"> ${service.get('service_price')}</span>
-              </div>
-              <div className="form-info">
-                <span className="form-header">Vendor: </span>
-                <span className="form-text">{service.get('service_vendor')} </span>
-              </div>
-              <div className="form-info">
-                <span className="form-header">Time Frame: </span>
-                <span className="form-text">{service.get('service_time_to_complete')}</span>
-              </div>
+              {serviceNodes}
             </div>
             <br />
 

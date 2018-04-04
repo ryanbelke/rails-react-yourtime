@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
 #get booking info from server
   post '/booking', to: 'services#booking_info'
+  post '/service', to: 'services#service_info'
 #view booking
   get '/services/booking', to: 'services#booking'
 

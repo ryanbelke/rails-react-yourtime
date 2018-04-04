@@ -12,6 +12,7 @@ export const $$initialState = Immutable.fromJS({
   $$sections: [],
   $$services: [],
   $$bookings: [],
+  $$bookingServices: [],
   category: '',
   locationSelection: '',
   selected: false,
@@ -21,7 +22,7 @@ export const $$initialState = Immutable.fromJS({
 export default function commentsReducer($$state = $$initialState, action = null) {
   const { category, type, comment, comments, error,
      $$categories, $$locations, locationSelection, $$sections,
-     sectionSelection, $$services, serviceSelection, $$bookings, bookingSelection } = action;
+     sectionSelection, $$services, serviceSelection, $$bookings, $$bookingServices } = action;
 
   switch (type) {
     case actionTypes.FETCH_CATEGORIES_SUCCESS: {
@@ -129,7 +130,32 @@ export default function commentsReducer($$state = $$initialState, action = null)
         isFetching: false,
       });
     }
-
+/*    case actionTypes.FETCH_BOOKINGS_SUCCESS: {
+      return $$state.withMutations(state => (
+        state
+          .setIn(
+            ['$$bookings'],
+            action.$$bookings.concat("hello"),
+          )
+          .merge ({
+            fetchBookingsError: null,
+            isFetching: false,
+          })
+      ));
+    }*/
+    case actionTypes.FETCH_BOOKING_SERVICES_SUCCESS: {
+      return $$state.withMutations(state => (
+        state
+          .setIn(
+            ['$$bookingServices'],
+          data.service
+          )
+          .merge ({
+            fetchBookingServicesError: null,
+            isFetching: false,
+          })
+      ));
+    }
     case actionTypes.FETCH_BOOKINGS_FAILURE: {
       return $$state.merge({
         fetchBookingsError: error,
