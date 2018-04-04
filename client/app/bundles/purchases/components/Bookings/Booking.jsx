@@ -58,40 +58,44 @@ export default class Booking extends BaseComponent {
 
   render() {
     let { workplaceName, categoryName,
-      locationName, sectionName, services, dates } = this.props;
+      locationName, services, addOns } = this.props;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    let serviceNodes;
+    let serviceNodes, addOnNodes;
     console.log('services ==== ' + services);
     if(services != null || undefined) {
         serviceNodes = services.map(($$service, index) => (
           <div key={index}>
             <div className="form-info">
-              <span className="form-header">Service Section:</span>
-              <span className="form-text"> {$$service.getIn(['service', 'section', 'section_name'])} </span>
+              <span className="form-header">Service:</span>
+              <span className="form-text"> {$$service.getIn(['service', 'section', 'section_name'])}&nbsp;|
+                &nbsp;{$$service.getIn(['service', 'service_name'])}</span>
             </div>
-            <div className="form-info">
-              <span className="form-header">Service: </span>
-              <span className="form-text">{$$service.getIn(['service', 'service_name'])}</span>
-            </div>
+
             <div className="form-info">
               <span className="form-header">Price: </span>
               <span className="form-text"> ${$$service.getIn(['service','service_price'])}</span>
             </div>
             <div className="form-info">
-              <span className="form-header">Vendor: </span>
-              <span className="form-text">{$$service.getIn(['service', 'service_vendor'])} </span>
-            </div>
-            <div className="form-info">
-              <span className="form-header">Time Frame: </span>
-              <span className="form-text">{$$service.getIn(['service', 'service_time_to_complete'])}</span>
+              <span className="form-header">Vendor/Time: </span>
+              <span className="form-text">{$$service.getIn(['service', 'service_vendor'])}&nbsp; |
+              &nbsp; {$$service.getIn(['service', 'service_time_to_complete'])}h</span>
             </div>
           </div>
-        ))
+        ));
+      addOnNodes = addOns.map(($$addOn, index) => (
+        <div key={index}>
+          <div className="form-info">
+            <span className="form-header"></span>
+            <span className="form-text"> {$$addOn.getIn(['service', 'service_name'])}:
+            &nbsp; ${$$addOn.getIn(['service','service_price'])}</span>
+          </div>
+        </div>
+      ))
     }
 
     /* eslint-disable react/no-danger */
@@ -133,18 +137,25 @@ export default class Booking extends BaseComponent {
               </div>
               <div className="form-info">
                 <span className="form-header">Workplace:</span>
-                <span className="form-text"> {workplaceName} </span>
+                <span className="form-text"> {workplaceName}&nbsp; | &nbsp;{locationName} </span>
               </div>
-              <div className="form-info">
+{/*              <div className="form-info">
                 <span className="form-header">Location:</span>
-                <span className="form-text"> {locationName}</span>
-              </div>
+                <span className="form-text"> </span>
+              </div>*/}
 
               <div className="form-info">
                 <span className="form-header">Category:</span>
                 <span className="form-text"> {categoryName}</span>
               </div>
               {serviceNodes}
+              <hr />
+              <hr />
+              <hr />
+              <div className="form-info">
+                <span className="form-header">Add-ons:</span>
+              </div>
+              {addOnNodes}
             </div>
             <br />
 

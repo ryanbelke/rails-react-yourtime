@@ -57,7 +57,7 @@ class SectionsComponent extends BaseComponent {
             let index = selections.indexOf($$selection);
             console.log("index = " + index);
             selections = selections.remove(index);
-            this.setState({selections: selections});
+            this.setState({ selections: selections });
             console.log("state = " + this.state.selections);
 
           }
@@ -95,9 +95,9 @@ class SectionsComponent extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    console.log("cookie = " + JSON.stringify(cookies.get('services')))
+    console.log("cookie = " + JSON.stringify(cookies.get('services')));
     cookies.set('services', this.state.selections, { path: '/' });
-
+    cookies.set('addOns', this.state.addOnSelections, { path: '/' });
 
     if(sections != null) {
       sectionNodes = sections.map(($$section, index) =>

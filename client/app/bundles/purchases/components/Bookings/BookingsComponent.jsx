@@ -17,6 +17,7 @@ class BookingsComponent extends BaseComponent {
       fetchBookingsError: null,
       isFetching: false,
       $$bookingServices: Immutable.fromJS([]),
+      $$bookingAddOns: Immutable.fromJS([]),
     };
     _.bindAll(this, 'fetchBookings');
   }
@@ -28,7 +29,8 @@ class BookingsComponent extends BaseComponent {
   fetchBookings() {
     const  { data, actions, cookies } = this.props;
     const serviceList = Immutable.List(cookies.get('services'));
-    console.log("serviceList = " + serviceList)
+    const addOnList = Immutable.List(cookies.get('addOns'));
+    console.log("serviceList = " + addOnList);
     let pathname = data.getIn(['railsContext', 'pathname']);
     actions.fetchBookings();
     //actions.fetchBookingServices(serviceList.get(0))
@@ -41,6 +43,14 @@ class BookingsComponent extends BaseComponent {
         })))
         .catch(error => this.setState({ error: error }));
     })
+    addOnList.forEach(($$addOn) => {
+      requestsManager
+        .postService($$addOn)
+        .then(res => this.setState(({$$bookingAddOns}) => ({
+          $$bookingAddOns: $$bookingAddOns.push(Immutable.fromJS(res.data)),
+        })))
+        .catch(error => this.setState({ error: error }));
+    })
   }
   render() {
     const  { data, actions }   = this.props;
@@ -48,7 +58,7 @@ class BookingsComponent extends BaseComponent {
     const isFetching = data.get('isFetching');
     const bookings = Immutable.fromJS(data.get('$$bookings'));
     let bookingServices = this.state.$$bookingServices;
-
+    let bookingAddOns = this.state.$$bookingAddOns;
     // const bookings = this.state.$$bookings.getIn(['0', 'bookings']);
     //const selected = data.get('selected');
     //let bookingSelection = data.get('serviceSelection');
@@ -67,6 +77,7 @@ class BookingsComponent extends BaseComponent {
               locationName={$$booking.get('locationName')}
               sectionName={$$booking.get('sectionName')}
               services={bookingServices}
+              addOns={bookingAddOns}
               dates={$$booking.get('dates')}
               //selected={selected}
               //serviceSelection={serviceSelection}

@@ -25,6 +25,7 @@ export default class Section extends BaseComponent {
       serviceSelection: Immutable.List(),
       selectedAddOn: Immutable.fromJS([]),
       servicesInSectionRow: Immutable.List(),
+      addOns: Immutable.fromJS([]),
     };
     _.bindAll(this, ['fetchServices', 'selectService', 'selectAddOn', 'deselectAddOn', 'deSelectService']);
   }
@@ -67,7 +68,7 @@ export default class Section extends BaseComponent {
   selectAddOn(addOnId) {
     let selectedAddOn = this.state.selectedAddOn;
     selectedAddOn = selectedAddOn.push(addOnId);
-    this.setState({ selectedAddOn: selectedAddOn })
+    this.setState({ selectedAddOn: selectedAddOn });
     this.props.selectAddOn(selectedAddOn)
   }
   deselectAddOn(addOnId) {
@@ -158,20 +159,6 @@ export default class Section extends BaseComponent {
             {serviceNodes}
           </ReactCSSTransitionGroup>
         </section>
-
-
-        <div className="card-action right-align">
-          <ReactCSSTransitionGroup
-            transitionName={cssTransitionGroupClassNames}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-         {/*   {sectionId==sectionSelection ?
-              <a href={`/sections/${sectionId}/services`} className="waves-effect waves-light btn blue ">Select</a>
-              : ''}*/}
-
-          </ReactCSSTransitionGroup>
-        </div>
       </div>
     );
   }

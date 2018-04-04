@@ -74,8 +74,7 @@ class ServicesController < ApplicationController
   #POST /service :ID
     def service_info
       @services = Service.friendly.find(params[:service])
-      @service_section = @services.section.section_name
-      puts "service section = " + @service_section
+
     end
 #POST /booking
     def booking_info
