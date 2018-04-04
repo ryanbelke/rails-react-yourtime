@@ -72,7 +72,7 @@ export default class Booking extends BaseComponent {
           <div key={index}>
             <div className="form-info">
               <span className="form-header">Service Section:</span>
-              <span className="form-text"> {$$service.getIn(['service', 'section_name'])} </span>
+              <span className="form-text"> {$$service.getIn(['service', 'section', 'section_name'])} </span>
             </div>
             <div className="form-info">
               <span className="form-header">Service: </span>
