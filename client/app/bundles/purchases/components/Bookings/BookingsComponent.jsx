@@ -20,6 +20,7 @@ class BookingsComponent extends BaseComponent {
       $$bookingAddOns: Immutable.fromJS([]),
       totalCost: 0,
       totalTax: 0,
+      yourTimeFee: 0,
       checkoutLoading: true,
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices', 'calculateTotal']);
@@ -104,7 +105,7 @@ class BookingsComponent extends BaseComponent {
   }
 
   calculateTotal() {
-    let { totalCost, totalTax, $$bookingServices, $$bookingAddOns } = this.state;
+    let { totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns } = this.state;
     let x = 0;
 
     console.log('calculating total ' + $$bookingServices);
@@ -119,6 +120,8 @@ class BookingsComponent extends BaseComponent {
                 totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
                 totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
                 checkoutLoading: false,
+                yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
+                  parseFloat($booking.getIn(['service', 'yourtime_fee'])))
               }})}
         });
         $$bookingAddOns.forEach(($booking) => {
@@ -198,7 +201,11 @@ class BookingsComponent extends BaseComponent {
         {bookingNodes}
 
         <section className={css.checkoutSection}>
-          <Checkout totalPrice={this.state.totalCost} totalTax={this.state.totalTax} loading={this.state.checkoutLoading} />
+          <Checkout totalPrice={this.state.totalCost}
+                    totalTax={this.state.totalTax}
+                    loading={this.state.checkoutLoading}
+                    yourTimeFee={this.state.yourTimeFee}
+          />
         </section>
       </section>
     );

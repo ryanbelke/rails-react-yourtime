@@ -17,8 +17,9 @@ export default class Checkout extends BaseComponent {
    }
 
   render() {
-    let { totalPrice, totalTax, loading } = this.props;
+    let { totalPrice, totalTax, loading, yourTimeFee } = this.props;
     let checkOutNodes;
+    let checkoutTotal = parseFloat(totalPrice) + parseFloat(totalTax) + parseFloat(yourTimeFee);
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -61,11 +62,11 @@ export default class Checkout extends BaseComponent {
               </div>
               <div className="form-info">
                 <span className="form-header">YourTime Fee: </span>
-                <span className="form-text">  </span>
+                <span className="form-text">{loading ? loadingIcon : '$' + yourTimeFee.toFixed(2) }</span>
               </div>
               <div className="form-info">
                 <span className="form-header">Estimated Total </span>
-                <span className="form-text">{loading ? loadingIcon : '$' + totalPrice.toFixed(2)} </span>
+                <span className="form-text">{loading ? loadingIcon : '$' + checkoutTotal.toFixed(2)} </span>
               </div>
               <div className="form-info">
                 <span className="form-header">Discount Code:</span>

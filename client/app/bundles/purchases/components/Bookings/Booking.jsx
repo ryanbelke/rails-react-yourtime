@@ -152,6 +152,9 @@ export default class Booking extends BaseComponent {
               <hr />
               <hr />
               <hr />
+              <div className="form-info">
+                <span className="form-header">Add-ons:</span>
+              </div>
               {addOnNodes}
             </div>
             <br />

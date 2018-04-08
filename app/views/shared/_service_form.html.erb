@@ -19,10 +19,16 @@
             <%= f.label :tax %>
             <%= f.number_field :service_tax, step: :any, placeholder: "$0.00", class: 'form-control' %>
           </div>
-
-
-        <%= f.label :service_completion_time %>
-        <%= f.number_field :service_time_to_complete, step: :any, placeholder: "# hours", class: 'form-control' %>
+        <div class="form-half">
+          <%= f.label :completion_time %>
+          <br />
+          <%= f.number_field :service_time_to_complete, step: :any, placeholder: "# hours", class: 'form-control' %>
+        </div>
+        <div class="form-half">
+          <%= f.label :Fee %>
+          <br />
+          <%= f.number_field :yourtime_fee, step: :any, placeholder: "%", class: 'form-control' %>
+        </div>
         <%= f.label :service_vendor %>
         <%= f.text_field :service_vendor, placeholder: "vendor", class: 'form-control' %>
 

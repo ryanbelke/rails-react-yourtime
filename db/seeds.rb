@@ -76,6 +76,8 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 #car washes
 @location1.sections.create!(section_name: 'Interior')
 @location1.sections.create!(section_name: 'Exterior')
+@location1.sections.create!(section_name: 'Add-ons')
+
 #auto Maintaince
 @location2.sections.create!(section_name: 'State Inspection')
 @location2.sections.create!(section_name: 'Major Repair')
@@ -95,14 +97,17 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 
 
 @section1 = Section.find_by id: 1
-@section1.services.create!(service_name: 'Basic Detail', service_description: content, service_price: 29.99)
-@section1.services.create!(service_name: 'Premium Detail', service_description: content, service_price: 39.99)
-@section1.services.create!(service_name: 'Delux Detail', service_description: content, service_price: 59.99)
+@section1.services.create!(service_name: 'Basic Detail', service_description: content, service_price: 29.99, yourtime_fee: 0.05, service_tax: 1.99, service_vendor: 'YourTime', service_time_to_complete: 0.25)
+@section1.services.create!(service_name: 'Premium Detail', service_description: content, service_price: 39.99, yourtime_fee: 0.05, service_tax: 1.99, service_vendor: 'YourTime', service_time_to_complete: 0.25)
+@section1.services.create!(service_name: 'Delux Detail', service_description: content, service_price: 59.99, yourtime_fee: 0.05, service_tax: 1.99, service_vendor: 'YourTime', service_time_to_complete: 0.25)
 
 @section2 = Section.find_by id: 2
-@section2.services.create!(service_name: 'Basic Wash', service_description: content, service_price: 29.99)
-@section2.services.create!(service_name: 'Premium Wash', service_description: content, service_price: 39.99)
-@section2.services.create!(service_name: 'Deluxe Wash', service_description: content, service_price: 59.99)
+@section2.services.create!(service_name: 'Basic Wash', service_description: content, service_price: 29.99, yourtime_fee: 0.05, service_tax: 1.99, service_vendor: 'YourTime', service_time_to_complete: 0.25)
+@section2.services.create!(service_name: 'Premium Wash', service_description: content, service_price: 39.99, yourtime_fee: 0.05, service_tax: 1.99, service_vendor: 'YourTime', service_time_to_complete: 0.25)
+@section2.services.create!(service_name: 'Deluxe Wash', service_description: content, service_price: 59.99, yourtime_fee: 0.05, service_tax: 1.99, service_vendor: 'YourTime', service_time_to_complete: 0.25)
+
+@section3 = Section.find_by id: 3
+@section3.services.create!(service_name: 'Engine Detail', service_description: content, service_price: 19.99, yourtime_fee: 0.05, service_tax: 1.99, add_on: true, service_vendor: 'YourTime', service_time_to_complete: 0.25)
 
 
 
