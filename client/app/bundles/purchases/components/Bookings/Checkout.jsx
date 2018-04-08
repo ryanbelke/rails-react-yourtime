@@ -8,35 +8,38 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class Checkout extends BaseComponent {
   static propTypes = {
-/*    workplaceName: PropTypes.string.isRequired,
-    categoryName: PropTypes.string.isRequired,
-    locationName: PropTypes.string.isRequired,
-    sectionName: PropTypes.string.isRequired,
-    service: PropTypes.object.isRequired,*/
+    totalPrice: PropTypes.number.isRequired,
+    totalTax: PropTypes.number.isRequired,
+    loading: PropTypes.bool.isRequired,
   };
-  /*  constructor(props) {
-   super(props);
-   _.bindAll(this, 'selectCategory');
+    constructor(props) {
+     super(props);
    }
 
-   selectCategory() {
-   const { actions } = this.props;
-   const categoryId = this.props.categoryId;
-   actions.selectCategory(categoryId);
-   }*/
-
   render() {
-    let { workplaceName, categoryName,
-      locationName, sectionName, service } = this.props;
-
+    let { totalPrice, totalTax, loading } = this.props;
+    let checkOutNodes;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-
-
+    let loadingIcon = (
+      <div style={{display: this.props.loading ? '' : 'none'}} id={css.loader}>
+        <div className="preloader-wrapper small active">
+          <div className="spinner-layer spinner-blue-only">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
+            </div><div className="gap-patch">
+            <div className="circle"></div>
+          </div><div className="circle-clipper right">
+            <div className="circle"></div>
+          </div>
+          </div>
+        </div>
+      </div>
+  );
     /* eslint-disable react/no-danger */
     return (
       <div className="row" id={css.row}>
@@ -53,12 +56,8 @@ export default class Checkout extends BaseComponent {
                 </div>
               </div>
               <div className="form-info">
-                <span className="form-header">Price </span>
-                <span className="form-text"> $ </span>
-              </div>
-              <div className="form-info">
                 <span className="form-header">Estimate Tax: </span>
-                <span className="form-text"> </span>
+                <span className="form-text">{loading ? loadingIcon : '$' + totalTax.toFixed(2) } </span>
               </div>
               <div className="form-info">
                 <span className="form-header">YourTime Fee: </span>
@@ -66,7 +65,7 @@ export default class Checkout extends BaseComponent {
               </div>
               <div className="form-info">
                 <span className="form-header">Estimated Total </span>
-                <span className="form-text">  </span>
+                <span className="form-text">{loading ? loadingIcon : '$' + totalPrice.toFixed(2)} </span>
               </div>
               <div className="form-info">
                 <span className="form-header">Discount Code:</span>
@@ -82,7 +81,7 @@ export default class Checkout extends BaseComponent {
               </div>
             </div>
           </div>
-
+          {checkOutNodes}
         </div>
       </div>
     );

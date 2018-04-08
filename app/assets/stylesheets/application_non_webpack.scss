@@ -17,6 +17,11 @@ input { color: #2E2F30 !important; }
 }
 .header-link { color: #2E2F30; }
 .btn {color: white !important; }
+.form-half {
+  width: 35%;
+  margin: 5px 10px;
+  display: inline-block;
+}
 .navbar {
   margin-bottom: 0 !important;
   height: 60px !important;
@@ -73,9 +78,7 @@ input { color: #2E2F30 !important; }
   float: left;
   width: 100%;
 }
-.form-half {
-  width: 50%;
-}
+
 #datePicker { height: 50px; width: 100px; }
 #fa-icon { font-size: 3x.5em; }
 #table-buttons { padding: 15px 5px !important; float:left; }

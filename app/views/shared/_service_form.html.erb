@@ -7,13 +7,19 @@
         <%= f.label :service_name %>
         <%= f.text_field :service_name, placeholder: "name", class: 'form-control' %>
 
-        <span>
           <%= f.check_box :add_on, class: 'filled-in' %>
           <%= f.label :add_on? %>
           <br />
-          <%= f.label :price %>
-          <%= f.number_field :service_price, step: :any, placeholder: "$0.00", class: 'form-control' %>
-        </span>
+            <div class="form-half">
+            <%= f.label :price %>
+              <br />
+              <%= f.number_field :service_price, step: :any, placeholder: "$0.00", class: 'form-control form' %>
+          </div>
+          <div class="form-half">
+            <%= f.label :tax %>
+            <%= f.number_field :service_tax, step: :any, placeholder: "$0.00", class: 'form-control' %>
+          </div>
+
 
         <%= f.label :service_completion_time %>
         <%= f.number_field :service_time_to_complete, step: :any, placeholder: "# hours", class: 'form-control' %>

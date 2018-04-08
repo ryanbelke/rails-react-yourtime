@@ -2,7 +2,7 @@ class AddInfoToServices < ActiveRecord::Migration[5.1]
   def change
     add_column :services, :service_name, :string
     add_column :services, :service_description, :string
-    add_column :services, :service_price, :decimal
+    add_column :services, :service_price, :decimal, precision: 5, scale: 2
     add_column :services, :service_time_to_complete, :decimal
     add_column :services, :service_status, :string
     add_column :services, :service_purchased, :boolean
@@ -11,5 +11,7 @@ class AddInfoToServices < ActiveRecord::Migration[5.1]
     add_column :services, :service_info, :string
     add_column :services, :picture, :string
     add_column :services, :appointment_id, :integer
+    add_column :services, :service_tax, :decimal, precision: 5, scale: 2
+
   end
 end
