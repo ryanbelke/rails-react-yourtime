@@ -45,19 +45,19 @@ export default class Service extends BaseComponent {
           <i className="material-icons right activator">info_outline</i>
           <hr />
         </div>
-        <section className={css.subtitles}>
-          <span className={css.subtitle}>
+        <ul className={css.subtitles}>
+          <li className={css.subtitle}>
           ${servicePrice}
-        </span>
-          <span className={css.subtitle}>
+        </li>
+          <li className={css.subtitle}>
           <small> &nbsp; Time:</small>
-            {serviceTime}
+            &nbsp; {serviceTime} h
 
-        </span>
-          <span className={css.subtitle}>
-          <small>&nbsp; Vendor: </small>{serviceVendor}
-        </span>
-        </section>
+        </li>
+          <li className={css.subtitle}>
+          <small>&nbsp; Vendor: </small>&nbsp; {serviceVendor}
+        </li>
+        </ul>
         <div className="card-content">
           <p>{serviceDescription}</p>
         </div>

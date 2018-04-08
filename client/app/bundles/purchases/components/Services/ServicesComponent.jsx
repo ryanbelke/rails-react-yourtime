@@ -37,7 +37,7 @@ class ServicesComponent extends BaseComponent {
     // sectionId = location.substring(location.lastIndexOf("s/")+2,location.lastIndexOf("/"));
 
     const isFetching = data.get('isFetching');
-    const services = data.get('$$services');
+    const services = this.state.$$services;
     const selected = data.get('selected');
 
     let serviceSelection = data.get('serviceSelection');

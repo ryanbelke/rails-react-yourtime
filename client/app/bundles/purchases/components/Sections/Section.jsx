@@ -106,6 +106,9 @@ export default class Section extends BaseComponent {
               serviceName={$$service.get('service_name')}
               serviceDescription={$$service.get('service_description')}
               serviceInfo={$$service.get('service_info')}
+              servicePrice={$$service.get('service_price')}
+              serviceVendor={$$service.get('service_vendor')}
+              serviceTime={$$service.get('service_time_to_complete')}
               selected={serviceSelection.includes($$service.get('id'))}
               actions={actions}
               serviceId={$$service.get('id')}

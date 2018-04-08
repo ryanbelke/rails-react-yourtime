@@ -10,12 +10,14 @@
 .subtitles {
   display: flex;
   flex-direction: row !important;
+  list-style: none;
+
 }
 .subtitle {
-  font-size: 1.25em;
-  padding-left: 3px;
+  font-size: 1.0em;
+  padding-left: 15px;
   float: left;
-
+  display: inline-block !important;
   small {
     color: #303f9f;
     font-weight: bolder;
