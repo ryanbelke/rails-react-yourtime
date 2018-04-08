@@ -433,6 +433,9 @@ a:hover { text-decoration: none; }
 .card-panel { padding: 0 !important; }
 .card-content {
   padding: 10px !important;
+  p {
+    font-size: 1rem !important;
+  }
 }
 .card-title { padding: 5px 5px 0 5px; }
 .card-subtitle {
