@@ -25,7 +25,9 @@ gem 'fog-aws',                 '2.0.0'
 gem 'nokogiri',                '1.8.1'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 
-gem "rails", "~> 5"
+gem "rails", "~> 5.2.0.rc2"
+gem 'bootsnap'
+gem "aws-sdk-s3", require: false
 
 # Note: We're using sqllite3 for development and testing
 # gem "sqlite3", group: [:development, :test]

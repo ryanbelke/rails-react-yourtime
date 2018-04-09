@@ -4,6 +4,10 @@
   <div class="row">
     <div class="col l3 m6 s12 offset-l1">
       <section class="paper">
+        <%= f.label :service_picture %>
+        <br />
+        <%= image_tag @service.picture.url if @service.picture? %>
+        <br />
         <%= f.label :service_name %>
         <%= f.text_field :service_name, placeholder: "name", class: 'form-control' %>
 

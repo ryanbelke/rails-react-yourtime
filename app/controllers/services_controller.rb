@@ -20,6 +20,7 @@ class ServicesController < ApplicationController
     def create
         @section = Section.friendly.find(params[:section_id])
         @service = @section.services.new(service_params)
+
         if @service.save
           flash[:success] = "Service created"
           redirect_to root_url

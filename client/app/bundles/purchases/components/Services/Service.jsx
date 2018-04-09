@@ -61,7 +61,7 @@ export default class Service extends BaseComponent {
         <div className="card-content">
           <p>{serviceDescription}</p>
         </div>
-        <div className="card-action center-align">
+        <div className="card-action card-action-small center-align">
           <ReactCSSTransitionGroup
             transitionName={cssTransitionGroupClassNames}
             transitionEnterTimeout={500}
