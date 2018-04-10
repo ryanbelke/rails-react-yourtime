@@ -10,6 +10,7 @@ class Service < ApplicationRecord
   belongs_to :section
 
   private
+
   # Validates the size of an uploaded picture.
   def picture_size
     if picture.size > 5.megabytes
