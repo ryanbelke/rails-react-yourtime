@@ -38,7 +38,9 @@ export default class Service extends BaseComponent {
         className={`card sticky-action card-panel services ${css.service} ${selected ?
           css.selectedService : ''}`}>
         <div className="card-image card-gradient">
-          {servicePicture}
+          {console.log("service picture url " +   servicePicture
+            )}
+            <img src={servicePicture.get('url')} />
         </div>
         <div className="card-title">
           {serviceName}
