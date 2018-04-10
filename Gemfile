@@ -21,7 +21,7 @@ gem 'figaro'
 #image upload
 gem 'carrierwave',             '1.1.0'
 gem 'mini_magick',             '4.7.0'
-gem 'fog-aws',                 '2.0.0'
+gem 'fog'
 gem 'nokogiri',                '1.8.1'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 
