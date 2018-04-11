@@ -111,7 +111,7 @@ class BookingsComponent extends BaseComponent {
     console.log('calculating total ' + $$bookingServices);
       if ($$bookingServices.size == 0 && x < 2) {
           setTimeout(() => { console.log("RETRYING "); this.calculateTotal() }, 2000);
-          x++;
+          x = x + 1;
       } else {
         $$bookingServices.forEach(($booking) => {
           if ($booking.getIn(['service', 'service_price']) != null) {

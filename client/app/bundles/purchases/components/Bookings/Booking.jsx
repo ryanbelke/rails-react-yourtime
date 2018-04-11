@@ -7,9 +7,9 @@ import css from './Booking.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import $ from 'jquery';
 import createHistory from "history/createBrowserHistory"
+import { withCookies, Cookies } from 'react-cookie';
 
-
-export default class Booking extends BaseComponent {
+class Booking extends BaseComponent {
   static propTypes = {
     workplaceName: PropTypes.string.isRequired,
     categoryName: PropTypes.string.isRequired,
@@ -34,7 +34,7 @@ export default class Booking extends BaseComponent {
       //console.log(action, location.pathname, location.state)
     });
 
-    let {dates} = this.props;
+    let { dates, cookies} = this.props;
     let datesArray = [true];
     dates = dates.toArray();
     let date = dates.forEach((date) => {
@@ -51,7 +51,8 @@ export default class Booking extends BaseComponent {
       disable: datesArray,
       //set parameter of selected date for cookie setting
       onSet: (context) => {
-        history.push(`?appointment&date=${context.select}`)
+        history.push(`?appointment&date=${context.select}`);
+        cookies.set('date', context.select)
       },
     });
   }
@@ -161,9 +162,9 @@ export default class Booking extends BaseComponent {
 
           </div>
         </div>
-
       </section>
 
     );
   }
 }
+export default withCookies(Booking)

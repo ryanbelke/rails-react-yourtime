@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_08_224525) do
+ActiveRecord::Schema.define(version: 2018_04_11_033441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 2018_04_08_224525) do
     t.integer "location_id"
     t.bigint "workplace_id"
     t.bigint "category_id"
+    t.string "services", array: true
+    t.string "add_ons", array: true
     t.index ["location_id"], name: "index_appointments_on_location_id"
     t.index ["schedule_id"], name: "index_appointments_on_schedule_id"
     t.index ["service_id"], name: "index_appointments_on_service_id"

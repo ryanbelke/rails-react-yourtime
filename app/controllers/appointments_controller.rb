@@ -21,7 +21,7 @@ class AppointmentsController < ApplicationController
 
     #TODO: set path specific to what is not present
     if workplace.nil? || category.nil? ||
-        service.nil? || location.nil? || section.nil?
+       location.nil? || section.nil?
       flash[:warning] = "please select workplace to begin"
       redirect_to workplaces_path
     else
@@ -31,7 +31,7 @@ class AppointmentsController < ApplicationController
       @category = Category.friendly.find(category)
       @location = Location.friendly.find(location)
       @section = Section.friendly.find(section)
-      @service = Service.friendly.find(service[:slug])
+      #@service = Service.friendly.find(service[:slug])
       @selected_date = params[:date] || cookies[:date]
 
       if @selected_date.nil?
@@ -44,6 +44,7 @@ class AppointmentsController < ApplicationController
       #set services feed to empty array to prevent from showing at the bottom
       @service_feed_items = []
 
+=begin
       #set tax information
       #use number_to_currency helper in the view to convert to cents
       tax_amount = calculate_tax(@service.service_price)
@@ -51,9 +52,27 @@ class AppointmentsController < ApplicationController
       your_time_amount = calculate_fee(@service.service_price)
       #@your_time_amount1 = sprintf('%.2f', @your_time_amount1)
       @total_price = tax_amount + your_time_amount + @service.service_price
+=end
       #@total_price1 = sprintf('%.2f', @total_price1)
       #@stripe_price = (@total_price1 * 100).to_i
       #bookingId = "booking" + rand(1...10000).to_s
+      @total_price = 0
+      serviceList = JSON.parse(cookies[:services])
+      serviceList.each do |item|
+        service = Service.find_by id: item
+        @total_price = @total_price + service.service_price
+        puts "**** service price " + service.service_price.to_s
+      end
+      addOnList = JSON.parse(cookies[:addOns])
+      addOnList.each do |addItem|
+        add_on = Service.find_by id: addItem
+        @total_price = @total_price + add_on.service_price
+        puts "**** add on price " + add_on.service_price.to_s
+
+      end
+
+      puts "TOTAL PRICE = *** " + @total_price.to_s
+      #@total_price = 100
       booking = {
           bookingId: SecureRandom.uuid,
           workplaceName: @workplace.workplace_name,
@@ -71,31 +90,32 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @user = User.find_by id: params[:user_id]
-    service = Service.find_by id: params[:service_id]
-    @location = Location.friendly.find(cookies[:location])
-    date = params[:date].to_datetime
-    category = Category.friendly.find(cookies[:category])
+    #what is needed for appointment?
+    # user, date + services
+    user = User.find_by id: params[:user_id]
+    service = cookies[:service]
+    date = DateTime.strptime(cookies[:date], '%s')
+
     if date.nil?
       flash[:danger] = "please select date"
       redirect_to new_user_appointment_path(current_user)
     else
       selected_date = params[:date] || cookies[:date]
 
-      #date = params[:date].to_datetime
-
       #convert date to datetime for lookup in the database
-      schedule = @location.schedules.find_by date: date
+      schedule = location.schedules.find_by date: date
 
 
       #------------pricing
+=begin
       price = service.service_price
       tax_amount = calculate_tax(price)
       your_time_amount = calculate_fee(price)
       total_amount = ((service.service_price + tax_amount + your_time_amount ))
+=end
 
       @appointment = @user.appointments.create(
-          service_id: service.id, schedule_id: schedule.id,
+          service_id: service.id, date: schedule.id,
           appointment_status: 'Pending', location_id: @location.id,
           appointment_price: total_amount, workplace_id: category.workplace.id
       )
