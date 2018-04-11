@@ -24,7 +24,7 @@
 
         <% elsif logged_in? && !current_user.admin? %>
           <li><%= link_to "Home", root_path, class: 'hidden-sm' %></li>
-          <li><%= link_to "New Appointment", new_user_appointment_path(current_user) %></li>
+          <li><%= link_to "New Appointment", new_user_booking_path(current_user) %></li>
           <li><%= link_to "Profile", current_user %></li>
 
           <li class="dropdown">
