@@ -1,8 +1,8 @@
 
 <ul class="feed-container">
-  <li>New Appointment &nbsp;
+  <li>New Booking &nbsp;
     <span>
-          <%= link_to new_user_appointment_path(current_user.id) do %>
+          <%= link_to new_user_booking_path(current_user.id) do %>
            <div class='location-button btn-floating btn-small waves-effect waves-light blue'>
               <i class="location-icon material-icons">+</i>
            </div>
@@ -10,8 +10,8 @@
           </span>
           </li>
         <% end %>
-  <% if @appointment_feed.any? %>
-      <%= render @appointment_feed%>
+  <% if @booking_feed.any? %>
+      <%= render @bookingt_feed%>
 
   <% end %>
 </ul>

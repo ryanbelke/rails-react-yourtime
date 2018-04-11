@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_11_033441) do
+ActiveRecord::Schema.define(version: 2018_04_11_201304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,27 +36,22 @@ ActiveRecord::Schema.define(version: 2018_04_11_033441) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "appointments", force: :cascade do |t|
+  create_table "bookings", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "service_id"
     t.bigint "schedule_id"
-    t.string "appointment_status"
-    t.string "appointment_description"
-    t.float "appointment_price"
-    t.date "appointment_date"
-    t.string "appointment_location"
+    t.string "booking_status"
+    t.string "booking_description"
+    t.integer "booking_price"
+    t.date "booking_date"
+    t.string "booking_location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "stripe_id"
-    t.integer "location_id"
     t.bigint "workplace_id"
     t.bigint "category_id"
-    t.string "services", array: true
-    t.string "add_ons", array: true
-    t.index ["location_id"], name: "index_appointments_on_location_id"
-    t.index ["schedule_id"], name: "index_appointments_on_schedule_id"
-    t.index ["service_id"], name: "index_appointments_on_service_id"
-    t.index ["user_id"], name: "index_appointments_on_user_id"
+    t.index ["schedule_id"], name: "index_bookings_on_schedule_id"
+    t.index ["service_id"], name: "index_bookings_on_service_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -144,20 +139,18 @@ ActiveRecord::Schema.define(version: 2018_04_11_033441) do
     t.bigint "section_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "service_name"
-    t.string "service_description"
-    t.decimal "service_price"
+    t.string "service_name", null: false
+    t.string "service_description", null: false
+    t.decimal "service_price", precision: 5, scale: 2, null: false
     t.decimal "service_time_to_complete"
-    t.string "service_status"
-    t.boolean "service_purchased"
     t.string "service_vendor"
     t.string "slug"
     t.string "service_info"
     t.string "picture"
     t.integer "appointment_id"
+    t.decimal "service_tax", precision: 5, scale: 2
+    t.decimal "yourtime_fee", precision: 2, scale: 2, default: "0.5", null: false
     t.boolean "add_on"
-    t.decimal "service_tax", precision: 4, scale: 2
-    t.decimal "yourtime_fee", precision: 2, scale: 2
     t.index ["location_id"], name: "index_services_on_location_id"
     t.index ["section_id"], name: "index_services_on_section_id"
     t.index ["user_id"], name: "index_services_on_user_id"

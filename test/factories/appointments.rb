@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :appointment do
+  factory :booking do
     
   end
 end

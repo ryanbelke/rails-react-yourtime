@@ -5,7 +5,7 @@ class Workplace < ApplicationRecord
   #select cateoory after workplace
   has_many :categories, dependent: :destroy
   has_many :locations, dependent: :destroy
-  belongs_to :user
+  belongs_to :user, optional: true
   default_scope -> { order(created_at: :asc) }
 
 end

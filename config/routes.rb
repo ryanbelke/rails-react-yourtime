@@ -54,7 +54,7 @@ Rails.application.routes.draw do
 
 
   resources :users do
-    resources :appointments
+    resources :bookings
   end
 
   resources :account_activations, only: [:edit]

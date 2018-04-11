@@ -1,4 +1,4 @@
-class AppointmentsController < ApplicationController
+class BookingsController < ApplicationController
   include ReactOnRails::Controller
 
   before_action :logged_in_user, only: [:new, :create, :destroy]
@@ -83,23 +83,24 @@ class AppointmentsController < ApplicationController
           dates: @dates,
       }
       @booking_feed.push(booking)
-      @appointment = @user.appointments.new
+      @booking = @user.bookings.new
     end
 
 
   end
 
   def create
-    #what is needed for appointment?
+    #what is needed for booking?
     # user, date + services
     user = User.find_by id: params[:user_id]
     service = cookies[:service]
-    date = DateTime.strptime(cookies[:date], '%s')
+    date = cookies[:date]
 
     if date.nil?
       flash[:danger] = "please select date"
-      redirect_to new_user_appointment_path(current_user)
+      redirect_to new_user_booking_path(current_user)
     else
+      date = DateTime.strptime(cookies[:date], '%s')
       selected_date = params[:date] || cookies[:date]
 
       #convert date to datetime for lookup in the database
@@ -114,14 +115,14 @@ class AppointmentsController < ApplicationController
       total_amount = ((service.service_price + tax_amount + your_time_amount ))
 =end
 
-      @appointment = @user.appointments.create(
+      @booking = @user.bookings.create(
           service_id: service.id, date: schedule.id,
-          appointment_status: 'Pending', location_id: @location.id,
-          appointment_price: total_amount, workplace_id: category.workplace.id
+         booking_status: 'Pending', location_id: @location.id,
+          booking_price: total_amount, workplace_id: category.workplace.id
       )
 
 
-      if @appointment.save
+      if booking.save
         #TODO STORE CHARGE ID IN DATABASE
         # TODO STORE CUSTOMER STRIPE ID IN DATABASE
 =begin
@@ -141,7 +142,7 @@ class AppointmentsController < ApplicationController
 =end
 
         cookies.delete :redirect
-        flash[:success] = "Thank you for making an appointment"
+        flash[:success] = "Thank you for making an booking"
         redirect_to root_url
       else
         render 'edit'
@@ -150,18 +151,18 @@ class AppointmentsController < ApplicationController
   end
 
   def show
-    @appointment = Appointment.find params[:id]
+    @booking = Booking.find params[:id]
 
-    @location = @appointment.location
+    @location = @booking.location
     category = @location.category
     @workplace = category.workplace
 
-    @service = @appointment.service
+    @service = @booking.service
   end
 
   def destroy
-    Appointment.find(params[:id]).destroy
-    flash[:success] = "Appointment Deleted"
+    Booking.find(params[:id]).destroy
+    flash[:success] = "Booking Deleted"
     redirect_to root_url
   end
 
@@ -174,10 +175,10 @@ class AppointmentsController < ApplicationController
       (0.05 * price)
     end
 
-    def appointment_params
-      params.require(:appointment).permit(:user_id, :service_id, :schedule_id,
-                                          :workplace_id, :appointment_status,
-                                          :appointment_description, :stripe_id)
+    def booking_params
+      params.require(:booking).permit(:user_id, :service_id, :schedule_id,
+                                          :workplace_id, :booking_status,
+                                          :booking_description, :stripe_id)
     end
 
     # Before filters

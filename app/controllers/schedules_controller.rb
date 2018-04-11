@@ -59,7 +59,7 @@ class SchedulesController < ApplicationController
   end
 
   def schedule_params
-    params.require(:schedule).permit(:category_id, :appointment_id,
+    params.require(:schedule).permit(:category_id, :booking_id,
                                      :date, :date_capacity, :date_reserved,
                                      :available)
   end

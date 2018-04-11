@@ -41,7 +41,7 @@ class CheckoutContainer extends BaseComponent {
       renderNode = <SectionsComponent actions={actions} data={data}/>
     } else if (location.includes('sections') && !location.includes('?appointment')) {
       renderNode = <ServicesComponent actions={actions} data={data}/>
-    } else if (location.includes('/services/booking') || location.includes('/appointments/new')) {
+    } else if (location.includes('/services/booking') || location.includes('/bookings/new')) {
       renderNode = <BookingsComponent actions={actions} data={data} />
     }
 

@@ -6,10 +6,10 @@ class StaticPagesController < ApplicationController
     @workplaces = Workplace.all.sort_by &:created_at
    #set appointment feed for a non admin user
     if logged_in?
-     @appointment_feed = current_user.appointments
+     @booking_feed = current_user.bookings
      if cookies[:redirect]
        flash[:info] = "You have been redirected to a saved order"
-       redirect_to new_user_appointment_path(current_user)
+       redirect_to new_user_booking_path(current_user)
        cookies.delete :redirect
      end
     end
@@ -23,7 +23,7 @@ class StaticPagesController < ApplicationController
       @feed_items = Workplace.where.not(workplace_name: "Not Listed")
       @location_feed_items = Location.all
       @service_feed_items = Service.all
-      @appointment_feed = Appointment.all
+      @booking_feed = Booking.all
       @category_feed = Category.order(:workplace_id)
       @section_feed_items = Section.all
       @service_feed_items = Service.all

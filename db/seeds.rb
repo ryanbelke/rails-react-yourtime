@@ -41,6 +41,7 @@ User.create!(name:  "Ryan Belke",
 end
 
 
+
 Workplace.create!(workplace_name: 'Spredfast')
 Workplace.create!(workplace_name: 'Not Listed')
 
@@ -110,8 +111,3 @@ content = Faker::Lorem.paragraph(sentence_count = 3)
 @section3.services.create!(service_name: 'Engine Detail', service_description: content, service_price: 19.99, yourtime_fee: 0.05, service_tax: 1.99, add_on: true, service_vendor: 'YourTime', service_time_to_complete: 0.25)
 
 
-
-
-
-@date = Date.strptime('11/14/2017','%m/%d/%Y')
-@user = User.find_by id: 1
