@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_11_201304) do
+ActiveRecord::Schema.define(version: 2018_04_14_191203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,19 +38,22 @@ ActiveRecord::Schema.define(version: 2018_04_11_201304) do
 
   create_table "bookings", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "service_id"
     t.bigint "schedule_id"
     t.string "booking_status"
     t.string "booking_description"
-    t.integer "booking_price"
+    t.float "booking_price"
     t.date "booking_date"
     t.string "booking_location"
+    t.string "stripe_id"
+    t.string "services", array: true
+    t.string "add_ons", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "workplace_id"
     t.bigint "category_id"
+    t.date "date"
+    t.bigint "location_id"
     t.index ["schedule_id"], name: "index_bookings_on_schedule_id"
-    t.index ["service_id"], name: "index_bookings_on_service_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
@@ -113,7 +116,7 @@ ActiveRecord::Schema.define(version: 2018_04_11_201304) do
 
   create_table "schedules", force: :cascade do |t|
     t.bigint "location_id"
-    t.datetime "date"
+    t.date "date"
     t.integer "date_capacity"
     t.integer "date_reserved"
     t.boolean "available"
@@ -147,7 +150,7 @@ ActiveRecord::Schema.define(version: 2018_04_11_201304) do
     t.string "slug"
     t.string "service_info"
     t.string "picture"
-    t.integer "appointment_id"
+    t.integer "booking_id"
     t.decimal "service_tax", precision: 5, scale: 2
     t.decimal "yourtime_fee", precision: 2, scale: 2, default: "0.5", null: false
     t.boolean "add_on"

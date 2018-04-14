@@ -93,36 +93,57 @@ class BookingsController < ApplicationController
     #what is needed for booking?
     # user, date + services
     user = User.find_by id: params[:user_id]
-    service = cookies[:service]
+    services = JSON.parse(cookies[:services])
     date = cookies[:date]
+    location = Location.friendly.find(cookies[:location])
 
     if date.nil?
       flash[:danger] = "please select date"
       redirect_to new_user_booking_path(current_user)
     else
-      date = DateTime.strptime(cookies[:date], '%s')
+      puts "** date before conversion = " + date
+
+      puts "**** date = " + date.to_s
+
       selected_date = params[:date] || cookies[:date]
 
       #convert date to datetime for lookup in the database
       schedule = location.schedules.find_by date: date
+      puts "**** schedule = " + schedule.to_s
 
 
       #------------pricing
-=begin
-      price = service.service_price
-      tax_amount = calculate_tax(price)
-      your_time_amount = calculate_fee(price)
-      total_amount = ((service.service_price + tax_amount + your_time_amount ))
-=end
+      total_price = 0
+      total_tax = 0
+      your_time_fee = 0
 
-      @booking = @user.bookings.create(
-          service_id: service.id, date: schedule.id,
-         booking_status: 'Pending', location_id: @location.id,
-          booking_price: total_amount, workplace_id: category.workplace.id
+      service_list = JSON.parse(cookies[:services])
+      service_list.each do |item|
+        service = Service.find_by id: item
+        total_price = total_price + service.service_price + service.service_tax + service.yourtime_fee
+        total_tax = total_tax + service.service_tax
+        your_time_fee = your_time_fee + service.yourtime_fee
+        puts "**** service price " + service.service_price.to_s
+      end
+      add_on_list = JSON.parse(cookies[:addOns])
+      add_on_list.each do |addItem|
+        add_on = Service.find_by id: addItem
+        total_price = total_price + add_on.service_price + add_on.service_tax + add_on.yourtime_fee
+        puts "**** add on price " + add_on.service_price.to_s
+        total_tax = total_tax + add_on.service_tax
+        your_time_fee = your_time_fee + add_on.yourtime_fee
+
+      end
+      firstService = Service.find_by id: services.first
+      booking = user.bookings.new(
+          services: services, schedule_id: schedule.id, date: date,
+         booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
+          booking_price: total_price, workplace_id: firstService.section.location.category.workplace.id
       )
 
+      puts "**** booking = " + booking.to_json
 
-      if booking.save
+      if booking.save!
         #TODO STORE CHARGE ID IN DATABASE
         # TODO STORE CUSTOMER STRIPE ID IN DATABASE
 =begin
@@ -140,12 +161,15 @@ class BookingsController < ApplicationController
 
           )
 =end
+      puts "*** BOOKING SAVED "
 
         cookies.delete :redirect
-        flash[:success] = "Thank you for making an booking"
+        flash[:success] = "Thank you for making a booking"
         redirect_to root_url
       else
-        render 'edit'
+        puts "*** BOOKING NOT SAVED "
+
+        redirect_to new_user_booking_path(current_user)
       end
     end
   end
@@ -178,7 +202,7 @@ class BookingsController < ApplicationController
     def booking_params
       params.require(:booking).permit(:user_id, :service_id, :schedule_id,
                                           :workplace_id, :booking_status,
-                                          :booking_description, :stripe_id)
+                                          :booking_description, :stripe_id, :services)
     end
 
     # Before filters

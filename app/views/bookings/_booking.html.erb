@@ -2,10 +2,10 @@
 <tbody>
 <tr>
   <td><%= booking.booking_status %></td>
-  <td><%= Date.strptime(appointment.schedule.date.to_s, "%Y-%m-%d") %></td>
+  <td><%= Date.strptime(booking.schedule.date.to_s, "%Y-%m-%d") %></td>
 
-  <td><%= booking.service.service_name %></td>
-  <td><%= booking.location.location_name %></td>
+  <td><%= booking.services %></td>
+  <td><%= booking.location_id %></td>
   <td><%= number_to_currency(booking.booking_price) %></td>
   <td id="table-buttons"><%= link_to 'View', user_booking_path(current_user.id, booking.id),
   class: 'waves-effect waves-light btn custom-btn-small' %></td>
@@ -15,7 +15,7 @@
   class: 'waves-effect waves-light btn custom-btn-small' %>
   </td>
     <td id="table-buttons">
-      <%= link_to 'Delete', user_booking_path(appointment.user_id, booking.id), method: 'delete',
+      <%= link_to 'Delete', user_booking_path(booking.user_id, booking.id), method: 'delete',
                   data: { confirm: "you sure?" }, class: 'waves-effect waves-light btn custom-btn-small' %>
     </td>
   <% end %>
