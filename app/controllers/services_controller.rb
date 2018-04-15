@@ -56,19 +56,13 @@ class ServicesController < ApplicationController
       redux_store("commentsStore")
       #set booking feed to empty
       @booking_feed = []
-=begin
-      section = Section.friendly.find(params[:section_id])
-      service = Service.friendly.find(params[:id])
-      #set category cookie
-      cookies[:section] = section.slug
-      #set service cookie
-      cookies[:service] = service.id
-=end
+
     end
 #GET /services/booking
     def booking
       redux_store("commentsStore")
       @booking_feed = []
+      cookies[:redirect] = { value: true, expires: 1.hour.from_now }
 
     end
 
@@ -82,19 +76,17 @@ class ServicesController < ApplicationController
       redux_store("commentsStore")
       #set booking feed to empty
       @booking_feed = []
-      #get each booking cookie
-      if cookies[:booking]
 
-      else
-      end
       workplace = Workplace.friendly.find(cookies[:workplace])
       category = Category.friendly.find(cookies[:category])
       location = Location.friendly.find(cookies[:location])
       section = Section.friendly.find(cookies[:section])
 
       schedules = location.schedules
-      @dates = schedules.pluck(:date).map{ |entry| [entry.strftime("%Y,%m,%d").gsub("'", '')]}
-
+      dates = schedules.where('schedules.date_reserved < schedules.date_capacity')
+      puts " my date = " + dates.to_yaml
+      @dates = dates.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
+      puts "use this date " + dates.to_yaml
       #grab selected date from the form to input when user hits save and create cookie for future use
       @selected_date = params[:date]
       cookies[:date] = @selected_date
@@ -113,13 +105,10 @@ class ServicesController < ApplicationController
           sectionSlug: section.slug,
       }
 
-      cookies[:booking] = { value: booking.to_json }
-
       #delete cookies after stored in booking cookie
       #delete_cookies
 
       @booking_feed.push(booking)
-      cookies[:redirect] = { value: true, expires: 1.hour.from_now }
       @service_feed_items = []
 
       #set tax information

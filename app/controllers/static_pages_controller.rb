@@ -8,10 +8,11 @@ class StaticPagesController < ApplicationController
     if logged_in?
      @booking_feed = current_user.bookings
      #@services = @booking_feed.services
-     if cookies[:redirect]
+     if cookies[:redirect] == 'true'
        flash[:info] = "You have been redirected to a saved order"
        redirect_to new_user_booking_path(current_user)
-       cookies.delete :redirect
+       cookies[:redirect] = { value: false, expires: 1.hour.from_now }
+
      end
     end
 

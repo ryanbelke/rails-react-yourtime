@@ -34,27 +34,26 @@
 <% else %>
     <li id="location-<%= location.id %>">
       <span class="user">
-        <small>
+        <small class="bold">
           <%= location.category.workplace.workplace_name %>
           &nbsp;
-
         </small>
-        <small>
+        <small class="bold">
           &nbsp; <%= location.category.category_name %>
         </small>
-        <%= link_to location.location_name, category_location_path(location.category_id, location.slug) %></span>
+        <br/>
+        <%= link_to location.location_name, category_location_path(location.category_id, location.slug), class: 'bold' %></span>
       <br />
 
       <small>
           <% if logged_in? && current_user.admin? %>
-            <span>create new section</span>
+            <span>new section</span>
             <%= link_to new_location_section_path(location) do |f| %>
               <span class="location-icon material-icons">+</span>
             <% end %>
         </small>
         <br />
       <small class="timestamp">
-         &nbsp;
         <%= link_to "delete", category_location_path(location.category_id, location.slug), method: :delete,
                     data: { confirm: "You sure?" } %>
         &nbsp;  <%= link_to "edit", edit_category_location_path(location.category_id, location.slug) %>

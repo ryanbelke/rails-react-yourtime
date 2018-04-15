@@ -94,6 +94,7 @@ input { color: #2E2F30 !important; }
 #datePicker { height: 50px; width: 100px; }
 #fa-icon { font-size: 3x.5em; }
 #table-buttons { padding: 5px 5px 0 5px !important; float:left; }
+.bold { font-weight: bolder; }
 #mechanic-image { border-radius: 20%; }
 td { font-family: 'Open Sans', 'sans-serif' }
 
@@ -585,12 +586,14 @@ p {  font-size: 1.1em;  line-height: 1.7em;  }
 /* header */
 .no-border { border: none !important; }
 .location-button { height: 30px !important; width: 30px !important; text-align: center !important; }
-.location-icon { font-size: 1.8rem !important;
+.location-icon {
+  font-size: 1.8rem !important;
   padding-right: 3px !important;
-  padding-bottom: 5px !important;
+  padding-bottom: 0px !important;
   position: relative !important;
   left: 1px !important; line-height: -10px !important;
-  bottom: 5px;
+  bottom: 0px;
+  top: 0px;
 }
 .capacity {width: 30%; }
 #logo {
@@ -789,7 +792,7 @@ hr {
   .user {
     margin-top: 5em;
     padding-top: 0;
-    font-size: 1.5rem;
+    font-size: 2.5rem !important;
 
   }
   .link {
@@ -809,7 +812,7 @@ hr {
     margin: 10px !important;
     align-items: center;
   }
-  .timestamp {  color:gray;  display: block; font-size: 1rem; }
+
   .gravatar {  float: left;  margin-right: 10px;  margin-top: 5px;  }
 }
 
@@ -835,7 +838,6 @@ hr {
       padding: 5px 0;
     }
   }
-  .timestamp {  color:gray;  display: block; font-size: 1rem; }
   .gravatar {  float: left;  margin-right: 10px;  margin-top: 5px;  }
 }
 aside {
@@ -849,6 +851,14 @@ span.picture {
   margin-top: 10px;
   input {
     border: 0;
+  }
+}
+.timestamp {
+  color:gray !important;
+  font-size: 0.75rem;
+  margin-bottom: 15px;
+  a {
+    color: gray !important;
   }
 }
 .admin { width: 50px; height: 50px; margin: 0px 20px; }

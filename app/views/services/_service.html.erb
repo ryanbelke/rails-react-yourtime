@@ -45,11 +45,12 @@
 <hr />
     <li id="service-<%= service.id %>">
       <span class="user">
-        <small>
-          <%= service.section.section_name %>
+        <strong> <small class="bold">
+        <%= service.section.section_name %>
         </small>
+        </strong>
         <br />
-        <%= link_to service.service_name, section_service_path(service.section.id, service.slug) %></span>
+        <%= link_to service.service_name, section_service_path(service.section.id, service.slug), class: 'bold' %></span>
       <% if logged_in? && current_user.admin? %>
       <small class="timestamp">
         <br />

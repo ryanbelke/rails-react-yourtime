@@ -8,16 +8,13 @@ class BookingsController < ApplicationController
     redux_store("commentsStore")
     @booking_feed = []
     #parse booking cookie
-    booking_cookie = JSON.parse(cookies[:booking], symbolize_names: true)
+    #booking_cookie = JSON.parse(cookies[:booking], symbolize_names: true)
 
-    workplace = booking_cookie[:workplaceSlug]
-    category = booking_cookie[:categorySlug]
-    location = booking_cookie[:locationSlug]
-    section = booking_cookie[:sectionSlug]
-    service = booking_cookie[:service]
-
-    dates = booking_cookie[:dates]
-    puts "booking_cookie = " + dates.to_s
+    workplace = cookies[:workplace]
+    category = cookies[:category]
+    location = cookies[:location]
+    section = cookies[:section]
+    service = cookies[:service]
 
     #TODO: set path specific to what is not present
     if workplace.nil? || category.nil? ||
@@ -38,33 +35,24 @@ class BookingsController < ApplicationController
       else
         @schedule = Schedule.find_by date: @selected_date
       end
-      @schedules = @location.schedules
-      @dates = @schedules.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
+      schedules = @location.schedules
+      dates = schedules.where('date_reserved < date_capacity')
+      @dates = dates.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
+
+      puts "** date mee= " + dates.to_yaml
 
       #set services feed to empty array to prevent from showing at the bottom
       @service_feed_items = []
 
-=begin
-      #set tax information
-      #use number_to_currency helper in the view to convert to cents
-      tax_amount = calculate_tax(@service.service_price)
-      #@tax_amount1 = sprintf('%.2f', @tax_amount1)
-      your_time_amount = calculate_fee(@service.service_price)
-      #@your_time_amount1 = sprintf('%.2f', @your_time_amount1)
-      @total_price = tax_amount + your_time_amount + @service.service_price
-=end
-      #@total_price1 = sprintf('%.2f', @total_price1)
-      #@stripe_price = (@total_price1 * 100).to_i
-      #bookingId = "booking" + rand(1...10000).to_s
       @total_price = 0
-      serviceList = JSON.parse(cookies[:services])
-      serviceList.each do |item|
+      service_list = JSON.parse(cookies[:services])
+      service_list.each do |item|
         service = Service.find_by id: item
         @total_price = @total_price + service.service_price
         puts "**** service price " + service.service_price.to_s
       end
-      addOnList = JSON.parse(cookies[:addOns])
-      addOnList.each do |addItem|
+      add_on_list = JSON.parse(cookies[:addOns])
+      add_on_list.each do |addItem|
         add_on = Service.find_by id: addItem
         @total_price = @total_price + add_on.service_price
         puts "**** add on price " + add_on.service_price.to_s
@@ -84,6 +72,8 @@ class BookingsController < ApplicationController
       }
       @booking_feed.push(booking)
       @booking = @user.bookings.new
+      cookies[:redirect] = { value: false, expires: 1.hour.from_now }
+
     end
 
 
@@ -101,16 +91,11 @@ class BookingsController < ApplicationController
       flash[:danger] = "please select date"
       redirect_to new_user_booking_path(current_user)
     else
-      puts "** date before conversion = " + date
-
-      puts "**** date = " + date.to_s
-
       selected_date = params[:date] || cookies[:date]
 
       #convert date to datetime for lookup in the database
       schedule = location.schedules.find_by date: date
       puts "**** schedule = " + schedule.to_s
-
 
       #------------pricing
       total_price = 0
@@ -120,32 +105,43 @@ class BookingsController < ApplicationController
       service_list = JSON.parse(cookies[:services])
       service_list.each do |item|
         service = Service.find_by id: item
-        total_price = total_price + service.service_price + service.service_tax + service.yourtime_fee
+        total_price = total_price + service.service_price + service.service_tax + (service.yourtime_fee * service.service_price)
         total_tax = total_tax + service.service_tax
-        your_time_fee = your_time_fee + service.yourtime_fee
+        your_time_fee = your_time_fee + (service.yourtime_fee * service.service_price)
         puts "**** service price " + service.service_price.to_s
       end
       add_on_list = JSON.parse(cookies[:addOns])
       add_on_list.each do |addItem|
         add_on = Service.find_by id: addItem
-        total_price = total_price + add_on.service_price + add_on.service_tax + add_on.yourtime_fee
+        total_price = total_price + add_on.service_price + add_on.service_tax + (add_on.yourtime_fee * add_on.service_price)
         puts "**** add on price " + add_on.service_price.to_s
         total_tax = total_tax + add_on.service_tax
-        your_time_fee = your_time_fee + add_on.yourtime_fee
-
+        your_time_fee = your_time_fee + (add_on.yourtime_fee * add_on.service_price)
       end
-      firstService = Service.find_by id: services.first
+      first_service = Service.find_by id: services.first
+
+      services = service_list.concat(add_on_list)
+      puts "*** full services = " + services.to_s
       booking = user.bookings.new(
           service_id: services, schedule_id: schedule.id, date: date,
          booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
-          booking_price: total_price, workplace_id: firstService.section.location.category.workplace.id
+          booking_price: total_price, workplace_id: first_service.section.location.category.workplace.id
       )
 
       puts "**** booking = " + booking.to_json
 
       if booking.save!
-        #TODO STORE CHARGE ID IN DATABASE
+        # TODO STORE CHARGE ID IN DATABASE
         # TODO STORE CUSTOMER STRIPE ID IN DATABASE
+
+        if schedule.date_reserved < schedule.date_capacity
+          schedule.increment!(:date_reserved)
+        elsif schedule.date_reserved == schedule.date_capacity
+          flash[:danger] = "Date has reached capacity"
+          redirect_to new_user_booking_path(current_user)
+        end
+
+
 =begin
       #Set customer charge
       customer = Stripe::Customer.create(
@@ -161,14 +157,12 @@ class BookingsController < ApplicationController
 
           )
 =end
-      puts "*** BOOKING SAVED "
+        puts "*** BOOKING SAVED "
 
-        cookies.delete :redirect
         flash[:success] = "Thank you for making a booking"
         redirect_to root_url
       else
         puts "*** BOOKING NOT SAVED "
-
         redirect_to new_user_booking_path(current_user)
       end
     end
@@ -177,11 +171,12 @@ class BookingsController < ApplicationController
   def show
     @booking = Booking.find params[:id]
 
-    @location = @booking.location
-    category = @location.category
-    @workplace = category.workplace
+    @location = @booking.location_id
+    @location = Location.find_by id: @location
+    @category = @location.category
+    @workplace = @category.workplace
 
-    @service = @booking.service
+    @service = @booking.service_id
   end
 
   def destroy

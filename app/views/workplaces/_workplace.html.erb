@@ -28,15 +28,18 @@
 
     <% else %>
     <li id="workplace-<%= workplace.id %>">
-      <small class="user">
-        <%= link_to workplace.workplace_name, workplace_path(workplace.slug) %></small>
+      <span>
+        <%= link_to workplace.workplace_name, workplace_path(workplace.slug), class: 'bold' %>
+      </span>
       <% if logged_in? && current_user.admin? %>
-          <br /><span>create new category</span>
+          <br />
+        <span>new category</span>
           <%= link_to new_workplace_category_path(workplace) do |f| %>
               <span class="location-icon material-icons">+</span>
-
           <% end %>
-      <small class="timestamp">
+        <br />
+
+        <small class="timestamp">
         <%= link_to "delete", workplace, method: :delete,
                     data: { confirm: "You sure?" } %>
     &nbsp;  <%= link_to "edit", edit_workplace_path(workplace.id) %>

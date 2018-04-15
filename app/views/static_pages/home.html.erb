@@ -11,15 +11,14 @@
         </section>
         <hr />
         <br />
+        <section class="service">
+          <h5 class="left-align">Services: </h5>
+          <%= render 'shared/services_feed' %>
+        </section>
         <section class="sections">
           <h5 class="left-align">Sections:</h5>
           <hr />
           <%= render 'shared/section_feed' %>
-        </section>
-        <section class="service">
-          <h5 class="left-align">Services: </h5>
-
-          <%= render 'shared/services_feed' %>
         </section>
       </div>
       <div class="paper col l7 m5 s12 ">
@@ -40,7 +39,6 @@
       </div>
         <div class="paper col l2 m3 s12 feed-container">
           <h4>Workplaces</h4>
-          <small><%= link_to "View workplaces", workplaces_path %></small>
           <%= render 'shared/feed' %>
           <h4>Categories</h4>
           <%= render 'shared/category_feed' %>

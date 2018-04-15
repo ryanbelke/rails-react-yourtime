@@ -3,12 +3,13 @@
 
 <% else %>
   <li id="category-<%= category.id %>">
-        <span class="user">
-          <%= category.workplace.workplace_name %>
+        <span class="user ">
+          <small class="bold"><%= category.workplace.workplace_name %>
+          </small>
           <br />
-         &nbsp; <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug) %></span>
+         &nbsp; <%= link_to category.category_name, workplace_category_path(category.workplace_id, category.slug), class: 'bold' %></span>
           <br />
-        &nbsp; <small>Locations: (<%= category.locations.count %>) </small>
+        &nbsp; <small class="bold">Locations: (<%= category.locations.count %>) </small>
           &nbsp; &nbsp; <%= link_to 'New', new_category_location_path(category.slug), class: small_button('blue lighten-1') %>
         &nbsp; <small class="timestamp"> &nbsp; &nbsp;
           <%= link_to "delete", workplace_category_path(category.workplace_id, category.slug), method: :delete,

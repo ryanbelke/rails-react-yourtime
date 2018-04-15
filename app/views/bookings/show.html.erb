@@ -23,23 +23,45 @@
       </div>
       <div class="form-info">
         <span class="form-header">Service: </span>
-        <span class="form-text"> <%= @service.service_name %></span>
+        <span class="form-text">
+          <% @booking.service_id.each do |service| %>
+              <%= get_service_name(service) %>
+            <br />
+          <% end %>
+        </span>
+      </div>
+      <div class="form-info">
+        <span class="form-header">Date: </span>
+        <span class="form-text">
+          <%= @booking.date.strftime("%m/%d/%Y") %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Price: </span>
-        <span class="form-text"> $<%= @service.service_price %></span>
+        <span class="form-text">
+          <%= number_to_currency(@booking.booking_price) %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Vendor: </span>
-        <span class="form-text"> <%= @service.service_vendor %></span>
+        <span class="form-text">
+          <% vendor = [] %>
+            <% @booking.service_id.each do |service| %>
+                <% ser = get_service(service) %>
+                <% vendor.push(ser.service_vendor) %>
+            <% end %>
+          <% vendor = vendor.uniq %>
+          <% vendor.each do |ven| %>
+            <%= ven %>
+          <% end %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Time Frame: </span>
         <span class="form-text">
-            <% if @service.service_time_to_complete < 8 %>
-             <%= 'Same Day' %>
-            <% else %>
-             <%= 'Extended completion time' %>
+          <% @booking.service_id.each do |service| %>
+            <% ser = get_service(service) %>
+            <%= ser.service_time_to_complete %>h &nbsp;
             <% end %>
           </span>
       </div>
@@ -58,37 +80,41 @@
         </div>
       </div>
       <div class="form-info">
-        <span class="form-header">Price </span>
-        <span class="form-text"> $<%= @service.service_price %></span>
+        <span class="form-header">Services: </span>
+        <span class="form-text">
+          <% total_services = 0 %>
+          <% @booking.service_id.each do |service| %>
+                <% ser = get_service(service) %>
+            <% total_services += ser.service_price %>
+            <% end %>
+          <%= number_to_currency(total_services) %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Estimate Tax: </span>
-        <span class="form-text"><%= number_to_currency(@tax_amount) %></span>
+        <span class="form-text">
+          <% total_tax = 0 %>
+            <% @booking.service_id.each do |service| %>
+                <% ser = get_service(service) %>
+                <% total_tax += ser.service_tax %>
+            <% end %>
+          <%= number_to_currency(total_tax) %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">YourTime Fee: </span>
-        <span class="form-text"><%= number_to_currency(@your_time_amount) %></span>
+        <span class="form-text">
+          <% total_fee = 0 %>
+          <% @booking.service_id.each do |service| %>
+                <% ser = get_service(service) %>
+            <% total_fee += (ser.service_price * ser.yourtime_fee) %>
+            <% end %>
+          <%= number_to_currency(total_fee) %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Estimated Total </span>
-        <span class="form-text"> <%= number_to_currency(@total_price) %></span>
-      </div>
-
-      <div class="form-info">
-        <span class="form-header">Time Frame: </span>
-        <span class="form-text">
-            <% if @service.service_time_to_complete < 8 %>
-             <%= 'Same Day' %>
-            <% else %>
-             <%= 'Extended completion time' %>
-            <% end %>
-          </span>
-      </div>
-      <div class="form-info">
-        <span class="form-header"></span>
-        <span class="form-text">
-
-              </span>
+        <span class="form-text"> <%= number_to_currency(@booking.booking_price) %></span>
       </div>
     </div>
   </div>

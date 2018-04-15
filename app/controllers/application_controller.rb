@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include SessionsHelper
   helper_method :get_service_name
-  helper_method :get_location_name
+  helper_method :get_location_name, :get_service
   private
   #delete all the cookies so you are redirected to create new appointment
   def delete_cookies
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     cookies.delete :workplace
     cookies.delete :category
     cookies.delete :date
+  end
+
+  def get_service(id)
+    @ser = Service.find_by id: id
   end
 
   def get_service_name(id)
