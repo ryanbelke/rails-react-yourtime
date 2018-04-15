@@ -8,7 +8,7 @@ class Service < ApplicationRecord
 
   #Services will have my FOREIGN KEY to pull the USD ID AND CATEGORY ID
   belongs_to :section
-
+  belongs_to :booking
   private
 
   # Validates the size of an uploaded picture.

@@ -136,7 +136,7 @@ class BookingsController < ApplicationController
       end
       firstService = Service.find_by id: services.first
       booking = user.bookings.new(
-          services: services, schedule_id: schedule.id, date: date,
+          service_id: services, schedule_id: schedule.id, date: date,
          booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
           booking_price: total_price, workplace_id: firstService.section.location.category.workplace.id
       )

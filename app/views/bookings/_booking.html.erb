@@ -2,10 +2,15 @@
 <tbody>
 <tr>
   <td><%= booking.booking_status %></td>
-  <td><%= Date.strptime(booking.schedule.date.to_s, "%Y-%m-%d") %></td>
+  <td><%= Date.parse(booking.schedule.date.to_s).strftime("%m/%d/%Y") %></td>
 
-  <td><%= booking.services %></td>
-  <td><%= booking.location_id %></td>
+  <td>
+    <% booking.service_id.each do |service| %>
+      <%= get_service_name(service) %>
+      <br />
+    <% end %>
+  </td>
+  <td><%= get_location_name(booking.location_id) %></td>
   <td><%= number_to_currency(booking.booking_price) %></td>
   <td id="table-buttons"><%= link_to 'View', user_booking_path(current_user.id, booking.id),
   class: 'waves-effect waves-light btn custom-btn-small' %></td>
