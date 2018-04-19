@@ -47,6 +47,7 @@ class Booking extends BaseComponent {
       today: 'Today',
       clear: 'Clear',
       close: 'Ok',
+      format: 'mm/dd/yyyy',
       closeOnSelect: false, // Close upon selecting a date,
       disable: datesArray,
       //set parameter of selected date for cookie setting
@@ -60,7 +61,11 @@ class Booking extends BaseComponent {
 
   render() {
     let { workplaceName, categoryName,
-      locationName, services, addOns } = this.props;
+      locationName, services, addOns,cookies } = this.props;
+    let selected_date = new Date(cookies.get('date'));
+    let month = `0${(selected_date.getUTCMonth() + 1).toString().slice(-2)}`;
+    let day = `0${selected_date.getUTCDate().toString()}`.slice(-2);
+    selected_date = `${month}/${day}/${selected_date.getUTCFullYear()}`;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -118,7 +123,7 @@ class Booking extends BaseComponent {
                 <form action="" acceptCharset="UTF-8" method="get">
                   <label className="active">Select a date</label>
                   <br />
-                  <input onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
+                  <input defaultValue={selected_date.toString()} onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
                   <br />
                   <button name="button" type="submit" className="waves-effect waves-light btn">
                     &nbsp; Save

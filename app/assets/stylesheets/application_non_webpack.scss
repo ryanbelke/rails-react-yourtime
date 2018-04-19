@@ -67,7 +67,6 @@ input { color: #2E2F30 !important; }
 #driveSection3 { margin-top: 12%; }
 #winner { margin-top: 10%; }
 
-.custom-btn-small { width: 60px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 25px !important; }
 .custom-btn-small2 { width: 50px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 15px !important; }
 .flash-container { width: 100%; position: absolute; margin: 5px 0; text-align: center;
 .alert{ height: 50px !important; }
@@ -858,10 +857,12 @@ span.picture {
   font-size: 0.75rem;
   margin-bottom: 15px;
   a {
-    color: gray !important;
+    color: gray;
   }
 }
 .admin { width: 50px; height: 50px; margin: 0px 20px; }
+
+
 @media (max-width: 800px) {
   .flex-left-half { flex: 0 0 100%; }
   .flex-right-half { flex: 0 0 100%; }
@@ -873,3 +874,4 @@ span.picture {
     margin-left: 10px !important;
   }
 }
+.custom-btn-small { width: 60px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 25px !important; color: white !important; }

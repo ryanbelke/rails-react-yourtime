@@ -7,8 +7,6 @@ class BookingsController < ApplicationController
   def new
     redux_store("commentsStore")
     @booking_feed = []
-    #parse booking cookie
-    #booking_cookie = JSON.parse(cookies[:booking], symbolize_names: true)
 
     workplace = cookies[:workplace]
     category = cookies[:category]

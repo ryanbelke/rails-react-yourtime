@@ -2,7 +2,7 @@ source "https://rubygems.org"
 ruby "2.4.1"
 
 gem "react_on_rails", "10.0.0"
-gem "webpacker", :github => 'rails/webpacker'
+gem "webpacker"
 
 gem 'stripe'
 

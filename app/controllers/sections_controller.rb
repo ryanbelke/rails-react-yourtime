@@ -27,10 +27,12 @@ class SectionsController < ApplicationController
 
   def index
     redux_store("commentsStore")
-
     @location = Location.friendly.find(params[:location_id])
     @section_feed_items = @location.sections
     cookies[:location] = @location.slug
+  end
+
+  def edit
 
   end
 

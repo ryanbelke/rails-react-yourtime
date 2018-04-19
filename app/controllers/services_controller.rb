@@ -88,8 +88,11 @@ class ServicesController < ApplicationController
       @dates = dates.pluck(:date).map{ |entry| [entry.strftime("%Y-%m-%d").gsub('-', ',')]}
       puts "use this date " + dates.to_yaml
       #grab selected date from the form to input when user hits save and create cookie for future use
-      @selected_date = params[:date]
-      cookies[:date] = @selected_date
+
+      #selected_date = location.schedules.find_by date: cookies[:date]
+
+      #puts "selected ate = " + selected_date.to_s
+
 
       booking = {
           bookingId: SecureRandom.uuid,
@@ -99,28 +102,18 @@ class ServicesController < ApplicationController
           sectionName: section.section_name,
           #service: service,
           dates: @dates,
+          
           workplaceSlug: workplace.slug,
           categorySlug: category.slug,
           locationSlug: location.slug,
           sectionSlug: section.slug,
       }
-
       #delete cookies after stored in booking cookie
       #delete_cookies
 
       @booking_feed.push(booking)
       @service_feed_items = []
 
-      #set tax information
-      #puts "***** " + service.to_yaml
-=begin
-      @tax_amount1 = (0.09 * service.service_price)
-      @tax_amount = sprintf('%.2f', @tax_amount1)
-      @your_time_amount1 = (0.05 * service.service_price)
-      @your_time_amount = sprintf('%.2f', @your_time_amount1)
-      @total_price1 = @tax_amount1 + @your_time_amount1 + service.service_price
-      @total_price = sprintf('%.2f', @total_price1)
-=end
     end
 
     private
