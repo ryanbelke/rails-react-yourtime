@@ -63,9 +63,18 @@ class Booking extends BaseComponent {
     let { workplaceName, categoryName,
       locationName, services, addOns,cookies } = this.props;
     let selected_date = new Date(cookies.get('date'));
-    let month = `0${(selected_date.getUTCMonth() + 1).toString().slice(-2)}`;
-    let day = `0${selected_date.getUTCDate().toString()}`.slice(-2);
-    selected_date = `${month}/${day}/${selected_date.getUTCFullYear()}`;
+    if(selected_date.length >0) {
+      let month = `0${(selected_date.getUTCMonth() + 1).toString().slice(-2)}`;
+      let day = `0${selected_date.getUTCDate().toString()}`.slice(-2);
+      selected_date = `${month}/${day}/${selected_date.getUTCFullYear()}`;
+      console.log("sel*** = " + selected_date)
+
+    } else {
+      selected_date = "select a date";
+      console.log("selected date = " + selected_date)
+
+    }
+
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
