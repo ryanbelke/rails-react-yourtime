@@ -102,7 +102,7 @@ class ServicesController < ApplicationController
           sectionName: section.section_name,
           #service: service,
           dates: @dates,
-          
+
           workplaceSlug: workplace.slug,
           categorySlug: category.slug,
           locationSlug: location.slug,

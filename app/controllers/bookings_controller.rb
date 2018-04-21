@@ -84,8 +84,8 @@ class BookingsController < ApplicationController
     services = JSON.parse(cookies[:services])
     date = cookies[:date]
     location = Location.friendly.find(cookies[:location])
-
-    if date.nil?
+    puts "date = " + date
+    if date.eql? "select a date" || date == nil || null
       flash[:danger] = "please select date"
       redirect_to new_user_booking_path(current_user)
     else
@@ -122,7 +122,7 @@ class BookingsController < ApplicationController
       puts "*** full services = " + services.to_s
       booking = user.bookings.new(
           service_id: services, schedule_id: schedule.id, date: date,
-         booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
+          booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
           booking_price: total_price, workplace_id: first_service.section.location.category.workplace.id
       )
 
@@ -134,11 +134,11 @@ class BookingsController < ApplicationController
 
         if schedule.date_reserved < schedule.date_capacity
           schedule.increment!(:date_reserved)
-        elsif schedule.date_reserved == schedule.date_capacity
-          flash[:danger] = "Date has reached capacity"
-          redirect_to new_user_booking_path(current_user)
+          if schedule.date_reserved == schedule.date_capacity
+            flash[:danger] = "Date has reached capacity"
+            redirect_to new_user_booking_path(current_user)
+          end
         end
-
 
 =begin
       #Set customer charge

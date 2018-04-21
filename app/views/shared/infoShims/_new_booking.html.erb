@@ -27,10 +27,7 @@
         <span class="form-header"></span>
         <span class="form-text">
             <% if logged_in? %>
-
-            <%= form_tag user_bookings_path(current_user) do %>
-
-
+            <%= form_tag user_bookings_path(current_user), id: 'chargeForm' do %>
               <article>
                     <% if flash[:error].present? %>
                       <div id="error_explanation">
@@ -38,13 +35,44 @@
                       </div>
                     <% end %>
                   </article>
-               <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                       data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-                       data-description="A month's subscription"
-                       data-amount="<%= @total_price * 0 %>"
-                       data-locale="auto"
-                       data-email="<%= current_user.email %>"></script>
-              <%= button_tag :purchase, type: 'submit', class: 'waves-effect waves-light btn' %>
+
+              <script src="https://checkout.stripe.com/checkout.js"></script>
+              <%= hidden_field_tag 'stripeToken' %>
+              <%= hidden_field_tag 'stripeEmail' %>
+
+              <button class='waves-effect waves-light btn' id="customButton">Purchase </button>
+
+              <script>
+                  var handler = StripeCheckout.configure({
+                      key: '<%= Rails.configuration.stripe[:publishable_key] %>',
+                      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+                      locale: 'auto',
+                      token: function(token) {
+                          document.getElementById("stripeToken").value = token.id;
+                          document.getElementById("stripeEmail").value = token.email;
+                          document.getElementById("chargeForm").submit();
+
+                      }
+                  });
+
+                  document.getElementById('customButton').addEventListener('click', function(e) {
+                      // Open Checkout with further options:
+                      handler.open({
+                          name: 'Stripe.com',
+                          description: 'A new YourTime booking',
+                          zipCode: true,
+                          amount: <%= @total_price * 100 %>,
+                          email: '<%= current_user.email %>'
+                      });
+                      e.preventDefault();
+                  });
+
+                  // Close Checkout on page navigation:
+                  window.addEventListener('popstate', function() {
+                      handler.close();
+                  });
+              </script>
+
             <% end %>
             <% end %>
               </span>
@@ -100,119 +128,3 @@
     </div>
   </div>
 
- <!--   <div class="col l6 m6 s12">
-      <div class="paper-no-border">
-        <div class="css-flash">
-          <div class="icon-div-info">
-            <i class="fa fa-info" aria-hidden="true"></i>
-          </div>
-          <div class="flash-text">
-            <h6>Appointment Info:</h6>
-          </div>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Workplace:</span>
-          <span class="form-text"> @workplace.workplace_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Location:</span>
-          <span class="form-text"> @location.location_name %></span>
-        </div>
-
-        <div class="form-info">
-          <span class="form-header">Category:</span>
-          <span class="form-text"> @location.category.category_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Service Section:</span>
-          <span class="form-text"> @section.section_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Service: </span>
-          <span class="form-text"> @service.service_name %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Price: </span>
-          <span class="form-text"> $ @service.service_price %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Vendor: </span>
-          <span class="form-text"> @service.service_vendor %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Time Frame: </span>
-          <span class="form-text">
-            @service.service_time_to_complete  %>
-          </span>
-        </div>
-      </div>
-      <br />
-      <div class="paper-no-border">
-        <div class="css-flash-cost">
-          <div class="icon-div-dollar">
-            <i class="fa fa-credit-card" aria-hidden="true"></i>
-
-          </div>
-          <div class="flash-text">
-            <h6>Appointment Cost:</h6>
-          </div>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Price </span>
-          <span class="form-text"> $ @service.service_price %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Estimate Tax: </span>
-          <span class="form-text"> number_to_currency(@tax_amount) %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">YourTime Fee: </span>
-          <span class="form-text">< number_to_currency(@your_time_amount) %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Estimated Total </span>
-          <span class="form-text">  number_to_currency(@total_price) %></span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Discount Code:</span>
-          <span class="form-text">
-           if request.original_url.to_s.include? 'service' %>
-            <small>submit at checkout</small>
-               else %>
-            <span>
-               form_tag '', method: 'get' do %>
-              text_field_tag 'discount', nil, placeholder: 'discount code', class: 'browser-default discount-text' %>
-               button_tag :save, type: 'submit', class: 'waves-effect waves-light btn custom-btn-small' %>
-               end %>
-            </span>
-             end %>
-          </span>
-        </div>
-        <div class="form-info">
-          <span class="form-header">Time Frame: </span>
-          <span class="form-text">
-              @service.service_time_to_complete %>
-          </span>
-        </div>
-        -->
-
-  <script>
-/*
-      $('.datepicker').pickadate({
-          selectMonths: true, // Creates a dropdown to control month
-          selectYears: 50, // Creates a dropdown of 15 years to control year,
-          today: 'Today',
-          clear: 'Clear',
-          close: 'Ok',
-
-          closeOnSelect: false, // Close upon selecting a date,
-          disable: [
-              true,
-               @dates.each do |a| %>
-              new Date(' a[0] %>'),
-
-
-               end %>
-          ]
-      });*/
-  </script>

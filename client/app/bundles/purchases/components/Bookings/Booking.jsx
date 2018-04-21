@@ -63,16 +63,13 @@ class Booking extends BaseComponent {
     let { workplaceName, categoryName,
       locationName, services, addOns,cookies } = this.props;
     let selected_date = new Date(cookies.get('date'));
-    if(selected_date.length >0) {
+    if(selected_date != "Invalid Date" || null) {
       let month = `0${(selected_date.getUTCMonth() + 1).toString().slice(-2)}`;
       let day = `0${selected_date.getUTCDate().toString()}`.slice(-2);
       selected_date = `${month}/${day}/${selected_date.getUTCFullYear()}`;
-      console.log("sel*** = " + selected_date)
 
-    } else {
+    } else if(selected_date == "Invalid Date") {
       selected_date = "select a date";
-      console.log("selected date = " + selected_date)
-
     }
 
     const cssTransitionGroupClassNames = {
