@@ -3,7 +3,34 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   helper_method :get_service_name
   helper_method :get_location_name, :get_service
+
   private
+
+  # checks for cookies
+  def check_cookies
+    workplace = cookies[:workplace]
+    category = cookies[:category]
+    location = cookies[:location]
+    service = JSON.parse(cookies[:services])
+    puts " service cookie = " + service.to_s
+
+    if workplace.nil?
+      flash[:warning] = "please select workplace to begin"
+      redirect_to workplaces_path
+    elsif category.nil?
+      flash[:warning] = "please select category to begin"
+      redirect_to workplace_categories_path(workplace, workplace: workplace)
+    elsif location.nil?
+      flash[:warning] = "please select location to begin"
+      redirect_to category_locations_path(category)
+    elsif service.length == 0 || service.nil?
+      flash[:warning] = "please select service to begin"
+      redirect_to location_sections_path(location)
+    else
+
+    end
+  end
+
   #delete all the cookies so you are redirected to create new appointment
   def delete_cookies
     cookies.delete :service
@@ -35,6 +62,18 @@ class ApplicationController < ActionController::Base
       redirect_to login_url
     end
   end
+
+  # Before filters
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless current_user?(@user)
+  end
+
+  # Confirms an admin user.
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
+  end
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception,

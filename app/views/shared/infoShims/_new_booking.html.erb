@@ -1,27 +1,7 @@
   <div class="row">
     <%= react_component('App',  prerender: false) %>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
 
-<!--    <div class="col l3 m6 s12 offset-l1">
-      <div class="paper-no-border">
-        <div class="css-flash">
-          <div class="icon-div">
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-          </div>
-          <div class="flash-text">
-            <h6>Appointment Date</h6>
-          </div>
-        </div>
-        <div class="date-selector">
-           form_tag '', method: 'get' do %>
-             label_tag :select_a_date %>
-             text_field_tag 'date', @selected_date, placeholder: 'Date', class: 'datepicker'%>
-            < button_tag type: 'submit', class: 'waves-effect waves-light btn' do %>
-              <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp; save
-             end %>
-           end %>
-        </div>
-      </div>
-    </div>-->
     <div class="col l6 m6 s12 offset-l4 m6">
       <div class="form-info">
         <span class="form-header"></span>
@@ -36,7 +16,6 @@
                     <% end %>
                   </article>
 
-              <script src="https://checkout.stripe.com/checkout.js"></script>
               <%= hidden_field_tag 'stripeToken' %>
               <%= hidden_field_tag 'stripeEmail' %>
 
@@ -73,9 +52,9 @@
                   });
               </script>
 
+              <% end %>
             <% end %>
-            <% end %>
-              </span>
+        </span>
       </div>
       <br />
       <% if logged_in? %>

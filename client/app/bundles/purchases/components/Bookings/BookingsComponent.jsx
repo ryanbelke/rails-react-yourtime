@@ -109,9 +109,15 @@ class BookingsComponent extends BaseComponent {
     let x = 0;
 
     console.log('calculating total ' + $$bookingServices);
-      if ($$bookingServices.size == 0 && x < 2) {
-          setTimeout(() => { console.log("RETRYING "); this.calculateTotal() }, 2000);
-          x = x + 1;
+      if ($$bookingServices.size == 0) {
+        (() => {
+          setTimeout(() => {
+            if($$bookingServices.size === 0 && x < 3) {
+              setTimeout(() => { console.log("RETRYING "); this.calculateTotal() }, 2000);
+              x++;
+            }
+          }, 1000)
+        })()
       } else {
         $$bookingServices.forEach(($booking) => {
           if ($booking.getIn(['service', 'service_price']) != null) {
@@ -122,7 +128,8 @@ class BookingsComponent extends BaseComponent {
                 checkoutLoading: false,
                 yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
                   parseFloat($booking.getIn(['service', 'yourtime_fee'])))
-              }})}
+                }}
+              )}
         });
         $$bookingAddOns.forEach(($booking) => {
           if ($booking.getIn(['service', 'service_price']) != null) {
@@ -131,6 +138,8 @@ class BookingsComponent extends BaseComponent {
                 totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
                 totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
                 checkoutLoading: false,
+                yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
+                parseFloat($booking.getIn(['service', 'yourtime_fee'])))
               }})}
         })
       }

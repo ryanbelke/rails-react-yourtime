@@ -1,10 +1,11 @@
 class ServicesController < ApplicationController
+  include ReactOnRails::Controller
   require 'securerandom'
-  skip_before_action :verify_authenticity_token
-    #before_action :correct_user,   only: [:create, :index]
+
     before_action :admin_user,     only: [:edit, :create, :destroy, :new]
-    include ReactOnRails::Controller
-    #GET /SERVICE
+    before_action :check_cookies,   only: :booking
+
+  #GET /SERVICE
     def index
       redux_store("commentsStore")
       @section = Section.friendly.find(params[:section])
@@ -40,11 +41,13 @@ class ServicesController < ApplicationController
         render 'edit'
       end
     end
+
     #PUT /SERVICE/:ID
     def edit
       @section = Section.friendly.find(params[:section_id])
       @service = Service.friendly.find(params[:id])
     end
+
     #DELETE /SERVICE/:ID
     def destroy
       Service.friendly.find(params[:id]).destroy
@@ -58,12 +61,17 @@ class ServicesController < ApplicationController
       @booking_feed = []
 
     end
-#GET /services/booking
+  #GET /services/booking
     def booking
       redux_store("commentsStore")
       @booking_feed = []
-      cookies[:redirect] = { value: true, expires: 1.hour.from_now }
 
+      if current_user
+        redirect_to new_user_booking_path(current_user)
+      else
+        cookies[:redirect] = { value: true, expires: 1.hour.from_now }
+
+      end
     end
 
   #POST /service :ID
@@ -71,7 +79,7 @@ class ServicesController < ApplicationController
       @services = Service.friendly.find(params[:service])
 
     end
-#POST /booking
+  #POST /booking
     def booking_info
       redux_store("commentsStore")
       #set booking feed to empty
@@ -122,17 +130,5 @@ class ServicesController < ApplicationController
       params.require(:service).permit(:service_name, :service_description, :service_price,
                                       :service_time_to_complete, :service_info, :service_vendor,
                                       :picture, :add_on, :service_tax, :yourtime_fee)
-    end
-
-    # Before filters
-    # Confirms the correct user.
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
-    end
-
-    # Confirms an admin user.
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
     end
   end

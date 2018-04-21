@@ -1,25 +1,19 @@
 class BookingsController < ApplicationController
   include ReactOnRails::Controller
 
-  before_action :logged_in_user, only: [:new, :create, :destroy]
+  before_action :logged_in_user, only: [:new, :create, :destroy, :show]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
+  before_action :check_cookies, only: :new
+
   def new
     redux_store("commentsStore")
     @booking_feed = []
-
-    workplace = cookies[:workplace]
-    category = cookies[:category]
-    location = cookies[:location]
-    section = cookies[:section]
-    service = cookies[:service]
-
-    #TODO: set path specific to what is not present
-    if workplace.nil? || category.nil? ||
-       location.nil? || section.nil?
-      flash[:warning] = "please select workplace to begin"
-      redirect_to workplaces_path
-    else
+      workplace = cookies[:workplace]
+      category = cookies[:category]
+      location = cookies[:location]
+      section = cookies[:section]
+      service = cookies[:services]
 
       @user = current_user
       @workplace = Workplace.friendly.find(workplace)
@@ -43,22 +37,29 @@ class BookingsController < ApplicationController
       @service_feed_items = []
 
       @total_price = 0
+
+      #Calculate service total
       service_list = JSON.parse(cookies[:services])
       service_list.each do |item|
         service = Service.find_by id: item
-        @total_price = @total_price + service.service_price
-        puts "**** service price " + service.service_price.to_s
+        puts "fee " + service.yourtime_fee.to_s
+        your_time_fee = (1 + service.yourtime_fee)
+        puts "yourtime fee percent = " + your_time_fee.to_s
+        @total_price = @total_price + (service.service_price * your_time_fee).round(2) + service.service_tax
+        puts "tally of actual prices " + " " + service.service_price.to_s + " " + service.service_tax.to_s + " " + service.yourtime_fee.to_s
       end
+      #Calculate AddOn Total
       add_on_list = JSON.parse(cookies[:addOns])
       add_on_list.each do |addItem|
+
         add_on = Service.find_by id: addItem
-        @total_price = @total_price + add_on.service_price
-        puts "**** add on price " + add_on.service_price.to_s
+        your_time_fee = (1 + add_on.yourtime_fee)
+        @total_price = @total_price + (add_on.service_price * your_time_fee).round(2) + add_on.service_tax
+        puts "tally of actual prices " + " "+ add_on.service_price.to_s + " " + add_on.service_tax.to_s + " " + add_on.yourtime_fee.to_s
 
       end
 
       puts "TOTAL PRICE = *** " + @total_price.to_s
-      #@total_price = 100
       booking = {
           bookingId: SecureRandom.uuid,
           workplaceName: @workplace.workplace_name,
@@ -72,14 +73,10 @@ class BookingsController < ApplicationController
       @booking = @user.bookings.new
       cookies[:redirect] = { value: false, expires: 1.hour.from_now }
 
-    end
-
-
   end
 
+  # POST /bookings
   def create
-    #what is needed for booking?
-    # user, date + services
     user = User.find_by id: params[:user_id]
     services = JSON.parse(cookies[:services])
     date = cookies[:date]
@@ -94,7 +91,7 @@ class BookingsController < ApplicationController
       redirect_to new_user_booking_path(current_user)
     else
       selected_date = params[:date] || cookies[:date]
-
+    end
       #convert date to datetime for lookup in the database
       schedule = location.schedules.find_by date: date
       puts "**** schedule = " + schedule.to_s
@@ -105,26 +102,29 @@ class BookingsController < ApplicationController
       your_time_fee = 0
 
       service_list = JSON.parse(cookies[:services])
+
       service_list.each do |item|
         service = Service.find_by id: item
-        total_price = total_price + service.service_price + service.service_tax + (service.yourtime_fee * service.service_price)
-        total_tax = total_tax + service.service_tax
-        your_time_fee = your_time_fee + (service.yourtime_fee * service.service_price)
-        puts "**** service price " + service.service_price.to_s
+        puts "fee " + service.yourtime_fee.to_s
+        your_time_fee = (1 + service.yourtime_fee)
+        puts "yourtime fee percent = " + your_time_fee.to_s
+        total_price = total_price + (service.service_price * your_time_fee).round(2) + service.service_tax
+        puts "tally of actual prices " + " " + service.service_price.to_s + " " + service.service_tax.to_s + " " + service.yourtime_fee.to_s
       end
+
       add_on_list = JSON.parse(cookies[:addOns])
+
       add_on_list.each do |addItem|
         add_on = Service.find_by id: addItem
-        total_price = total_price + add_on.service_price + add_on.service_tax + (add_on.yourtime_fee * add_on.service_price)
-        puts "**** add on price " + add_on.service_price.to_s
-        total_tax = total_tax + add_on.service_tax
-        your_time_fee = your_time_fee + (add_on.yourtime_fee * add_on.service_price)
+        your_time_fee = (1 + add_on.yourtime_fee)
+        total_price = total_price + (add_on.service_price * your_time_fee).round(2) + add_on.service_tax
+        puts "tally of actual prices " + " "+ add_on.service_price.to_s + " " + add_on.service_tax.to_s + " " + add_on.yourtime_fee.to_s
       end
-      first_service = Service.find_by id: services.first
 
+      first_service = Service.find_by id: services.first
       services = service_list.concat(add_on_list)
       puts "*** full services = " + services.to_s
-      booking = user.bookings.new(
+      booking = user.bookings.create(
           service_id: services, schedule_id: schedule.id, date: date,
           booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
           booking_price: total_price, workplace_id: first_service.section.location.category.workplace.id
@@ -132,19 +132,19 @@ class BookingsController < ApplicationController
 
       puts "**** booking = " + booking.to_json
 
-      if booking.save!
+      if booking.save
         # TODO STORE CHARGE ID IN DATABASE
         # TODO STORE CUSTOMER STRIPE ID IN DATABASE
 
         if schedule.date_reserved < schedule.date_capacity
           schedule.increment!(:date_reserved)
-          if schedule.date_reserved == schedule.date_capacity
+          if schedule.date_reserved >= schedule.date_capacity
             flash[:danger] = "Date has reached capacity"
             redirect_to new_user_booking_path(current_user)
           end
         end
 
-=begin
+      puts "total price === " + (total_price * 100).floor.to_s
       #Set customer charge
       customer = Stripe::Customer.create(
           :email => params[:stripeEmail],
@@ -153,12 +153,11 @@ class BookingsController < ApplicationController
 
       charge = Stripe::Charge.create(
           :customer    => customer.id,
-          :amount      => @amount,
+          :amount      => total_price.floor * 100,
           :description => 'Rails Stripe customer',
           :currency    => 'usd',
 
           )
-=end
         puts "*** BOOKING SAVED "
 
         flash[:success] = "Thank you for making a booking"
@@ -167,9 +166,9 @@ class BookingsController < ApplicationController
         puts "*** BOOKING NOT SAVED "
         redirect_to new_user_booking_path(current_user)
       end
-    end
   end
 
+  #get
   def show
     @booking = Booking.find params[:id]
 
@@ -188,30 +187,10 @@ class BookingsController < ApplicationController
   end
 
   private
-
-    def calculate_tax(price)
-      (0.09 * price)
-    end
-    def calculate_fee(price)
-      (0.05 * price)
-    end
-
     def booking_params
       params.require(:booking).permit(:user_id, :service_id, :schedule_id,
                                           :workplace_id, :booking_status,
                                           :booking_description, :stripe_id, :services)
     end
 
-    # Before filters
-
-    # Confirms the correct user.
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
-    end
-
-    # Confirms an admin user.
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end
 end
