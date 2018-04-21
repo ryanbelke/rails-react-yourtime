@@ -84,8 +84,12 @@ class BookingsController < ApplicationController
     services = JSON.parse(cookies[:services])
     date = cookies[:date]
     location = Location.friendly.find(cookies[:location])
-    puts "date = " + date
-    if date.eql? "select a date" || date == nil || null
+    puts "date = " + date.to_s
+
+    if date.nil?
+      flash[:danger] = "please select date"
+      redirect_to new_user_booking_path(current_user)
+    elsif date.eql? "NaN-NaN-NaN"
       flash[:danger] = "please select date"
       redirect_to new_user_booking_path(current_user)
     else
