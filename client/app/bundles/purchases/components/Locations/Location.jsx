@@ -24,7 +24,7 @@ export default class Location extends BaseComponent {
 
   render() {
     const { locationName, locationDescription,
-        locationAddress, locationId, locationSelection} = this.props;
+        locationAddress, locationId, locationSelection, locationInfo} = this.props;
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -42,12 +42,17 @@ export default class Location extends BaseComponent {
 
           <h3 className="left-align">
             {locationName}
-            <i className="material-icons right activator">info_outline</i></h3>
+          </h3>
+          <div className="left-align">
+            <small>
+             &nbsp; Address: {locationAddress}
+            </small>
+          </div>
         </div>
         <div className="card-content">
           <p> {locationDescription} </p>
         </div>
-        <div className="card-action center-align">
+        <div className="card-action valign-wrapper center-align" id={css.bottom}>
           <ReactCSSTransitionGroup
             transitionName={cssTransitionGroupClassNames}
             transitionEnterTimeout={500}
@@ -57,12 +62,6 @@ export default class Location extends BaseComponent {
               <a href={`/locations/${locationId}/sections`} className="waves-effect waves-light btn blue ">Select</a>
               : ''}
           </ReactCSSTransitionGroup>
-        </div>
-        <div className="card-reveal">
-          <span className="card-title grey-text text-darken-4">More Info
-            <hr /><br />
-            <i className="material-icons right">close</i></span>
-          <p> {locationAddress}</p>
         </div>
       </div>
 

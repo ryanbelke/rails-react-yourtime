@@ -7,6 +7,10 @@
   box-shadow: 0 0 71px rgba(33,33,33,.5);
 }
 
+#bottom {
+  display:flex;
+  bottom: -30px;
+}
 .elementEnter {
   opacity: 0.01;
 
