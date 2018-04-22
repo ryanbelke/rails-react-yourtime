@@ -50,6 +50,14 @@ export default {
       headers: ReactOnRails.authenticityHeaders(),
       data: { service: service },
     });
+  },
+  createBooking(url, stripeToken) {
+    return request({
+      method: 'POST',
+      url: url,
+      responseType: 'json',
+      headers: ReactOnRails.authenticityHeaders(),
+      data: { stripeToken: stripeToken },
+    });
   }
-
 };

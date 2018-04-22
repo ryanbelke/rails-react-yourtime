@@ -1,9 +1,12 @@
 import BaseComponent from 'libs/components/BaseComponent';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Elements } from 'react-stripe-elements';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import css from './Checkout.scss';
+import InjectedCheckoutForm from './CheckoutForm';
+
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class Checkout extends BaseComponent {
@@ -41,6 +44,11 @@ export default class Checkout extends BaseComponent {
         </div>
       </div>
   );
+    let checkoutForm = (
+      <Elements>
+        <InjectedCheckoutForm/>
+      </Elements>
+    );
     /* eslint-disable react/no-danger */
     return (
       <div className="row" id={css.row}>
@@ -50,7 +58,6 @@ export default class Checkout extends BaseComponent {
               <div className="css-flash-cost">
                 <div className="icon-div-dollar">
                   <i className="fas fa-credit-card" aria-hidden="true"></i>
-
                 </div>
                 <div className="flash-text">
                   <h6>Total Cost:</h6>
@@ -71,18 +78,15 @@ export default class Checkout extends BaseComponent {
               <div className="form-info">
                 <span className="form-header">Discount Code:</span>
                 <span className="form-text">
-
-            <small>submit at checkout</small>
-
-            <span>
-
-            </span>
-
-          </span>
+                 <small>submit at checkout</small>
+                </span>
               </div>
+              <div className="form-info">
+                <div className={css.stripeForm}>{checkoutForm}</div>
+              </div>
+
             </div>
           </div>
-          {checkOutNodes}
         </div>
       </div>
     );

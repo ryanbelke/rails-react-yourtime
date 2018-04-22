@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import { withCookies, Cookies } from 'react-cookie';
+import {StripeProvider} from 'react-stripe-elements';
+import Script from 'react-load-script'
 import Booking from './Booking';
 import css from './BookingsComponent.scss';
 import BaseComponent from 'libs/components/BaseComponent';
@@ -22,8 +24,10 @@ class BookingsComponent extends BaseComponent {
       totalTax: 0,
       yourTimeFee: 0,
       checkoutLoading: true,
+      scriptLoaded: null,
+      scriptError: null,
     };
-    _.bindAll(this, ['fetchBookings', 'fetchServices', 'calculateTotal']);
+    _.bindAll(this, ['fetchBookings', 'fetchServices', 'calculateTotal', 'handleScriptError', 'handleScriptLoad']);
   }
 
   componentDidMount() {
@@ -31,22 +35,6 @@ class BookingsComponent extends BaseComponent {
       .then(() => this.fetchServices())
       .then(() => this.fetchAddOns())
       .then(() => this.calculateTotal());
-/*    let f = () => {
-      return new Promise((res, rej) => {
-        console.log('entering function');
-        setTimeout(() => {
-          console.log('resolving');
-          res()
-        }, 2000)
-      });
-    };*/
-/*
-
-    Promise.resolve()
-      .then(f)
-      .then(f);
-*/
-    //this.a().then(() => this.b())
   }
   fetchBookings() {
     const  { actions, cookies } = this.props;
@@ -63,7 +51,6 @@ class BookingsComponent extends BaseComponent {
       }
     })
   }
-
   fetchServices() {
     console.log("fetching services");
 
@@ -103,7 +90,6 @@ class BookingsComponent extends BaseComponent {
       }
     })
   }
-
   calculateTotal() {
     let { totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns } = this.state;
     let x = 0;
@@ -145,10 +131,16 @@ class BookingsComponent extends BaseComponent {
       }
   }
 
+  handleScriptError() {
+    this.setState({ scriptError: true });
+  }
 
+  handleScriptLoad() {
+    this.setState({ scriptLoaded: true });
+  }
   render() {
     const  { data, actions }   = this.props;
-    let bookingNodes;
+    let bookingNodes, stripeNode;
     const isFetching = data.get('isFetching');
     const bookings = Immutable.fromJS(data.get('$$bookings'));
     let bookingServices = this.state.$$bookingServices;
@@ -162,6 +154,19 @@ class BookingsComponent extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
+    this.state.scriptLoaded ?
+       stripeNode = (
+        <StripeProvider apiKey="pk_test_5yOGF65rhzZjobGYiOoYJoj0" >
+          <Checkout totalPrice={this.state.totalCost}
+                    totalTax={this.state.totalTax}
+                    loading={this.state.checkoutLoading}
+                    yourTimeFee={this.state.yourTimeFee}
+          />
+        </StripeProvider>
+      )
+    :
+    null;
+
     if(bookings != null || undefined) {
       bookingNodes = bookings.map(($$booking, index) =>
             (<Booking
@@ -210,11 +215,12 @@ class BookingsComponent extends BaseComponent {
         {bookingNodes}
 
         <section className={css.checkoutSection}>
-          <Checkout totalPrice={this.state.totalCost}
-                    totalTax={this.state.totalTax}
-                    loading={this.state.checkoutLoading}
-                    yourTimeFee={this.state.yourTimeFee}
+          <Script
+            url="https://js.stripe.com/v3/"
+            onError={this.handleScriptError.bind(this)}
+            onLoad={this.handleScriptLoad.bind(this)}
           />
+          {stripeNode}
         </section>
       </section>
     );

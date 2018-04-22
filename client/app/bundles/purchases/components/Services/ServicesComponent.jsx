@@ -41,7 +41,7 @@ class ServicesComponent extends BaseComponent {
     const selected = data.get('selected');
 
     let serviceSelection = data.get('serviceSelection');
-    console.log("services = " + services);
+    //console.log("services = " + services);
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,

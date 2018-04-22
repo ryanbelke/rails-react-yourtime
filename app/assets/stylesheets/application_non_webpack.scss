@@ -513,16 +513,18 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 1.5rem;
-  color: $gray-text;
+  color: #6b7c93;
   margin-left: 10px;
   margin-right: 10px;
   flex: 0.70;
+
 }
 .form-info {
   padding: 10px;
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid lightgray;
+  background-color: #f7f8f9;
 }
 h1 {
   font-size: 3em;
@@ -865,9 +867,35 @@ span.picture {
   .parking-selector { width: 100% !important; margin: 0 auto; }
   .jumbotron{ margin-top: 50px !important;  }
   #logo { display: block; width: 50px; height: 50px; }
+  .form-info {
+    padding: 0;
+  }
   .card {
     width: 90%;
     margin-left: 10px !important;
   }
 }
 .custom-btn-small { width: 60px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 25px !important; color: white !important; }
+
+.StripeElement {
+  background-color: white;
+  height: 40px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
