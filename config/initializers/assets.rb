@@ -18,4 +18,6 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Version of your assets, change this if you want to expire all your assets.
 #Added to precompile the custom css
 Rails.application.config.assets.precompile += %w( application_static.css )
-Rails.application.config.assets.precompile += %w( fontawesome-all.min.js )
+
+# Font Awesoe removed from asset pipleine, using CDN
+#Rails.application.config.assets.precompile += %w( fontawesome-all.min.js )

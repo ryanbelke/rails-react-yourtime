@@ -3,7 +3,6 @@
 <head>
 
   <title><%= full_title(yield(:title)) %></title>
-
   <%= stylesheet_pack_tag('vendor-bundle',
                           media: 'all',
                           'data-turbolinks-track': true) %>
@@ -19,9 +18,9 @@
 
   <%= javascript_pack_tag('vendor-bundle', 'data-turbolinks-track': true) %>
   <%= javascript_pack_tag('app-bundle', 'data-turbolinks-track': true) %>
-  <script src="https://use.fontawesome.com/0a94861212.js"></script>
 
-  <%= javascript_include_tag('fontawesome-all.min.js') %>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-KwxQKNj2D0XKEW5O/Y6haRH39PE/xry8SAoLbpbCMraqlX7kUP6KHOnrlrtvuJLR" crossorigin="anonymous">
+<!--    javascript_include_tag('fontawesome-all.min.js')  -->
   <%= csrf_meta_tags %>
 
   <!-- Compiled and minified CSS -->
@@ -33,7 +32,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
 
 </head>
 <body>
