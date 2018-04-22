@@ -414,13 +414,10 @@ a:hover { text-decoration: none; }
 }
 
 .card-title {
-      font-family: 'Open Sans', sans-serif !important;
-    a {
-
-    }
-}
+  font-family: 'Open Sans', sans-serif !important;
+  }
 .card-action-small {
-  height: 20px !important;
+  height: 25px !important;
   padding: 0 !important;
   margin: 0 !important;
   vertical-align: center;
@@ -444,7 +441,7 @@ a:hover { text-decoration: none; }
 .card-action a { font-weight: bold; }
 .card-panel { padding: 0 !important; }
 .card-content {
-  padding: 10px !important;
+  padding: 0px 10px !important;
   p {
     font-size: 1rem !important;
   }
@@ -527,7 +524,6 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: row;
   border-bottom: 1px solid lightgray;
 }
-.card-content { padding: 8px !important; }
 h1 {
   font-size: 3em;
   letter-spacing: -2px;
