@@ -1,0 +1,22 @@
+.selectedWorkplace {
+  outline: 3px solid #303f9f;
+  box-shadow: 0 0 71px rgba(33,33,33,.5);
+}
+
+.elementEnter {
+  opacity: 0.01;
+
+  &.elementEnterActive {
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+  }
+}
+
+.elementLeave {
+  opacity: 1;
+
+  &.elementLeaveActive {
+    opacity: 0.01;
+    transition: opacity 0.2s ease-in;
+  }
+}

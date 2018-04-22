@@ -10,6 +10,7 @@ import BookingsComponent from '../components/Bookings/BookingsComponent';
 
 import BaseComponent from 'libs/components/BaseComponent';
 import * as checkoutActionCreator from '../actions/checkoutActionCreator';
+import WorkplacesComponent from '../components/Workplaces/WorkplacesComponent';
 
 function select(state) {
   // Which part of the Redux global state does our component want to receive as props?
@@ -33,7 +34,9 @@ class CheckoutContainer extends BaseComponent {
 
     let renderNode;
     //const locationState = this.props.location;
-    if (location.includes('workplaces')) {
+    if (location == '/workplaces') {
+      renderNode = <WorkplacesComponent actions={actions} data={data} />
+    } else if (location.includes('workplaces') && location.includes('categories')) {
       renderNode = <Categories actions={actions} data={data}/>
     } else if (location.includes('categories')) {
       renderNode = <Locations actions={actions} data={data}/>

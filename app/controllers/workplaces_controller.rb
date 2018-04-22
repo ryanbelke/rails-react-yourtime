@@ -1,8 +1,11 @@
 class WorkplacesController < ApplicationController
   before_action :admin_user, only: [:create, :destroy, :edit, :update]
+  include ReactOnRails::Controller
 
   def index
-    @feed_items = Workplace.where.not(workplace_name: "Not Listed").paginate(page: params[:page])
+    redux_store("commentsStore")
+
+    @workplace_feed_items = Workplace.where.not(workplace_name: "Not Listed").paginate(page: params[:page])
   end
 
   def new

@@ -1,0 +1,1 @@
+json.workplaces(@workplace_feed_items, partial: 'workplaces/workplace', as: :workplace)

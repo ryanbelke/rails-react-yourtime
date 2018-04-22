@@ -24,13 +24,12 @@
               <script>
                   var handler = StripeCheckout.configure({
                       key: '<%= Rails.configuration.stripe[:publishable_key] %>',
-                      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+                      image: 'http://yourtime.life/img/logos/logo.png',
                       locale: 'auto',
                       token: function(token) {
                           document.getElementById("stripeToken").value = token.id;
                           document.getElementById("stripeEmail").value = token.email;
                           document.getElementById("chargeForm").submit();
-
                       }
                   });
 

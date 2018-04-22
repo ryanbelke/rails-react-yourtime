@@ -7,6 +7,7 @@ import * as actionTypes from '../constants/checkoutConstants';
 export const $$initialState = Immutable.fromJS({
   isFetching: false,
   isSaving: false,
+  $$workplaces: [],
   $$categories: [],
   $$locations: [],
   $$sections: [],
@@ -20,11 +21,31 @@ export const $$initialState = Immutable.fromJS({
 });
 
 export default function commentsReducer($$state = $$initialState, action = null) {
-  const { category, type, comment, comments, error,
+  const { category, type, comment, comments, error, $$workplaces, workplaceSelection,
      $$categories, $$locations, locationSelection, $$sections,
      sectionSelection, $$services, serviceSelection, $$bookings, $$bookingServices } = action;
 
   switch (type) {
+    case actionTypes.FETCH_WORKPLACES_SUCCESS: {
+      return $$state.merge({
+        $$workplaces: $$workplaces,
+        fetchWorkplacesError: null,
+        isFetching: false,
+      });
+    }
+    case actionTypes.FETCH_WORKPLACES_FAILURE: {
+      return $$state.merge({
+        fetchWorkplacesError: error,
+        isFetching: false,
+      });
+    }
+    case actionTypes.SELECT_WORKPLACE: {
+      return $$state.merge({
+        workplaceSelection: workplaceSelection,
+        selected: true,
+      });
+    }
+
     case actionTypes.FETCH_CATEGORIES_SUCCESS: {
       return $$state.merge({
         $$categories: $$categories,
@@ -32,7 +53,6 @@ export default function commentsReducer($$state = $$initialState, action = null)
         isFetching: false,
       });
     }
-
     case actionTypes.FETCH_CATEGORIES_FAILURE: {
       return $$state.merge({
         fetchCategoriesError: error,
@@ -45,6 +65,7 @@ export default function commentsReducer($$state = $$initialState, action = null)
         selected: true,
       });
     }
+
     case actionTypes.FETCH_LOCATIONS_SUCCESS: {
       return $$state.merge({
         $$locations: $$locations,
@@ -52,7 +73,6 @@ export default function commentsReducer($$state = $$initialState, action = null)
         isFetching: false,
       });
     }
-
     case actionTypes.FETCH_LOCATIONS_FAILURE: {
       return $$state.merge({
         fetchLocationsError: error,
@@ -65,6 +85,7 @@ export default function commentsReducer($$state = $$initialState, action = null)
         selected: true,
       });
     }
+
     case actionTypes.FETCH_SECTIONS_SUCCESS: {
       return $$state.merge({
         $$sections: $$sections,
@@ -72,7 +93,6 @@ export default function commentsReducer($$state = $$initialState, action = null)
         isFetching: false,
       });
     }
-
     case actionTypes.FETCH_SECTIONS_FAILURE: {
       return $$state.merge({
         fetchSectionsError: error,
@@ -85,6 +105,7 @@ export default function commentsReducer($$state = $$initialState, action = null)
         selected: true,
       });
     }
+
     case actionTypes.FETCH_SERVICES_SUCCESS: {
       return $$state.withMutations(state => (
         state

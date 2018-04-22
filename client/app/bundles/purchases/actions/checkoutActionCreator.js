@@ -7,6 +7,38 @@ export function setIsFetching() {
     type: actionTypes.SET_IS_FETCHING,
   };
 }
+//fetch workplaces
+export function fetchWorkplaces(workplace) {
+  return (dispatch) => {
+    dispatch(setIsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      request
+        .get('workplaces.json', { responseType: 'json' })
+        .then(res => dispatch(fetchWorkplacesSuccess(res.data)))
+        .catch(error => dispatch(fetchWorkplacesFailure(error)))
+    );
+  };
+}
+export function fetchWorkplacesSuccess(data) {
+  return {
+    type: actionTypes.FETCH_WORKPLACES_SUCCESS,
+    $$workplaces: data.workplaces,
+  };
+}
+export function fetchWorkplacesFailure(error) {
+  return {
+    type: actionTypes.FETCH_WORKPLACES_FAILURE,
+    error,
+  };
+}
+export function selectWorkplace(workplace) {
+  return {
+    type: actionTypes.SELECT_WORKPLACE,
+    workplaceSelection: workplace,
+  }
+}
 //fetch categories takes workplace as argument from location to get correct
 //categories
 export function fetchCategories(workplace) {
@@ -28,14 +60,12 @@ export function fetchCategoriesSuccess(data) {
     $$categories: data.categories,
   };
 }
-
 export function fetchCategoriesFailure(error) {
   return {
     type: actionTypes.FETCH_CATEGORIES_FAILURE,
     error,
   };
 }
-
 export function selectCategory(category) {
   return {
     type: actionTypes.SELECT_CATEGORY,

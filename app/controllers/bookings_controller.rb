@@ -134,7 +134,6 @@ class BookingsController < ApplicationController
 
       if booking.save
         # TODO STORE CHARGE ID IN DATABASE
-        # TODO STORE CUSTOMER STRIPE ID IN DATABASE
 
         if schedule.date_reserved < schedule.date_capacity
           schedule.increment!(:date_reserved)
@@ -144,21 +143,25 @@ class BookingsController < ApplicationController
           end
         end
 
-      puts "total price === " + (total_price * 100).floor.to_s
-      #Set customer charge
-      customer = Stripe::Customer.create(
+        puts "total price === " + (total_price * 100).floor.to_s
+        #create customer, validating card details and saving them under customer object
+        customer = Stripe::Customer.create(
           :email => params[:stripeEmail],
           :source  => params[:stripeToken]
-      )
+        )
 
-      charge = Stripe::Charge.create(
+
+=begin
+        charge = Stripe::Charge.create(
           :customer    => customer.id,
           :amount      => total_price.floor * 100,
           :description => 'Rails Stripe customer',
           :currency    => 'usd',
 
           )
-        puts "*** BOOKING SAVED "
+=end
+        #update database with customers stripe id
+        current_user.update(stripe_id: customer.id)
 
         flash[:success] = "Thank you for making a booking"
         redirect_to root_url

@@ -1,0 +1,1 @@
+json.extract! workplace, :id, :workplace_name, :workplace_description, :workplace_address, :workplace_city, :workplace_state, :workplace_zip, :slug

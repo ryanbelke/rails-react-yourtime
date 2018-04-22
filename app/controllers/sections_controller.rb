@@ -33,7 +33,18 @@ class SectionsController < ApplicationController
   end
 
   def edit
+    @location = Location.friendly.find(params[:location_id])
+    @section = @location.sections.friendly.find(params[:id])
+  end
 
+  def update
+    @section = Section.friendly.find(params[:id])
+    if @section.update_attributes(section_params)
+      flash[:success] = "Section updated"
+      redirect_to root_url
+    else
+      render 'edit'
+    end
   end
 
   def show

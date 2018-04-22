@@ -1,11 +1,19 @@
 <% if request.original_url.to_s.include? 'workplace' %>
-    <div class="paper workplaces card">
+    <div class="card sticky-action card-panel services">
       <div class="card-image">
-        <%= image_tag "siliconlabs.png" %>
-        <span class="card-title"><%= link_to workplace.workplace_name, workplace_categories_path(workplace.slug) %></span>
+        <!--  #image_tag workplace.picture.url if workplace.picture?  -->
       </div>
-      <div class="card-content">
-        <h5>Address: </h5> <span><%= workplace.workplace_address %><hr /></span>
+        <div class="card-title">
+          <%= workplace.workplace_name %>
+          <i class="material-icons right activator">info_outline</i>
+          <hr />
+        </div>
+      <div class="card-subtitle">
+        <h5>Address: </h5>
+        <span>
+          <%= workplace.workplace_address %>
+          <hr />
+        </span>
         <hr /><br/>
         <p><%= workplace.workplace_description %></p>
         <br />
