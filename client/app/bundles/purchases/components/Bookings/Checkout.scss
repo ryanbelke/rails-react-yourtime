@@ -6,14 +6,19 @@
   margin-left: 10px;
   margin-right: 10px;
   flex: 1;
-
 }
+
+#loader {
+  position: relative;
+  left: 10%;
+}
+
 #alert {
   height: 50px;
   border-radius: 5px;
   border: 1px solid darkgray;
   color: white;
-  background: #E6EBF1;
+  background: #f9fafc;
   display: flex;
 
 }
@@ -85,4 +90,21 @@
 
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
+}
+.elementEnter {
+  opacity: 0.01;
+
+  &.elementEnterActive {
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+  }
+}
+
+.elementLeave {
+  opacity: 1;
+
+  &.elementLeaveActive {
+    opacity: 0.01;
+    transition: opacity 0.2s ease-in;
+  }
 }
