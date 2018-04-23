@@ -20,6 +20,7 @@ export default class Checkout extends BaseComponent {
   render() {
     let { totalPrice, totalTax, loading, yourTimeFee, props } = this.props;
     let checkOutNodes, checkoutForm;
+    let user = props.props.railsHelpers.user;
     let checkoutTotal = parseFloat(totalPrice) + parseFloat(totalTax) + parseFloat(yourTimeFee);
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
@@ -44,7 +45,7 @@ export default class Checkout extends BaseComponent {
       </div>
     );
 
-    if(props.props.railsHelpers.user)  {
+    if(user)  {
       checkoutForm = (
         <Elements>
           <InjectedCheckoutForm/>
@@ -86,50 +87,52 @@ export default class Checkout extends BaseComponent {
               </div>
             </div>
             <br />
-            <div className="paper-no-border">
-              <div className={`${css.flash} center-align vertical-align`}>
-                <div className={css.icon}>
-                  <i className="fas fa-credit-card" aria-hidden="true"></i>
-                </div>
-                <div className={css.text}>
-                  <h6>Credit Card</h6>
-                </div>
-              </div>
-              <div className="form-info" style={{background: '#E6EBF1'}}>
-                <div className={css.stripeForm}>
-                  <label htmlFor={css.textarea}>Anything we should know before hand? </label>
-
-                  <textarea placeholder="booking notes"
-                            id={css.textarea}
-                            className="materialize-textarea"
-                            style={{
-                              backgroundColor: 'white', padding: 10,
-                              height: 60, width: '95%', borderRadius: 5,
-                              borderBottom: '1px solid gray'
-                            }}
-                  />
-                </div>
-              </div>
-              <div className="form-info" style={{background: '#E6EBF1', height: 100}}>
-                <div className={css.stripeForm}>
-                  {checkoutForm}
-                </div>
-                <br />
-              </div>
-              <div className="form-info" style={{background: '#E6EBF1', height: 100, paddingTop: 30}}>
-                <div className={css.stripeForm} id={css.alert}>
-                  <div className={css.leftAlert}>
-                    <i class="fas fa-exclamation-circle fa-2x"></i>
+            {user ?
+              <div className="paper-no-border">
+                <div className={`${css.flash} center-align vertical-align`}>
+                  <div className={css.icon}>
+                    <i className="fas fa-credit-card" aria-hidden="true"></i>
                   </div>
-                  <div className={css.rightAlert}>
-                    <div>
-                      YourTime does not charge card at time of booking, only
-                      after service has been completed on day of booking.
+                  <div className={css.text}>
+                    <h6>Credit Card</h6>
+                  </div>
+                </div>
+                <div className="form-info" style={{background: '#E6EBF1'}}>
+                  <div className={css.stripeForm}>
+                    <label htmlFor={css.textarea}>Anything we should know before hand? </label>
+
+                    <textarea placeholder="booking notes"
+                              id={css.textarea}
+                              className="materialize-textarea"
+                              style={{
+                                backgroundColor: 'white', padding: 10,
+                                height: 60, width: '95%', borderRadius: 5,
+                                borderBottom: '1px solid gray'
+                              }}
+                    />
+                  </div>
+                </div>
+                <div className="form-info" style={{background: '#E6EBF1' }}>
+                  <div className={css.stripeForm}>
+                    {checkoutForm}
+                  </div>
+                  <br />
+                </div>
+                <div className="form-info" style={{background: '#E6EBF1', paddingTop: 30}}>
+                  <div className={css.stripeForm} id={css.alert}>
+                    <div className={css.leftAlert}>
+                      <i class="fas fa-exclamation-circle fa-2x"></i>
+                    </div>
+                    <div className={css.rightAlert}>
+                      <div>
+                        YourTime does not charge card at time of booking, only
+                        after service has been completed on day of booking.
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div> : null
+            }
           </div>
         </div>
       </div>
