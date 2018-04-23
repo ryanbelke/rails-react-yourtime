@@ -24,7 +24,7 @@ class BookingsComponent extends BaseComponent {
       totalTax: 0,
       yourTimeFee: 0,
       checkoutLoading: true,
-      scriptLoaded: null,
+      scriptLoaded: false,
       scriptError: null,
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices', 'calculateTotal', 'handleScriptError', 'handleScriptLoad']);
@@ -167,6 +167,7 @@ class BookingsComponent extends BaseComponent {
                       loading={this.state.checkoutLoading}
                       yourTimeFee={this.state.yourTimeFee}
                       props={props}
+
             />
           </StripeProvider>
         )

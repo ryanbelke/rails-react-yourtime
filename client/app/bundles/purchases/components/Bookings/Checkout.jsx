@@ -15,9 +15,7 @@ export default class Checkout extends BaseComponent {
     totalTax: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
   };
-    constructor(props) {
-     super(props);
-   }
+
 
   render() {
     let { totalPrice, totalTax, loading, yourTimeFee, props } = this.props;
@@ -29,6 +27,7 @@ export default class Checkout extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
+
     let loadingIcon = (
       <div style={{display: this.props.loading ? '' : 'none'}} id={css.loader}>
         <div className="preloader-wrapper small active">

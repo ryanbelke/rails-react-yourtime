@@ -1,0 +1,24 @@
+.elementEnter {
+  opacity: 0.01;
+
+  &.elementEnterActive {
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+  }
+}
+
+.elementLeave {
+  opacity: 1;
+
+  &.elementLeaveActive {
+    opacity: 0.01;
+    transition: opacity 0.2s ease-in;
+  }
+}
+#loader {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
