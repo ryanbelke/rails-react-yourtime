@@ -246,6 +246,11 @@ a:hover { text-decoration: none; }
 .display { display: inline };
 .noDisplay { display: none };
 
+.materialize-textarea:focus {
+  border-bottom: 1px solid #666ee8 !important;
+  box-shadow: 0 1px 0 0 #000 !important;
+}
+
 @media only screen and (max-width: 800px) {
   .user_info {
     margin-top: 30% !important;
@@ -367,7 +372,7 @@ a:hover { text-decoration: none; }
   border-top-left-radius: 0.75rem;
 }
 .icon-div-dollar {
-  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  padding: 0.25rem 0.25rem 0.25rem 1.25rem;
   color: #303f9f;
   background-color: #AED581;
   height: 100%;
@@ -510,8 +515,9 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 .form-text {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  font-family: "Helvetica Neue", Helvetica;
+
+  font-weight: 500;
   font-size: 1.5rem;
   color: #6b7c93;
   margin-left: 10px;
@@ -524,7 +530,9 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid lightgray;
-  background-color: #f7f8f9;
+  background-color: #fff;
+  font-size: 15px;
+  font-variant: normal;
 }
 h1 {
   font-size: 3em;

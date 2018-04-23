@@ -35,6 +35,11 @@ class BookingsComponent extends BaseComponent {
       .then(() => this.fetchServices())
       .then(() => this.fetchAddOns())
       .then(() => this.calculateTotal());
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      this.setState({ stripeKey: "pk_test_5yOGF65rhzZjobGYiOoYJoj0"});
+    } else {
+      this.setState({ stripeKey: "pk_live_WSJt2zrFYytVOVNhNJUezCKx"});
+    }
   }
   fetchBookings() {
     const  { actions, cookies } = this.props;
@@ -139,7 +144,7 @@ class BookingsComponent extends BaseComponent {
     this.setState({ scriptLoaded: true });
   }
   render() {
-    const  { data, actions }   = this.props;
+    const  { data, actions, props }   = this.props;
     let bookingNodes, stripeNode;
     const isFetching = data.get('isFetching');
     const bookings = Immutable.fromJS(data.get('$$bookings'));
@@ -155,15 +160,16 @@ class BookingsComponent extends BaseComponent {
       leaveActive: css.elementLeaveActive,
     };
     this.state.scriptLoaded ?
-       stripeNode = (
-        <StripeProvider apiKey="pk_test_5yOGF65rhzZjobGYiOoYJoj0" >
-          <Checkout totalPrice={this.state.totalCost}
-                    totalTax={this.state.totalTax}
-                    loading={this.state.checkoutLoading}
-                    yourTimeFee={this.state.yourTimeFee}
-          />
-        </StripeProvider>
-      )
+        stripeNode = (
+          <StripeProvider apiKey={this.state.stripeKey}>
+            <Checkout totalPrice={this.state.totalCost}
+                      totalTax={this.state.totalTax}
+                      loading={this.state.checkoutLoading}
+                      yourTimeFee={this.state.yourTimeFee}
+                      props={props}
+            />
+          </StripeProvider>
+        )
     :
     null;
 

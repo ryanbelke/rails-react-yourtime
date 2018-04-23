@@ -3,12 +3,67 @@
   width: 100%;
 }
 .stripeForm {
-
   margin-left: 10px;
   margin-right: 10px;
   flex: 1;
-}
 
+}
+#alert {
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid darkgray;
+  color: white;
+  background: #E6EBF1;
+  display: flex;
+
+}
+.leftAlert {
+  flex: .15;
+  padding: 8px;
+  color: #E57373;
+
+}
+.rightAlert {
+  flex: .85;
+  color: black;
+  padding: 5px;
+  font-family: "Helvetica Neue", Helvetica;
+  font-size: 1rem;
+  font-variant: normal;
+}
+.flash {
+  height: 50px;
+  width: 100%;
+  background-color: #666EE8;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+.icon {
+  background-color: #666EE8;
+  padding: 0.01rem 0.25rem 0.25rem 0.5rem;
+  color: #fff;
+  height: 100%;
+  width: 50px;
+  position: relative;
+  display: inline-block;
+  font-size: 2.0rem;
+  border-top-left-radius: 0.75rem;
+}
+.text {
+  margin-top: 5px;
+  margin-left: 5px;
+  color: white !important;
+}
+.textarea {
+  background-color: white !important;
+}
+.textare:focus {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
 .StripeElement {
   background-color: white;
   height: 40px;

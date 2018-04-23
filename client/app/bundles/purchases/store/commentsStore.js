@@ -4,19 +4,16 @@ import loggerMiddleware from 'libs/middlewares/loggerMiddleware';
 import reducers, { initialStates } from '../reducers';
 import { logger } from 'redux-logger';
 
-export default (props, railsContext) => {
+export default (props, railsContext, rails) => {
 
-  const initialComments = props.comments;
-  const categories = props.categories;
   const { $$commentsState } = initialStates;
   const initialState = {
     $$commentsStore: $$commentsState.merge({
-      //$$comments: initialComments,
-      //get categories
-
       railsContext: railsContext,
+      rails: rails,
     }),
     railsContext,
+    rails,
   };
 
   const reducer = combineReducers(reducers);

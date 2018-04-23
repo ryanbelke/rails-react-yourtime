@@ -154,11 +154,18 @@ class BookingsController < ApplicationController
 
         flash[:success] = "Thank you for making a booking"
 
+        if request.xhr?
+        respond_to do |format|
+          format.json { render json: { message: "booking complete", status: 302 }  }
+        end
+          else
+        redirect_to root_url, turbolinks: false
+        end
+
       else
         puts "*** BOOKING NOT SAVED "
         redirect_to new_user_booking_path(current_user)
       end
-    redirect_to root_url
   end
 
   #get

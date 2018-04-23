@@ -6,18 +6,27 @@ import requestsManager from 'libs/requestsManager';
 import CardSection from './CardSection';
 
 class CheckoutForm extends BaseComponent {
+  authenticityToken = () => {
+  let token = document.querySelector('meta[name="csrf-token"]');
+  if (token && token instanceof window.HTMLMetaElement) {
+    return token.content.toString();
+  }
+  return null;
+};
+
   handleSubmit = (ev) => {
     // We don't want to let default form submission happen here, which would refresh the page.
     ev.preventDefault();
-
+    console.log("rails token = " + this.authenticityToken());
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
     this.props.stripe.createToken({name: 'customer'}).then(({token}) => {
       console.log('Received Stripe token:', token);
       let url = window.location.href.replace('/new', '');
 
-         requestsManager.createBooking(url, token.id)
-        .then(console.log("success"))
+         requestsManager.createBooking(url, token.id, this.authenticityToken())
+        .then((response) => response.data.status == 302 ?
+          window.location.replace('/') : console.log("booking not complete"))
         .catch((error) => console.log(error))
     });
 
@@ -27,11 +36,10 @@ class CheckoutForm extends BaseComponent {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div onSubmit={this.handleSubmit}>
         <CardSection />
-      </form>
+      </div>
     );
   }
 }
-
 export default injectStripe(CheckoutForm);

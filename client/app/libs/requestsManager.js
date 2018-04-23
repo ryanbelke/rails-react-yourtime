@@ -51,13 +51,24 @@ export default {
       data: { service: service },
     });
   },
-  createBooking(url, stripeToken) {
+/*  createBooking(url, stripeToken, railsToken) {
     return request({
       method: 'POST',
       url: url,
-      responseType: 'json',
-      headers: ReactOnRails.authenticityHeaders(),
       data: { stripeToken: stripeToken },
-    });
-  }
+      headers: {
+       'Content-Type': 'application/x-www-form-urlencoded',
+       'X-CSRF-Token': railsToken,
+       'X-Requested-With': 'XMLHttpRequest',
+    }}
+    )
+  },*/
+  createBooking(url, stripeToken, railsToken) {
+     return request
+      .post(
+        url,
+        { stripeToken:stripeToken},
+        { headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': railsToken,
+          'X-Requested-With': 'XMLHttpRequest' } }
+    )}
 };
