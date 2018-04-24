@@ -12,7 +12,8 @@ class CheckoutForm extends BaseComponent {
   constructor(props) {
     super(props);
       this.state = {
-        stripeLoading: false
+        stripeLoading: false,
+        stripeError: null,
       };
       _.bindAll(['stripeLoading'])
   }
@@ -32,20 +33,36 @@ class CheckoutForm extends BaseComponent {
     // We don't want to let default form submission happen here, which would refresh the page.
     ev.preventDefault();
     this.stripeLoading(true);
-    console.log("rails token = " + this.authenticityToken());
+    let url = window.location.href.replace('/new', '');
+
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
     this.props.stripe.createToken({name: 'customer'}).then(({token}) => {
-      console.log('Received Stripe token:', token);
-      let url = window.location.href.replace('/new', '');
-
-         requestsManager.createBooking(url, token.id, this.authenticityToken())
-        .then((response) => response.data.status == 302 ?
-          window.location.replace('/') : console.log("booking not complete"))
-
-           .catch((error) => console.log(error))
+        if(token != undefined || null) {
+          console.log('Received Stripe token:', token.id);
+          requestsManager.createBooking(url, token.id, this.authenticityToken())
+            .then((response) => response.data.status == 302 ?
+              window.location.replace('/') : console.log("booking not complete"))
+            .catch((error) => this.setState({stripeLoading: false, stripeError: error}))
+        } else {
+          this.setState({ stripeLoading: false })
+        }
     });
 
+/*    this.props.stripe.createToken({name: 'ryan'}, (status, response) => {
+      if (response.erorr) {
+        console.log("error")
+        this.setState({ stripeError: response.error.message, stripeLoading: false })
+      } else {
+        this.setState({ stripeLoading: false });
+        requestsManager.createBooking(url, token.id, this.authenticityToken())
+          .then((response) => response.data.status == 302 ?
+            window.location.replace('/') : console.log("booking not complete"))
+          .catch((error) => console.log(error));
+        console.log('Received Stripe token:', response.id);
+
+      }
+    });*/
     // However, this line of code will do the same thing:
     // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});
   };

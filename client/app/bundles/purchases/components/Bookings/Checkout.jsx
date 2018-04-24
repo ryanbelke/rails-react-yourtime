@@ -121,7 +121,7 @@ export default class Checkout extends BaseComponent {
                 <div className="form-info" style={{background: '#E6EBF1', paddingTop: 30}}>
                   <div className={css.stripeForm} id={css.alert}>
                     <div className={css.leftAlert}>
-                      <i class="fas fa-exclamation-circle fa-2x"></i>
+                      <i className="fas fa-exclamation-circle fa-2x"></i>
                     </div>
                     <div className={css.rightAlert}>
                       <div>
