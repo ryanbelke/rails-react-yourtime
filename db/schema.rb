@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_22_045515) do
+ActiveRecord::Schema.define(version: 2018_04_24_040809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2018_04_22_045515) do
     t.bigint "category_id"
     t.date "date"
     t.bigint "location_id"
+    t.string "booking_notes"
     t.index ["schedule_id"], name: "index_bookings_on_schedule_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
@@ -69,6 +70,14 @@ ActiveRecord::Schema.define(version: 2018_04_22_045515) do
     t.date "category_date"
     t.integer "category_capacity"
     t.index ["workplace_id"], name: "index_categories_on_workplace_id"
+  end
+
+  create_table "discounts", force: :cascade do |t|
+    t.string "discount_name"
+    t.string "discount_code"
+    t.decimal "discount_price", precision: 5, scale: 2
+    t.decimal "discount_percent", precision: 5, scale: 2
+    t.string "discount_type"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|

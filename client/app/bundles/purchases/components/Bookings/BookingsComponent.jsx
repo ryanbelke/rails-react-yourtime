@@ -26,8 +26,11 @@ class BookingsComponent extends BaseComponent {
       checkoutLoading: true,
       scriptLoaded: false,
       scriptError: null,
+      showDiscount: true,
     };
-    _.bindAll(this, ['fetchBookings', 'fetchServices', 'calculateTotal', 'handleScriptError', 'handleScriptLoad']);
+    _.bindAll(this, ['fetchBookings', 'fetchServices',
+                      'calculateTotal', 'handleScriptError',
+                      'handleScriptLoad', 'getDiscount']);
   }
 
   componentDidMount() {
@@ -136,6 +139,9 @@ class BookingsComponent extends BaseComponent {
       }
   }
 
+  getDiscount() {
+    console.log("Y?eS")
+  }
   handleScriptError() {
     this.setState({ scriptError: true });
   }
@@ -143,6 +149,7 @@ class BookingsComponent extends BaseComponent {
   handleScriptLoad() {
     this.setState({ scriptLoaded: true });
   }
+
   render() {
     const  { data, actions, props }   = this.props;
     let bookingNodes, stripeNode;
@@ -167,7 +174,8 @@ class BookingsComponent extends BaseComponent {
                       loading={this.state.checkoutLoading}
                       yourTimeFee={this.state.yourTimeFee}
                       props={props}
-
+                      showDiscount={this.state.showDiscount}
+                      getDiscount={this.getDiscount}
             />
           </StripeProvider>
         )
@@ -218,9 +226,8 @@ class BookingsComponent extends BaseComponent {
               component="section"
 
             >
+              {bookingNodes}
             </ReactCSSTransitionGroup>
-        {bookingNodes}
-
         <section className={css.checkoutSection}>
           <Script
             url="https://js.stripe.com/v3/"

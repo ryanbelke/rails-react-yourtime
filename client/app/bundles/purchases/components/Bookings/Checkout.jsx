@@ -15,8 +15,17 @@ export default class Checkout extends BaseComponent {
     totalTax: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookingMessage: 'ywl',
+    };
+    _.bindAll(['onChange'])
+  }
 
-
+  onChange(name, event) {
+    this.setState({ [name]: event.target.value })
+  }
   render() {
     let { totalPrice, totalTax, loading, yourTimeFee, props } = this.props;
     let checkOutNodes, checkoutForm;
@@ -48,7 +57,7 @@ export default class Checkout extends BaseComponent {
     if(user)  {
       checkoutForm = (
         <Elements>
-          <InjectedCheckoutForm/>
+          <InjectedCheckoutForm bookingMessage={this.state.bookingMessage} />
         </Elements>
       );
      }
@@ -58,32 +67,62 @@ export default class Checkout extends BaseComponent {
       <div className="row" id={css.row}>
         <div className="col l16 m6 s12 offset-l4 offset-m6">
           <div className={css.checkout}>
-            <div className="paper-no-border">
-              <div className="css-flash-cost">
-                <div className="icon-div-dollar">
+            <div className="paper-no-border" >
+              <div className={`${css.flashTop} center-align vertical-align`}>
+                <div className={css.iconTop}>
                   <i className="fas fa-dollar-sign" aria-hidden="true"></i>
                 </div>
-                <div className="flash-text">
+                <div className={css.text}>
                   <h6>Total Cost:</h6>
                 </div>
               </div>
-              <div className="form-info">
+              <div className="form-info" style={{background: '#E6EBF1'}}>
                 <span className="form-header">Estimate Tax: </span>
                 <span className="form-text">{loading ? loadingIcon : '$' + totalTax.toFixed(2) } </span>
               </div>
-              <div className="form-info">
+              <div className="form-info" style={{background: '#E6EBF1'}}>
                 <span className="form-header">YourTime Fee: </span>
                 <span className="form-text">{loading ? loadingIcon : '$' + yourTimeFee.toFixed(2) }</span>
               </div>
-              <div className="form-info">
+              <div className="form-info" style={{background: '#E6EBF1'}}>
                 <span className="form-header">Estimated Total </span>
                 <span className="form-text">{loading ? loadingIcon : '$' + checkoutTotal.toFixed(2)} </span>
               </div>
-              <div className="form-info">
+              <div className="form-info" style={{background: '#E6EBF1'}}>
                 <span className="form-header">Discount Code:</span>
                 <span className="form-text">
-                 <small>submit at checkout</small>
+                  {user ?
+                      <span>
+                        <input type="text"
+                               id="discount"
+                               className={css.textInput}
+                               style={{ visibility: this.props.showDiscount }}
+                        />
+                        <button onClick={this.props.getDiscount} id={css.discountButton}>
+                          Enter
+                        </button>
+                      </span>
+                    : <small>submit at checkout</small>
+                  }
                 </span>
+              </div>
+              <div className="form-info" style={{background: '#E6EBF1'}}>
+                <div className={css.stripeForm}>
+                  <label htmlFor={css.textarea}>Anything we should know before hand? </label>
+
+                  <textarea placeholder="booking notes"
+                            id={css.textarea}
+                            className="materialize-textarea"
+                            onChange={this.onChange.bind(this, 'bookingMessage')}
+                            value={this.state.bookingMessage}
+                            name="bookingMessage"
+                            style={{
+                              backgroundColor: 'white', padding: 10,
+                              height: 60, width: '95%', borderRadius: 5,
+                              borderBottom: '1px solid gray'
+                            }}
+                  />
+                </div>
               </div>
             </div>
             <br />
@@ -98,19 +137,7 @@ export default class Checkout extends BaseComponent {
                   </div>
                 </div>
                 <div className="form-info" style={{background: '#E6EBF1'}}>
-                  <div className={css.stripeForm}>
-                    <label htmlFor={css.textarea}>Anything we should know before hand? </label>
 
-                    <textarea placeholder="booking notes"
-                              id={css.textarea}
-                              className="materialize-textarea"
-                              style={{
-                                backgroundColor: 'white', padding: 10,
-                                height: 60, width: '95%', borderRadius: 5,
-                                borderBottom: '1px solid gray'
-                              }}
-                    />
-                  </div>
                 </div>
                 <div className="form-info" style={{background: '#E6EBF1' }}>
                   <div className={css.stripeForm}>

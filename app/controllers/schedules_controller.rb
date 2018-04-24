@@ -1,5 +1,5 @@
 class SchedulesController < ApplicationController
-  before_action :admin_user, only: [:create, :destroy, :edit, :update]
+  before_action :admin_user, only: [:create, :destroy, :edit, :update, :new]
   def new
     @location = Location.friendly.find(params[:location_id])
     @schedule = @location.schedules.new

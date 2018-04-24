@@ -63,11 +63,11 @@ export default {
     }}
     )
   },*/
-  createBooking(url, stripeToken, railsToken) {
+  createBooking(url, stripeToken, railsToken, bookingMessage) {
      return request
       .post(
         url,
-        { stripeToken:stripeToken},
+        { stripeToken:stripeToken, booking_message: bookingMessage},
         { headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': railsToken,
           'X-Requested-With': 'XMLHttpRequest' } }
     )}

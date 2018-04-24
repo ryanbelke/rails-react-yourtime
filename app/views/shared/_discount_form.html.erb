@@ -1,0 +1,18 @@
+<%= form_for(@discount) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="paper">
+    <%= f.label :discount_name %>
+    <%= f.text_field :discount_name, placeholder: "Discount Name", class: 'form-control' %>
+
+    <%= f.label :discount_code %>
+    <%= f.text_field :discount_code, placeholder: "Discount Code", class: 'form-control' %>
+
+    <%= f.label :discount_price %>
+    <%= f.number_field :discount_price, placeholder: "Discount Price $", class: 'form-control' %>
+
+    <%= f.label :discount_percent %>
+    <%= f.number_field :discount_percent, placeholder: "Discount Percent %", class: 'form-control' %>
+  </div>
+  <br/>
+  <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>

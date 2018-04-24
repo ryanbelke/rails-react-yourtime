@@ -12,6 +12,34 @@
   position: relative;
   left: 10%;
 }
+#discountButton {
+  display: inline-block;
+  background: #3ecf8e;
+  color: white;
+  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  border: 0;
+  margin-left: 13px;
+  font-size: 15px;
+  font-weight: 400;
+  width: 25%;
+  height: 40px;
+  line-height: 38px;
+  outline: none;
+}
+.textInput {
+  background-color: white !important;
+  border-radius: 5px !important;
+  min-height: 35px;
+  width: 130px !important;
+  border-bottom: none !important;
+  text-transform: uppercase;
+  padding-left: 10px !important;
+}
+.textInput:focus {
+  border-bottom: 1px solid #3ecf8e !important;
+  box-shadow: 0 1px 0 0 #3ecf8e !important;
+}
 
 #alert {
   height: 50px;
@@ -44,6 +72,27 @@
   display: flex;
   flex-direction: row;
   border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+.flashTop {
+  height: 50px;
+  width: 100%;
+  background-color: #3ecf8e;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+.iconTop {
+  background-color: #3ecf8e;
+  padding: 0.01rem 0.25rem 0.25rem 0.5rem;
+  color: #fff;
+  height: 100%;
+  width: 50px;
+  position: relative;
+  display: inline-block;
+  font-size: 2.0rem;
   border-top-left-radius: 0.75rem;
 }
 .icon {

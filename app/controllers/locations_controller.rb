@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
   include ReactOnRails::Controller
 
-  before_action :admin_user, only: [:create, :destroy, :edit, :update]
+  before_action :admin_user, only: [:create, :destroy, :edit, :update, :new]
 
   def index
     redux_store("commentsStore")

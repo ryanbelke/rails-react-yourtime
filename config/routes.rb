@@ -16,25 +16,24 @@ Rails.application.routes.draw do
   post   '/purchase', to: 'purchases#create'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-#get booking info from server
+  #get booking info from server
   post '/booking', to: 'services#booking_info'
   post '/service', to: 'services#service_info'
-#view booking
+  #view booking
   get '/services/booking', to: 'services#booking'
+
+  #check discount code
+  post '/discount', to: 'discounts#discount'
 
   post '/services', to: 'services#index'
 
   resources :charges, only: [:new, :create]
 
+  resources :discounts
+
   resources :workplaces do
     resources :categories
   end
-
-=begin
-  resources :categories do
-    resources :services
-  end
-=end
 
   resources :categories do
     resources :locations
@@ -51,7 +50,6 @@ Rails.application.routes.draw do
   resources :sections do
     resources :services
   end
-
 
   resources :users do
     resources :bookings
