@@ -70,5 +70,14 @@ export default {
         { stripeToken:stripeToken, booking_message: bookingMessage},
         { headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': railsToken,
           'X-Requested-With': 'XMLHttpRequest' } }
-    )}
+    )},
+  checkDiscount(discount) {
+    return request({
+      method: 'POST',
+      url: '/discount',
+      responseType: 'json',
+      headers: ReactOnRails.authenticityHeaders(),
+      data: { discount_code: discount },
+    });
+  },
 };

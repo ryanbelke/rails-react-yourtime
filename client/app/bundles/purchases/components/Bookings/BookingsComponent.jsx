@@ -27,10 +27,15 @@ class BookingsComponent extends BaseComponent {
       scriptLoaded: false,
       scriptError: null,
       showDiscount: true,
+      discountError: null,
+      discountMessage: null,
+      discountPrice: null,
+
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
                       'calculateTotal', 'handleScriptError',
-                      'handleScriptLoad', 'getDiscount']);
+                      'handleScriptLoad']);
+    this.checkDiscount = this.checkDiscount.bind(this);
   }
 
   componentDidMount() {
@@ -98,7 +103,7 @@ class BookingsComponent extends BaseComponent {
       }
     })
   }
-  calculateTotal() {
+  calculateTotal(discountPrice) {
     let { totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns } = this.state;
     let x = 0;
 
@@ -107,7 +112,7 @@ class BookingsComponent extends BaseComponent {
         (() => {
           setTimeout(() => {
             if($$bookingServices.size === 0 && x < 3) {
-              setTimeout(() => { console.log("RETRYING "); this.calculateTotal() }, 2000);
+              setTimeout(() => { console.log("RETRYING "); this.calculateTotal() }, 1000);
               x++;
             }
           }, 1000)
@@ -135,19 +140,34 @@ class BookingsComponent extends BaseComponent {
                 yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
                 parseFloat($booking.getIn(['service', 'yourtime_fee'])))
               }})}
-        })
+        });
       }
   }
 
-  getDiscount() {
-    console.log("Y?eS")
-  }
   handleScriptError() {
     this.setState({ scriptError: true });
   }
 
   handleScriptLoad() {
     this.setState({ scriptLoaded: true });
+  }
+
+  checkDiscount(discount) {
+    let { discountPrice, totalCost, showDiscount, discountMessage, discountError } = this.state;
+    this.setState({ checkoutLoading: true });
+
+    this.setState({ showDiscount: false });
+    requestsManager.checkDiscount(discount)
+      .then((res) => res.data.status == 403 ? this.setState({ showDiscount: true,
+          discountError: "Discount Denied", discountMessage: false, discountPrice: null, checkoutLoading: false })
+      : this.setState((prevState) => {
+      return {
+        showDiscount: true, discountMessage: "Discount Applied", discountError: false,
+        discountPrice: res.data.discount.discount_price, totalCost: totalCost -= res.data.discount.discount_price,
+        checkoutLoading: false }
+        })
+      )
+      .catch((error) => this.setState({ showDiscount: true, discountError: error, checkoutLoading: false }));
   }
 
   render() {
@@ -157,9 +177,7 @@ class BookingsComponent extends BaseComponent {
     const bookings = Immutable.fromJS(data.get('$$bookings'));
     let bookingServices = this.state.$$bookingServices;
     let bookingAddOns = this.state.$$bookingAddOns;
-    // const bookings = this.state.$$bookings.getIn(['0', 'bookings']);
-    //const selected = data.get('selected');
-    //let bookingSelection = data.get('serviceSelection');
+
     const cssTransitionGroupClassNames = {
       enter: css.elementEnter,
       enterActive: css.elementEnterActive,
@@ -175,7 +193,9 @@ class BookingsComponent extends BaseComponent {
                       yourTimeFee={this.state.yourTimeFee}
                       props={props}
                       showDiscount={this.state.showDiscount}
-                      getDiscount={this.getDiscount}
+                      checkDiscount={this.checkDiscount}
+                      discountMessage={this.state.discountMessage}
+                      discountError={this.state.discountError}
             />
           </StripeProvider>
         )

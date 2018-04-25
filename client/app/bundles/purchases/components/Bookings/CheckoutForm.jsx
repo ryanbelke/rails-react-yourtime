@@ -45,7 +45,7 @@ class CheckoutForm extends BaseComponent {
               window.location.replace('/') : this.setState({ stripeError: response.data.status}))
             .catch((error) => this.setState({stripeLoading: false, stripeError: error}))
         } else {
-          this.setState({ stripeLoading: false })
+          this.setState({ stripeLoading: false, stripeError: token })
         }
     });
 

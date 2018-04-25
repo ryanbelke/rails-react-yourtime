@@ -35,6 +35,7 @@
   border-bottom: none !important;
   text-transform: uppercase;
   padding-left: 10px !important;
+  margin-bottom: 0 !important;
 }
 .textInput:focus {
   border-bottom: 1px solid #3ecf8e !important;
@@ -54,8 +55,8 @@
   flex: .15;
   padding: 8px;
   color: #E57373;
-
 }
+
 .rightAlert {
   flex: .85;
   color: black;
@@ -117,6 +118,22 @@
 .textare:focus {
   border-bottom: 1px solid #000;
   box-shadow: 0 1px 0 0 #000;
+}
+#discountMessage {
+  height: 30px;
+  color: #3ecf8e;
+  font-size: 1rem;
+  padding: 8px;
+  display: flex;
+  width: 140px;
+}
+#discountError {
+  height: 30px;
+  color: #e57373;
+  font-size: 1rem;
+  padding: 8px;
+  display: flex;
+  width: 140px;
 }
 .StripeElement {
   background-color: white;

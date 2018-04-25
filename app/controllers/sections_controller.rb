@@ -1,6 +1,6 @@
 class SectionsController < ApplicationController
   include ReactOnRails::Controller
-  before_action :admin_user
+  before_action :admin_user, only: [:edit, :create, :destroy, :new]
 
 
   def new

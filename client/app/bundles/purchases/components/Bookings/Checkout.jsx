@@ -18,17 +18,18 @@ export default class Checkout extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      bookingMessage: 'ywl',
+      bookingMessage: 'please include any notes you would like us to know',
+      discount: '',
     };
     _.bindAll(['onChange'])
   }
 
   onChange(name, event) {
-    this.setState({ [name]: event.target.value })
+    this.setState({ [name]: event.target.value.toUpperCase() })
   }
   render() {
-    let { totalPrice, totalTax, loading, yourTimeFee, props } = this.props;
-    let checkOutNodes, checkoutForm;
+    let { totalPrice, totalTax, loading, yourTimeFee, props, discountError, discountMessage } = this.props;
+    let checkOutNodes, checkoutForm, discountButton;
     let user = props.props.railsHelpers.user;
     let checkoutTotal = parseFloat(totalPrice) + parseFloat(totalTax) + parseFloat(yourTimeFee);
     const cssTransitionGroupClassNames = {
@@ -37,10 +38,10 @@ export default class Checkout extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-
+    let showDiscount = this.props.showDiscount;
     let loadingIcon = (
-      <div style={{display: this.props.loading ? '' : 'none'}} id={css.loader}>
-        <div className="preloader-wrapper small active">
+      <span style={{display: this.props.loading || !showDiscount ? '' : 'none', top: 2 }} id={css.loader}>
+        <div className="preloader-wrapper small active" style={{ height: 23, width: 23 }}>
           <div className="spinner-layer spinner-blue-only">
             <div className="circle-clipper left">
               <div className="circle"></div>
@@ -51,8 +52,14 @@ export default class Checkout extends BaseComponent {
           </div>
           </div>
         </div>
-      </div>
+      </span>
     );
+
+    if(showDiscount) {
+        discountButton = <button style={{ visibility: showDiscount ? 'visible' : 'hidden'  }} onClick={() => this.props.checkDiscount(this.state.discount)} id={css.discountButton}>
+          Enter
+        </button>
+      } else { discountButton = loadingIcon }
 
     if(user)  {
       checkoutForm = (
@@ -61,7 +68,6 @@ export default class Checkout extends BaseComponent {
         </Elements>
       );
      }
-
     /* eslint-disable react/no-danger */
     return (
       <div className="row" id={css.row}>
@@ -88,42 +94,60 @@ export default class Checkout extends BaseComponent {
                 <span className="form-header">Estimated Total </span>
                 <span className="form-text">{loading ? loadingIcon : '$' + checkoutTotal.toFixed(2)} </span>
               </div>
-              <div className="form-info" style={{background: '#E6EBF1'}}>
+              <div className="form-info" style={{background: '#E6EBF1', paddingTop: 10, height: 85 }}>
                 <span className="form-header">Discount Code:</span>
                 <span className="form-text">
                   {user ?
                       <span>
                         <input type="text"
-                               id="discount"
+                               name="discount"
+                               value={this.state.discount}
                                className={css.textInput}
-                               style={{ visibility: this.props.showDiscount }}
+                               onChange={this.onChange.bind(this, 'discount')}
+
                         />
-                        <button onClick={this.props.getDiscount} id={css.discountButton}>
-                          Enter
-                        </button>
+                        <ReactCSSTransitionGroup
+                                      transitionName={cssTransitionGroupClassNames}
+                                      transitionEnterTimeout={500}
+                                      transitionLeaveTimeout={500}
+                                      component="span"
+
+                                    >
+                        {discountButton}
+                        </ReactCSSTransitionGroup>
+                        <div id={css.discountMessage}
+                             style={{ display: discountMessage ? 'inline-block' : 'none' }}>
+                          {this.props.discountMessage}
+                          </div>
+
+                        <div id={css.discountError}
+                             style={{ display : discountError ? 'inline-block' : 'none'}}>
+                           {this.props.discountError}
+                        </div>
                       </span>
                     : <small>submit at checkout</small>
                   }
                 </span>
               </div>
-              <div className="form-info" style={{background: '#E6EBF1'}}>
-                <div className={css.stripeForm}>
-                  <label htmlFor={css.textarea}>Anything we should know before hand? </label>
+              {user ?
+                <div className="form-info" style={{background: '#E6EBF1'}}>
+                  <div className={css.stripeForm}>
+                    <label htmlFor={css.textarea}>Anything we should know before hand? </label>
 
-                  <textarea placeholder="booking notes"
-                            id={css.textarea}
-                            className="materialize-textarea"
-                            onChange={this.onChange.bind(this, 'bookingMessage')}
-                            value={this.state.bookingMessage}
-                            name="bookingMessage"
-                            style={{
-                              backgroundColor: 'white', padding: 10,
-                              height: 60, width: '95%', borderRadius: 5,
-                              borderBottom: '1px solid gray'
-                            }}
-                  />
-                </div>
-              </div>
+                    <textarea placeholder="booking notes"
+                              id={css.textarea}
+                              className="materialize-textarea"
+                              onChange={this.onChange.bind(this, 'bookingMessage')}
+                              value={this.state.bookingMessage}
+                              name="bookingMessage"
+                              style={{
+                                backgroundColor: 'white', padding: 10,
+                                height: 60, width: '95%', borderRadius: 5,
+                                borderBottom: '1px solid gray' }}
+                    />
+                  </div>
+                </div> : null
+              }
             </div>
             <br />
             {user ?
