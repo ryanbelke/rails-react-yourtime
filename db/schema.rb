@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_24_040809) do
+ActiveRecord::Schema.define(version: 2018_04_25_221529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 2018_04_24_040809) do
     t.integer "default_location"
     t.string "default_workplace"
     t.string "stripe_id"
+    t.string "discounts", array: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

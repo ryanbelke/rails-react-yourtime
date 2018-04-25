@@ -42,12 +42,23 @@ class DiscountsController < ApplicationController
 
   def discount
     discount_code = params[:discount_code].upcase
+    current_user = params[:current_user]
+    user = User.find_by id: current_user
+    user_discounts = user.discounts
+    puts "user discounts " + user_discounts.to_s
     @discount = Discount.find_by discount_code: discount_code
 
     respond_to do |format|
       if @discount
-        format.json { render json: { message: "discount accepted", discount: @discount, status: 302 }  }
-      else
+        if !user_discounts.include?(discount_code)
+          format.json { render json: { message: "discount accepted", discount: @discount, status: 302 }  }
+          user.discounts.push(discount_code)
+          user.save!
+
+        elsif user_discounts.include?(discount_code)
+          format.json { render json: { message: "code already used", discount: @discount, status: 403 }  }
+        end
+      elsif @discount.nil?
         format.json { render json: { message: "discount rejected", status: 403 }  }
       end
     end

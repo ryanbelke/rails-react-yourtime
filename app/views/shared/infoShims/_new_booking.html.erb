@@ -1,6 +1,6 @@
 
   <div class="row">
-    <%= react_component('App', props:  { railsHelpers: { user: logged_in? } }, prerender: false) %>
+    <%= react_component('App', props:  { railsHelpers: { user: logged_in?, current_user: current_user.id } }, prerender: false) %>
 
     <div class="col l6 m6 s12 offset-l4 m6">
 

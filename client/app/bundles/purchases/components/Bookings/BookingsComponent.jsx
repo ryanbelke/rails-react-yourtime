@@ -153,19 +153,23 @@ class BookingsComponent extends BaseComponent {
   }
 
   checkDiscount(discount) {
-    let { discountPrice, totalCost, showDiscount, discountMessage, discountError } = this.state;
+    let { discountPrice, totalCost, showDiscount, discountMessage, discountError, props } = this.state;
+    let current_user = this.props.props.props.railsHelpers.current_user;
+
     this.setState({ checkoutLoading: true });
 
     this.setState({ showDiscount: false });
-    requestsManager.checkDiscount(discount)
+    requestsManager.checkDiscount(discount, current_user)
       .then((res) => res.data.status == 403 ? this.setState({ showDiscount: true,
-          discountError: "Discount Denied", discountMessage: false, discountPrice: null, checkoutLoading: false })
-      : this.setState((prevState) => {
-      return {
-        showDiscount: true, discountMessage: "Discount Applied", discountError: false,
-        discountPrice: res.data.discount.discount_price, totalCost: totalCost -= res.data.discount.discount_price,
-        checkoutLoading: false }
-        })
+          discountError: res.data.message, discountMessage: false, discountPrice: null, checkoutLoading: false })
+      : setTimeout(() => {
+            this.setState((prevState) => {
+              return {
+                showDiscount: true, discountMessage: "Discount Applied", discountError: false,
+                discountPrice: res.data.discount.discount_price, totalCost: totalCost -= res.data.discount.discount_price,
+                checkoutLoading: false }
+            })
+          }, 1000)
       )
       .catch((error) => this.setState({ showDiscount: true, discountError: error, checkoutLoading: false }));
   }

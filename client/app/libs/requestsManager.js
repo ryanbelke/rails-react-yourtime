@@ -71,13 +71,13 @@ export default {
         { headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': railsToken,
           'X-Requested-With': 'XMLHttpRequest' } }
     )},
-  checkDiscount(discount) {
+  checkDiscount(discount, current_user) {
     return request({
       method: 'POST',
       url: '/discount',
       responseType: 'json',
       headers: ReactOnRails.authenticityHeaders(),
-      data: { discount_code: discount },
+      data: { discount_code: discount, current_user: current_user },
     });
   },
 };
