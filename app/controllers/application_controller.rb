@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
     category = cookies[:category]
     location = cookies[:location]
     service = JSON.parse(cookies[:services])
-    puts " service cookie = " + service.to_s
 
     if workplace.nil?
       flash[:warning] = "please select workplace to begin"

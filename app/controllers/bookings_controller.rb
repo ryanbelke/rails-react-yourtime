@@ -151,7 +151,7 @@ class BookingsController < ApplicationController
           :source  => params[:stripeToken]
         )
         current_user.update(stripe_id: customer.id)
-
+        delete_cookies
         flash[:success] = "Thank you for making a booking"
 
         if request.xhr?

@@ -49,7 +49,7 @@ class CardSection extends BaseComponent {
                     Confirm order
                   </button>
                   {this.props.stripeError ?
-                  <div>{this.props.stripeError}</div> : null
+                  <div>{this.props.stripeError.toString()}</div> : null
                   }
                   <div id="card-errors" role="alert"></div>
                 </div>
