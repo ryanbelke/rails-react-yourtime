@@ -48,7 +48,9 @@ class CardSection extends BaseComponent {
                           id={css.submit}>
                     Confirm order
                   </button>
-
+                  {this.props.stripeError ?
+                  <div>{this.props.stripeError}</div> : null
+                  }
                   <div id="card-errors" role="alert"></div>
                 </div>
               </fieldset>

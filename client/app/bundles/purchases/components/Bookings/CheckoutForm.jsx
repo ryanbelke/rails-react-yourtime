@@ -69,7 +69,7 @@ class CheckoutForm extends BaseComponent {
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
         >
-          <CardSection disabled={this.state.stripeLoading} />
+          <CardSection stripeError={this.state.stripeError} disabled={this.state.stripeLoading} />
         </ReactCSSTransitionGroup>
       </div>
     );
