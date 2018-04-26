@@ -48,6 +48,7 @@ class Booking extends BaseComponent {
       clear: 'Clear',
       close: 'Ok',
       format: 'mm/dd/yyyy',
+      editable: true,
       closeOnSelect: false, // Close upon selecting a date,
       disable: datesArray,
       //set parameter of selected date for cookie setting
