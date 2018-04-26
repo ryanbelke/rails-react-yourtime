@@ -12,10 +12,14 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   get    '/how', to: 'static_pages#how'
   get    '/pricing', to: 'static_pages#pricing'
-  get    '/purchase', to: 'purchases#index'
-  post   '/purchase', to: 'purchases#create'
+
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+
+  resources :users do
+    resources :bookings
+  end
+  
   #get booking info from server
   post '/booking', to: 'services#booking_info'
   post '/service', to: 'services#service_info'
@@ -51,9 +55,7 @@ Rails.application.routes.draw do
     resources :services
   end
 
-  resources :users do
-    resources :bookings
-  end
+
 
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
