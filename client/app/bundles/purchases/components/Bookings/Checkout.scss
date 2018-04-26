@@ -43,13 +43,13 @@
 }
 
 #alert {
-  height: 50px;
   border-radius: 5px;
   border: 1px solid darkgray;
   color: white;
   background: #f9fafc;
   display: flex;
-
+  height: auto;
+  margin-bottom: 5px;
 }
 .leftAlert {
   flex: .15;
@@ -172,5 +172,14 @@
   &.elementLeaveActive {
     opacity: 0.01;
     transition: opacity 0.2s ease-in;
+  }
+}
+
+@media (max-width: 800px) {
+  .checkoutText {
+    flex: .70 !important;
+  }
+  .formHeader {
+    flex: .30;
   }
 }

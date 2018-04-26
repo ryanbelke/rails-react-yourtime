@@ -867,22 +867,6 @@ span.picture {
   }
 }
 .admin { width: 50px; height: 50px; margin: 0px 20px; }
-
-
-@media (max-width: 800px) {
-  .flex-left-half { flex: 0 0 100%; }
-  .flex-right-half { flex: 0 0 100%; }
-  .parking-selector { width: 100% !important; margin: 0 auto; }
-  .jumbotron{ margin-top: 50px !important;  }
-  #logo { display: block; width: 50px; height: 50px; }
-  .form-info {
-    padding: 0;
-  }
-  .card {
-    width: 90%;
-    margin-left: 10px !important;
-  }
-}
 .custom-btn-small { width: 60px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 25px !important; color: white !important; }
 
 .StripeElement {
@@ -906,4 +890,41 @@ span.picture {
 
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
+}
+
+@media (max-width: 800px) {
+  .flex-left-half { flex: 0 0 100%; }
+  .flex-right-half { flex: 0 0 100%; }
+  .parking-selector { width: 100% !important; margin: 0 auto; }
+  .jumbotron{ margin-top: 50px !important;  }
+  #logo { display: block; width: 50px; height: 50px; }
+  .form-info {
+    padding: 8px;
+  }
+  .card {
+    width: 90%;
+    margin-left: 10px !important;
+  }
+  .paper-no-border {
+    margin: 10px 2px;
+  }
+  .col {
+    padding: 0 .25rem !important;
+  }
+  .date-selector {
+    padding: 10px 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-header {
+    padding-left: 5px;
+    padding-top: 2px;
+    font-size: 1.25rem;
+    flex: .35;
+  }
+  .form-text {
+    font-size: 1.25rem;
+  }
 }

@@ -130,10 +130,6 @@ class Booking extends BaseComponent {
                   <label className="active">Select a date</label>
                   <br />
                   <input defaultValue={selected_date.toString()} onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
-                  <br />
-                  <button name="button" type="submit" className="waves-effect waves-light btn">
-                    &nbsp; Save
-                  </button>
                 </form>
               </div>
             </div>

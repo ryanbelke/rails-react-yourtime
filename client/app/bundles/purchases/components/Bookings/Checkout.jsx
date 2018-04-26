@@ -18,7 +18,7 @@ export default class Checkout extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      bookingMessage: 'please include any notes you would like us to know',
+      bookingMessage: '',
       discount: '',
     };
     _.bindAll(['onChange'])
@@ -83,16 +83,16 @@ export default class Checkout extends BaseComponent {
                 </div>
               </div>
               <div className="form-info" style={{background: '#E6EBF1'}}>
-                <span className="form-header">Estimate Tax: </span>
-                <span className="form-text">{loading ? loadingIcon : '$' + totalTax.toFixed(2) } </span>
+                <span className={`form-text ${css.formHeader}`}>Estimate Tax: </span>
+                <span className={`form-text ${css.checkoutText}`}>{loading ? loadingIcon : '$' + totalTax.toFixed(2) } </span>
               </div>
               <div className="form-info" style={{background: '#E6EBF1'}}>
-                <span className="form-header">YourTime Fee: </span>
-                <span className="form-text">{loading ? loadingIcon : '$' + yourTimeFee.toFixed(2) }</span>
+                <span className={`form-text ${css.formHeader}`}>YourTime Fee: </span>
+                <span className={`form-text ${css.checkoutText}`}>{loading ? loadingIcon : '$' + yourTimeFee.toFixed(2) }</span>
               </div>
               <div className="form-info" style={{background: '#E6EBF1'}}>
-                <span className="form-header">Estimated Total </span>
-                <span className="form-text">{loading ? loadingIcon : '$' + checkoutTotal.toFixed(2)} </span>
+                <span className={`form-text ${css.formHeader}`}>Estimated Total </span>
+                <span className={`form-text ${css.checkoutText}`}>{loading ? loadingIcon : '$' + checkoutTotal.toFixed(2)} </span>
               </div>
               <div className="form-info" style={{background: '#E6EBF1', paddingTop: 10, height: 85 }}>
                 <span className="form-header">Discount Code:</span>
@@ -134,7 +134,7 @@ export default class Checkout extends BaseComponent {
                   <div className={css.stripeForm}>
                     <label htmlFor={css.textarea}>Anything we should know before hand? </label>
 
-                    <textarea placeholder="booking notes"
+                    <textarea placeholder="please include any notes you would like us to know"
                               id={css.textarea}
                               className="materialize-textarea"
                               onChange={this.onChange.bind(this, 'bookingMessage')}
