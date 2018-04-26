@@ -55,7 +55,7 @@ class Booking extends BaseComponent {
       onSet: (context) => {
         //history.push(`?appointment&date=${context.select}`);
         let date = new Date(context.select);
-        cookies.set('date', `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}`, {path: '/'})
+        cookies.set('date', `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T00:00:00`, {path: '/'})
       },
     });
   }
@@ -67,7 +67,7 @@ class Booking extends BaseComponent {
     if(selected_date != "Invalid Date" || null) {
       let month = `0${(selected_date.getUTCMonth() + 1).toString().slice(-2)}`;
       let day = `0${selected_date.getUTCDate().toString()}`.slice(-2);
-      selected_date = `${month}/${day}/${selected_date.getUTCFullYear()}`;
+      selected_date = `${month}/${day}/${selected_date.getUTCFullYear()}T00:00:00`;
 
     } else if(selected_date == "Invalid Date") {
       selected_date = "select a date";
