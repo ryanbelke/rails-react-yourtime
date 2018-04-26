@@ -53,7 +53,7 @@ class Booking extends BaseComponent {
       disable: datesArray,
       //set parameter of selected date for cookie setting
       onSet: (context) => {
-        history.push(`?appointment&date=${context.select}`);
+        //history.push(`?appointment&date=${context.select}`);
         let date = new Date(context.select);
         cookies.set('date', `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}`, {path: '/'})
       },
