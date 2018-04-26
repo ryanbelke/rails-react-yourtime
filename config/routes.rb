@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :bookings
   end
-  
+
   #get booking info from server
   post '/booking', to: 'services#booking_info'
   post '/service', to: 'services#service_info'

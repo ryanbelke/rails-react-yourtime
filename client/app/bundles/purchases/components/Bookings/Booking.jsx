@@ -130,7 +130,7 @@ class Booking extends BaseComponent {
                 <form action="" acceptCharset="UTF-8" method="get">
                   <label className="active">Select a date</label>
                   <br />
-                  <input defaultValue={selected_date.toString()} onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
+                  <input onChange={() => null} value={selected_date.toString()} onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
                 </form>
               </div>
             </div>
