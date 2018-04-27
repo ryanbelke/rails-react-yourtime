@@ -38,7 +38,9 @@ class Booking extends BaseComponent {
     let datesArray = [true];
     dates = dates.toArray();
     let date = dates.forEach((date) => {
-       return datesArray.push(new Date(date.get(0)))
+        let newDate = new Date(date.get(0))
+        let formattedDate = `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T00:00:00`;
+        return datesArray.push(formattedDate)
     });
 
     $('.datepicker').pickadate({
@@ -50,10 +52,10 @@ class Booking extends BaseComponent {
       format: 'mm/dd/yyyy',
       editable: false,
       closeOnSelect: false, // Close upon selecting a date,
-      //disable: datesArray,
+      disable: datesArray,
       //set parameter of selected date for cookie setting
       onSet: (context) => {
-        //history.push(`?appointment&date=${context.select}`);
+        history.push(`?appointment&date=${context.select}`);
         let date = new Date(context.select);
         cookies.set('date', `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T00:00:00`, {path: '/'})
       },
