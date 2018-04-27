@@ -38,13 +38,13 @@ class Booking extends BaseComponent {
     let datesArray = [true];
     dates = dates.toArray();
     let date = dates.forEach((date) => {
-        let newDate = new Date(date.get(0))
-        let formattedDate = `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()}`;
-          console.log("formatted date = " + formattedDate)
-
-      return datesArray.push(new Date(formattedDate))
+        let newDate = new Date(date.get(0));
+        let formattedDate = `${newDate.getFullYear()},${newDate.getMonth()+1},${newDate.getDate()}`;
+          console.log("formatted date = " + formattedDate.split(','))
+      formattedDate = formattedDate.split(',');
+      return datesArray.push(formattedDate);
     });
-    console.log('dates array ' + datesArray)
+    console.log('dates array ' + datesArray);
 
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
