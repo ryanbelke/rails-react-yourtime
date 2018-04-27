@@ -37,12 +37,20 @@ class Booking extends BaseComponent {
     let { dates, cookies} = this.props;
     let datesArray = [true];
     dates = dates.toArray();
+    console.log("DATES = " + dates)
     let date = dates.forEach((date) => {
+        //let newDate = new Date(date.get(0));
+         console.log("() date " + date.get(0).toString());
+    /*    let newDate = new Date(date.get(0));
+        console.log('new date ' + newDate)*/
         let newDate = new Date(date.get(0));
-        let formattedDate = `${newDate.getFullYear()},${newDate.getMonth()+1},${newDate.getDate()}`;
-          console.log("formatted date = " + formattedDate.split(','))
-      formattedDate = formattedDate.split(',');
-      return datesArray.push(formattedDate);
+        newDate = `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()} 00:00:00`;
+        console.log("new date "+ newDate )
+        let arr = newDate.split(/[- :]/);
+        console.log("arr " + arr)
+        let formattedDate = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
+        console.log("formmated date " + formattedDate)
+        return datesArray.push(formattedDate);
     });
     console.log('dates array ' + datesArray);
 
@@ -52,7 +60,7 @@ class Booking extends BaseComponent {
       today: 'Today',
       clear: 'Clear',
       close: 'Ok',
-      format: 'yyyy-mm-dd',
+      format: 'mm-dd-yyyy',
       editable: false,
       closeOnSelect: false, // Close upon selecting a date,
       disable: datesArray,
