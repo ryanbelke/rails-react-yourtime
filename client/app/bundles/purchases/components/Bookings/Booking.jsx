@@ -39,9 +39,12 @@ class Booking extends BaseComponent {
     dates = dates.toArray();
     let date = dates.forEach((date) => {
         let newDate = new Date(date.get(0))
-        let formattedDate = `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T00:00:00`;
-        return datesArray.push(formattedDate)
+        let formattedDate = `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()}`;
+          console.log("formatted date = " + formattedDate)
+
+      return datesArray.push(new Date(formattedDate))
     });
+    console.log('dates array ' + datesArray)
 
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
@@ -49,7 +52,7 @@ class Booking extends BaseComponent {
       today: 'Today',
       clear: 'Clear',
       close: 'Ok',
-      format: 'mm/dd/yyyy',
+      format: 'yyyy-mm-dd',
       editable: false,
       closeOnSelect: false, // Close upon selecting a date,
       disable: datesArray,
