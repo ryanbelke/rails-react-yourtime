@@ -8,6 +8,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import $ from 'jquery';
 import createHistory from "history/createBrowserHistory"
 import { withCookies, Cookies } from 'react-cookie';
+import moment from 'moment';
 
 class Booking extends BaseComponent {
   static propTypes = {
@@ -37,20 +38,12 @@ class Booking extends BaseComponent {
     let { dates, cookies} = this.props;
     let datesArray = [true];
     dates = dates.toArray();
-    console.log("DATES = " + dates)
     let date = dates.forEach((date) => {
-        //let newDate = new Date(date.get(0));
-         console.log("() date " + date.get(0).toString());
-    /*    let newDate = new Date(date.get(0));
-        console.log('new date ' + newDate)*/
-        let newDate = new Date(date.get(0));
-        newDate = `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()} 00:00:00`;
-        console.log("new date "+ newDate )
-        let arr = newDate.split(/[- :]/);
-        console.log("arr " + arr)
-        let formattedDate = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
-        console.log("formmated date " + formattedDate)
-        return datesArray.push(formattedDate);
+        //let newDate = new Dat e(date.get(0));
+      let moment2 = moment(date.get(0), 'YYYY-M-DD');
+      let newDate = new Date(moment2.toISOString());
+      console.log('New Date = ' + newDate);
+      return datesArray.push(newDate);
     });
     console.log('dates array ' + datesArray);
 
