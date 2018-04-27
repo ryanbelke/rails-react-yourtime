@@ -50,7 +50,7 @@ class Booking extends BaseComponent {
       format: 'mm/dd/yyyy',
       editable: false,
       closeOnSelect: false, // Close upon selecting a date,
-      disable: datesArray,
+      //disable: datesArray,
       //set parameter of selected date for cookie setting
       onSet: (context) => {
         //history.push(`?appointment&date=${context.select}`);
