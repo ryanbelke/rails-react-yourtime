@@ -19,5 +19,6 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 #Added to precompile the custom css
 Rails.application.config.assets.precompile += %w( application_static.css )
 
+
 # Font Awesoe removed from asset pipleine, using CDN
 #Rails.application.config.assets.precompile += %w( fontawesome-all.min.js )

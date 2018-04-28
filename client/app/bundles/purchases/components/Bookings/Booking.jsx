@@ -60,8 +60,8 @@ class Booking extends BaseComponent {
       //set parameter of selected date for cookie setting
       onSet: (context) => {
         history.push(`?appointment&date=${context.select}`);
-        let date = new Date(context.select);
-        cookies.set('date', `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T00:00:00`, {path: '/'})
+        let date = moment(context.select);
+        cookies.set('date', `${date.format('MM-DD-YYYY')}`, {path: '/'})
       },
     });
   }
@@ -69,13 +69,17 @@ class Booking extends BaseComponent {
   render() {
     let { workplaceName, categoryName,
       locationName, services, addOns,cookies } = this.props;
-    let selected_date = new Date(cookies.get('date'));
-    if(selected_date != "Invalid Date" || null) {
-      let month = `0${(selected_date.getUTCMonth() + 1).toString().slice(-2)}`;
-      let day = `0${selected_date.getUTCDate().toString()}`.slice(-2);
-      selected_date = `${month}/${day}/${selected_date.getUTCFullYear()}T00:00:00`;
+    let cookie = cookies.get('date');
+    let selected_date = moment(cookie, 'MM-DD-YYYY');
 
-    } else if(selected_date == "Invalid Date") {
+    if(moment(selected_date).isValid() == true) {
+/*      let month = `0${(selected_date.getMonth() + 1).toString().slice(-2)}`;
+      let day = `0${selected_date.getDate().toString()}`.slice(-2);
+      selected_date = `${month}/${day}/${selected_date.getFullYear()}`;*/
+      console.log("valid date ")
+      selected_date = moment(selected_date).format('MM-DD-YYYY')
+    } else  {
+      console.log("not valid date ")
       selected_date = "select a date";
     }
 
@@ -86,7 +90,7 @@ class Booking extends BaseComponent {
       leaveActive: css.elementLeaveActive,
     };
     let serviceNodes, addOnNodes;
-    console.log('services ==== ' + services);
+    //console.log('services ==== ' + services);
     if(services != null || undefined) {
         serviceNodes = services.map(($$service, index) => (
           <div key={index}>
@@ -136,7 +140,7 @@ class Booking extends BaseComponent {
                 <form action="" acceptCharset="UTF-8" method="get">
                   <label className="active">Select a date</label>
                   <br />
-                  <input onChange={() => null} value={selected_date.toString()} onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
+                  <input onChange={() => null} value={selected_date} onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
                 </form>
               </div>
             </div>
