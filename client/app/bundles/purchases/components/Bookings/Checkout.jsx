@@ -27,6 +27,10 @@ export default class Checkout extends BaseComponent {
   onChange(name, event) {
     this.setState({ [name]: event.target.value.toUpperCase() })
   }
+  componentDidMount() {
+    let bookingMessage = this.props.bookingMessage;
+    bookingMessage ? this.setState({ bookingMessage: bookingMessage }) : null
+  }
   render() {
     let { totalPrice, totalTax, loading, yourTimeFee, props, discountError, discountMessage, edit, bookingMessage } = this.props;
     let checkOutNodes, checkoutForm, discountButton;
@@ -142,7 +146,7 @@ export default class Checkout extends BaseComponent {
                               id={css.textarea}
                               className="materialize-textarea"
                               onChange={this.onChange.bind(this, 'bookingMessage')}
-                              value={bookingMessage || this.state.bookingMessage}
+                              value={this.state.bookingMessage}
                               name="bookingMessage"
                               style={{
                                 backgroundColor: 'white', padding: 10,

@@ -79,15 +79,16 @@ class ServicesController < ApplicationController
       @services = Service.friendly.find(params[:service])
 
     end
+
   #POST /booking
     def booking_info
       redux_store("commentsStore")
       #set booking feed to empty
       @booking_feed = []
-      workplace = Workplace.friendly.find(cookies[:workplace])
-      category = Category.friendly.find(cookies[:category])
-      location = Location.friendly.find(cookies[:location])
-      section = Section.friendly.find(cookies[:section])
+      workplace = Workplace.friendly.find(params[:workplace] || cookies[:workplace])
+      category = Category.friendly.find(params[:category] || cookies[:category])
+      location = Location.friendly.find(params[:location] || cookies[:location])
+      section = Section.friendly.find(params[:section] || cookies[:section])
 
       schedules = location.schedules
       dates = schedules.where('schedules.date_reserved < schedules.date_capacity')

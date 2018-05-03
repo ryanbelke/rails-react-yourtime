@@ -39,6 +39,7 @@ class BookingsComponent extends BaseComponent {
   }
 
   componentDidMount() {
+
     this.fetchBookings()
       .then(() => this.fetchServices())
       .then(() => this.fetchAddOns())
@@ -50,12 +51,26 @@ class BookingsComponent extends BaseComponent {
     }
   }
   fetchBookings() {
-    const  { cookies } = this.props;
     return new Promise((resolve, reject) => {
+      let { props } = this.props.props;
+      let booking = props.booking;
+      const  { cookies } = this.props;
+      let workplace,location, category, section;
+
+      if(booking) {
+        workplace = booking.workplace_id;
+        location = booking.location_id;
+        category = booking.category_id;
+        section = booking.section_id;
+
+      } else {
+        location = cookies.get('location');
+      }
       console.log("fetching bookings");
-      if (cookies.get('location') != null || undefined)
+      console.log("workplace = " + workplace)
+      if (booking || cookies.get('location') != null || undefined)
         {
-          this.props.actions.fetchBookings();
+          this.props.actions.fetchBookings(workplace, location, category, section);
           resolve();
         } else {
           reject("location not found");
@@ -174,7 +189,7 @@ class BookingsComponent extends BaseComponent {
 
   render() {
     const  { data, actions, props, edit }   = this.props;
-    let booking = props.booking;
+    let booking = props.props.booking;
     let bookingNodes, stripeNode, editNode;
     const isFetching = data.get('isFetching');
     const bookings = Immutable.fromJS(data.get('$$bookings'));
