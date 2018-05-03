@@ -78,6 +78,7 @@ class BookingsController < ApplicationController
 
   # POST /bookings
   def create
+
     user = User.find_by id: params[:user_id]
     services = JSON.parse(cookies[:services])
     date = params[:date]
@@ -129,8 +130,9 @@ class BookingsController < ApplicationController
       first_service = Service.find_by id: services.first
       services = service_list.concat(add_on_list)
       puts "*** full services = " + services.to_s
+      puts "****** BOOKING MESSAGE = " + params[:booking_notes].to_s
       booking = user.bookings.create(
-          service_id: services, schedule_id: schedule.id, date: schedule.date,
+          service_id: services, schedule_id: schedule.id, date: schedule.date, booking_notes: params[:booking_notes],
           booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
           booking_price: total_price, workplace_id: first_service.section.location.category.workplace.id
       )
@@ -215,7 +217,7 @@ class BookingsController < ApplicationController
     def booking_params
       params.require(:booking).permit(:user_id, :service_id, :schedule_id,
                                           :workplace_id, :booking_status,
-                                          :booking_description, :stripe_id, :services)
+                                          :booking_description, :stripe_id, :services, :booking_notes)
     end
   end
 

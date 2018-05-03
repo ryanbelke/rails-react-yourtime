@@ -64,13 +64,13 @@ export default {
     )
   },*/
   createBooking(url, stripeToken, railsToken, bookingMessage) {
-     return request
-      .post(
-        url,
-        { stripeToken:stripeToken, booking_message: bookingMessage},
-        { headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': railsToken,
-          'X-Requested-With': 'XMLHttpRequest' } }
-    )},
+    return request({
+      method: 'POST',
+      url: url,
+      headers: ReactOnRails.authenticityHeaders(),
+      data: {stripeToken: stripeToken, booking_notes: bookingMessage}
+    })
+  },
   checkDiscount(discount, current_user) {
     return request({
       method: 'POST',

@@ -146,6 +146,10 @@
         <span class="form-header">Estimated Total </span>
         <span class="form-text"> <%= number_to_currency(@booking.booking_price) %></span>
       </div>
+      <div class="form-info">
+        <span class="form-header">Booking notes</span>
+        <span class="form-text"><%= @booking.booking_notes %> </span>
+      </div>
     </div>
   </div>
   <% if logged_in? %>

@@ -50,9 +50,7 @@ class BookingsComponent extends BaseComponent {
     }
   }
   fetchBookings() {
-    const  { actions, cookies } = this.props;
-    //let pathname = data.getIn(['railsContext', 'pathname']);
-    //actions.fetchBookingServices(serviceList.get(0))
+    const  { cookies } = this.props;
     return new Promise((resolve, reject) => {
       console.log("fetching bookings");
       if (cookies.get('location') != null || undefined)
@@ -176,6 +174,7 @@ class BookingsComponent extends BaseComponent {
 
   render() {
     const  { data, actions, props, edit }   = this.props;
+    let booking = props.booking;
     let bookingNodes, stripeNode, editNode;
     const isFetching = data.get('isFetching');
     const bookings = Immutable.fromJS(data.get('$$bookings'));
@@ -201,6 +200,7 @@ class BookingsComponent extends BaseComponent {
                       discountMessage={this.state.discountMessage}
                       discountError={this.state.discountError}
                       edit={edit}
+                      bookingMessage={booking ? booking.booking_notes : null}
             />
           </StripeProvider>
         )

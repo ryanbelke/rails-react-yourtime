@@ -28,7 +28,7 @@ export default class Checkout extends BaseComponent {
     this.setState({ [name]: event.target.value.toUpperCase() })
   }
   render() {
-    let { totalPrice, totalTax, loading, yourTimeFee, props, discountError, discountMessage, edit } = this.props;
+    let { totalPrice, totalTax, loading, yourTimeFee, props, discountError, discountMessage, edit, bookingMessage } = this.props;
     let checkOutNodes, checkoutForm, discountButton;
     let user = props.props.railsHelpers.user;
     let checkoutTotal = parseFloat(totalPrice) + parseFloat(totalTax) + parseFloat(yourTimeFee);
@@ -142,7 +142,7 @@ export default class Checkout extends BaseComponent {
                               id={css.textarea}
                               className="materialize-textarea"
                               onChange={this.onChange.bind(this, 'bookingMessage')}
-                              value={this.state.bookingMessage}
+                              value={bookingMessage || this.state.bookingMessage}
                               name="bookingMessage"
                               style={{
                                 backgroundColor: 'white', padding: 10,
