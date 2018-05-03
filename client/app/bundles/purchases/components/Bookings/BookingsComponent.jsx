@@ -175,8 +175,8 @@ class BookingsComponent extends BaseComponent {
   }
 
   render() {
-    const  { data, actions, props }   = this.props;
-    let bookingNodes, stripeNode;
+    const  { data, actions, props, edit }   = this.props;
+    let bookingNodes, stripeNode, editNode;
     const isFetching = data.get('isFetching');
     const bookings = Immutable.fromJS(data.get('$$bookings'));
     let bookingServices = this.state.$$bookingServices;
@@ -200,6 +200,7 @@ class BookingsComponent extends BaseComponent {
                       checkDiscount={this.checkDiscount}
                       discountMessage={this.state.discountMessage}
                       discountError={this.state.discountError}
+                      edit={edit}
             />
           </StripeProvider>
         )
@@ -252,14 +253,15 @@ class BookingsComponent extends BaseComponent {
             >
               {bookingNodes}
             </ReactCSSTransitionGroup>
-        <section className={css.checkoutSection}>
-          <Script
-            url="https://js.stripe.com/v3/"
-            onError={this.handleScriptError.bind(this)}
-            onLoad={this.handleScriptLoad.bind(this)}
-          />
-          {stripeNode}
-        </section>
+          <section className={css.checkoutSection}>
+            <Script
+              url="https://js.stripe.com/v3/"
+              onError={this.handleScriptError.bind(this)}
+              onLoad={this.handleScriptLoad.bind(this)}
+            />
+            {stripeNode}
+          </section>
+
       </section>
     );
   }

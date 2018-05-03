@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col l4 m6 s12 offset-l4">
-    <h3>Appointments Coming Soon</h3>
+  <div class="col l11 m12 s12 offset-l1 ">
+    <%= react_component('EditBookingApp', props: {booking: @booking, railsHelpers: { user: logged_in?, current_user: (current_user.id if logged_in?)}}, prerender: false) %>
   </div>
 </div>

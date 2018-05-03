@@ -284,10 +284,14 @@ a:hover { text-decoration: none; }
     font-size: 1rem;
   }
 }
+.yourtime-nav {
+  color: #FAFAFA;
+}
 .css-flash {
-  height: 50px;
+  height: 40px;
   width: 100%;
-  background-color: #e8f7ff;
+  background: linear-gradient(100grad,#6adaff,rgba(106,218,255,.7));
+  color: white;
   vertical-align: middle;
   display: flex;
   flex-direction: row;
@@ -297,13 +301,14 @@ a:hover { text-decoration: none; }
 .css-flash-cost {
   height: 50px;
   width: 100%;
-  background-color: #DCEDC8;
+  background-color: #666EE8;
   vertical-align: middle;
   display: flex;
   flex-direction: row;
   border-top-right-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
+
 .css-flash-warning {
   height: 50px;
   width: 100%;
@@ -317,7 +322,6 @@ a:hover { text-decoration: none; }
 .css-flash-user {
   height: 50px;
   width: 100%;
-  background-color: #C5CAE9;
   vertical-align: middle;
   display: flex;
   flex-direction: row;
@@ -329,18 +333,18 @@ a:hover { text-decoration: none; }
   height: 100%;
   position: relative;
   padding: 0.25rem 0.25rem;
-
-  color: #303f9f;
+  font-size: 1.5rem;
+  color: #FAFAFA;
   font-family: 'Open Sans', sans-serif;
-  font-weight: 900;
-  border-top-right-radius: 0.75rem;
+  font-weight: 400;
+  border-top-riht-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
 
 .icon-div {
-  padding: 0.25rem 0.25rem 0.25rem 0.75rem;
-  color: #303f9f;
-  background-color: #72c3fc;
+  padding: 0.05rem 0.25rem 0.25rem 0.75rem;
+  color: #FAFAFA;
+  background: linear-gradient(100grad,#6adaff,rgba(106,218,255,.7));
   height: 100%;
   width: 50px !important;
   position: relative;
@@ -349,9 +353,8 @@ a:hover { text-decoration: none; }
   border-top-left-radius: 0.75rem;
 }
 .icon-div-info {
-   padding: 0.25rem 0.25rem 0.25rem 1.25rem;
-   color: #303f9f;
-   background-color: #72c3fc;
+   padding: 0.05rem 0.25rem 0.25rem 1.25rem;
+   color: #FAFAFA;
    height: 100%;
    width: 50px !important;
    position: relative;
@@ -362,7 +365,7 @@ a:hover { text-decoration: none; }
  }
 .icon-div-user {
   padding: 0.25rem 0.25rem 0.25rem 0.5rem;
-  color: #303f9f;
+  color: #fafafa;
   background-color: #9FA8DA;
   height: 100%;
   width: 50px !important;
@@ -372,9 +375,9 @@ a:hover { text-decoration: none; }
   border-top-left-radius: 0.75rem;
 }
 .icon-div-dollar {
-  padding: 0.25rem 0.25rem 0.25rem 1.25rem;
-  color: #303f9f;
-  background-color: #AED581;
+  background-color: #666EE8;
+  padding: 0.01rem 0.25rem 0.25rem 0.5rem;
+  color: #fff;
   height: 100%;
   width: 50px;
   position: relative;
@@ -833,7 +836,6 @@ hr {
   .user {
     margin-top: 5em;
     padding-top: 0;
-    font-size: 1.5rem;
   }
   .content {
     display: block;
@@ -868,7 +870,7 @@ span.picture {
 }
 .admin { width: 50px; height: 50px; margin: 0px 20px; }
 .custom-btn-small { width: 60px; line-height: 2px !important; padding: 10px 10px !important; font-size: 12px !important; height: 25px !important; color: white !important; }
-
+.finalize-btn { width: 120px; margin-top: 5px;}
 .StripeElement {
   background-color: white;
   height: 40px;
@@ -892,6 +894,20 @@ span.picture {
   background-color: #fefde5 !important;
 }
 
+.btn {
+  display: inline-block;
+  float: left;
+  //background: #666EE8;
+  color: white;
+  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  border: 0;
+  margin-left: 3px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 38px;
+  outline: none;
+}
 
 @media (max-width: 800px) {
   .flex-left-half { flex: 0 0 100%; }
@@ -929,3 +945,4 @@ span.picture {
     font-size: 1.25rem;
   }
 }
+

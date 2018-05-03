@@ -59,6 +59,11 @@
         today: 'Today',
         clear: 'Clear',
         close: 'Ok',
+        formatSubmit: 'yyyy-mm-dd',
+        format: 'yyyy-mm-dd',
         closeOnSelect: false, // Close upon selecting a date,
+        onSet: function(context) {
+        window.history.pushState("", "", "?appointment&date="+ context.select.toString().slice(0, -3));
+    }
     });
 </script>

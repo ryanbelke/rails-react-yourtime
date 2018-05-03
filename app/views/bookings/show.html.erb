@@ -10,6 +10,10 @@
         </div>
       </div>
       <div class="form-info">
+        <span class="form-header">Status:</span>
+        <span class="form-text"> <%= @booking.booking_status %></span>
+      </div>
+      <div class="form-info">
         <span class="form-header">Workplace:</span>
         <span class="form-text"> <%= @workplace.workplace_name %></span>
       </div>
@@ -33,7 +37,7 @@
       <div class="form-info">
         <span class="form-header">Date: </span>
         <span class="form-text">
-          <%= @booking.date.strftime("%m/%d/%Y") %>
+          <%= @booking.schedule.date %>
         </span>
       </div>
       <div class="form-info">
@@ -65,6 +69,32 @@
             <% end %>
           </span>
       </div>
+      <% if @booking.booking_status == 'Pending' %>
+        <div class="form-info">
+          <span class="form-header">Edit Order:</span>
+          <span class="form-text">
+                 <%= link_to edit_user_booking_path(current_user) do %>
+                    <div class="waves-effect waves-light btn " style="background: linear-gradient(100grad, #1976D2, rgba(25,118,210 ,1));">
+                      <i class="material-icons left">edit</i>
+                      Edit
+                    </div>
+                  <% end %>
+              <%= link_to cancel_path(id: @booking.id, user_id: current_user), method: :post, confirm: 'Are you sure you want to cancel?' do %>
+                  <div class = "waves-effect waves-light btn " style="background: linear-gradient(100grad, #1976D2, rgba(25,118,210 ,1));">
+                    <i class = "material-icons left" > clear </i>
+                    Cancel
+                  </div >
+              <% end %>
+
+            <% if current_user.admin? %>
+                <br/>
+                  <a class="waves-effect waves-light btn " style="width: 96%; margin-top: 5px; display: inline-block; background: linear-gradient(100grad, #1976D2, rgba(25,118,210 ,1));">
+                    <i class="material-icons left">check_box</i>Finalize</a>
+                <% end %>
+              </span>
+        </div>
+        <% end %>
+
     </div>
     <br />
   </div>
@@ -72,7 +102,7 @@
     <div class="paper-no-border">
       <div class="css-flash-cost">
         <div class="icon-div-dollar">
-          <i class="fa fa-credit-card" aria-hidden="true"></i>
+          <i class="fas fa-dollar-sign" aria-hidden="true"></i>
 
         </div>
         <div class="flash-text">
@@ -118,25 +148,23 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
   <% if logged_in? %>
     <div class="col l6 m6 s12">
-      <div class="paper-no-border">
-        <div class="css-flash-user">
-          <div class="icon-div-user">
-            <i class="fa fa-credit-card" aria-hidden="true"></i>
+      <div class="paper-no-border ">
+        <div class="css-flash-user grey darken-3">
+          <div class="icon-div-user grey darken-3">
+            <i class="fas fa-user" aria-hidden="true"></i>
           </div>
-          <div class="flash-text">
+          <div class="flash-text ">
             <h6>User Info</h6>
           </div>
         </div>
         <div class="form-info">
           <span class="form-header">Name:</span>
           <span class="form-text">
-              <%= current_user.first_name %>
-            <%= current_user.last_name %>
-            </span>
+                <%= @user.first_name %>
+            <%= @user.last_name %>
+              </span>
         </div>
         <div class="form-info">
           <span class="form-header">Email </span>
@@ -147,6 +175,9 @@
 
     </div>
   <% end %>
+</div>
+<div class="row">
+
 </div>
 
 

@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   post '/service', to: 'services#service_info'
   #view booking
   get '/services/booking', to: 'services#booking'
+  #cancel booking without deleting
+  post '/cancel', to: 'bookings#cancel'
 
   #check discount code
   post '/discount', to: 'discounts#discount'

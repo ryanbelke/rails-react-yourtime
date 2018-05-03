@@ -59,16 +59,18 @@ class Booking extends BaseComponent {
       disable: datesArray,
       //set parameter of selected date for cookie setting
       onSet: (context) => {
-        history.push(`?appointment&date=${context.select}`);
-        let date = moment(context.select);
-        cookies.set('date', `${date.format('MM-DD-YYYY')}`, {path: '/'})
+        if(context.select) {
+          history.push(`?appointment&date=${context.select.toString().slice(0, -3)}`);
+          let date = moment(context.select);
+          cookies.set('date', `${date.format('MM-DD-YYYY')}`, {path: '/'})
+        }
       },
     });
   }
 
   render() {
     let { workplaceName, categoryName,
-      locationName, services, addOns,cookies } = this.props;
+      locationName, services, addOns, cookies, edit } = this.props;
     let cookie = cookies.get('date');
     let selected_date = moment(cookie, 'MM-DD-YYYY');
 
@@ -76,10 +78,10 @@ class Booking extends BaseComponent {
 /*      let month = `0${(selected_date.getMonth() + 1).toString().slice(-2)}`;
       let day = `0${selected_date.getDate().toString()}`.slice(-2);
       selected_date = `${month}/${day}/${selected_date.getFullYear()}`;*/
-      console.log("valid date ")
+      console.log("valid date ");
       selected_date = moment(selected_date).format('MM-DD-YYYY')
     } else  {
-      console.log("not valid date ")
+      console.log("not valid date ");
       selected_date = "select a date";
     }
 
@@ -96,8 +98,10 @@ class Booking extends BaseComponent {
           <div key={index}>
             <div className="form-info">
               <span className="form-header">Service:</span>
-              <span className="form-text"> {$$service.getIn(['service', 'section', 'section_name'])}&nbsp;|
-                &nbsp;{$$service.getIn(['service', 'service_name'])}</span>
+              <span className="form-text">
+                {$$service.getIn(['service', 'section', 'section_name'])}
+                <br />
+                {$$service.getIn(['service', 'service_name'])}</span>
             </div>
 
             <div className="form-info">
@@ -157,12 +161,8 @@ class Booking extends BaseComponent {
               </div>
               <div className="form-info">
                 <span className="form-header">Workplace:</span>
-                <span className="form-text"> {workplaceName}&nbsp; | &nbsp;{locationName} </span>
+                <span className="form-text"> {workplaceName}&nbsp;  <br /> {locationName} </span>
               </div>
-{/*              <div className="form-info">
-                <span className="form-header">Location:</span>
-                <span className="form-text"> </span>
-              </div>*/}
 
               <div className="form-info">
                 <span className="form-header">Category:</span>

@@ -1,8 +1,9 @@
 class BookingsController < ApplicationController
   include ReactOnRails::Controller
+  require 'date'
 
-  before_action :logged_in_user, only: [:new, :create, :destroy, :show]
-  before_action :correct_user,   only: [:edit, :update]
+  before_action :logged_in_user, only: [:new, :create, :show]
+  before_action :correct_user,   only: [:edit, :update, :cancel]
   before_action :admin_user,     only: :destroy
   before_action :check_cookies, only: :new
 
@@ -79,9 +80,11 @@ class BookingsController < ApplicationController
   def create
     user = User.find_by id: params[:user_id]
     services = JSON.parse(cookies[:services])
-    date = cookies[:date]
+    date = params[:date]
+    puts " date= "+date
+
     location = Location.friendly.find(cookies[:location])
-    puts "date = " + date.to_s
+    puts "DATE = + " + date.to_s
 
     if date.nil?
       flash[:danger] = "please select date"
@@ -92,8 +95,10 @@ class BookingsController < ApplicationController
     else
       selected_date = params[:date] || cookies[:date]
     end
+
+
       #convert date to datetime for lookup in the database
-      schedule = location.schedules.find_by date: date
+      schedule = location.schedules.find_by unix: date.to_s
       puts "**** schedule = " + schedule.to_s
 
       #------------pricing
@@ -125,7 +130,7 @@ class BookingsController < ApplicationController
       services = service_list.concat(add_on_list)
       puts "*** full services = " + services.to_s
       booking = user.bookings.create(
-          service_id: services, schedule_id: schedule.id, date: date,
+          service_id: services, schedule_id: schedule.id, date: schedule.date,
           booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
           booking_price: total_price, workplace_id: first_service.section.location.category.workplace.id
       )
@@ -171,13 +176,33 @@ class BookingsController < ApplicationController
   #get
   def show
     @booking = Booking.find params[:id]
-
+    @user = User.find_by id: params[:user_id]
     @location = @booking.location_id
     @location = Location.find_by id: @location
     @category = @location.category
     @workplace = @category.workplace
 
     @service = @booking.service_id
+  end
+
+  #post /CANCEL
+  def cancel
+    booking = Booking.find(params[:id])
+    booking.booking_status = "Canceled"
+
+    if booking.save!
+      flash[:success] = "Booking Canceled"
+      redirect_to root_url
+    else
+      render :show.
+    end
+    end
+
+  end
+
+  def edit
+    redux_store("commentsStore")
+    @booking = Booking.find_by id: params[:id]
   end
 
   def destroy
@@ -192,5 +217,5 @@ class BookingsController < ApplicationController
                                           :workplace_id, :booking_status,
                                           :booking_description, :stripe_id, :services)
     end
+  end
 
-end

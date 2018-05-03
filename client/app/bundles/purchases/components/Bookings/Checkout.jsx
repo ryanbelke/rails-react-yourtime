@@ -28,7 +28,7 @@ export default class Checkout extends BaseComponent {
     this.setState({ [name]: event.target.value.toUpperCase() })
   }
   render() {
-    let { totalPrice, totalTax, loading, yourTimeFee, props, discountError, discountMessage } = this.props;
+    let { totalPrice, totalTax, loading, yourTimeFee, props, discountError, discountMessage, edit } = this.props;
     let checkOutNodes, checkoutForm, discountButton;
     let user = props.props.railsHelpers.user;
     let checkoutTotal = parseFloat(totalPrice) + parseFloat(totalTax) + parseFloat(yourTimeFee);
@@ -94,11 +94,12 @@ export default class Checkout extends BaseComponent {
                 <span className={`form-text ${css.formHeader}`}>Estimated Total </span>
                 <span className={`form-text ${css.checkoutText}`}>{loading ? loadingIcon : '$' + checkoutTotal.toFixed(2)} </span>
               </div>
-              <div className="form-info" style={{background: '#E6EBF1', paddingTop: 10, height: 85 }}>
-                <span className="form-header">Discount Code:</span>
-                <span className="form-text">
+              {!edit ?
+                <div className="form-info" style={{background: '#E6EBF1', paddingTop: 10, height: 85 }}>
+                  <span className="form-header">Discount Code:</span>
+                  <span className="form-text">
                   {user ?
-                      <span>
+                    <span>
                         <input type="text"
                                name="discount"
                                value={this.state.discount}
@@ -107,12 +108,12 @@ export default class Checkout extends BaseComponent {
 
                         />
                         <ReactCSSTransitionGroup
-                                      transitionName={cssTransitionGroupClassNames}
-                                      transitionEnterTimeout={500}
-                                      transitionLeaveTimeout={500}
-                                      component="span"
+                          transitionName={cssTransitionGroupClassNames}
+                          transitionEnterTimeout={500}
+                          transitionLeaveTimeout={500}
+                          component="span"
 
-                                    >
+                        >
                         {discountButton}
                         </ReactCSSTransitionGroup>
                         <div id={css.discountMessage}
@@ -128,7 +129,10 @@ export default class Checkout extends BaseComponent {
                     : <small>submit at checkout</small>
                   }
                 </span>
-              </div>
+                </div>
+                :
+                null
+              }
               {user ?
                 <div className="form-info" style={{background: '#E6EBF1'}}>
                   <div className={css.stripeForm}>
@@ -150,7 +154,7 @@ export default class Checkout extends BaseComponent {
               }
             </div>
             <br />
-            {user ?
+            { user && !edit ?
               <div className="paper-no-border">
                 <div className={`${css.flash} center-align vertical-align`}>
                   <div className={css.icon}>

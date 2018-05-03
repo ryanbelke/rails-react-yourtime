@@ -84,7 +84,6 @@ class ServicesController < ApplicationController
       redux_store("commentsStore")
       #set booking feed to empty
       @booking_feed = []
-
       workplace = Workplace.friendly.find(cookies[:workplace])
       category = Category.friendly.find(cookies[:category])
       location = Location.friendly.find(cookies[:location])

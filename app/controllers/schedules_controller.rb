@@ -8,35 +8,47 @@ class SchedulesController < ApplicationController
 
   def create
     if params[:create_and_add]
+      date = params[:schedule][:date]
+      date = Date.parse(date)
+      unix = date.to_time.to_i
       @location = Location.friendly.find(params[:location_id])
-      @schedule = @location.schedules.create!(schedule_params)
-      redirect_to new_location_schedule_path(@location)
+      @sched = @location.schedules.new(schedule_params)
+      @sched.unix = unix
+
+      if @sched.save
+        redirect_to new_location_schedule_path(@location)
+      end
     else
+      date = params[:schedule][:date]
+      date = Date.parse(date)
+      unix = date.to_time.to_i
       @location = Location.friendly.find(params[:location_id])
-      @schedule = @location.schedules.create!(schedule_params)
-      redirect_to root_url
+      @sched = @location.schedules.new(schedule_params)
+      @sched.unix = unix
+      if @sched.save
+       redirect_to root_url
+      end
+
     end
   end
 
   def update
     @location = Location.friendly.find(params[:location_id])
     @schedule = @location.schedules.friendly.find(params[:id])
-    if params[:create_and_add]
-      if @schedule.update_attributes(schedule_params)
-      flash[:success] = 'Schedule updated'
-      redirect_to edit_location_schedule_path(@location, @schedule)
-      else
-        render 'edit'
-      end
 
+    date = params[:schedule][:date]
+    date = Date.parse(date)
+    unix = date.to_time.to_i
+
+    @schedule.unix = unix
+
+    if @schedule.update_attributes(schedule_params)
+      flash[:success] = "Schedule updated"
+      redirect_to root_url
     else
-      if @schedule.update_attributes(schedule_params)
-        flash[:success] = "Schedule updated"
-        redirect_to root_url
-      else
-        render 'edit'
-      end
+      render 'edit'
     end
+
 
   end
 
@@ -61,6 +73,6 @@ class SchedulesController < ApplicationController
   def schedule_params
     params.require(:schedule).permit(:category_id, :booking_id,
                                      :date, :date_capacity, :date_reserved,
-                                     :available)
+                                     :available, :unix)
   end
 end
