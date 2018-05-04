@@ -80,4 +80,12 @@ export default {
       data: { discount_code: discount, current_user: current_user },
     });
   },
+
+  getWorkplaces() {
+    return request({
+      method: 'GET',
+      url: '/workplaces.json',
+      responseType: 'json',
+    });
+  }
 };

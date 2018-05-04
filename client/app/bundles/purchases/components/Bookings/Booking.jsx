@@ -6,6 +6,8 @@ import Immutable from 'immutable';
 import css from './Booking.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import $ from 'jquery';
+import EditDropDown from './EditBooking/EditDropDown';
+
 import createHistory from "history/createBrowserHistory"
 import { withCookies, Cookies } from 'react-cookie';
 import moment from 'moment';
@@ -20,7 +22,10 @@ class Booking extends BaseComponent {
   };
   constructor(props) {
     super(props);
-    _.bindAll(this, 'selectDate');
+    this.state = {
+      editSelection: null,
+    };
+    _.bindAll(this, ['selectDate', 'editSelection']);
   }
 
   selectDate() {
@@ -68,9 +73,14 @@ class Booking extends BaseComponent {
     });
   }
 
+  editSelection(select) {
+    this.setState({ editSelection: select })
+  }
+
   render() {
     let { workplaceName, categoryName,
-      locationName, services, addOns, cookies, edit } = this.props;
+      locationName, services, addOns, cookies, booking, actions, data } = this.props;
+    let { editSelection } = this.state;
     let cookie = cookies.get('date');
     let selected_date = moment(cookie, 'MM-DD-YYYY');
 
@@ -97,11 +107,17 @@ class Booking extends BaseComponent {
         serviceNodes = services.map(($$service, index) => (
           <div key={index}>
             <div className="form-info">
-              <span className="form-header">Service:</span>
+              <span className="form-header">Service:
+              </span>
               <span className="form-text">
                 {$$service.getIn(['service', 'section', 'section_name'])}
                 <br />
-                {$$service.getIn(['service', 'service_name'])}</span>
+                {$$service.getIn(['service', 'service_name'])}
+                <div onClick={this.editSelection.bind(this, 'service')}
+                     style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                   className="waves-effect grey lighten-5 btn-flat">
+                  <i className="material-icons left">edit</i>Edit</div>
+                </span>
             </div>
 
             <div className="form-info">
@@ -118,9 +134,14 @@ class Booking extends BaseComponent {
       addOnNodes = addOns.map(($$addOn, index) => (
         <div key={index}>
           <div className="form-info">
-            <span className="form-header"></span>
+            <span className="form-header">{null}</span>
             <span className="form-text"> {$$addOn.getIn(['service', 'service_name'])}:
-            &nbsp; ${$$addOn.getIn(['service','service_price'])}</span>
+            &nbsp; ${$$addOn.getIn(['service','service_price'])}
+              <div onClick={this.editSelection.bind(this, 'addOn')}
+                   style={{ width: 30, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                 className="waves-effect grey lighten-5 btn-flat">
+                  <i className="material-icons left">edit</i></div>
+            </span>
           </div>
         </div>
       ))
@@ -138,6 +159,7 @@ class Booking extends BaseComponent {
                 </div>
                 <div className="flash-text">
                   <h6>Appointment Date</h6>
+
                 </div>
               </div>
               <div className="date-selector">
@@ -150,6 +172,7 @@ class Booking extends BaseComponent {
             </div>
           </div>
           <div className="col l6 m6 s12">
+
             <div className="paper-no-border">
               <div className="css-flash">
                 <div className="icon-div-info">
@@ -161,12 +184,49 @@ class Booking extends BaseComponent {
               </div>
               <div className="form-info">
                 <span className="form-header">Workplace:</span>
-                <span className="form-text"> {workplaceName}&nbsp;  <br /> {locationName} </span>
+                <span className="form-text">
+                  {editSelection=='workplace' ?
+                  <EditDropDown data={data}
+                                actions={actions}
+                                booking={booking}
+                                workplace={true} />
+                    :
+                    workplaceName
+                  }
+                  {editSelection=='workplace' ?
+                    <div onClick={this.editSelection.bind(this, 'workplace')}
+                         style={{ width: 100, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                         className="waves-effect grey lighten-5 btn-flat">
+                      <i className="material-icons left">save</i>
+                      Save
+                    </div>
+                    :
+                    <div onClick={this.editSelection.bind(this, 'workplace')}
+                         style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                         className="waves-effect grey lighten-5 btn-flat">
+                      <i className="material-icons left">edit</i>
+                      Edit
+                    </div>
+                  }
+                &nbsp;<br />
+                  {editSelection=='workplace' ?
+                    null
+                    :
+                    locationName
+                  }
+                </span>
               </div>
 
               <div className="form-info">
                 <span className="form-header">Category:</span>
-                <span className="form-text"> {categoryName}</span>
+                <span className="form-text"> {categoryName}
+                  <div onClick={this.editSelection.bind(this, 'category')}
+                       style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                       className="waves-effect grey lighten-5 btn-flat">
+                  <i className="material-icons left">edit</i>
+                    Edit</div>
+                </span>
+
               </div>
               {serviceNodes}
               <hr />

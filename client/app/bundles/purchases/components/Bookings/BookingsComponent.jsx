@@ -24,7 +24,8 @@ class BookingsComponent extends BaseComponent {
       totalTax: 0,
       yourTimeFee: 0,
       checkoutLoading: true,
-      scriptLoaded: false,
+      stripeScriptLoaded: false,
+      jqueryScriptLoaded: false,
       scriptError: null,
       showDiscount: true,
       discountError: null,
@@ -62,14 +63,10 @@ class BookingsComponent extends BaseComponent {
         location = booking.location_id;
         category = booking.category_id;
         section = booking.section_id;
-
       } else {
         location = cookies.get('location');
       }
-      console.log("fetching bookings");
-      console.log("workplace = " + workplace)
-      if (booking || cookies.get('location') != null || undefined)
-        {
+      if (booking || cookies.get('location') != null || undefined) {
           this.props.actions.fetchBookings(workplace, location, category, section);
           resolve();
         } else {
@@ -161,8 +158,13 @@ class BookingsComponent extends BaseComponent {
     this.setState({ scriptError: true });
   }
 
-  handleScriptLoad() {
-    this.setState({ scriptLoaded: true });
+  handleScriptLoad(script) {
+    if(script=='stripe') {
+      this.setState({ stripeScriptLoaded: true });
+    } else {
+      this.setState({ jqueryScriptLoaded: true });
+
+    }
   }
 
   checkDiscount(discount) {
@@ -202,7 +204,7 @@ class BookingsComponent extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    this.state.scriptLoaded ?
+    this.state.stripeScriptLoaded ?
         stripeNode = (
           <StripeProvider apiKey={this.state.stripeKey}>
             <Checkout totalPrice={this.state.totalCost}
@@ -234,6 +236,8 @@ class BookingsComponent extends BaseComponent {
               addOns={bookingAddOns}
               dates={$$booking.get('dates')}
               actions={actions}
+              booking={booking}
+              data={data}
               //selected={selected}
               //serviceSelection={serviceSelection}
               //bookingId={sectionId}
@@ -271,12 +275,16 @@ class BookingsComponent extends BaseComponent {
           <section className={css.checkoutSection}>
             <Script
               url="https://js.stripe.com/v3/"
-              onError={this.handleScriptError.bind(this)}
+              onError={this.handleScriptError.bind(this, 'stripe')}
               onLoad={this.handleScriptLoad.bind(this)}
             />
             {stripeNode}
           </section>
-
+        <Script
+          url="https://code.jquery.com/jquery-2.1.1.min.js"
+          onError={this.handleScriptError.bind(this)}
+          onLoad={this.handleScriptLoad.bind(this, 'jquery')}
+        />
       </section>
     );
   }

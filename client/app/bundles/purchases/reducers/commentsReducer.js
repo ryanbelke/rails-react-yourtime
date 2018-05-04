@@ -18,6 +18,7 @@ export const $$initialState = Immutable.fromJS({
   locationSelection: '',
   selected: false,
   $$serviceSelection: [],
+
 });
 
 export default function commentsReducer($$state = $$initialState, action = null) {
@@ -251,6 +252,19 @@ export default function commentsReducer($$state = $$initialState, action = null)
     case actionTypes.SET_LOCALE: {
       return $$state.merge({
         locale,
+      });
+    }
+    case actionTypes.GET_WORKPLACES_SUCCESS: {
+      return $$state.merge({
+        $$workplaces: $$workplaces,
+        fetchWorkplacesError: null,
+        isFetching: false,
+      });
+    }
+    case actionTypes.GET_WORKPLACES_FAILURE: {
+      return $$state.merge({
+        fetchWorkplacesError: error,
+        isFetching: false,
       });
     }
 

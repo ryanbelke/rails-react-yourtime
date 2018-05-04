@@ -7,6 +7,11 @@ export function setIsFetching() {
     type: actionTypes.SET_IS_FETCHING,
   };
 }
+export function selectionsFetching() {
+  return {
+    type: actionTypes.SELECTIONS_FETCHING,
+  };
+}
 //fetch workplaces
 export function fetchWorkplaces(workplace) {
   return (dispatch) => {
@@ -228,6 +233,32 @@ export function fetchBookingServicesSuccess(data) {
 export function fetchBookingServicesFailure(error) {
   return {
     type: actionTypes.FETCH_BOOKING_SERVICES_FAILURE,
+    error,
+  };
+}
+
+export function getWorkplaces() {
+  return (dispatch) => {
+    dispatch(selectionsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      requestsManager.getWorkplaces()
+        .then(res => dispatch(getWorkplacesSuccess(res.data)))
+        .catch(error => dispatch(getWorkplacesFailure(error)))
+    );
+  };
+}
+export function getWorkplacesSuccess(data) {
+  return {
+    type: actionTypes.GET_WORKPLACES_SUCCESS,
+    $$workplaces: data.workplaces,
+  };
+}
+
+export function getWorkplacesFailure(error) {
+  return {
+    type: actionTypes.GET_WORKPLACES_FAILURE,
     error,
   };
 }
