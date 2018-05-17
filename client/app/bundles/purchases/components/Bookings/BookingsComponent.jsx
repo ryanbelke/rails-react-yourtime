@@ -19,6 +19,7 @@ class BookingsComponent extends BaseComponent {
       fetchBookingsError: null,
       isFetching: false,
       $$bookingServices: Immutable.fromJS([]),
+      serviceList: Immutable.fromJS([]),
       $$bookingAddOns: Immutable.fromJS([]),
       totalCost: 0,
       totalTax: 0,
@@ -35,7 +36,7 @@ class BookingsComponent extends BaseComponent {
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
                       'calculateTotal', 'handleScriptError',
-                      'handleScriptLoad']);
+                      'handleScriptLoad' ]);
     this.checkDiscount = this.checkDiscount.bind(this);
   }
 
@@ -75,16 +76,24 @@ class BookingsComponent extends BaseComponent {
     })
   }
   fetchServices() {
-    console.log("fetching services");
+    let { props } = this.props.props;
+    let { data } = this.props;
+    let booking = props.booking;
+    let serviceList = Immutable.List([]);
+    const { cookies } = this.props;
+    if(booking) {
+      serviceList = booking.service_id;
+    } else {
+      serviceList = Immutable.List(cookies.get('services'));
+    }
 
     return new Promise((resolve, reject) => {
       const { cookies } = this.props;
-      const serviceList = Immutable.List(cookies.get('services'));
       if (serviceList.size != 0) {
         serviceList.forEach(($$service) => {
           requestsManager
             .postService($$service)
-            .then(res => this.setState(({$$bookingServices}) => ({
+            .then(res => this.setState(({$$bookingServices}) =>({
               $$bookingServices: $$bookingServices.push(Immutable.fromJS(res.data)),
             })))
             .catch(error => this.setState({ error: error }));
@@ -102,7 +111,7 @@ class BookingsComponent extends BaseComponent {
       if(addOnList.size > 0) {
         addOnList.forEach(($$addOn) => {
           requestsManager
-            .postService($$addOn)
+            .postAddOn($$addOn)
             .then(res => this.setState(({$$bookingAddOns}) => ({
               $$bookingAddOns: $$bookingAddOns.push(Immutable.fromJS(res.data)),
             })))
@@ -276,7 +285,7 @@ class BookingsComponent extends BaseComponent {
             <Script
               url="https://js.stripe.com/v3/"
               onError={this.handleScriptError.bind(this, 'stripe')}
-              onLoad={this.handleScriptLoad.bind(this)}
+              onLoad={this.handleScriptLoad.bind(this, 'stripe')}
             />
             {stripeNode}
           </section>

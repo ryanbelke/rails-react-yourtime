@@ -76,9 +76,15 @@ class ServicesController < ApplicationController
 
   #POST /service :ID
     def service_info
-      @services = Service.friendly.find(params[:service])
-
+      @services = Service.find_by id: params[:service], add_on: false
+      if @services.nil?
+        null
+      end
     end
+  #POST /addOn
+  def add_on_info
+    @services = Service.find_by id: params[:service], add_on: true
+  end
 
   #POST /booking
     def booking_info

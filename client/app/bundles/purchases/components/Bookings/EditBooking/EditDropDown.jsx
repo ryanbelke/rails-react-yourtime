@@ -3,6 +3,7 @@ import React from 'react';
 import Script from 'react-load-script'
 import { Input, Preloader } from 'react-materialize';
 import _ from 'lodash';
+import Immutable from 'immutable';
 
 export default class EditDropDown extends BaseComponent {
   constructor(props) {
@@ -10,64 +11,129 @@ export default class EditDropDown extends BaseComponent {
     this.state = {
       scriptLoaded: false,
       scriptError: false,
+      selectionLoading: false,
+      selectedWorkplace: 0,
+      selectedCategory: 0,
+      selectedLocation: 0,
+      $$selectedServices: Immutable.fromJS([]),
+      $$selectedAddOns: Immutable.fromJS([]),
     };
-    _.bindAll(['handleScriptError', 'handleScriptLoad', 'selectWorkplace'])
+    _.bindAll(['handleScriptError', 'handleScriptLoad', 'selectWorkplace', 'makeSelection',
+    'selectLocation'])
   }
   handleScriptError() {
     this.setState({ scriptError: true });
   }
 
   handleScriptLoad() {
-    this.setState({ scriptLoaded: true });
+    this.setState(() => ({ scriptLoaded: true }));
   }
 
   componentDidMount() {
     this.props.workplace ?
       this.selectWorkplace()
-      : null
+      : null;
+    this.props.location ?
+      this.selectLocation()
+      : null;
+  }
+
+  makeSelection(propertyName, event) {
+    const { actions } = this.props;
+    this.setState({ [propertyName]: parseInt(event.target.value) });
+    propertyName == 'selectedWorkplace' ? actions.getCategories(event.target.value).then(() => this.setState({selectedCategory: 0})) : null;
   }
   selectWorkplace() {
-    const { actions } = this.props;
-    actions.getWorkplaces();
+    const { actions, booking  } = this.props;
+    actions.getWorkplaces()
+      .then(() => this.setState({ selectionLoading: false }))
+      .then(() => actions.getCategories(booking.workplace_id))
   }
-
+  selectLocation() {
+    const { actions, booking  } = this.props;
+    let category;
+    booking ? category = booking.category_id : category = this.state.selectedCategory;
+    actions.getLocations(category)
+      .then(() => this.setState({ selectionLoading: false }));
+      //.then(() => actions.getCategories(booking.workplace_id))
+  }
   render() {
     let editNode;
-    let { workplace, category, location, service, booking, actions, data } = this.props;
+    let { workplace, category, location, service, booking, data } = this.props;
+    let { selectedWorkplace, selectedCategory, selectedLocation, selectionLoading } = this.state;
     const isFetching = data.get('isFetching');
-    let workplaces = data.get('$$workplaces')
-    console.log("work " + workplaces)
-    let option = workplaces.map((workplace, index) => {
-      console.dir("data " + workplace)
-      return <option value="1">Hello</option>
-
-    })
-
-    //this.selectWorkplace.bind(this)
+    let workplaces = data.get('$$workplaces');
+    let categories = data.get('$$categories');
+    let locations = data.get('$$locations');
     if(workplace) {
+
       editNode =
         <div>
-          <Input s={12} type='select' label="Workplace" defaultValue={booking.workplace_id}>
-            <option value="default" key="default">Select Workplace</option>
-            { workplaces.map((workplace, index) => {
-                return <option key={workplace.get('id')} value={workplace.get('workplace_name')}>
+          <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
+            <Preloader size='small'/>
+          </span>
+          <Input onChange={this.makeSelection.bind(this, 'selectedWorkplace')}
+                 s={12} type='select' label="Workplace" value={selectedWorkplace == 0 ? `${booking.workplace_id}`
+            : `${selectedWorkplace}`}>
+            <option value="0" key="0" disabled>Select Workplace</option>
+
+            { workplaces.map((workplace) => {
+                return <option key={workplace.get('id')} value={workplace.get('id')}>
                     {workplace.get('workplace_name')}
                 </option>
               })}
           </Input>
-              <Input s={12} type='select' label="Location" defaultValue='2'>
-            <option value='1'>Option 1</option>
-            <option value='2'>Option 2</option>
-            <option value='3'>Option 3</option>
-          </Input>
+          <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
+            <Preloader size='small'/>
+          </span>
+              <Input onChange={this.makeSelection.bind(this, 'selectedCategory')} s={12}
+                     type='select' label="Category" value={selectedWorkplace == 0 ? `${booking.category_id}` :
+                `${selectedCategory}` || "0" }>
+                <option value='0' key="0" disabled>Select Category</option>
 
+                { categories != null ? categories.map((category) => {
+                  return <option key={category.get('id')} value={category.get('id')}>
+                    {category.get('category_name')}
+                  </option>
+                }) : null }
+              </Input>
         </div>
-    } else if(category) {
-
     } else if(location) {
 
+      editNode =
+        <div>
+          <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
+            <Preloader size='small'/>
+          </span>
+          <Input onChange={this.makeSelection.bind(this, 'selectedLocation')}
+                 s={12} type='select' label="Location" value={selectedLocation == 0 ? `${booking.location_id}`
+            : `${selectedLocation}`}>
+            <option value="0" key="0" disabled>Select Location</option>
+            { locations != null ? locations.map((location) => {
+                return <option key={location.get('id')} value={location.get('id')}>
+                  {location.get('location_name')}
+                </option>
+              }) : null}
+          </Input>
+        </div>
     } else if(service) {
 
+      editNode =
+        <div>
+          <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
+            <Preloader size='small'/>
+          </span>
+          <Input onChange={this.makeSelection.bind(this, 'selectedService')}
+                 s={12} type='select' label="Service" value={selectedService == 0 ? `${booking.location_id}`
+            : `${selectedLocation}`}>
+            <option value="0" key="0" disabled>Select Location</option>
+            { locations != null ? locations.map((location) => {
+                return <option key={location.get('id')} value={location.get('id')}>
+                  {location.get('location_name')}
+                </option>
+              }) : null}
+          </Input>
+        </div>
     } else {
       editNode = <small>No Edit Selected</small>
     }

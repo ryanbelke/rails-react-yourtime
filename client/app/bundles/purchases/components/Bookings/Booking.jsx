@@ -25,7 +25,7 @@ class Booking extends BaseComponent {
     this.state = {
       editSelection: null,
     };
-    _.bindAll(this, ['selectDate', 'editSelection']);
+    _.bindAll(this, ['selectDate', 'editSelection', 'saveSelection']);
   }
 
   selectDate() {
@@ -76,6 +76,9 @@ class Booking extends BaseComponent {
   editSelection(select) {
     this.setState({ editSelection: select })
   }
+  saveSelection() {
+    this.setState({ editSelection: false })
+  }
 
   render() {
     let { workplaceName, categoryName,
@@ -113,10 +116,28 @@ class Booking extends BaseComponent {
                 {$$service.getIn(['service', 'section', 'section_name'])}
                 <br />
                 {$$service.getIn(['service', 'service_name'])}
-                <div onClick={this.editSelection.bind(this, 'service')}
-                     style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
-                   className="waves-effect grey lighten-5 btn-flat">
-                  <i className="material-icons left">edit</i>Edit</div>
+                {editSelection == 'service' ?
+                  <div onClick={this.saveSelection.bind(this, 'service')}
+                       style={{
+                         width: 100,
+                         paddingLeft: 5,
+                         paddingRight: 5,
+                         float: 'right',
+                         background: '#00C853',
+                         color: 'white'
+                       }}
+                       className="waves-effect blue lighten-2 btn-flat">
+                    <i className="material-icons left">save</i>
+                    Save
+                  </div>
+                  :
+                  booking ?
+                    <div onClick={this.editSelection.bind(this, 'service')}
+                         style={{width: 80, paddingLeft: 5, paddingRight: 5, float: 'right'}}
+                         className="waves-effect grey lighten-5 btn-flat">
+                      <i className="material-icons left">edit</i>Edit</div>
+                    : null
+                }
                 </span>
             </div>
 
@@ -137,10 +158,28 @@ class Booking extends BaseComponent {
             <span className="form-header">{null}</span>
             <span className="form-text"> {$$addOn.getIn(['service', 'service_name'])}:
             &nbsp; ${$$addOn.getIn(['service','service_price'])}
-              <div onClick={this.editSelection.bind(this, 'addOn')}
-                   style={{ width: 30, paddingLeft: 5, paddingRight: 5, float: 'right' }}
-                 className="waves-effect grey lighten-5 btn-flat">
-                  <i className="material-icons left">edit</i></div>
+              {editSelection == 'addOn' ?
+                <div onClick={this.saveSelection.bind(this, 'addOn')}
+                     style={{
+                       width: 100,
+                       paddingLeft: 5,
+                       paddingRight: 5,
+                       float: 'right',
+                       background: '#00C853',
+                       color: 'white'
+                     }}
+                     className="waves-effect blue lighten-2 btn-flat">
+                  <i className="material-icons left">save</i>
+                  Save
+                </div>
+                :
+                booking ?
+                  <div onClick={this.editSelection.bind(this, 'addOn')}
+                       style={{width: 30, paddingLeft: 5, paddingRight: 5, float: 'right'}}
+                       className="waves-effect grey lighten-5 btn-flat">
+                    <i className="material-icons left">edit</i></div>
+                  : null
+              }
             </span>
           </div>
         </div>
@@ -159,7 +198,6 @@ class Booking extends BaseComponent {
                 </div>
                 <div className="flash-text">
                   <h6>Appointment Date</h6>
-
                 </div>
               </div>
               <div className="date-selector">
@@ -172,7 +210,6 @@ class Booking extends BaseComponent {
             </div>
           </div>
           <div className="col l6 m6 s12">
-
             <div className="paper-no-border">
               <div className="css-flash">
                 <div className="icon-div-info">
@@ -194,37 +231,57 @@ class Booking extends BaseComponent {
                     workplaceName
                   }
                   {editSelection=='workplace' ?
-                    <div onClick={this.editSelection.bind(this, 'workplace')}
-                         style={{ width: 100, paddingLeft: 5, paddingRight: 5, float: 'right' }}
-                         className="waves-effect grey lighten-5 btn-flat">
+                    <div onClick={this.saveSelection.bind(this, 'workplace')}
+                         style={{ width: 100, paddingLeft: 5, paddingRight: 5, float: 'right', background: '#00C853', color: 'white'}}
+                         className="waves-effect blue lighten-2 btn-flat">
                       <i className="material-icons left">save</i>
                       Save
                     </div>
                     :
-                    <div onClick={this.editSelection.bind(this, 'workplace')}
-                         style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
-                         className="waves-effect grey lighten-5 btn-flat">
-                      <i className="material-icons left">edit</i>
-                      Edit
-                    </div>
+                    booking ?
+                      <div onClick={this.editSelection.bind(this, 'workplace')}
+                           style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                           className="waves-effect grey lighten-5 btn-flat">
+                        <i className="material-icons left">edit</i>
+                        Edit
+                      </div>
+                      : null
                   }
                 &nbsp;<br />
                   {editSelection=='workplace' ?
                     null
                     :
-                    locationName
+                    categoryName
                   }
                 </span>
               </div>
 
               <div className="form-info">
-                <span className="form-header">Category:</span>
-                <span className="form-text"> {categoryName}
-                  <div onClick={this.editSelection.bind(this, 'category')}
+                <span className="form-header">Location:</span>
+                <span className="form-text"> {
+                  editSelection=='location' ?
+                    <EditDropDown data={data}
+                                  actions={actions}
+                                  booking={booking}
+                                  location={true} />
+                    :
+                    locationName}
+                  {editSelection=='location' ?
+                    <div onClick={this.saveSelection.bind(this, 'location')}
+                         style={{ width: 100, paddingLeft: 5, paddingRight: 5, float: 'right', background: '#00C853', color: 'white'}}
+                         className="waves-effect blue lighten-2 btn-flat">
+                      <i className="material-icons left">save</i>
+                      Save
+                    </div>
+                    :
+                    booking ?
+                  <div onClick={this.editSelection.bind(this, 'location')}
                        style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
                        className="waves-effect grey lighten-5 btn-flat">
                   <i className="material-icons left">edit</i>
                     Edit</div>
+                    : null
+                  }
                 </span>
 
               </div>

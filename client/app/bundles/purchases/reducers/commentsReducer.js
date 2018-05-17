@@ -267,6 +267,38 @@ export default function commentsReducer($$state = $$initialState, action = null)
         isFetching: false,
       });
     }
+    //GET CATEGORIES OF SELECTED WORKPLACE
+    case actionTypes.GET_CATEGORIES_SUCCESS: {
+      return $$state.merge({
+        $$categories: $$categories,
+        fetchCategoriesError: null,
+        isFetching: false,
+      });
+    }
+    //FAIL TO GET CATEGORIES OF SELECTEDWORKPLACE
+    case actionTypes.GET_CATEGORIES_FAILURE: {
+      return $$state.merge({
+        fetchCategoriesError: error,
+        isFetching: false,
+        $$categories: null,
+      });
+    }
+    //GET CATEGORIES OF SELECTED WORKPLACE
+    case actionTypes.GET_LOCATIONS_SUCCESS: {
+      return $$state.merge({
+        $$locations: $$locations,
+        fetchLocationsError: null,
+        isFetching: false,
+      });
+    }
+    //FAIL TO GET CATEGORIES OF SELECTEDWORKPLACE
+    case actionTypes.GET_LOCATIONS_FAILURE: {
+      return $$state.merge({
+        fetchLocationsError: error,
+        isFetching: false,
+        $$locations: null,
+      });
+    }
 
     default: {
       return $$state;

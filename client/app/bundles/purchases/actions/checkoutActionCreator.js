@@ -262,3 +262,53 @@ export function getWorkplacesFailure(error) {
     error,
   };
 }
+export function getCategories(selectedWorkplace) {
+  return (dispatch) => {
+    dispatch(selectionsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      requestsManager.getCategories(selectedWorkplace)
+        .then(res => dispatch(getCategoriesSuccess(res.data)))
+        .catch(error => dispatch(getCategoriesFailure(error)))
+    );
+  };
+}
+export function getCategoriesSuccess(data) {
+  return {
+    type: actionTypes.GET_CATEGORIES_SUCCESS,
+    $$categories: data.categories,
+  };
+}
+
+export function getCategoriesFailure(error) {
+  return {
+    type: actionTypes.GET_CATEGORIES_FAILURE,
+    error,
+  };
+}
+  export function getLocations(selectedCategory) {
+    return (dispatch) => {
+      dispatch(selectionsFetching());
+      return (
+        //make a request conserving the workplace=id that is set from the home screen
+        //sets state: $$categories = list of the categories
+        requestsManager.getLocations(selectedCategory)
+          .then(res => dispatch(getLocationsSuccess(res.data)))
+          .catch(error => dispatch(getLocationsFailure(error)))
+      );
+    };
+  }
+  export function getLocationsSuccess(data) {
+    return {
+      type: actionTypes.GET_LOCATIONS_SUCCESS,
+      $$locations: data.locations,
+    };
+  }
+
+  export function getLocationsFailure(error) {
+    return {
+      type: actionTypes.GET_LOCATIONS_FAILURE,
+      error,
+    };
+}

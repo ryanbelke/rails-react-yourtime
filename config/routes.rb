@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   #get booking info from server
   post '/booking', to: 'services#booking_info'
   post '/service', to: 'services#service_info'
+  post '/addOn', to: 'services#add_on_info'
+
   #view booking
   get '/services/booking', to: 'services#booking'
   #cancel booking without deleting

@@ -9,14 +9,21 @@ class CategoriesController < ApplicationController
     @workplace = Workplace.friendly.find(params[:workplace] || params[:workplace_id])
     @category_feed = @workplace.categories
     @category_feed
+    puts "category feed " + @category_feed.to_s
     #set workplace in info cookie
     cookies[:workplace] =  @workplace.slug
-    if @category_feed.count == 1
-      #Take First Location, redirect to that locations services
-      @category = @category_fed.first
-      cookies[:category] = @category.slug
-      redirect_to category_locations_path(@category.slug)
+=begin
+    if request.original_url.to_s.include? 'workplaces'
+      if @category_feed.count == 1
+        #Take First Location, redirect to that locations services
+        @category = @category_feed.first
+        cookies[:category] = @category.slug
+        @category_feed = @category_feed.first
+
+        redirect_to category_locations_path(@category.slug)
+      end
     end
+=end
 
   end
 
@@ -46,14 +53,8 @@ class CategoriesController < ApplicationController
       @workplace = Workplace.friendly.find(params[:workplace_id])
       @category = @workplace.categories.build(category_params)
       if @category.save
-        if params[:create_and_add]
-          flash[:success] = "Category Created, adding dates"
-          redirect_to new_category_schedule_path(@category.slug)
-        else
-          flash[:success] = "Category created"
-          redirect_to root_url
-        end
-
+        flash[:success] = "Category created"
+        redirect_to root_url
       else
         @feed_items = []
         render 'static_pages/home'

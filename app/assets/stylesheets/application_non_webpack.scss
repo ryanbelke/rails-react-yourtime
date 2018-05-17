@@ -11,6 +11,10 @@ input { color: #2E2F30 !important; }
   line-height: 0 !important;
   margin-left: 1px;
 }
+
+.disabled span { color: lightgrey !important}
+
+ul li span { color: #616161 !important}
 #main-container {
   min-height: 700px !important;
   height: 100%;

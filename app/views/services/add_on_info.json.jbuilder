@@ -1,0 +1,1 @@
+json.service(@services, partial: "services/service", as: :service)

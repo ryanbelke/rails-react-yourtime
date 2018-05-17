@@ -51,6 +51,15 @@ export default {
       data: { service: service },
     });
   },
+  postAddOn(addOn) {
+    return request({
+      method: 'POST',
+      url: '/addOn',
+      responseType: 'json',
+      headers: ReactOnRails.authenticityHeaders(),
+      data: { service: addOn },
+    });
+  },
 /*  createBooking(url, stripeToken, railsToken) {
     return request({
       method: 'POST',
@@ -85,6 +94,20 @@ export default {
     return request({
       method: 'GET',
       url: '/workplaces.json',
+      responseType: 'json',
+    });
+  },
+  getCategories(selectedWorkplace) {
+    return request({
+      method: 'GET',
+      url: `/workplaces/${selectedWorkplace}/categories.json`,
+      responseType: 'json',
+    });
+  },
+  getLocations(selectedCategory) {
+    return request({
+      method: 'GET',
+      url: `/categories/${selectedCategory}/locations.json`,
       responseType: 'json',
     });
   }
