@@ -9,8 +9,9 @@ class SchedulesController < ApplicationController
   def create
     if params[:create_and_add]
       date = params[:schedule][:date]
-      date = Date.parse(date)
-      unix = date.to_time.to_i
+      date_unix = date
+      date_unix = Date.parse(date)
+      unix = date_unix.to_time.to_i
       @location = Location.friendly.find(params[:location_id])
       @sched = @location.schedules.new(schedule_params)
       @sched.unix = unix

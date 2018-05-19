@@ -65,7 +65,7 @@ class ServicesController < ApplicationController
     def booking
       redux_store("commentsStore")
       @booking_feed = []
-
+      cookies.delete :services, path: '/workplaces/Spredfast'
       if current_user
         redirect_to new_user_booking_path(current_user)
       else
