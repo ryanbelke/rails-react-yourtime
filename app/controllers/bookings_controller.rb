@@ -82,7 +82,10 @@ class BookingsController < ApplicationController
     user = User.find_by id: params[:user_id]
     services = JSON.parse(cookies[:services])
     date = params[:date]
-    puts " date= "+date
+
+    date = Time.at(date.to_i).utc.to_datetime
+    date = date.strftime('%F')
+    puts " date= "+ date
 
     location = Location.friendly.find(cookies[:location])
     puts "DATE = + " + date.to_s
@@ -99,7 +102,7 @@ class BookingsController < ApplicationController
 
 
       #convert date to datetime for lookup in the database
-      schedule = location.schedules.find_by unix: date.to_s
+      schedule = location.schedules.find_by slug: date.to_s
       puts "**** schedule = " + schedule.to_s
 
       #------------pricing

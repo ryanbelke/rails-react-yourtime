@@ -41,7 +41,6 @@ class BookingsComponent extends BaseComponent {
   }
 
   componentDidMount() {
-
     this.fetchBookings()
       .then(() => this.fetchServices())
       .then(() => this.fetchAddOns())
