@@ -54,7 +54,6 @@ class DiscountsController < ApplicationController
           format.json { render json: { message: "discount accepted", discount: @discount, status: 302 }  }
           user.discounts.push(discount_code)
           user.save!
-
         elsif user_discounts.include?(discount_code)
           format.json { render json: { message: "code already used", discount: @discount, status: 403 }  }
         end

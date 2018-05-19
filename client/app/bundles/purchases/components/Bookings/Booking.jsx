@@ -108,6 +108,7 @@ class Booking extends BaseComponent {
     //console.log('services ==== ' + services);
     if(services != null || undefined) {
         serviceNodes = services.map(($$service, index) => (
+          $$service.get('status') != 302 ?
           <div key={index}>
             <div className="form-info">
               <span className="form-header">Service:
@@ -151,7 +152,7 @@ class Booking extends BaseComponent {
               &nbsp; {$$service.getIn(['service', 'service_time_to_complete'])}h</span>
             </div>
           </div>
-        ));
+            : null ));
       addOnNodes = addOns.map(($$addOn, index) => (
         <div key={index}>
           <div className="form-info">

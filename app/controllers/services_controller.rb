@@ -78,7 +78,9 @@ class ServicesController < ApplicationController
     def service_info
       @services = Service.find_by id: params[:service], add_on: false
       if @services.nil?
-        null
+        respond_to do |format|
+          format.json { render json: { message: "service not found", status: 302 }  }
+          end
       end
     end
   #POST /addOn
