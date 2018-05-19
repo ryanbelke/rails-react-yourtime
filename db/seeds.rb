@@ -41,6 +41,9 @@ User.create!(name:  "Ryan Belke",
 end
 
 
+15.times do |n|
+  Discount.create!(discount_name: 'discount' + n.to_s, discount_code: 'discount' + n.to_s, discount_price: 20)
+end
 
 Workplace.create!(workplace_name: 'Spredfast')
 Workplace.create!(workplace_name: 'Not Listed')
