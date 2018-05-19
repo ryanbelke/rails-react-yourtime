@@ -50,7 +50,7 @@ class DiscountsController < ApplicationController
 
     respond_to do |format|
       if @discount
-        if !user_discounts.include?(discount_code)
+        if user_discounts.nil? || !user_discounts.include?(discount_code)
           format.json { render json: { message: "discount accepted", discount: @discount, status: 302 }  }
           user.discounts.push(discount_code)
           user.save!

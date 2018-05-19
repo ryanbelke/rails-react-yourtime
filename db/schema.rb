@@ -195,7 +195,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_204614) do
     t.integer "default_location"
     t.string "default_workplace"
     t.string "stripe_id"
-    t.string "discounts", array: true
+    t.string "discounts", default: [], array: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
