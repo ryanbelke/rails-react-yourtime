@@ -3,62 +3,14 @@
     <%= react_component('App', props:  { railsHelpers: { user: logged_in?, current_user: (current_user.id if logged_in?) } }, prerender: false) %>
 
     <div class="col l6 m6 s12 offset-l4 m6">
-
-            <% if logged_in? %>
-<!--             form_tag user_bookings_path(current_user), id: 'chargeForm' do %>
-              <article>
-                    <% if flash[:error].present? %>
-                      <div id="error_explanation">
-                        <p><%= flash[:error] %></p>
-                      </div>
-                    <% end %>
-                  </article>
-
-               hidden_field_tag 'stripeToken' %>
-               hidden_field_tag 'stripeEmail' %>
-
-              <button class='waves-effect waves-light btn' id="customButton">Purchase </button>
-
-              <script>
-                  var handler = StripeCheckout.configure({
-                      key: ' Rails.configuration.stripe[:publishable_key] %>',
-                      image: 'http://yourtime.life/img/logos/logo.png',
-                      locale: 'auto',
-                      token: function(token) {
-                          document.getElementById("stripeToken").value = token.id;
-                          document.getElementById("stripeEmail").value = token.email;
-                          document.getElementById("chargeForm").submit();
-                      }
-                  });
-
-                  document.getElementById('customButton').addEventListener('click', function(e) {
-                      // Open Checkout with further options:
-                      handler.open({
-                          name: 'Stripe.com',
-                          description: 'A new YourTime booking',
-                          zipCode: true,
-                          amount:  @total_price * 100 %>,
-                          email: ' current_user.email %>'
-                      });
-                      e.preventDefault();
-                  });
-
-                  // Close Checkout on page navigation:
-                  window.addEventListener('popstate', function() {
-                      handler.close();
-                  });
-              </script>
-
-               end  -->
-             <% end %>
       <br />
       <% if logged_in? %>
         <div class="paper-no-border">
           <div class="css-flash-user">
             <div class="icon-div-user">
-              <i class="fas fa-credit-card" aria-hidden="true"></i>
+              <i class="fas fa-user" aria-hidden="true"></i>
             </div>
-            <div class="flash-text">
+            <div class="flash-text-user">
               <h6>User Info</h6>
             </div>
           </div>

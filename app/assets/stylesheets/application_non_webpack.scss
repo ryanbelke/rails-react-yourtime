@@ -341,10 +341,35 @@ a:hover { text-decoration: none; }
   color: #FAFAFA;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  border-top-riht-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
   border-top-left-radius: 0.75rem;
 }
-
+.flash-text-user {
+  display: inline-block;
+  height: 50px;
+  position: relative;
+  padding: 0.25rem 0.25rem;
+  font-size: 1.5rem;
+  color: #525f7f;
+  background-color: #f4f8fb;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  border-top-right-radius: 0.75rem;
+  width: 100%;
+  border-bottom: 1px solid #525f7f;
+}
+.icon-div-user {
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  color: #525f7f;
+  background-color: #f4f8fb;
+  height: 100%;
+  width: 50px !important;
+  position: relative;
+  display: inline-block;
+  font-size: 2.0rem;
+  border-top-left-radius: 0.75rem;
+  border-bottom: 1px solid #525f7f;
+}
 .icon-div {
   padding: 0.05rem 0.25rem 0.25rem 0.75rem;
   color: #FAFAFA;
@@ -367,17 +392,7 @@ a:hover { text-decoration: none; }
    border-top-left-radius: 0.75rem;
 
  }
-.icon-div-user {
-  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
-  color: #fafafa;
-  background-color: #9FA8DA;
-  height: 100%;
-  width: 50px !important;
-  position: relative;
-  display: inline-block;
-  font-size: 2.0rem;
-  border-top-left-radius: 0.75rem;
-}
+
 .icon-div-dollar {
   background-color: #666EE8;
   padding: 0.01rem 0.25rem 0.25rem 0.5rem;
