@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_04_174933) do
+ActiveRecord::Schema.define(version: 2018_05_19_204614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,7 +167,7 @@ ActiveRecord::Schema.define(version: 2018_05_04_174933) do
     t.integer "booking_id"
     t.decimal "service_tax", precision: 5, scale: 2
     t.decimal "yourtime_fee", precision: 2, scale: 2, default: "0.5", null: false
-    t.boolean "add_on"
+    t.boolean "add_on", default: false, null: false
     t.index ["location_id"], name: "index_services_on_location_id"
     t.index ["section_id"], name: "index_services_on_section_id"
     t.index ["user_id"], name: "index_services_on_user_id"
@@ -180,7 +180,7 @@ ActiveRecord::Schema.define(version: 2018_05_04_174933) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
-    t.boolean "admin", default: false
+    t.boolean "admin", default: false, null: false
     t.string "activation_digest"
     t.boolean "activated", default: false
     t.datetime "activated_at"

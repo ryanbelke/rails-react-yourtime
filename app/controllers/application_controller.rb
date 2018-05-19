@@ -11,7 +11,11 @@ class ApplicationController < ActionController::Base
     workplace = cookies[:workplace]
     category = cookies[:category]
     location = cookies[:location]
-    service = JSON.parse(cookies[:services])
+    service = cookies[:services]
+
+    if service
+      service = JSON.parse(cookies[:services])
+    end
 
     if workplace.nil?
       flash[:warning] = "please select workplace to begin"

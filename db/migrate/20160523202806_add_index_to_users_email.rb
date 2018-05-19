@@ -4,7 +4,7 @@ class AddIndexToUsersEmail < ActiveRecord::Migration[5.0]
 
     add_column :users, :password_digest, :string
     add_column :users, :remember_digest, :string
-    add_column :users, :admin, :boolean, default: false
+    add_column :users, :admin, :boolean, null: false, default: false
     add_column :users, :activation_digest, :string
     add_column :users, :activated, :boolean, default: false
     add_column :users, :activated_at, :datetime

@@ -11,6 +11,5 @@ class AddInfoToServices < ActiveRecord::Migration[5.1]
     add_column :services, :booking_id, :integer
     add_column :services, :service_tax, :decimal, precision: 5, scale: 2
     add_column :services, :yourtime_fee, :decimal, scale: 2, precision: 2, null: false, default: 0.5
-
   end
 end
