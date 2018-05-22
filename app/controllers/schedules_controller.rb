@@ -21,7 +21,8 @@ class SchedulesController < ApplicationController
       end
     else
       date = params[:schedule][:date]
-      date = Date.parse(date)
+      date_unix = date
+      date_unix = Date.parse(date)
       unix = date.to_time.to_i
       @location = Location.friendly.find(params[:location_id])
       @sched = @location.schedules.new(schedule_params)

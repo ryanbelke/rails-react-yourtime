@@ -287,7 +287,7 @@ export function getCategoriesFailure(error) {
     error,
   };
 }
-  export function getLocations(selectedCategory) {
+export function getLocations(selectedCategory) {
     return (dispatch) => {
       dispatch(selectionsFetching());
       return (
@@ -299,16 +299,37 @@ export function getCategoriesFailure(error) {
       );
     };
   }
-  export function getLocationsSuccess(data) {
+export function getLocationsSuccess(data) {
     return {
       type: actionTypes.GET_LOCATIONS_SUCCESS,
       $$locations: data.locations,
     };
   }
 
-  export function getLocationsFailure(error) {
+export function getLocationsFailure(error) {
     return {
       type: actionTypes.GET_LOCATIONS_FAILURE,
       error,
     };
+}
+export function resetServices() {
+  return {
+    type: actionTypes.RESET_SERVICES,
+    }
+  }
+
+//edit workplace within the edit booking page
+export function selectEditWorkplace(data) {
+  return {
+    type: actionTypes.SELECT_EDIT_WORKPLACE,
+    $$editWorkplace: data
+  }
+}
+
+//edit category within the edit booking page
+export function selectEditCategory(data) {
+  return {
+    type: actionTypes.SELECT_EDIT_CATEGORY,
+    $$editCategory: data
+  }
 }

@@ -21,13 +21,8 @@ export default class EditDropDown extends BaseComponent {
     _.bindAll(['handleScriptError', 'handleScriptLoad', 'selectWorkplace', 'makeSelection',
     'selectLocation'])
   }
-  handleScriptError() {
-    this.setState({ scriptError: true });
-  }
-
-  handleScriptLoad() {
-    this.setState(() => ({ scriptLoaded: true }));
-  }
+  handleScriptError() { this.setState({ scriptError: true }); }
+  handleScriptLoad() { this.setState(() => ({ scriptLoaded: true })); }
 
   componentDidMount() {
     this.props.workplace ?
@@ -40,8 +35,33 @@ export default class EditDropDown extends BaseComponent {
 
   makeSelection(propertyName, event) {
     const { actions } = this.props;
-    this.setState({ [propertyName]: parseInt(event.target.value) });
-    propertyName == 'selectedWorkplace' ? actions.getCategories(event.target.value).then(() => this.setState({selectedCategory: 0})) : null;
+    const eventId = parseInt(event.target.value);
+
+    let dataset = event.target.options[event.target.selectedIndex].dataset;
+    console.dir('EVENT = ' + eventId + " value = " + dataset.attribute)
+
+    this.setState({ [propertyName]: eventId });
+    //if workplace is selected
+    if(propertyName == 'selectedWorkplace') {
+      //get categories
+      actions.getCategories(event.target.value)
+        .then(() => this.setState({ selectedCategory: 0 }))
+        .then(() => actions.selectEditWorkplace({ workplaceId: eventId,
+                                                  workplaceName: dataset.attribute }))
+        .then(() => actions.resetServices());
+      //if category is changed
+    } else if(propertyName == 'selectedCategory') {
+      //get locations
+      actions.getLocations(event.target.value)
+        //set selectedLocation to 0
+        .then(() => this.setState({ selectedLocation: 0 }))
+        .then(() => actions.selectEditCategory({ categoryId: eventId,
+                                                   categoryName: dataset.attribute }))
+        //reset services
+        .then(() => actions.resetServices())
+    } else if(propertyName == 'selectedLocation') {
+      actions.resetServices()
+    }
   }
   selectWorkplace() {
     const { actions, booking  } = this.props;
@@ -72,29 +92,35 @@ export default class EditDropDown extends BaseComponent {
           <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
             <Preloader size='small'/>
           </span>
+
           <Input onChange={this.makeSelection.bind(this, 'selectedWorkplace')}
                  s={12} type='select' label="Workplace" value={selectedWorkplace == 0 ? `${booking.workplace_id}`
             : `${selectedWorkplace}`}>
             <option value="0" key="0" disabled>Select Workplace</option>
 
             { workplaces.map((workplace) => {
-                return <option key={workplace.get('id')} value={workplace.get('id')}>
-                    {workplace.get('workplace_name')}
-                </option>
+                return <option key={workplace.get('id')}
+                               data-attribute={workplace.get('workplace_name')}
+                               value={workplace.get('id')}>
+                           {workplace.get('workplace_name')}
+                       </option>
               })}
           </Input>
           <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
             <Preloader size='small'/>
           </span>
+
               <Input onChange={this.makeSelection.bind(this, 'selectedCategory')} s={12}
                      type='select' label="Category" value={selectedWorkplace == 0 ? `${booking.category_id}` :
                 `${selectedCategory}` || "0" }>
                 <option value='0' key="0" disabled>Select Category</option>
 
                 { categories != null ? categories.map((category) => {
-                  return <option key={category.get('id')} value={category.get('id')}>
-                    {category.get('category_name')}
-                  </option>
+                  return <option key={category.get('id')}
+                                 data-attribute={category.get('category_name')}
+                                 value={category.get('id')}>
+                           {category.get('category_name')}
+                         </option>
                 }) : null }
               </Input>
         </div>
@@ -105,6 +131,8 @@ export default class EditDropDown extends BaseComponent {
           <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
             <Preloader size='small'/>
           </span>
+
+
           <Input onChange={this.makeSelection.bind(this, 'selectedLocation')}
                  s={12} type='select' label="Location" value={selectedLocation == 0 ? `${booking.location_id}`
             : `${selectedLocation}`}>

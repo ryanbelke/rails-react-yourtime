@@ -18,7 +18,7 @@ class Booking extends BaseComponent {
     categoryName: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
     sectionName: PropTypes.string.isRequired,
-    services: PropTypes.object.isRequired,
+
   };
   constructor(props) {
     super(props);

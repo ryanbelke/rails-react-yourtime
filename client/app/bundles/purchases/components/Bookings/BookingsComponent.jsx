@@ -51,6 +51,12 @@ class BookingsComponent extends BaseComponent {
       this.setState({ stripeKey: "pk_live_WSJt2zrFYytVOVNhNJUezCKx"});
     }
   }
+  componentWillReceiveProps(nextProps)  {
+    if(nextProps.data.get('resetServices')==true) {
+      this.setState({ $$bookingServices: null})
+    }
+  }
+
   fetchBookings() {
     return new Promise((resolve, reject) => {
       let { props } = this.props.props;
@@ -76,13 +82,15 @@ class BookingsComponent extends BaseComponent {
   }
   fetchServices() {
     let { props } = this.props.props;
-    let { data } = this.props;
+    let { data, cookies } = this.props;
     let booking = props.booking;
     let serviceList = Immutable.List([]);
-    const { cookies } = this.props;
-    if(booking) {
+
+    if(booking && data.get('resetServices') == false) {
       serviceList = booking.service_id;
-    } else {
+    } else if(data.get('resetServices')) {
+
+    }  else {
       serviceList = Immutable.List(cookies.get('services'));
     }
 
@@ -129,7 +137,7 @@ class BookingsComponent extends BaseComponent {
       if ($$bookingServices.size == 0) {
         (() => {
           setTimeout(() => {
-            if($$bookingServices.size === 0 && x < 3) {
+            if($$bookingServices.size == 0 && x < 3) {
               setTimeout(() => { console.log("RETRYING "); this.calculateTotal() }, 1000);
               x++;
             }
@@ -198,7 +206,7 @@ class BookingsComponent extends BaseComponent {
   }
 
   render() {
-    const  { data, actions, props, edit }   = this.props;
+    const  { data, actions, props, edit } = this.props;
     let booking = props.props.booking;
     let bookingNodes, stripeNode, editNode;
     const isFetching = data.get('isFetching');
@@ -236,9 +244,11 @@ class BookingsComponent extends BaseComponent {
       bookingNodes = bookings.map(($$booking, index) =>
             (<Booking
               key={$$booking.get('bookingId') || index }
-              workplaceName={$$booking.get('workplaceName')}
-              categoryName={$$booking.get('categoryName')}
-              locationName={$$booking.get('locationName')}
+              workplaceName={data.getIn(['$$editWorkplace', 'workplaceName'])
+                            || $$booking.get('workplaceName')}
+              categoryName={data.getIn(['$$editCategory', 'categoryName'])
+                            || $$booking.get('categoryName')}
+              locationName={data.get('resetServices') ? null : $$booking.get('locationName')}
               sectionName={$$booking.get('sectionName')}
               services={bookingServices}
               addOns={bookingAddOns}

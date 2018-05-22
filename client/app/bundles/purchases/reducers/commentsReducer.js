@@ -5,8 +5,11 @@ import Immutable from 'immutable';
 import * as actionTypes from '../constants/checkoutConstants';
 
 export const $$initialState = Immutable.fromJS({
-  isFetching: false,
-  isSaving: false,
+  $$editWorkplace: {},
+  $$editCategory: {},
+  $$editLocation: {},
+  $$editServices: [],
+  $$editAddOns: [],
   $$workplaces: [],
   $$categories: [],
   $$locations: [],
@@ -18,13 +21,16 @@ export const $$initialState = Immutable.fromJS({
   locationSelection: '',
   selected: false,
   $$serviceSelection: [],
-
+  resetServices: false,
+  isFetching: false,
+  isSaving: false,
 });
 
 export default function commentsReducer($$state = $$initialState, action = null) {
   const { category, type, comment, comments, error, $$workplaces, workplaceSelection,
      $$categories, $$locations, locationSelection, $$sections,
-     sectionSelection, $$services, serviceSelection, $$bookings, $$bookingServices } = action;
+     sectionSelection, $$services, serviceSelection, $$bookings, $$bookingServices,
+     $$editWorkplace, $$editCategory, $$editLocation } = action;
 
   switch (type) {
     case actionTypes.FETCH_WORKPLACES_SUCCESS: {
@@ -190,6 +196,11 @@ export default function commentsReducer($$state = $$initialState, action = null)
         selected: true,
       });
     }
+    case actionTypes.RESET_SERVICES: {
+      return $$state.merge({
+        resetServices: true
+      })
+    }
 
     case actionTypes.FETCH_COMMENTS_SUCCESS: {
       return $$state.merge({
@@ -299,7 +310,18 @@ export default function commentsReducer($$state = $$initialState, action = null)
         $$locations: null,
       });
     }
-
+    //edit workplace from edit booking page
+    case actionTypes.SELECT_EDIT_WORKPLACE: {
+      return $$state.merge({
+        $$editWorkplace: $$editWorkplace
+      });
+    }
+    //edit category from edit booking page
+    case actionTypes.SELECT_EDIT_CATEGORY: {
+      return $$state.merge({
+        $$editCategory: $$editCategory
+      });
+    }
     default: {
       return $$state;
     }
