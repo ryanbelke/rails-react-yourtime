@@ -310,6 +310,38 @@ export default function commentsReducer($$state = $$initialState, action = null)
         $$locations: null,
       });
     }
+    //GET CATEGORIES OF SELECTED WORKPLACE
+    case actionTypes.GET_SECTIONS_SUCCESS: {
+      return $$state.merge({
+        $$sections: $$sections,
+        fetchSectionsError: null,
+        isFetching: false,
+      });
+    }
+    //FAIL TO GET CATEGORIES OF SELECTEDWORKPLACE
+    case actionTypes.GET_SECTIONS_FAILURE: {
+      return $$state.merge({
+        fetchSectionsError: error,
+        isFetching: false,
+        $$sections: null,
+      });
+    }
+    //GET SERVICES OF SELECTED LOCATION
+    case actionTypes.GET_SERVICES_SUCCESS: {
+      return $$state.merge({
+        $$services: $$services,
+        fetchServicesError: null,
+        isFetching: false,
+      });
+    }
+    //FAIL TO GET SERVICES OF LOCATION
+    case actionTypes.GET_SERVICES_FAILURE: {
+      return $$state.merge({
+        fetchServicesError: error,
+        isFetching: false,
+        $$services: null,
+      });
+    }
     //edit workplace from edit booking page
     case actionTypes.SELECT_EDIT_WORKPLACE: {
       return $$state.merge({
@@ -320,6 +352,12 @@ export default function commentsReducer($$state = $$initialState, action = null)
     case actionTypes.SELECT_EDIT_CATEGORY: {
       return $$state.merge({
         $$editCategory: $$editCategory
+      });
+    }
+    //edit category from edit booking page
+    case actionTypes.SELECT_EDIT_LOCATION: {
+      return $$state.merge({
+        $$editLocation: $$editLocation
       });
     }
     default: {

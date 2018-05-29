@@ -112,32 +112,7 @@ export function selectLocation(location) {
   }
 }
 
-//FETCH AND SELECT SECTIONS AFTER LOCATION IS SLEECTED
-export function fetchSections(section) {
-  return (dispatch) => {
-    dispatch(setIsFetching());
-    return (
-      //make a request conserving the workplace=id that is set from the home screen
-      //sets state: $$categories = list of the categories
-      request
-        .get('sections.json', { responseType: 'json' })
-        .then(res => dispatch(fetchSectionsSuccess(res.data)))
-        .catch(error => dispatch(fetchSectionsFailure(error)))
-    );
-  };
-}
-export function fetchSectionsSuccess(data) {
-  return {
-    type: actionTypes.FETCH_SECTIONS_SUCCESS,
-    $$sections: data.sections,
-  };
-}
-export function fetchSectionsFailure(error) {
-  return {
-    type: actionTypes.FETCH_SECTIONS_FAILURE,
-    error,
-  };
-}
+
 export function selectSection(section) {
   return {
     type: actionTypes.SELECT_SECTION,
@@ -312,6 +287,58 @@ export function getLocationsFailure(error) {
       error,
     };
 }
+//FETCH AND SELECT SECTIONS AFTER LOCATION IS SLEECTED
+export function getSections(selectedLocation) {
+  return (dispatch) => {
+    dispatch(setIsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      requestsManager.getSections(selectedLocation)
+        .then(res => dispatch(getSectionsSuccess(res.data)))
+        .catch(error => dispatch(getSectionsFailure(error)))
+    );
+  };
+}
+export function getSectionsSuccess(data) {
+  return {
+    type: actionTypes.GET_SECTIONS_SUCCESS,
+    $$sections: data.sections,
+  };
+}
+export function fetchSectionsFailure(error) {
+  return {
+    type: actionTypes.GET_SECTIONS_FAILURE,
+    error,
+  };
+}
+
+//fetch services
+export function getServices(selectedLocation) {
+  return (dispatch) => {
+    dispatch(selectionsFetching());
+    return (
+      //make a request conserving the workplace=id that is set from the home screen
+      //sets state: $$categories = list of the categories
+      requestsManager.getServices(selectedLocation)
+        .then(res => dispatch(getServicesSuccess(res.data)))
+        .catch(error => dispatch(getServicesFailure(error)))
+    );
+  };
+}
+export function getServicesSuccess(data) {
+  return {
+    type: actionTypes.GET_SERVICES_SUCCESS,
+    $$services: data.services,
+  };
+}
+
+export function getServicesFailure(error) {
+  return {
+    type: actionTypes.GET_SERVICES_FAILURE,
+    error,
+  };
+}
 export function resetServices() {
   return {
     type: actionTypes.RESET_SERVICES,
@@ -331,5 +358,12 @@ export function selectEditCategory(data) {
   return {
     type: actionTypes.SELECT_EDIT_CATEGORY,
     $$editCategory: data
+  }
+}
+//edit category within the edit booking page
+export function selectEditLocation(data) {
+  return {
+    type: actionTypes.SELECT_EDIT_LOCATION,
+    $$editLocation: data
   }
 }

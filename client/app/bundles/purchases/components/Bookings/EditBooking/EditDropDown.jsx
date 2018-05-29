@@ -38,7 +38,7 @@ export default class EditDropDown extends BaseComponent {
     const eventId = parseInt(event.target.value);
 
     let dataset = event.target.options[event.target.selectedIndex].dataset;
-    console.dir('EVENT = ' + eventId + " value = " + dataset.attribute)
+    console.dir('EVENT = ' + eventId + " value = " + dataset.attribute);
 
     this.setState({ [propertyName]: eventId });
     //if workplace is selected
@@ -56,11 +56,17 @@ export default class EditDropDown extends BaseComponent {
         //set selectedLocation to 0
         .then(() => this.setState({ selectedLocation: 0 }))
         .then(() => actions.selectEditCategory({ categoryId: eventId,
-                                                   categoryName: dataset.attribute }))
+                                                 categoryName: dataset.attribute }))
         //reset services
         .then(() => actions.resetServices())
     } else if(propertyName == 'selectedLocation') {
-      actions.resetServices()
+      //get sections
+      actions.getSections(this.state.selectedLocation)
+      //set $$editLocation object with the selection
+      .then(() => actions.selectEditLocation({ locationId: eventId,
+                                               locationName: dataset.attribute }))
+      //reset services
+      .then(() => actions.resetServices());
     }
   }
   selectWorkplace() {
@@ -85,6 +91,8 @@ export default class EditDropDown extends BaseComponent {
     let workplaces = data.get('$$workplaces');
     let categories = data.get('$$categories');
     let locations = data.get('$$locations');
+    let services = data.get('$$services');
+    console.log("test me " + data.getIn(['$$editCategory', 'categoryId']))
     if(workplace) {
 
       editNode =
@@ -111,8 +119,8 @@ export default class EditDropDown extends BaseComponent {
           </span>
 
               <Input onChange={this.makeSelection.bind(this, 'selectedCategory')} s={12}
-                     type='select' label="Category" value={selectedWorkplace == 0 ? `${booking.category_id}` :
-                `${selectedCategory}` || "0" }>
+                     type='select' label="Category" value={selectedWorkplace == 0 && data.getIn(['$$editCategory', 'categoryId']) == undefined
+                ? `${booking.category_id}` : `${selectedCategory}` }>
                 <option value='0' key="0" disabled>Select Category</option>
 
                 { categories != null ? categories.map((category) => {
@@ -128,17 +136,18 @@ export default class EditDropDown extends BaseComponent {
 
       editNode =
         <div>
-          <span style={{float: 'left', display: isFetching ? 'inline' : 'none'  }} >
+          <span style={{position: 'absolute',float: 'left', display: isFetching ? 'inline' : 'none'  }} >
             <Preloader size='small'/>
           </span>
-
 
           <Input onChange={this.makeSelection.bind(this, 'selectedLocation')}
                  s={12} type='select' label="Location" value={selectedLocation == 0 ? `${booking.location_id}`
             : `${selectedLocation}`}>
             <option value="0" key="0" disabled>Select Location</option>
             { locations != null ? locations.map((location) => {
-                return <option key={location.get('id')} value={location.get('id')}>
+                return <option key={location.get('id')}
+                               value={location.get('id')}
+                               data-attribute={location.get('location_name')}>
                   {location.get('location_name')}
                 </option>
               }) : null}
@@ -152,12 +161,11 @@ export default class EditDropDown extends BaseComponent {
             <Preloader size='small'/>
           </span>
           <Input onChange={this.makeSelection.bind(this, 'selectedService')}
-                 s={12} type='select' label="Service" value={selectedService == 0 ? `${booking.location_id}`
-            : `${selectedLocation}`}>
-            <option value="0" key="0" disabled>Select Location</option>
-            { locations != null ? locations.map((location) => {
-                return <option key={location.get('id')} value={location.get('id')}>
-                  {location.get('location_name')}
+                 s={12} type='select' label="Service" value={selectedService}>
+            <option value="0" key="0" disabled>Select Service</option>
+            { services != null ? services.map((service) => {
+                return <option key={service.get('id')} value={service.get('id')}>
+                  {service.get('service_name')}
                 </option>
               }) : null}
           </Input>

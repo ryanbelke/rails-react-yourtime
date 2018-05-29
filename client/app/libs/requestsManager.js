@@ -110,5 +110,19 @@ export default {
       url: `/categories/${selectedCategory}/locations.json`,
       responseType: 'json',
     });
+  },
+  getSections(selectedLocation) {
+    return request({
+      method: 'GET',
+      url: `/locations/${selectedLocation}/sections.json`,
+      responseType: 'json',
+    });
+  },
+  getServices(selectedLocation) {
+    return request({
+      method: 'GET',
+      url: `/locations/${selectedLocation}/services.json`,
+      responseType: 'json',
+    });
   }
 };

@@ -1,7 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import Immutable from 'immutable';
-import { withCookies, Cookies } from 'react-cookie';
+import {withCookies, Cookies} from 'react-cookie';
+
 import {StripeProvider} from 'react-stripe-elements';
 import Script from 'react-load-script'
 import Booking from './Booking';
@@ -35,9 +36,10 @@ class BookingsComponent extends BaseComponent {
 
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
-                      'calculateTotal', 'handleScriptError',
-                      'handleScriptLoad' ]);
+      'calculateTotal', 'handleScriptError',
+      'handleScriptLoad', 'addServices', 'addAddOns', 'returnLocation']);
     this.checkDiscount = this.checkDiscount.bind(this);
+
   }
 
   componentDidMount() {
@@ -46,25 +48,39 @@ class BookingsComponent extends BaseComponent {
       .then(() => this.fetchAddOns())
       .then(() => this.calculateTotal());
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-      this.setState({ stripeKey: "pk_test_5yOGF65rhzZjobGYiOoYJoj0"});
+      this.setState({stripeKey: "pk_test_5yOGF65rhzZjobGYiOoYJoj0"});
     } else {
-      this.setState({ stripeKey: "pk_live_WSJt2zrFYytVOVNhNJUezCKx"});
+      this.setState({stripeKey: "pk_live_WSJt2zrFYytVOVNhNJUezCKx"});
     }
   }
-  componentWillReceiveProps(nextProps)  {
-    if(nextProps.data.get('resetServices')==true) {
-      this.setState({ $$bookingServices: null})
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.get('resetServices') == true) {
+      this.setState({
+        $$bookingServices: [],
+        $$bookingAddOns: [],
+        totalCost: 0, totalTax: 0, yourTimeFee: 0, addServiceButton: true
+      });
     }
+  }
+
+  addServices() {
+    console.log("adding services")
+  }
+
+  addAddOns() {
+    console.log("adding addOns")
+
   }
 
   fetchBookings() {
     return new Promise((resolve, reject) => {
-      let { props } = this.props.props;
+      let {props} = this.props.props;
       let booking = props.booking;
-      const  { cookies } = this.props;
-      let workplace,location, category, section;
+      const {cookies} = this.props;
+      let workplace, location, category, section;
 
-      if(booking) {
+      if (booking) {
         workplace = booking.workplace_id;
         location = booking.location_id;
         category = booking.category_id;
@@ -73,140 +89,168 @@ class BookingsComponent extends BaseComponent {
         location = cookies.get('location');
       }
       if (booking || cookies.get('location') != null || undefined) {
-          this.props.actions.fetchBookings(workplace, location, category, section);
-          resolve();
-        } else {
-          reject("location not found");
+        this.props.actions.fetchBookings(workplace, location, category, section);
+        resolve();
+      } else {
+        reject("location not found");
       }
     })
   }
+
   fetchServices() {
-    let { props } = this.props.props;
-    let { data, cookies } = this.props;
+    let {props} = this.props.props;
+    let {data, cookies} = this.props;
     let booking = props.booking;
     let serviceList = Immutable.List([]);
 
-    if(booking && data.get('resetServices') == false) {
+    if (booking && data.get('resetServices') == false) {
       serviceList = booking.service_id;
-    } else if(data.get('resetServices')) {
+    } else if (data.get('resetServices')) {
 
-    }  else {
+    } else {
       serviceList = Immutable.List(cookies.get('services'));
     }
 
     return new Promise((resolve, reject) => {
-      const { cookies } = this.props;
+      const {cookies} = this.props;
       if (serviceList.size != 0) {
         serviceList.forEach(($$service) => {
           requestsManager
             .postService($$service)
-            .then(res => this.setState(({$$bookingServices}) =>({
+            .then(res => this.setState(({$$bookingServices}) => ({
               $$bookingServices: $$bookingServices.push(Immutable.fromJS(res.data)),
             })))
-            .catch(error => this.setState({ error: error }));
+            .catch(error => this.setState({error: error}));
         }, resolve());
       } else {
         reject("services not found")
       }
     })
   }
+
   fetchAddOns() {
-    const { cookies } = this.props;
+    const {cookies} = this.props;
     const addOnList = Immutable.List(cookies.get('addOns'));
     return new Promise((resolve, reject) => {
       console.log("fetching add ons");
-      if(addOnList.size > 0) {
+      if (addOnList.size > 0) {
         addOnList.forEach(($$addOn) => {
           requestsManager
             .postAddOn($$addOn)
             .then(res => this.setState(({$$bookingAddOns}) => ({
               $$bookingAddOns: $$bookingAddOns.push(Immutable.fromJS(res.data)),
             })))
-            .catch(error => this.setState({ error: error }));
+            .catch(error => this.setState({error: error}));
         }, resolve());
       } else {
         resolve("no add on lists selected")
       }
     })
   }
+
   calculateTotal(discountPrice) {
-    let { totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns } = this.state;
+    let {totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns} = this.state;
     let x = 0;
 
     console.log('calculating total ' + $$bookingServices);
-      if ($$bookingServices.size == 0) {
-        (() => {
-          setTimeout(() => {
-            if($$bookingServices.size == 0 && x < 3) {
-              setTimeout(() => { console.log("RETRYING "); this.calculateTotal() }, 1000);
-              x++;
-            }
-          }, 1000)
-        })()
-      } else {
-        $$bookingServices.forEach(($booking) => {
-          if ($booking.getIn(['service', 'service_price']) != null) {
-            this.setState((prevState, props) => {
-              return {
-                totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
-                totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
-                checkoutLoading: false,
-                yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
-                  parseFloat($booking.getIn(['service', 'yourtime_fee'])))
-                }}
-              )}
-        });
-        $$bookingAddOns.forEach(($booking) => {
-          if ($booking.getIn(['service', 'service_price']) != null) {
-            this.setState((prevState) => {
+    if ($$bookingServices.size == 0) {
+      (() => {
+        setTimeout(() => {
+          if ($$bookingServices.size == 0 && x < 3) {
+            setTimeout(() => {
+              console.log("RETRYING ");
+              this.calculateTotal()
+            }, 1000);
+            x++;
+          }
+        }, 1000)
+      })()
+    } else {
+      $$bookingServices.forEach(($booking) => {
+        if ($booking.getIn(['service', 'service_price']) != null) {
+          this.setState((prevState, props) => {
               return {
                 totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
                 totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
                 checkoutLoading: false,
                 yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
                 parseFloat($booking.getIn(['service', 'yourtime_fee'])))
-              }})}
-        });
-      }
+              }
+            }
+          )
+        }
+      });
+      $$bookingAddOns.forEach(($booking) => {
+        if ($booking.getIn(['service', 'service_price']) != null) {
+          this.setState((prevState) => {
+            return {
+              totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
+              totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
+              checkoutLoading: false,
+              yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
+              parseFloat($booking.getIn(['service', 'yourtime_fee'])))
+            }
+          })
+        }
+      });
+    }
   }
 
   handleScriptError() {
-    this.setState({ scriptError: true });
+    this.setState({scriptError: true});
   }
 
   handleScriptLoad(script) {
-    if(script=='stripe') {
-      this.setState({ stripeScriptLoaded: true });
+    if (script == 'stripe') {
+      this.setState({stripeScriptLoaded: true});
     } else {
-      this.setState({ jqueryScriptLoaded: true });
+      this.setState({jqueryScriptLoaded: true});
 
     }
   }
 
   checkDiscount(discount) {
-    let { discountPrice, totalCost, showDiscount, discountMessage, discountError, props } = this.state;
+    let {discountPrice, totalCost, showDiscount, discountMessage, discountError, props} = this.state;
     let current_user = this.props.props.props.railsHelpers.current_user;
 
-    this.setState({ checkoutLoading: true });
+    this.setState({checkoutLoading: true});
 
-    this.setState({ showDiscount: false });
+    this.setState({showDiscount: false});
     requestsManager.checkDiscount(discount, current_user)
-      .then((res) => res.data.status == 403 ? this.setState({ showDiscount: true,
-          discountError: res.data.message, discountMessage: false, discountPrice: null, checkoutLoading: false })
-      : setTimeout(() => {
-            this.setState((prevState) => {
-              return {
-                showDiscount: true, discountMessage: "Discount Applied", discountError: false,
-                discountPrice: res.data.discount.discount_price, totalCost: totalCost -= res.data.discount.discount_price,
-                checkoutLoading: false }
-            })
-          }, 1000)
+      .then((res) => res.data.status == 403 ? this.setState({
+          showDiscount: true,
+          discountError: res.data.message, discountMessage: false, discountPrice: null, checkoutLoading: false
+        })
+        : setTimeout(() => {
+          this.setState((prevState) => {
+            return {
+              showDiscount: true, discountMessage: "Discount Applied", discountError: false,
+              discountPrice: res.data.discount.discount_price, totalCost: totalCost -= res.data.discount.discount_price,
+              checkoutLoading: false
+            }
+          })
+        }, 1000)
       )
-      .catch((error) => this.setState({ showDiscount: true, discountError: error, checkoutLoading: false }));
+      .catch((error) => this.setState({showDiscount: true, discountError: error, checkoutLoading: false}));
+  }
+
+  returnLocation() {
+    const {data, props} = this.props;
+    let booking = props.props.booking;
+      //if reset services is true and there is no selected category return 'Select Location'
+    if (!data.get('resetServices') && data.getIn(['$$editLocation', 'locationName']) == undefined) {
+      return booking.booking_location;
+      //if there has been a selected category return the selected locations name
+    } else if (data.getIn(['$$editLocation', 'locationName']) != undefined) {
+      return data.getIn(['$$editLocation', 'locationName']);
+      //else just return the booking location's anme
+    } else {
+      return 'Select Location';
+    }
   }
 
   render() {
-    const  { data, actions, props, edit } = this.props;
+    const {data, actions, props, edit} = this.props;
     let booking = props.props.booking;
     let bookingNodes, stripeNode, editNode;
     const isFetching = data.get('isFetching');
@@ -221,51 +265,50 @@ class BookingsComponent extends BaseComponent {
       leaveActive: css.elementLeaveActive,
     };
     this.state.stripeScriptLoaded ?
-        stripeNode = (
-          <StripeProvider apiKey={this.state.stripeKey}>
-            <Checkout totalPrice={this.state.totalCost}
-                      totalTax={this.state.totalTax}
-                      loading={this.state.checkoutLoading}
-                      yourTimeFee={this.state.yourTimeFee}
-                      props={props}
-                      showDiscount={this.state.showDiscount}
-                      checkDiscount={this.checkDiscount}
-                      discountMessage={this.state.discountMessage}
-                      discountError={this.state.discountError}
-                      edit={edit}
-                      bookingMessage={booking ? booking.booking_notes : null}
-            />
-          </StripeProvider>
-        )
-    :
-    null;
+      stripeNode = (
+        <StripeProvider apiKey={this.state.stripeKey}>
+          <Checkout totalPrice={this.state.totalCost}
+                    totalTax={this.state.totalTax}
+                    loading={this.state.checkoutLoading}
+                    yourTimeFee={this.state.yourTimeFee}
+                    props={props}
+                    showDiscount={this.state.showDiscount}
+                    checkDiscount={this.checkDiscount}
+                    discountMessage={this.state.discountMessage}
+                    discountError={this.state.discountError}
+                    edit={edit}
+                    bookingMessage={booking ? booking.booking_notes : null}
+          />
+        </StripeProvider>
+      )
+      :
+      null;
 
-    if(bookings != null || undefined) {
+    if (bookings != null || undefined) {
       bookingNodes = bookings.map(($$booking, index) =>
-            (<Booking
-              key={$$booking.get('bookingId') || index }
-              workplaceName={data.getIn(['$$editWorkplace', 'workplaceName'])
-                            || $$booking.get('workplaceName')}
-              categoryName={data.getIn(['$$editCategory', 'categoryName'])
-                            || $$booking.get('categoryName')}
-              locationName={data.get('resetServices') ? null : $$booking.get('locationName')}
-              sectionName={$$booking.get('sectionName')}
-              services={bookingServices}
-              addOns={bookingAddOns}
-              dates={$$booking.get('dates')}
-              actions={actions}
-              booking={booking}
-              data={data}
-              //selected={selected}
-              //serviceSelection={serviceSelection}
-              //bookingId={sectionId}
-            />),
-        )
+        (<Booking
+          key={$$booking.get('bookingId') || index }
+          workplaceName={data.getIn(['$$editWorkplace', 'workplaceName'])
+          || $$booking.get('workplaceName')}
+          categoryName={data.getIn(['$$editCategory', 'categoryName'])
+          || $$booking.get('categoryName')}
+          locationName={this.returnLocation()}
+          sectionName={$$booking.get('sectionName')}
+          services={bookingServices}
+          addOns={bookingAddOns}
+          dates={$$booking.get('dates')}
+          actions={actions}
+          booking={booking}
+          data={data}
+          addServices={this.addServices}
+          addAddOns={this.addAddOns}
+          //selected={selected}
+          //serviceSelection={serviceSelection}
+          //bookingId={sectionId}
+        />),
+      )
     }
 
-    /*    const { dispatch, data } = this.props;
-     const actions = bindActionCreators(commentsActionCreators, dispatch);
-     const locationState = this.props.location.state;*/
     return (
       <section className={css.bookingsSection}>
         <div style={{display: isFetching ? '' : 'none'}} id={css.loader}>
@@ -273,31 +316,33 @@ class BookingsComponent extends BaseComponent {
             <div className="spinner-layer spinner-blue-only">
               <div className="circle-clipper left">
                 <div className="circle"></div>
-              </div><div className="gap-patch">
-              <div className="circle"></div>
-            </div><div className="circle-clipper right">
-              <div className="circle"></div>
-            </div>
+              </div>
+              <div className="gap-patch">
+                <div className="circle"></div>
+              </div>
+              <div className="circle-clipper right">
+                <div className="circle"></div>
+              </div>
             </div>
           </div>
         </div>
-            <ReactCSSTransitionGroup
-              transitionName={cssTransitionGroupClassNames}
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={500}
-              component="section"
+        <ReactCSSTransitionGroup
+          transitionName={cssTransitionGroupClassNames}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+          component="section"
 
-            >
-              {bookingNodes}
-            </ReactCSSTransitionGroup>
-          <section className={css.checkoutSection}>
-            <Script
-              url="https://js.stripe.com/v3/"
-              onError={this.handleScriptError.bind(this, 'stripe')}
-              onLoad={this.handleScriptLoad.bind(this, 'stripe')}
-            />
-            {stripeNode}
-          </section>
+        >
+          {bookingNodes}
+        </ReactCSSTransitionGroup>
+        <section className={css.checkoutSection}>
+          <Script
+            url="https://js.stripe.com/v3/"
+            onError={this.handleScriptError.bind(this, 'stripe')}
+            onLoad={this.handleScriptLoad.bind(this, 'stripe')}
+          />
+          {stripeNode}
+        </section>
         <Script
           url="https://code.jquery.com/jquery-2.1.1.min.js"
           onError={this.handleScriptError.bind(this)}

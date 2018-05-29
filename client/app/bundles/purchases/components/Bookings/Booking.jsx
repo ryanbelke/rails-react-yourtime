@@ -7,7 +7,7 @@ import css from './Booking.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import $ from 'jquery';
 import EditDropDown from './EditBooking/EditDropDown';
-
+import { Button, Icon } from 'react-materialize';
 import createHistory from "history/createBrowserHistory"
 import { withCookies, Cookies } from 'react-cookie';
 import moment from 'moment';
@@ -18,14 +18,14 @@ class Booking extends BaseComponent {
     categoryName: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
     sectionName: PropTypes.string.isRequired,
-
   };
   constructor(props) {
     super(props);
     this.state = {
       editSelection: null,
+      newServiceCount: ['service'],
     };
-    _.bindAll(this, ['selectDate', 'editSelection', 'saveSelection']);
+    _.bindAll(this, ['selectDate', 'editSelection', 'saveSelection', 'addServices']);
   }
 
   selectDate() {
@@ -79,11 +79,16 @@ class Booking extends BaseComponent {
   saveSelection() {
     this.setState({ editSelection: false })
   }
+  addServices() {
+    let newServiceCount = this.state.newServiceCount;
+    this.setState(prevState => ({  newServiceCount: [...prevState.newServiceCount, 'service'] }));
+    console.log("nodes = " + JSON.stringify(newServiceCount))
+  }
 
   render() {
     let { workplaceName, categoryName,
       locationName, services, addOns, cookies, booking, actions, data } = this.props;
-    let { editSelection } = this.state;
+    let { editSelection, newServiceCount } = this.state;
     let cookie = cookies.get('date');
     let selected_date = moment(cookie, 'MM-DD-YYYY');
 
@@ -94,7 +99,6 @@ class Booking extends BaseComponent {
       console.log("valid date ");
       selected_date = moment(selected_date).format('MM-DD-YYYY')
     } else  {
-      console.log("not valid date ");
       selected_date = "select a date";
     }
 
@@ -104,15 +108,23 @@ class Booking extends BaseComponent {
       leave: css.elementLeave,
       leaveActive: css.elementLeaveActive,
     };
-    let serviceNodes, addOnNodes;
-    //console.log('services ==== ' + services);
+    let serviceNodes, addOnNodes, newEditServiceNode;
+
+    if(newServiceCount.length > 1) {
+      newEditServiceNode =
+        this.state.newServiceCount.map(() => (
+          <EditDropDown data={this.props.data}
+                        actions={this.props.actions}
+                        service={true} />
+        ));
+    }
+
     if(services != null || undefined) {
         serviceNodes = services.map(($$service, index) => (
           $$service.get('status') != 302 ?
           <div key={index}>
             <div className="form-info">
-              <span className="form-header">Service:
-              </span>
+              <span className="form-header">Service:</span>
               <span className="form-text">
                 {$$service.getIn(['service', 'section', 'section_name'])}
                 <br />
@@ -287,9 +299,35 @@ class Booking extends BaseComponent {
 
               </div>
               {serviceNodes}
-              <hr />
-              <hr />
-              <hr />
+              {data.get('resetServices') ?
+              <div className="form-info">
+                <span className="form-header" />
+                <span className="form-text">
+                  <Button className="blue lighten-2" waves='light'
+                          s={12} onClick={this.addServices}>
+                    Add Service
+                    <Icon right>add</Icon>
+                  </Button>
+
+                </span>
+              </div>
+                 : null }
+              <div className="form-info">
+                <span className="form-text">
+                  <div className="poop"> {newEditServiceNode}</div>
+                </span>
+              </div>
+              {data.get('resetServices') ?
+                <div className="form-info">
+                  <span className="form-header" />
+                  <span className="form-text">
+                    <Button className="blue lighten-2" waves='light'
+                            s={12} onClick={this.props.addAddOns}>
+                        Add Add-ons
+                      <Icon right>add</Icon>
+                    </Button>
+                </span>
+                </div> : null }
               <div className="form-info">
                 <span className="form-header">Add-ons:</span>
               </div>

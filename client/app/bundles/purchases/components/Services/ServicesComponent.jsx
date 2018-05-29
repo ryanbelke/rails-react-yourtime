@@ -15,7 +15,6 @@ class ServicesComponent extends BaseComponent {
       isFetching: false,
     };
     _.bindAll(this, 'fetchServices');
-
   }
 
   componentWillMount() {
@@ -27,7 +26,6 @@ class ServicesComponent extends BaseComponent {
     //const locationUrl = data.getIn(['railsContext', 'location']);
     //const workplace = location.split('workplace=')[1];
     actions.fetchServices(this.props.sectionId);
-
   }
   render() {
     const  { data, actions, sectionId } = this.props;
