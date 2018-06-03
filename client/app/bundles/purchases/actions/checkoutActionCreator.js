@@ -314,13 +314,13 @@ export function fetchSectionsFailure(error) {
 }
 
 //fetch services
-export function getServices(selectedLocation) {
+export function getServices(selectedSection) {
   return (dispatch) => {
     dispatch(selectionsFetching());
     return (
       //make a request conserving the workplace=id that is set from the home screen
       //sets state: $$categories = list of the categories
-      requestsManager.getServices(selectedLocation)
+      requestsManager.getServices(selectedSection)
         .then(res => dispatch(getServicesSuccess(res.data)))
         .catch(error => dispatch(getServicesFailure(error)))
     );
@@ -339,6 +339,15 @@ export function getServicesFailure(error) {
     error,
   };
 }
+
+//create method for edit booking selected services
+export function selectEditServices(data) {
+  return {
+    type: actionTypes.SELECT_EDIT_SERVICES,
+    $$services: data,
+  }
+}
+
 export function resetServices() {
   return {
     type: actionTypes.RESET_SERVICES,

@@ -28,9 +28,12 @@ class SectionsComponent extends BaseComponent {
 
   fetchSections() {
     const  { data, actions } = this.props;
-    //const locationUrl = data.getIn(['railsContext', 'location']);
-    //const workplace = location.split('workplace=')[1];
-    actions.fetchSections();
+    const locationUrl = data.getIn(['railsContext', 'location']);
+    console.log("location url = " + locationUrl)
+    const location = locationUrl.split('/')[2];
+    console.log("location url = " + location)
+
+    actions.getSections(location);
 
   }
 

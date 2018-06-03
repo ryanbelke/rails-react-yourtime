@@ -9,6 +9,7 @@ class BookingsController < ApplicationController
 
   def new
     redux_store("commentsStore")
+    check_cookies
     @booking_feed = []
       workplace = cookies[:workplace]
       category = cookies[:category]
@@ -111,6 +112,10 @@ class BookingsController < ApplicationController
       your_time_fee = 0
 
       service_list = JSON.parse(cookies[:services])
+      #create services object to store the service id, name, section id, name
+      services_object = {service:{}}
+      #db column services_object_array
+      services_object_array = []
 
       service_list.each do |item|
         service = Service.find_by id: item
@@ -119,7 +124,22 @@ class BookingsController < ApplicationController
         puts "yourtime fee percent = " + your_time_fee.to_s
         total_price = total_price + (service.service_price * your_time_fee).round(2) + service.service_tax
         puts "tally of actual prices " + " " + service.service_price.to_s + " " + service.service_tax.to_s + " " + service.yourtime_fee.to_s
+
+
+        #insert service id
+        services_object[:service][:service_id] = service.id
+        #insert service name
+        services_object[:service][:service_name] = service.service_name
+        #insert section id
+        services_object[:service][:section_id] = service.section.id
+        #insert section name
+        services_object[:service][:section_name] = service.section.section_name
+        #push object into services_object_array and insert into db
+        services_object_array.push(services_object)
       end
+        # https://stackoverflow.com/questions/10829473/ruby-how-can-i-convert-an-array-of-data-to-hash-and-to-json-format
+      services_object_array = services_object_array.map { |o| Hash[o.each_pair.to_a] }.to_json
+      puts "services object array after conversion " + services_object_array.to_s
 
       add_on_list = JSON.parse(cookies[:addOns])
 
@@ -135,7 +155,7 @@ class BookingsController < ApplicationController
       puts "*** full services = " + services.to_s
       puts "****** BOOKING MESSAGE = " + params[:booking_notes].to_s
       booking = user.bookings.create(
-          service_id: services, schedule_id: schedule.id, date: schedule.date, booking_notes: params[:booking_notes],
+          services_object: services_object_array, service_id: services, schedule_id: schedule.id, date: schedule.date, booking_notes: params[:booking_notes],
           booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
           booking_price: total_price, workplace_id: first_service.section.location.category.workplace.id,
           category_id: first_service.section.location.category.id, section_id: first_service.section.id,

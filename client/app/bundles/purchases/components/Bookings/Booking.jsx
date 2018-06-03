@@ -7,9 +7,9 @@ import css from './Booking.scss';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import $ from 'jquery';
 import EditDropDown from './EditBooking/EditDropDown';
-import { Button, Icon } from 'react-materialize';
+import {Button, Icon} from 'react-materialize';
 import createHistory from "history/createBrowserHistory"
-import { withCookies, Cookies } from 'react-cookie';
+import {withCookies, Cookies} from 'react-cookie';
 import moment from 'moment';
 
 class Booking extends BaseComponent {
@@ -19,6 +19,7 @@ class Booking extends BaseComponent {
     locationName: PropTypes.string.isRequired,
     sectionName: PropTypes.string.isRequired,
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -40,11 +41,11 @@ class Booking extends BaseComponent {
       //console.log(action, location.pathname, location.state)
     });
 
-    let { dates, cookies} = this.props;
+    let {dates, cookies} = this.props;
     let datesArray = [true];
     dates = dates.toArray();
     let date = dates.forEach((date) => {
-        //let newDate = new Dat e(date.get(0));
+      //let newDate = new Dat e(date.get(0));
       let moment2 = moment(date.get(0), 'YYYY-M-DD');
       let newDate = new Date(moment2.toISOString());
       console.log('New Date = ' + newDate);
@@ -64,7 +65,7 @@ class Booking extends BaseComponent {
       disable: datesArray,
       //set parameter of selected date for cookie setting
       onSet: (context) => {
-        if(context.select) {
+        if (context.select) {
           history.push(`?appointment&date=${context.select.toString().slice(0, -3)}`);
           let date = moment(context.select);
           cookies.set('date', `${date.format('MM-DD-YYYY')}`, {path: '/'})
@@ -74,31 +75,35 @@ class Booking extends BaseComponent {
   }
 
   editSelection(select) {
-    this.setState({ editSelection: select })
+    this.setState({editSelection: select})
   }
+
   saveSelection() {
-    this.setState({ editSelection: false })
+    this.setState({editSelection: false})
   }
+
   addServices() {
     let newServiceCount = this.state.newServiceCount;
-    this.setState(prevState => ({  newServiceCount: [...prevState.newServiceCount, 'service'] }));
+    this.setState(prevState => ({newServiceCount: [...prevState.newServiceCount, 'service']}));
     console.log("nodes = " + JSON.stringify(newServiceCount))
   }
 
   render() {
-    let { workplaceName, categoryName,
-      locationName, services, addOns, cookies, booking, actions, data } = this.props;
-    let { editSelection, newServiceCount } = this.state;
+    let {
+      workplaceName, categoryName,
+      locationName, services, addOns, cookies, booking, actions, data
+    } = this.props;
+    let {editSelection, newServiceCount} = this.state;
     let cookie = cookies.get('date');
     let selected_date = moment(cookie, 'MM-DD-YYYY');
 
-    if(moment(selected_date).isValid() == true) {
-/*      let month = `0${(selected_date.getMonth() + 1).toString().slice(-2)}`;
-      let day = `0${selected_date.getDate().toString()}`.slice(-2);
-      selected_date = `${month}/${day}/${selected_date.getFullYear()}`;*/
+    if (moment(selected_date).isValid() == true) {
+      /*      let month = `0${(selected_date.getMonth() + 1).toString().slice(-2)}`;
+       let day = `0${selected_date.getDate().toString()}`.slice(-2);
+       selected_date = `${month}/${day}/${selected_date.getFullYear()}`;*/
       console.log("valid date ");
       selected_date = moment(selected_date).format('MM-DD-YYYY')
-    } else  {
+    } else {
       selected_date = "select a date";
     }
 
@@ -109,19 +114,24 @@ class Booking extends BaseComponent {
       leaveActive: css.elementLeaveActive,
     };
     let serviceNodes, addOnNodes, newEditServiceNode;
-
-    if(newServiceCount.length > 1) {
+    //use newServiceCount to create corresponding section/service # of
+    // edit nodes for each time add service button is clicked
+    if (newServiceCount.length > 0) {
       newEditServiceNode =
-        this.state.newServiceCount.map(() => (
-          <EditDropDown data={this.props.data}
-                        actions={this.props.actions}
-                        service={true} />
-        ));
+          this.state.newServiceCount.map((a, index) => {
+            return (
+              <EditDropDown data={this.props.data}
+                            key={index}
+                            actions={this.props.actions}
+                            service={true}
+                            booking={booking}/>
+            )
+          })
     }
 
-    if(services != null || undefined) {
-        serviceNodes = services.map(($$service, index) => (
-          $$service.get('status') != 302 ?
+    if (services != null || undefined) {
+      serviceNodes = services.map(($$service, index) => (
+        $$service.get('status') != 302 ?
           <div key={index}>
             <div className="form-info">
               <span className="form-header">Service:</span>
@@ -153,24 +163,23 @@ class Booking extends BaseComponent {
                 }
                 </span>
             </div>
-
             <div className="form-info">
               <span className="form-header">Price: </span>
-              <span className="form-text"> ${$$service.getIn(['service','service_price'])}</span>
+              <span className="form-text"> ${$$service.getIn(['service', 'service_price'])}</span>
             </div>
             <div className="form-info">
               <span className="form-header">Vendor/Time: </span>
               <span className="form-text">{$$service.getIn(['service', 'service_vendor'])}&nbsp; |
-              &nbsp; {$$service.getIn(['service', 'service_time_to_complete'])}h</span>
+                &nbsp; {$$service.getIn(['service', 'service_time_to_complete'])}h</span>
             </div>
           </div>
-            : null ));
+          : null ));
       addOnNodes = addOns.map(($$addOn, index) => (
         <div key={index}>
           <div className="form-info">
             <span className="form-header">{null}</span>
             <span className="form-text"> {$$addOn.getIn(['service', 'service_name'])}:
-            &nbsp; ${$$addOn.getIn(['service','service_price'])}
+              &nbsp; ${$$addOn.getIn(['service', 'service_price'])}
               {editSelection == 'addOn' ?
                 <div onClick={this.saveSelection.bind(this, 'addOn')}
                      style={{
@@ -217,13 +226,14 @@ class Booking extends BaseComponent {
                 <form action="" acceptCharset="UTF-8" method="get">
                   <label className="active">Select a date</label>
                   <br />
-                  <input onChange={() => null} value={selected_date} onClick={this.selectDate} id={css.datepicker} className="datepicker" placeholder="Date" name="date" type="text" />
+                  <input onChange={() => null} value={selected_date} onClick={this.selectDate} id={css.datepicker}
+                         className="datepicker" placeholder="Date" name="date" type="text"/>
                 </form>
               </div>
             </div>
           </div>
           <div className="col l6 m6 s12">
-            <div className="paper-no-border">
+            <div className="paper-no-border" style={{ marginBottom: data.get('resetServices') ? '10%' : null }}>
               <div className="css-flash">
                 <div className="icon-div-info">
                   <i className="fas fa-info" aria-hidden="true"></i>
@@ -235,17 +245,24 @@ class Booking extends BaseComponent {
               <div className="form-info">
                 <span className="form-header">Workplace:</span>
                 <span className="form-text">
-                  {editSelection=='workplace' ?
-                  <EditDropDown data={data}
-                                actions={actions}
-                                booking={booking}
-                                workplace={true} />
+                  {editSelection == 'workplace' ?
+                    <EditDropDown data={data}
+                                  actions={actions}
+                                  booking={booking}
+                                  workplace={true}/>
                     :
                     workplaceName
                   }
-                  {editSelection=='workplace' ?
+                  {editSelection == 'workplace' ?
                     <div onClick={this.saveSelection.bind(this, 'workplace')}
-                         style={{ width: 100, paddingLeft: 5, paddingRight: 5, float: 'right', background: '#00C853', color: 'white'}}
+                         style={{
+                           width: 100,
+                           paddingLeft: 5,
+                           paddingRight: 5,
+                           float: 'right',
+                           background: '#00C853',
+                           color: 'white'
+                         }}
                          className="waves-effect blue lighten-2 btn-flat">
                       <i className="material-icons left">save</i>
                       Save
@@ -253,15 +270,15 @@ class Booking extends BaseComponent {
                     :
                     booking ?
                       <div onClick={this.editSelection.bind(this, 'workplace')}
-                           style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                           style={{width: 80, paddingLeft: 5, paddingRight: 5, float: 'right'}}
                            className="waves-effect grey lighten-5 btn-flat">
                         <i className="material-icons left">edit</i>
                         Edit
                       </div>
                       : null
                   }
-                &nbsp;<br />
-                  {editSelection=='workplace' ?
+                  &nbsp;<br />
+                  {editSelection == 'workplace' ?
                     null
                     :
                     categoryName
@@ -272,66 +289,67 @@ class Booking extends BaseComponent {
               <div className="form-info">
                 <span className="form-header">Location:</span>
                 <span className="form-text"> {
-                  editSelection=='location' ?
+                  editSelection == 'location' ?
                     <EditDropDown data={data}
                                   actions={actions}
                                   booking={booking}
-                                  location={true} />
+                                  location={true}/>
                     :
                     locationName}
-                  {editSelection=='location' ?
+                  {editSelection == 'location' ?
                     <div onClick={this.saveSelection.bind(this, 'location')}
-                         style={{ width: 100, paddingLeft: 5, paddingRight: 5, float: 'right', background: '#00C853', color: 'white'}}
+                         style={{
+                           width: 100,
+                           paddingLeft: 5,
+                           paddingRight: 5,
+                           float: 'right',
+                           background: '#00C853',
+                           color: 'white'
+                         }}
                          className="waves-effect blue lighten-2 btn-flat">
                       <i className="material-icons left">save</i>
                       Save
                     </div>
                     :
                     booking ?
-                  <div onClick={this.editSelection.bind(this, 'location')}
-                       style={{ width: 80, paddingLeft: 5, paddingRight: 5, float: 'right' }}
-                       className="waves-effect grey lighten-5 btn-flat">
-                  <i className="material-icons left">edit</i>
-                    Edit</div>
-                    : null
+                      <div onClick={this.editSelection.bind(this, 'location')}
+                           style={{width: 80, paddingLeft: 5, paddingRight: 5, float: 'right'}}
+                           className="waves-effect grey lighten-5 btn-flat">
+                        <i className="material-icons left">edit</i>
+                        Edit</div>
+                      : null
                   }
                 </span>
 
               </div>
               {serviceNodes}
               {data.get('resetServices') ?
-              <div className="form-info">
-                <span className="form-header" />
-                <span className="form-text">
-                  <Button className="blue lighten-2" waves='light'
-                          s={12} onClick={this.addServices}>
-                    Add Service
-                    <Icon right>add</Icon>
-                  </Button>
-
-                </span>
-              </div>
-                 : null }
-              <div className="form-info">
-                <span className="form-text">
-                  <div className="poop"> {newEditServiceNode}</div>
-                </span>
-              </div>
-              {data.get('resetServices') ?
-                <div className="form-info">
-                  <span className="form-header" />
-                  <span className="form-text">
+                <div className="form-info" style={{ borderBottom: 'none',
+                                                    paddingTop: data.get('resetServices') ? 20 : 0 }}>
+                  <span className="form-header">
                     <Button className="blue lighten-2" waves='light'
-                            s={12} onClick={this.props.addAddOns}>
-                        Add Add-ons
-                      <Icon right>add</Icon>
+                            s={12} onClick={this.addServices}>
+                            <Icon right>add</Icon>
+                            Add Service
                     </Button>
-                </span>
-                </div> : null }
-              <div className="form-info">
-                <span className="form-header">Add-ons:</span>
+                  </span>
+                  <span className="form-text" />
+                </div>
+                : null }
+              <div className="form-info" style={{ border: 'none',
+                                                  paddingBottom: data.get('resetServices') ? '10%' : null }}>
+                <span className="form-header" style={{ flex: '.20' }}/>
+                  <span className="form-text" style={{ flex: '.8' }}>
+                    {data.get('resetServices') ? newEditServiceNode : null}
+                  </span>
               </div>
-              {addOnNodes}
+              { !data.get('resetServices') ?
+                <div>
+                  <div className="form-info">
+                    <span className="form-header">Add-ons:</span>
+                  </div>
+                  {addOnNodes}
+                </div> : null}
             </div>
             <br />
 

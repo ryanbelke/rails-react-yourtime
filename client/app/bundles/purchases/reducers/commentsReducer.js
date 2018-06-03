@@ -14,7 +14,7 @@ export const $$initialState = Immutable.fromJS({
   $$categories: [],
   $$locations: [],
   $$sections: [],
-  $$services: [],
+  $$services: Immutable.Set([]),
   $$bookings: [],
   $$bookingServices: [],
   category: '',
@@ -30,7 +30,7 @@ export default function commentsReducer($$state = $$initialState, action = null)
   const { category, type, comment, comments, error, $$workplaces, workplaceSelection,
      $$categories, $$locations, locationSelection, $$sections,
      sectionSelection, $$services, serviceSelection, $$bookings, $$bookingServices,
-     $$editWorkplace, $$editCategory, $$editLocation } = action;
+     $$editWorkplace, $$editCategory, $$editLocation,data } = action;
 
   switch (type) {
     case actionTypes.FETCH_WORKPLACES_SUCCESS: {
@@ -360,6 +360,34 @@ export default function commentsReducer($$state = $$initialState, action = null)
         $$editLocation: $$editLocation
       });
     }
+    //selected services on edit booking page
+    case actionTypes.SELECT_EDIT_SERVICES: {
+      return $$state.withMutations(state => (
+        state.updateIn(['$$services'], a => a.add($$services))
+        .merge({ resetServices: true })
+      ))
+    }
+/*
+ state
+ .updateIn(
+ ['$$comments'],
+ $$comments => $$comments.unshift(Immutable.fromJS(comment)),
+ )
+ .merge({
+ submitCommentError: null,
+ isSaving: false,
+ })
+ ));
+return $$state.withMutations(state => (
+ state
+ .push(
+ ['$$servicesSelection'],
+ serviceSelection,
+ )
+ .merge({
+ //serviceSelection: serviceSelection,
+ selected: true,
+ })));*/
     default: {
       return $$state;
     }

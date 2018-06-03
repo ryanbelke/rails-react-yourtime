@@ -37,9 +37,8 @@ class BookingsComponent extends BaseComponent {
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
       'calculateTotal', 'handleScriptError',
-      'handleScriptLoad', 'addServices', 'addAddOns', 'returnLocation']);
+      'handleScriptLoad', 'addServices', 'returnLocation']);
     this.checkDiscount = this.checkDiscount.bind(this);
-
   }
 
   componentDidMount() {
@@ -66,11 +65,6 @@ class BookingsComponent extends BaseComponent {
 
   addServices() {
     console.log("adding services")
-  }
-
-  addAddOns() {
-    console.log("adding addOns")
-
   }
 
   fetchBookings() {
@@ -152,7 +146,7 @@ class BookingsComponent extends BaseComponent {
     let {totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns} = this.state;
     let x = 0;
 
-    console.log('calculating total ' + $$bookingServices);
+    //console.log('calculating total ' + $$bookingServices);
     if ($$bookingServices.size == 0) {
       (() => {
         setTimeout(() => {
@@ -237,15 +231,16 @@ class BookingsComponent extends BaseComponent {
   returnLocation() {
     const {data, props} = this.props;
     let booking = props.props.booking;
-      //if reset services is true and there is no selected category return 'Select Location'
-    if (!data.get('resetServices') && data.getIn(['$$editLocation', 'locationName']) == undefined) {
+    //if reset services is false and there is no selected category return 'Select Location'
+    if (!data.get('resetServices') &&
+      data.getIn(['$$editLocation', 'locationName']) == undefined) {
       return booking.booking_location;
       //if there has been a selected category return the selected locations name
     } else if (data.getIn(['$$editLocation', 'locationName']) != undefined) {
       return data.getIn(['$$editLocation', 'locationName']);
-      //else just return the booking location's anme
+      //else just return the booking location's name
     } else {
-      return 'Select Location';
+      return 'Select Location'
     }
   }
 

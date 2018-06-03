@@ -8,7 +8,7 @@ class ServicesController < ApplicationController
   #GET /SERVICE
     def index
       redux_store("commentsStore")
-      @section = Section.friendly.find(params[:section])
+      @section = Section.friendly.find(params[:section] || params[:section_id])
       cookies[:section] = @section.slug
       @service_feed_items = @section.services
     end

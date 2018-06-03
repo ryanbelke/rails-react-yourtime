@@ -118,10 +118,10 @@ export default {
       responseType: 'json',
     });
   },
-  getServices(selectedLocation) {
+  getServices(selectedSection) {
     return request({
       method: 'GET',
-      url: `/locations/${selectedLocation}/services.json`,
+      url: `/sections/${selectedSection}/services.json`,
       responseType: 'json',
     });
   }
