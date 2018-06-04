@@ -338,8 +338,8 @@ class Booking extends BaseComponent {
                 : null }
               <div className="form-info" style={{ border: 'none',
                                                   paddingBottom: data.get('resetServices') ? '10%' : null }}>
-                <span className="form-header" style={{ flex: '.10' }}/>
-                  <span className="form-text" style={{ flex: '.9' }}>
+                <span className="form-header" style={{ flex: '.30' }}/>
+                  <span className="form-text" style={{ flex: '.7' }}>
                     {data.get('resetServices') ? newEditServiceNode : null}
                   </span>
               </div>
