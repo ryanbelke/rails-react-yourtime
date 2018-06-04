@@ -2,6 +2,7 @@ import React from 'react';
 import {Input, Preloader} from 'react-materialize';
 import _ from 'lodash'
 import Immutable from 'immutable'
+import {Button, Icon} from 'react-materialize'
 import requestsManager from 'libs/requestsManager'
 
 class EditService extends React.Component {
@@ -15,7 +16,7 @@ class EditService extends React.Component {
       $$services: Immutable.fromJS([]),
       error: null,
     };
-    _.bindAll(['makeSelection'])
+    _.bindAll(['makeSelection', 'removeSelection'])
   }
 
   makeSelection(propertyName, event) {
@@ -40,8 +41,16 @@ class EditService extends React.Component {
           sectionName: dataset.attribute
         }))
     }  else if(propertyName == 'selectedService') {
-      actions.selectEditServices(event.target.value)
+      actions.selectEditServices(eventId)
     }
+  }
+  removeSelection(propertyName, event) {
+    const { actions } = this.props;
+
+    //remove service id from the $$services Set
+    actions.removeEditServices(this.state.selectedService);
+    //set state of selectedService to 0
+    this.setState({ selectedService: 0 })
   }
 
   render() {
@@ -52,7 +61,9 @@ class EditService extends React.Component {
     const services = $$services.get('services');
     return (
       <div>
-        <Input onChange={this.makeSelection.bind(this, 'selectedSection')}
+        <span style={{ display: 'flex' }}>
+
+        <Input onChange={this.makeSelection.bind(this, 'selectedSection')} style={{ flex: '.85'}}
                s={12} type='select' label="Section" value={`${selectedSection}`}>
           <option value="0" key="0" disabled>Select Section</option>
           { sections != null ? sections.map((section, index) => {
@@ -63,19 +74,28 @@ class EditService extends React.Component {
               </option>
             }) : null}
         </Input>
-        {console.log("service = " + services)}
+        </span>
+{/*        {console.log("service = " + services)}*/}
         { services != undefined || null ?
+          <span>
+            <div className="waves-effect grey lighten-5 btn-flat"
+                 onClick={this.removeSelection.bind(this, 'removeSelection')} style={{  width: 40, display: 'inline',
+                                                          float: 'left', marginTop: 10,
+                                                          padding: '1px 10px', color: 'gray' }}>
+              <i className="material-icons">delete</i>
+            </div>
           <Input onChange={this.makeSelection.bind(this, 'selectedService')}
-                   s={12} type='select' label="Service" value={`${selectedService}`}>
+                 s={12} type='select' label="Service" value={`${selectedService}`}>
               <option value="0" key="0" disabled> Select Service </option>
             {services.map((service, index) => {
-                return <option key={service.get('id') || index}
-                               value={service.get('id')}
-                               data-attribute={service.get('service_name')}>
-                  {service.get('service_name')}
-                </option>
-              })}
+              return <option key={service.get('id') || index}
+                             value={service.get('id')}
+                             data-attribute={service.get('service_name')}>
+                {service.get('service_name')}
+              </option>
+            })}
             </Input>
+          </span>
           : null}
       </div>
     )

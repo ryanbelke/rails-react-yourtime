@@ -367,6 +367,12 @@ export default function commentsReducer($$state = $$initialState, action = null)
         .merge({ resetServices: true })
       ))
     }
+    case actionTypes.REMOVE_EDIT_SERVICES: {
+      return $$state.withMutations(state => (
+        state.updateIn(['$$services'], a => a.delete($$services))
+          .merge({ resetServices: true })
+      ))
+    }
 /*
  state
  .updateIn(

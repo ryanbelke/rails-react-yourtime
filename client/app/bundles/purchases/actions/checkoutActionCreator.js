@@ -347,7 +347,13 @@ export function selectEditServices(data) {
     $$services: data,
   }
 }
-
+//REMOVE SELECTED SERVICE
+export function removeEditServices(data) {
+  return {
+    type: actionTypes.REMOVE_EDIT_SERVICES,
+    $$services: data,
+  }
+}
 export function resetServices() {
   return {
     type: actionTypes.RESET_SERVICES,
