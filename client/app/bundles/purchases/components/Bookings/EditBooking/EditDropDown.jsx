@@ -109,19 +109,18 @@ export default class EditDropDown extends BaseComponent {
 
   render() {
     let editNode;
-    let {workplace, category, location, service, booking, data, actions} = this.props;
-    let {selectedWorkplace, selectedCategory, selectedLocation, selectedSection} = this.state;
+    let {workplace, location, service, booking, data, actions} = this.props;
+    let {selectedWorkplace, selectedCategory, selectedLocation} = this.state;
     const isFetching = data.get('isFetching');
     let workplaces = data.get('$$workplaces');
     let categories = data.get('$$categories');
     let locations = data.get('$$locations');
-    let sections = data.get('$$sections');
-    let services = data.get('$$services');
+
     //parse the string booking into JSON
     const parsedServicesObject = JSON.parse(booking.services_object);
     //create deeply nested array of maps
     let servicesObject = Immutable.fromJS(parsedServicesObject)
-    console.log("what is my booking " + JSON.stringify(booking));
+    //console.log("what is my booking " + JSON.stringify(booking));
 
     /*  Use to convert a ruby hash stored in DB to a JSON object, not necessary at this time
      service1 = service1.replace(/:/g, '').replace(/=>/g, ':').replace(/ /g, "");
@@ -198,6 +197,17 @@ export default class EditDropDown extends BaseComponent {
         <div>
           <EditService actions={actions}
                        data={data}
+                       admin={this.props.admin}
+                       saveService={this.props.saveService}
+                       removeService={this.props.removeService}
+                       chargedBooking={this.props.chargedBooking}
+                       handleSections={this.props.handleSections}
+                       sections={this.props.sections}
+                       directEdit={this.props.directEdit}
+                       serviceId={this.props.serviceId}
+                       booking={booking}
+                       sectionId={this.props.sectionId}
+                       serviceName={this.props.serviceName}
           />
         </div>
     } else {

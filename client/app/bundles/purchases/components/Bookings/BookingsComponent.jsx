@@ -202,7 +202,6 @@ class BookingsComponent extends BaseComponent {
 
     }
   }
-
   checkDiscount(discount) {
     let {discountPrice, totalCost, showDiscount, discountMessage, discountError, props} = this.state;
     let current_user = this.props.props.props.railsHelpers.current_user;
@@ -247,6 +246,7 @@ class BookingsComponent extends BaseComponent {
   render() {
     const {data, actions, props, edit} = this.props;
     let booking = props.props.booking;
+    let admin = props.props.railsHelpers.admin;
     let bookingNodes, stripeNode, editNode;
     const isFetching = data.get('isFetching');
     const bookings = Immutable.fromJS(data.get('$$bookings'));
@@ -297,6 +297,7 @@ class BookingsComponent extends BaseComponent {
           data={data}
           addServices={this.addServices}
           addAddOns={this.addAddOns}
+          admin={admin}
           //selected={selected}
           //serviceSelection={serviceSelection}
           //bookingId={sectionId}
