@@ -33,11 +33,12 @@ class BookingsComponent extends BaseComponent {
       discountError: null,
       discountMessage: null,
       discountPrice: null,
+      $$combinedServices: Immutable.fromJS([])
 
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
       'calculateTotal', 'handleScriptError',
-      'handleScriptLoad', 'addServices', 'returnLocation']);
+      'handleScriptLoad',  'returnLocation']);
     this.checkDiscount = this.checkDiscount.bind(this);
   }
 
@@ -61,10 +62,6 @@ class BookingsComponent extends BaseComponent {
         totalCost: 0, totalTax: 0, yourTimeFee: 0, addServiceButton: true
       });
     }
-  }
-
-  addServices() {
-    console.log("adding services")
   }
 
   fetchBookings() {
@@ -111,8 +108,9 @@ class BookingsComponent extends BaseComponent {
         serviceList.forEach(($$service) => {
           requestsManager
             .postService($$service)
-            .then(res => this.setState(({$$bookingServices}) => ({
+            .then(res => this.setState(({$$bookingServices, $$combinedServices}) => ({
               $$bookingServices: $$bookingServices.push(Immutable.fromJS(res.data)),
+              $$combinedServices: $$combinedServices.push(Immutable.fromJS(res.data)),
             })))
             .catch(error => this.setState({error: error}));
         }, resolve());
@@ -131,8 +129,9 @@ class BookingsComponent extends BaseComponent {
         addOnList.forEach(($$addOn) => {
           requestsManager
             .postAddOn($$addOn)
-            .then(res => this.setState(({$$bookingAddOns}) => ({
+            .then(res => this.setState(({$$bookingAddOns, $$combinedServices}) => ({
               $$bookingAddOns: $$bookingAddOns.push(Immutable.fromJS(res.data)),
+              $$combinedServices: $$combinedServices.push(Immutable.fromJS(res.data)),
             })))
             .catch(error => this.setState({error: error}));
         }, resolve());
@@ -202,6 +201,7 @@ class BookingsComponent extends BaseComponent {
 
     }
   }
+
   checkDiscount(discount) {
     let {discountPrice, totalCost, showDiscount, discountMessage, discountError, props} = this.state;
     let current_user = this.props.props.props.railsHelpers.current_user;
@@ -295,9 +295,9 @@ class BookingsComponent extends BaseComponent {
           actions={actions}
           booking={booking}
           data={data}
-          addServices={this.addServices}
           addAddOns={this.addAddOns}
           admin={admin}
+          combinedServices={this.state.$$combinedServices}
           //selected={selected}
           //serviceSelection={serviceSelection}
           //bookingId={sectionId}

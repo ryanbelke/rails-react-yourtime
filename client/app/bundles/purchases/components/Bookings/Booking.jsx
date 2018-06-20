@@ -89,8 +89,12 @@ class Booking extends BaseComponent {
     }
   }
 
-  saveSelection() {
+  saveSelection(propertyName) {
     this.setState({ editSelection: false })
+    if( propertyName == 'service' ) {
+      this.setState({ directEdit: false })
+    }
+
   }
 
   addServices() {
@@ -175,7 +179,8 @@ class Booking extends BaseComponent {
     let $$editLocation = data.get('$$editLocation')
     let postBooking = { workplace: { workplace_id: null, workplace_name: null },
                         category: { category_id: null, category_name: null},
-                        location: { location_id: null, location_name: null },}
+                        location: { location_id: null, location_name: null },
+                        services: {} }
 
     let { chargedBooking } = this.state
 
@@ -214,7 +219,8 @@ class Booking extends BaseComponent {
       }
     }
     const createServices = () => {
-      //services are edit in chargedBooking.services state
+      //services are edited in chargedBooking.services state
+      postBooking['services'] = this.state.chargedBooking
     }
     console.log('edit everything')
     const workplace = createWorkplace()
@@ -278,27 +284,27 @@ class Booking extends BaseComponent {
             <div className="form-info">
               <span className="form-header">Service:</span>
               <span className="form-text">
-                { !this.state.directEdit ?
                   <span>
                     { $$service.getIn(['service', 'section', 'section_name']) }
                     <br />
-                    { $$service.getIn(['service', 'service_name']) }
+                    { $$service.getIn(['service', 'service_name']) } &nbsp; &nbsp;
+                    { this.state.directEdit ? $$service.getIn(['service', 'service_price']) : null }
                   </span>
-                   : null }
+
                 { editSelection == 'service' ?
                   <span>
                     <div onClick={this.saveSelection.bind(this, 'service')}
                          style={{
-                           width: 100,
+                           width: 30,
                            paddingLeft: 5,
                            paddingRight: 5,
                            float: 'right',
                            background: '#00C853',
-                           color: 'white'
+                           color: 'gray'
                          }}
-                         className="waves-effect blue lighten-2 btn-flat">
-                    <i className="material-icons left">save</i>
-                    Save
+                         className="waves-effect grey lighten-5 btn-flat">
+                    <i className="material-icons left">navigate_before</i>
+
                   </div>
                   <EditDropDown data={this.props.data}
                                 key={index}
@@ -341,39 +347,50 @@ class Booking extends BaseComponent {
               </div> : null }
           </div>
           : null ));
-      addOnNodes = addOns.map(($$addOn, index) => (
-        <div key={index}>
-          <div className="form-info">
-            <span className="form-header">{null}</span>
-            <span className="form-text"> {$$addOn.getIn(['service', 'service_name'])}:
-              &nbsp; ${$$addOn.getIn(['service', 'service_price'])}
-              {editSelection == 'addOn' ?
-                <div onClick={this.saveSelection.bind(this, 'addOn')}
-                     style={{
-                       width: 100,
-                       paddingLeft: 5,
-                       paddingRight: 5,
-                       float: 'right',
-                       background: '#00C853',
-                       color: 'white'
-                     }}
-                     className="waves-effect blue lighten-2 btn-flat">
-                  <i className="material-icons left">save</i>
-                  Save
-                </div>
-                :
-                booking ?
-                  <div onClick={this.editSelection.bind(this, 'addOn')}
-                       style={{width: 30, paddingLeft: 5, paddingRight: 5, float: 'right'}}
-                       className="waves-effect grey lighten-5 btn-flat">
-                    <i className="material-icons left">edit</i></div>
-                  : null
-              }
-            </span>
-          </div>
-        </div>
-      ))
-    }
+          addOnNodes = addOns.map(($$addOn, index) => (
+            <div key={index}>
+              <div className="form-info">
+                <span className="form-header">{null}</span>
+                <span className="form-text"> {$$addOn.getIn(['service', 'service_name'])}:
+                  &nbsp; ${$$addOn.getIn(['service', 'service_price'])}
+                  { editSelection == 'addOn' || editSelection == 'service' ?
+                    <span>
+                      <div onClick={this.saveSelection.bind(this, 'service')}
+                           style={{ width: 30, paddingLeft: 5, paddingRight: 5,
+                                    float: 'right', background: '#00C853', color: 'gray' }}
+                           className="waves-effect grey lighten-5 btn-flat">
+                        <i className="material-icons left">navigate_before</i>
+                      </div>
+                      <EditDropDown data={this.props.data}
+                                    key={index}
+                                    actions={this.props.actions}
+                                    service={true}
+                                    booking={booking}
+                                    admin={this.props.admin}
+                                    saveService={this.saveService}
+                                    removeService={this.removeService}
+                                    chargedBooking={this.state.chargedBooking}
+                                    handleSections={this.handleSections}
+                                    sections={this.state.sections}
+                                    directEdit={this.state.directEdit}
+                                    serviceId={$$addOn.getIn(['service', 'id'])}
+                                    sectionId={$$addOn.getIn(['service', 'section', 'id'])}
+                                    serviceName={$$addOn.getIn(['service', 'service_name'])} />
+                    </span>
+
+                    :
+                    booking ?
+                      <div onClick={this.editSelection.bind(this, 'service')}
+                           style={{ width: 30, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                           className="waves-effect grey lighten-5 btn-flat">
+                        <i className="material-icons left">edit</i></div>
+                      : null
+                  }
+                </span>
+              </div>
+            </div>
+          ))
+        }
 
     /* eslint-disable react/no-danger */
     return (
@@ -508,13 +525,14 @@ class Booking extends BaseComponent {
                     {data.get('resetServices') ? newEditServiceNode : null}
                   </span>
               </div>
+
               { !this.state.directEdit && !data.get('resetServices') ?
                 <div>
                   <div className="form-info">
                     <span className="form-header">Add-ons:</span>
                   </div>
-                  {addOnNodes}
                 </div> : null}
+              {addOnNodes}
             </div>
             <br />
             <Button style={{ float: 'right', marginRight: 30 }}
