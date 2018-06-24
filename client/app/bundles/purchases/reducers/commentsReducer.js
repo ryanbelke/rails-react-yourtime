@@ -366,13 +366,13 @@ export default function commentsReducer($$state = $$initialState, action = null)
         //update $$services Set by calling slice(0, -1) to return everything
         //but the last value in the Set then add new selection
         state.updateIn(['$$services'], a => a.slice(0, -1).add($$services))
-        .merge({ resetServices: true })
+        //.merge({ resetServices: true })
       ))
     }
     case actionTypes.REMOVE_EDIT_SERVICES: {
       return $$state.withMutations(state => (
         state.updateIn(['$$services'], a => a.delete($$services))
-          .merge({ resetServices: true })
+          //.merge({ resetServices: true })
       ))
     }
 /*

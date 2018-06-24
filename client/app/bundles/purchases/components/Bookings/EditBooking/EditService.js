@@ -163,8 +163,9 @@ class EditService extends React.Component {
             </span>
 
           : null}
-          <Button className={resetSaveColor==false ? 'blue lighten-2' : 'green accent-3'} waves='light'
-                  s={12} onClick={this.saveService.bind(this)} style={{ float: 'right', marginBottom: 30, width: 200 }}>
+          <Button className={resetSaveColor==false ? 'grey lighten-5' : 'green accent-3'} waves='light'
+                  s={12} onClick={this.saveService.bind(this)} style={{ float: 'right', color: 'grey',
+                                                                        marginBottom: 30, width: 140 }}>
             {resetSaveColor == false ?
               <span>
                 Save<Icon right>save</Icon>

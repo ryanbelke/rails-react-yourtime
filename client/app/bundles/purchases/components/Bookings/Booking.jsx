@@ -580,36 +580,42 @@ class Booking extends BaseComponent {
                 </div> : null}
               {addOnNodes}
 
-              { data.get('resetServices') || this.state.directEdit ?
-                <div className="form-info" style={{ borderBottom: 'none',
-                  paddingTop: data.get('resetServices') ? 20 : 0 }}>
+              <div className="form-info" style={{ borderBottom: 'none',
+                paddingTop: data.get('resetServices') ? 20 : 0 }}>
                   <span className="form-header">
-                    <Button className="blue lighten-2" waves='light'
+              { data.get('resetServices') || this.state.directEdit ?
+
+                    <Button style={{ marginTop: 20, marginBottom: 30, color: 'grey' }} className="grey lighten-5" waves='light'
                             s={12} onClick={this.addServices}>
                             <Icon right>add</Icon>
                             Add Service
                     </Button>
+                  : null }
                   </span>
-                  <span className="form-text" />
-                </div>
-                : null }
+                <span className="form-text">
+                  { booking ?
+                    <Button style={{ float: 'right', marginTop: 20, marginBottom: 15,
+                      background: '#3ecf8e' }}
+                            waves='light' s={12}
+                            onClick={this.saveBooking}>
+                      <Icon left>save</Icon>
+                        Save Booking
+                    </Button> : null }
+                </span>
+
+              </div>
+
               <div className="form-info" style={{ border: 'none',
                 paddingBottom: data.get('resetServices') ? '12%' : null }}>
                 <span className="form-header" style={{ flex: '.30' }}/>
                 <span className="form-text" style={{ flex: '.7' }}>
                     { data.get('resetServices') || this.state.directEdit ? newEditServiceNode : null}
                   </span>
+
               </div>
+
             </div>
             <br />
-            { booking ?
-              <Button style={{ float: 'right', marginRight: 30 }}
-                      className="blue lighten-2" waves='light' s={12}
-                      onClick={this.saveBooking}>
-                <Icon left>save</Icon>
-                Save Booking
-              </Button> : null }
-
           </div>
         </div>
       </section>
