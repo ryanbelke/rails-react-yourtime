@@ -119,5 +119,7 @@ module.exports = merge(config, {
       filename: '[name]-[hash].css',
       allChunks: true
     }),
+
   ],
+
 });

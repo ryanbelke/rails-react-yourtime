@@ -277,10 +277,15 @@ class Booking extends BaseComponent {
           addOns, cookies, booking, actions, data } = this.props;
     let { editSelection, newServiceCount } = this.state;
     let cookie = cookies.get('date');
-    let selected_date = moment(booking.date) || moment(cookie, 'MM-DD-YYYY');
-    console.log("booking date " + booking.date)
-    console.log("test " + moment(booking.date))
-    if (moment(selected_date).isValid() == true) {
+    let selected_date;
+
+    if(booking != undefined || null) {
+        selected_date = moment(booking.date)
+    } else {
+        selected_date = moment(cookie, 'MM-DD-YYYY');
+    }
+
+    if(moment(selected_date).isValid() == true) {
       /*      let month = `0${(selected_date.getMonth() + 1).toString().slice(-2)}`;
        let day = `0${selected_date.getDate().toString()}`.slice(-2);
        selected_date = `${month}/${day}/${selected_date.getFullYear()}`;*/
