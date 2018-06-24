@@ -13,8 +13,6 @@ import {withCookies, Cookies} from 'react-cookie';
 import moment from 'moment';
 import requestsManager from 'libs/requestsManager';
 
-import * as queryString from 'query-string'
-
 class Booking extends BaseComponent {
   static propTypes = {
     workplaceName: PropTypes.string.isRequired,
