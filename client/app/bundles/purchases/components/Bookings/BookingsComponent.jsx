@@ -33,7 +33,8 @@ class BookingsComponent extends BaseComponent {
       discountError: null,
       discountMessage: null,
       discountPrice: null,
-      $$combinedServices: Immutable.fromJS([])
+      $$combinedServices: Immutable.fromJS([]),
+      discountCode: null,
 
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
@@ -215,11 +216,11 @@ class BookingsComponent extends BaseComponent {
           discountError: res.data.message, discountMessage: false, discountPrice: null, checkoutLoading: false
         })
         : setTimeout(() => {
-          this.setState((prevState) => {
+          this.setState( () => {
             return {
               showDiscount: true, discountMessage: "Discount Applied", discountError: false,
               discountPrice: res.data.discount.discount_price, totalCost: totalCost -= res.data.discount.discount_price,
-              checkoutLoading: false
+              checkoutLoading: false, discountCode: discount
             }
           })
         }, 1000)
@@ -231,11 +232,17 @@ class BookingsComponent extends BaseComponent {
     const {data, props} = this.props;
     let booking = props.props.booking;
     //if reset services is false and there is no selected category return 'Select Location'
-    if (!data.get('resetServices') &&
-      data.getIn(['$$editLocation', 'locationName']) == undefined) {
+    if ( !data.get('resetServices') &&  data.getIn(['$$editLocation', 'locationName']) == undefined
+      && data.get('$$bookings').isEmpty() ) {
+
       return booking.booking_location;
       //if there has been a selected category return the selected locations name
+    } else if ( !data.get('resetServices') && data.get('$$editLocation').isEmpty() ){
+
+      return data.getIn(['$$bookings', '0', 'locationName'])
+
     } else if (data.getIn(['$$editLocation', 'locationName']) != undefined) {
+
       return data.getIn(['$$editLocation', 'locationName']);
       //else just return the booking location's name
     } else {

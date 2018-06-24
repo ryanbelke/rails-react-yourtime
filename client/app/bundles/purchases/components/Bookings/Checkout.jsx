@@ -60,7 +60,9 @@ export default class Checkout extends BaseComponent {
     );
 
     if(showDiscount) {
-        discountButton = <button style={{ visibility: showDiscount ? 'visible' : 'hidden'  }} onClick={() => this.props.checkDiscount(this.state.discount)} id={css.discountButton}>
+        discountButton = <button style={{ visibility: showDiscount ? 'visible' : 'hidden'  }}
+                                 onClick={() => this.props.checkDiscount(this.state.discount)}
+                                 id={css.discountButton}>
           Enter
         </button>
       } else { discountButton = loadingIcon }
@@ -68,7 +70,7 @@ export default class Checkout extends BaseComponent {
     if(user)  {
       checkoutForm = (
         <Elements>
-          <InjectedCheckoutForm bookingMessage={this.state.bookingMessage} />
+          <InjectedCheckoutForm bookingMessage={this.state.bookingMessage} discount={this.state.discount} />
         </Elements>
       );
      }

@@ -34,13 +34,13 @@ class CheckoutForm extends BaseComponent {
     ev.preventDefault();
     this.stripeLoading(true);
     let url = window.location.href.replace('/new', '');
-    let bookingMessage = this.props.bookingMessage;
+    let { bookingMessage, discount } = this.props;
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
     this.props.stripe.createToken({name: 'customer'}).then(({token}) => {
         if(token != undefined || null) {
           console.log('Received Stripe token:', token.id);
-          requestsManager.createBooking(url, token.id, this.authenticityToken(), bookingMessage)
+          requestsManager.createBooking(url, token.id, this.authenticityToken(), bookingMessage, discount)
             .then((response) => response.data.status == 302 ?
               window.location.replace('/') : this.setState({ stripeError: response.data.status}))
             .catch((error) => this.setState({stripeLoading: false, stripeError: error}))

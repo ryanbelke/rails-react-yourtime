@@ -72,12 +72,12 @@ export default {
     }}
     )
   },*/
-  createBooking(url, stripeToken, railsToken, bookingMessage) {
+  createBooking(url, stripeToken, railsToken, bookingMessage, discount) {
     return request({
       method: 'POST',
       url: url,
       headers: ReactOnRails.authenticityHeaders(),
-      data: {stripeToken: stripeToken, booking_notes: bookingMessage}
+      data: {stripeToken: stripeToken, booking_notes: bookingMessage, discount_code: discount}
     })
   },
   checkDiscount(discount, current_user) {
@@ -124,5 +124,13 @@ export default {
       url: `/sections/${selectedSection}/services.json`,
       responseType: 'json',
     });
+  },
+  chargeBooking(booking, user, booking_id) {
+    return request({
+      method: 'POST',
+      url: '/charges',
+      headers: ReactOnRails.authenticityHeaders(),
+      data: { user, booking, booking_id }
+    })
   }
 };

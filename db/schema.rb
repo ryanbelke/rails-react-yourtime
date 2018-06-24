@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_14_021711) do
+ActiveRecord::Schema.define(version: 2018_06_21_035619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2018_06_14_021711) do
     t.jsonb "services_object", default: "{}", null: false
     t.string "services_object_array", default: [], null: false, array: true
     t.json "charged_booking", default: "{}", null: false
+    t.string "discount_code"
     t.index ["schedule_id"], name: "index_bookings_on_schedule_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end

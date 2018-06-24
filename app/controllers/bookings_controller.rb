@@ -152,13 +152,16 @@ class BookingsController < ApplicationController
 
       first_service = Service.find_by id: services.first
       services = service_list.concat(add_on_list)
-      puts "*** full services = " + services.to_s
-      puts "****** BOOKING MESSAGE = " + params[:booking_notes].to_s
+      discount_code_param = params[:discount_code]
+      # puts "*** full services = " + services.to_s
+      # puts "****** BOOKING MESSAGE = " + params[:booking_notes].to_s
+
+      #TODO SAVE DISCOUNT_CODE TO BOOKING
       booking = user.bookings.create(
           services_object: services_object_array, service_id: services, schedule_id: schedule.id, date: schedule.date, booking_notes: params[:booking_notes],
           booking_status: 'Pending', location_id: location.id, booking_location: location.location_name,
           booking_price: total_price, workplace_id: first_service.section.location.category.workplace.id,
-          category_id: first_service.section.location.category.id, section_id: first_service.section.id,
+          category_id: first_service.section.location.category.id, section_id: first_service.section.id, discount_code: discount_code_param
       )
 
       puts "**** booking = " + booking.to_json
@@ -242,7 +245,7 @@ class BookingsController < ApplicationController
       params.require(:booking).permit(:user_id, :service_id, :schedule_id,
                                           :workplace_id, :booking_status,
                                           :booking_description, :stripe_id, :services, :booking_notes,
-                                          :category_id, :section_id,
+                                          :category_id, :section_id, :discount_code
 
       )
     end
