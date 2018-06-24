@@ -602,13 +602,14 @@ class Booking extends BaseComponent {
               </div>
             </div>
             <br />
+            { booking ?
+              <Button style={{ float: 'right', marginRight: 30 }}
+                      className="blue lighten-2" waves='light' s={12}
+                      onClick={this.saveBooking}>
+                <Icon left>save</Icon>
+                Save Booking
+              </Button> : null }
 
-            <Button style={{ float: 'right', marginRight: 30 }}
-                    className="blue lighten-2" waves='light' s={12}
-                    onClick={this.saveBooking}>
-              <Icon left>save</Icon>
-              Save Booking
-            </Button>
           </div>
         </div>
       </section>
