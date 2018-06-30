@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
   has_many :microposts, dependent: :destroy
-  has_many :purchases, dependent: :destroy
+
   has_many :workplaces, dependent: :destroy
 
   has_many :services, :through => :bookings

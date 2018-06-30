@@ -25,7 +25,13 @@ export default class Checkout extends BaseComponent {
   }
 
   onChange(name, event) {
-    this.setState({ [name]: event.target.value.toUpperCase() })
+    if(name == 'discount') {
+      this.setState({ [name]: event.target.value.toUpperCase() })
+    }
+    if(name == 'bookingMessage') {
+      this.setState({ [name]: event.target.value })
+      this.props.bookingNotes(event.target.value)
+    }
   }
   componentDidMount() {
     let bookingMessage = this.props.bookingMessage;

@@ -35,11 +35,11 @@ class BookingsComponent extends BaseComponent {
       discountPrice: null,
       $$combinedServices: Immutable.fromJS([]),
       discountCode: null,
-
+      bookingNotes: null,
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
       'calculateTotal', 'handleScriptError',
-      'handleScriptLoad',  'returnLocation']);
+      'handleScriptLoad',  'returnLocation', 'bookingState']);
     this.checkDiscount = this.checkDiscount.bind(this);
   }
 
@@ -54,7 +54,9 @@ class BookingsComponent extends BaseComponent {
       this.setState({stripeKey: "pk_live_WSJt2zrFYytVOVNhNJUezCKx"});
     }
   }
-
+  bookingState(booking_notes) {
+    this.setState({ bookingNotes: booking_notes})
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.data.get('resetServices') == true) {
       this.setState({
@@ -280,6 +282,7 @@ class BookingsComponent extends BaseComponent {
                     discountError={this.state.discountError}
                     edit={edit}
                     bookingMessage={booking ? booking.booking_notes : null}
+                    bookingNotes={this.bookingState}
           />
         </StripeProvider>
       )
@@ -305,6 +308,7 @@ class BookingsComponent extends BaseComponent {
           addAddOns={this.addAddOns}
           admin={admin}
           combinedServices={this.state.$$combinedServices}
+          bookingNotes={this.state.bookingNotes}
           //selected={selected}
           //serviceSelection={serviceSelection}
           //bookingId={sectionId}

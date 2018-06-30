@@ -1,10 +1,13 @@
 #row {
   width: 100%;
 }
-
+.form {
+  padding-left:30px;
+}
 #datepicker {
   height: 50px;
-  width: 150px !important;
+  width: 140px !important;
+  font-size: 24px;
 }
 #datepicker:hover {
     cursor:pointer !important;

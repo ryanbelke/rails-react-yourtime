@@ -37,7 +37,27 @@ class Booking extends BaseComponent {
     _.bindAll(this, ['selectDate', 'editSelection',
       'saveSelection', 'addServices', 'saveService', 'removeService', 'handleSections', 'saveBooking']);
   }
+  componentDidMount() {
+    const { cookies, booking } = this.props;
+    let date = cookies.get('date');
+    const history = createHistory();
 
+    if(date != undefined || date != null) {
+      date = moment(date).unix()
+      console.log("date = " + date)
+      history.push(`?appointment&date=${date.toString()}`);
+    }
+    let booking_date;
+    if(booking) {
+      booking_date = booking.date
+      if(booking_date != undefined || booking_date != null) {
+        let date2 = moment(booking_date).unix()
+        console.log("date = " + date2)
+        history.push(`?appointment&date=${date2.toString()}`);
+      }
+    }
+
+  }
   selectDate() {
     const history = createHistory();
 
@@ -254,12 +274,16 @@ class Booking extends BaseComponent {
       return postBooking
     }
 
+    const createBookingNotes = () => {
+      postBooking['booking_notes'] = this.props.bookingNotes
+      return postBooking
+    }
     const workplace = createWorkplace()
     const category = createCategory()
     const location = createLocation()
     const services = createServices()
     const dateDiscount = createDateDiscount()
-
+    const notes = createBookingNotes()
     console.log("working object = ")
     console.log(JSON.stringify(postBooking))
 
@@ -327,7 +351,7 @@ class Booking extends BaseComponent {
         $$service.get('status') != 302 ?
           <div key={index}>
             <div className="form-info">
-              <span className="form-header">Service:</span>
+              <span className="form-header">{index == 1 ? 'Services:' : null} </span>
               <span className="form-text">
                   <span>
                     { this.state.directEdit ?
@@ -340,7 +364,7 @@ class Booking extends BaseComponent {
                       </span>
                     : <span>
                         { $$service.getIn(['service', 'section', 'section_name']) }
-                        <br />
+                        : &nbsp;
                         { $$service.getIn(['service', 'service_name']) }
                       </span>
                     }
@@ -359,7 +383,6 @@ class Booking extends BaseComponent {
                          }}
                          className="waves-effect grey lighten-5 btn-flat">
                     <i className="material-icons left">navigate_before</i>
-
                   </div>
                   <EditDropDown data={this.props.data}
                                 key={index}
@@ -390,16 +413,9 @@ class Booking extends BaseComponent {
             </div>
             { !this.state.directEdit ?
               <div>
-                <div className="form-info">
-                  <span className="form-header">Price: </span>
-                  <span className="form-text"> ${$$service.getIn(['service', 'service_price'])}</span>
+
                 </div>
-                <div className="form-info">
-                  <span className="form-header">Vendor/Time: </span>
-                  <span className="form-text">{$$service.getIn(['service', 'service_vendor'])}&nbsp; |
-                    &nbsp; {$$service.getIn(['service', 'service_time_to_complete'])}h</span>
-                </div>
-              </div> : null }
+               : null }
           </div>
           : null ));
           addOnNodes = addOns.map(($$addOn, index) => (
@@ -416,8 +432,8 @@ class Booking extends BaseComponent {
                       </span>
                       :
                       <span>
-                         { $$addOn.getIn(['service', 'service_name']) } &nbsp;
-                        ${ $$addOn.getIn(['service', 'service_price']) }
+                        Add-on: &nbsp; { $$addOn.getIn(['service', 'service_name']) } &nbsp;
+
                       </span> }
                   { editSelection == 'addOn' || editSelection == 'service' ?
                     <span>
@@ -473,7 +489,7 @@ class Booking extends BaseComponent {
                 </div>
               </div>
               <div className="date-selector">
-                <form action="" acceptCharset="UTF-8" method="get">
+                <form className={css.form} action="" acceptCharset="UTF-8" method="get">
                   <label className="active">Select a date</label>
                   <br />
                   <input onChange={() => null} value={selected_date} onClick={this.selectDate} id={css.datepicker}
@@ -531,7 +547,7 @@ class Booking extends BaseComponent {
                   {editSelection == 'workplace' ?
                     null
                     :
-                    categoryName
+                    null
                   }
                 </span>
               </div>
@@ -548,12 +564,9 @@ class Booking extends BaseComponent {
                   {editSelection == 'location' ?
                     <div onClick={this.saveSelection.bind(this, 'location')}
                          style={{
-                           width: 100,
-                           paddingLeft: 5,
-                           paddingRight: 5,
-                           float: 'right',
-                           background: '#00C853',
-                           color: 'white'
+                           width: 100, paddingLeft: 5,
+                           paddingRight: 5, float: 'right',
+                           background: '#00C853', color: 'white'
                          }}
                          className="waves-effect blue lighten-2 btn-flat">
                       <i className="material-icons left">save</i>
@@ -571,14 +584,14 @@ class Booking extends BaseComponent {
                 </span>
               </div>
               {serviceNodes}
+              {addOnNodes}
 
               { !this.state.directEdit && !data.get('resetServices') ?
                 <div>
-                  <div className="form-info">
-                    <span className="form-header">Add-ons:</span>
-                  </div>
+                  {/*<div className="form-info">*/}
+                    {/*<span className="form-header">Add-ons:</span>*/}
+                  {/*</div>*/}
                 </div> : null}
-              {addOnNodes}
 
               <div className="form-info" style={{ borderBottom: 'none',
                 paddingTop: data.get('resetServices') ? 20 : 0 }}>

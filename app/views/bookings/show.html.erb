@@ -1,3 +1,4 @@
+<% charged_booking = @booking.charged_booking.to_json %>
 <div class="row">
   <div class="col l6 m6 s12">
     <div class="paper-no-border">
@@ -15,29 +16,59 @@
       </div>
       <div class="form-info">
         <span class="form-header">Workplace:</span>
-        <span class="form-text"> <%= @workplace.workplace_name %></span>
+        <span class="form-text">
+          <% if @booking.booking_status == "Complete" %>
+            <%= JSON.parse(charged_booking)["workplace_name"] %>
+          <% else %>
+            <%= @workplace.workplace_name %>
+          <% end %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Location:</span>
-        <span class="form-text"> <%= @location.location_name %></span>
+        <span class="form-text">
+          <% if @booking.booking_status == "Complete" %>
+            <%= JSON.parse(charged_booking)["location_name"] %>
+            <% else %>
+              <%= @location.location_name %>
+          <% end %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Category:</span>
-        <span class="form-text"> <%= @location.category.category_name %></span>
+        <span class="form-text">
+          <% if @booking.booking_status == "Complete" %>
+              <%= JSON.parse(charged_booking)["category_name"] %>
+            <% else %>
+              <%= @location.category.category_name %>
+            <% end %>
+        </span>
       </div>
       <div class="form-info">
         <span class="form-header">Service: </span>
         <span class="form-text">
-          <% @booking.service_id.each do |service| %>
+          <% if @booking.booking_status == "Complete" %>
+            <% JSON.parse(charged_booking)["service_id"].each do |service| %>
               <%= get_service_name(service) %>
-            <br />
+              <br/>
+            <% end %>
+          <% else %>
+            <% @booking.service_id.each do |service| %>
+              <%= get_service_name(service) %>
+              <br/>
+            <% end %>
           <% end %>
         </span>
       </div>
       <div class="form-info">
         <span class="form-header">Date: </span>
         <span class="form-text">
-          <%= @booking.schedule.date %>
+          <% if @booking.booking_status == "Complete" %>
+            <% unix = JSON.parse(charged_booking)["date"] %>
+               <%= Time.at(unix.to_i).to_date %>
+          <% else %>
+            <%= @booking.schedule.date %>
+          <% end %>
         </span>
       </div>
       <div class="form-info">
@@ -113,21 +144,36 @@
         <span class="form-header">Services: </span>
         <span class="form-text">
           <% total_services = 0 %>
-          <% @booking.service_id.each do |service| %>
+            <% if @booking.booking_status == "Complete" %>
+              <% JSON.parse(charged_booking)["charged_services"].each do |service| %>
+                    <% ser = service["servicePrice"].to_i %>
+                  <% total_services += ser %>
+                <% end %>
+            <% else %>
+              <% @booking.service_id.each do |service| %>
                 <% ser = get_service(service) %>
-            <% total_services += ser.service_price %>
+                <% total_services += ser.service_price %>
+            <% end %>
             <% end %>
           <%= number_to_currency(total_services) %>
         </span>
       </div>
       <div class="form-info">
-        <span class="form-header">Estimate Tax: </span>
+        <span class="form-header">Tax: </span>
         <span class="form-text">
           <% total_tax = 0 %>
-            <% @booking.service_id.each do |service| %>
-                <% ser = get_service(service) %>
-                <% total_tax += ser.service_tax %>
+            <% if @booking.booking_status == "Complete" %>
+            <% JSON.parse(charged_booking)["charged_services"].each do |service| %>
+                <% ser = service["serviceTax"].to_i %>
+                <% total_tax += ser %>
             <% end %>
+            <% else %>
+            <% @booking.service_id.each do |service| %>
+              <% ser = get_service(service) %>
+              <% total_tax += ser.service_tax %>
+            <% end %>
+            <% end %>
+
           <%= number_to_currency(total_tax) %>
         </span>
       </div>
@@ -143,12 +189,36 @@
         </span>
       </div>
       <div class="form-info">
-        <span class="form-header">Estimated Total </span>
-        <span class="form-text"> <%= number_to_currency(@booking.booking_price) %></span>
+        <span class="form-header">Total </span>
+        <span class="form-text">
+          <% if @booking.booking_status == "Complete" %>
+            <%= number_to_currency(total_services + total_tax + total_fee) %>
+          <% else %>
+            <%= number_to_currency(@booking.booking_price) %>
+          <% end %>
+        </span>
       </div>
+      <% if @booking.discount_code? %>
+        <div class="form-info">
+          <span class="form-header">Discount </span>
+          <span class="form-text">
+          <% if @booking.booking_status == "Complete" %>
+            <%= JSON.parse(charged_booking)["discount"] %>
+          <% else %>
+            <%= @booking.discount_code %>
+          <% end %>
+        </span>
+        </div>
+      <% end %>
       <div class="form-info">
         <span class="form-header">Booking notes</span>
-        <span class="form-text"><%= @booking.booking_notes %> </span>
+        <span class="form-text">
+          <% if @booking.booking_status == "Complete" %>
+            <%= JSON.parse(charged_booking)["booking_notes"] %>
+          <% else %>
+            <%= @booking.booking_notes %>
+          <% end %>
+        </span>
       </div>
     </div>
   </div>
@@ -183,6 +253,5 @@
 <div class="row">
 
 </div>
-
 
 
