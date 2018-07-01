@@ -60,11 +60,9 @@ class Booking extends BaseComponent {
   }
   selectDate() {
     const history = createHistory();
-
-// Get the current location.
+    // Get the current location.
     const location = history.location;
-
-// Listen for changes to the current location.
+    // Listen for changes to the current location.
     const unlisten = history.listen((location, action) => {
       // location is an object like window.location
       //console.log(action, location.pathname, location.state)
@@ -115,7 +113,6 @@ class Booking extends BaseComponent {
     if( propertyName == 'service' ) {
       this.setState({ directEdit: false })
     }
-
   }
 
   addServices() {
@@ -166,7 +163,7 @@ class Booking extends BaseComponent {
       chargedBooking = chargedBooking.update('services', prop => prop.push(service));
       // console.log("no index found " + returnIndex)
       // console.log(JSON.stringify(chargedBooking))
-      this.setState(state => { return { chargedBooking } })
+      this.setState( () => { return { chargedBooking } })
 
     } else {
       // console.log("return index " + returnIndex)
@@ -175,6 +172,7 @@ class Booking extends BaseComponent {
       this.setState( () => { return { chargedBooking } } )
       console.log(JSON.stringify(this.state.chargedBooking))
     }
+    this.props.updateServices(chargedBooking.get('services'))
   }
   removeService(serviceId) {
     let { chargedBooking } = this.state
@@ -273,7 +271,6 @@ class Booking extends BaseComponent {
       postBooking['discount'] = this.props.booking.discount_code
       return postBooking
     }
-
     const createBookingNotes = () => {
       postBooking['booking_notes'] = this.props.bookingNotes
       return postBooking
@@ -341,6 +338,7 @@ class Booking extends BaseComponent {
                             chargedBooking={this.state.chargedBooking}
                             handleSections={this.handleSections}
                             sections={this.state.sections}
+                            //updateServices={this.props.updateServices}
               />
             )
           })
@@ -357,7 +355,7 @@ class Booking extends BaseComponent {
                     { this.state.directEdit ?
                       <span>
                         <small>
-                          {$$service.getIn(['service', 'section', 'section_name'])} &nbsp;
+                          { $$service.getIn(['service', 'section', 'section_name'])} &nbsp;
                           { $$service.getIn(['service', 'service_name']) } &nbsp; &nbsp;
                           { $$service.getIn(['service', 'service_price']) }
                         </small>
@@ -399,6 +397,7 @@ class Booking extends BaseComponent {
                                 serviceId={$$service.getIn(['service', 'id'])}
                                 sectionId={$$service.getIn(['service', 'section', 'id'])}
                                 serviceName={$$service.getIn(['service', 'service_name'])}
+                                //updateServices={this.props.updateServices}
                   />
                   </span>
                   :

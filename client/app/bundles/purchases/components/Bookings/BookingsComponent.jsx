@@ -20,6 +20,7 @@ class BookingsComponent extends BaseComponent {
       fetchBookingsError: null,
       isFetching: false,
       $$bookingServices: Immutable.fromJS([]),
+      $$changedServices: Immutable.fromJS([]),
       serviceList: Immutable.fromJS([]),
       $$bookingAddOns: Immutable.fromJS([]),
       totalCost: 0,
@@ -39,7 +40,7 @@ class BookingsComponent extends BaseComponent {
     };
     _.bindAll(this, ['fetchBookings', 'fetchServices',
       'calculateTotal', 'handleScriptError',
-      'handleScriptLoad',  'returnLocation', 'bookingState']);
+      'handleScriptLoad',  'returnLocation', 'bookingState', 'updateServices']);
     this.checkDiscount = this.checkDiscount.bind(this);
   }
 
@@ -54,6 +55,7 @@ class BookingsComponent extends BaseComponent {
       this.setState({stripeKey: "pk_live_WSJt2zrFYytVOVNhNJUezCKx"});
     }
   }
+
   bookingState(booking_notes) {
     this.setState({ bookingNotes: booking_notes})
   }
@@ -66,7 +68,10 @@ class BookingsComponent extends BaseComponent {
       });
     }
   }
-
+  updateServices(chargedService) {
+    console.log("update service " + chargedService)
+    this.calculateTotal(chargedService)
+  }
   fetchBookings() {
     return new Promise((resolve, reject) => {
       let {props} = this.props.props;
@@ -144,13 +149,24 @@ class BookingsComponent extends BaseComponent {
     })
   }
 
-  calculateTotal(discountPrice) {
+  calculateTotal(chargedServices) {
     let {totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns} = this.state;
     let x = 0;
+    console.log("charged service = " + JSON.stringify(chargedServices))
+    if(chargedServices) {
+      chargedServices.forEach( ($$service) => {
+        return {
+          totalCost: totalCost += parseFloat($$service.servicePrice),
+          totalTax: totalTax += parseFloat($$service.serviceTax),
+          checkoutLoading: false,
+          // yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
+          // parseFloat($booking.getIn(['service', 'yourtime_fee'])))
+        }
+      })
+    }
 
-    //console.log('calculating total ' + $$bookingServices);
     if ($$bookingServices.size == 0) {
-      (() => {
+      ( () => {
         setTimeout(() => {
           if ($$bookingServices.size == 0 && x < 3) {
             setTimeout(() => {
@@ -164,7 +180,7 @@ class BookingsComponent extends BaseComponent {
     } else {
       $$bookingServices.forEach(($booking) => {
         if ($booking.getIn(['service', 'service_price']) != null) {
-          this.setState((prevState, props) => {
+          this.setState( () => {
               return {
                 totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
                 totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
@@ -309,9 +325,7 @@ class BookingsComponent extends BaseComponent {
           admin={admin}
           combinedServices={this.state.$$combinedServices}
           bookingNotes={this.state.bookingNotes}
-          //selected={selected}
-          //serviceSelection={serviceSelection}
-          //bookingId={sectionId}
+          updateServices={this.updateServices}
         />),
       )
     }

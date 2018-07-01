@@ -85,6 +85,8 @@ class EditService extends React.Component {
         service['serviceName'] = serName
         service['serviceId']  = eventId
         this.setState({ selectedService: eventId, selectedServiceName: serName, service })
+      console.log("trying to update service")
+      //this.props.updateServices(service)
     } else {
       service[propertyName] = event.target.value
     }

@@ -17,8 +17,8 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  host = 'yourtimedev.herokuapp.com'
-  config.action_mailer.default_url_options = { host: host }
+  # host = 'yourtimedev.herokuapp.com'
+  # config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
       :address => "email-smtp.us-west-2.amazonaws.com",
       :port => 587,

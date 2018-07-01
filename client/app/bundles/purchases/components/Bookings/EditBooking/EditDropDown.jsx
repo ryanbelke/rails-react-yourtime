@@ -206,6 +206,7 @@ export default class EditDropDown extends BaseComponent {
                        directEdit={this.props.directEdit}
                        serviceId={this.props.serviceId}
                        booking={booking}
+                       //updateServices={this.props.updateServices}
                        sectionId={this.props.sectionId}
                        serviceName={this.props.serviceName}
           />

@@ -34,10 +34,21 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :test
+  #config.action_mailer.delivery_method = :test
   config.action_mailer.perform_deliveries = true
-  host = 'localhost:5000' # Don't use this literally; use your local dev host instead
-  config.action_mailer.default_url_options = { host: host, protocol: 'http' }
+
+  # config.action_mailer.delivery_method = :smtp
+  host = 'localhost:5000'
+  config.action_mailer.default_url_options = { host: host }
+  ActionMailer::Base.smtp_settings = {
+      :address => "email-smtp.us-west-2.amazonaws.com",
+      :port => 587,
+      :user_name => ENV["SES_SMTP_USERNAME"], #Your SMTP user
+      :password => ENV["SES_SMTP_PASSWORD"], #Your SMTP password
+      :authentication => :login,
+      :enable_starttls_auto => true
+  }
+
 
   config.action_mailer.perform_caching = false
 
