@@ -532,6 +532,13 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 1px solid dodgerblue !important;
   box-shadow: 0 1px 0 0 dodgerblue !important;
 }
+#create-account-button { color: white !important; }
+#log-in-button {
+  float: right !important;
+  margin: 0 15px 0 0 !important;
+  width: 150px !important;
+  color: white !important;
+}
 .paper-header {
   position: relative;
   padding: 5px 15px;

@@ -100,7 +100,7 @@
           <%= form_tag "", id: 'workplace-selection', method: 'get' do%>
               <%= select_tag(:workplace, options_for_select(@workplaces.map{|workplace| [workplace.workplace_name, workplace.id,
               { :'data-url' => workplace_categories_path(workplace.workplace_name)}]})) %>
-              <button class="waves-effect waves-light btn">Find My Services </button>
+              <button class="waves-effect waves-light btn blue lighten-1">Find My Services </button>
           <% end %>
         </div>
       </div>
