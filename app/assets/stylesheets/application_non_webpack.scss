@@ -526,6 +526,23 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1;
   font-family: 'Open Sans', 'Lato', sans-serif;
 }
+ .btn input { color: white !important; }
+
+.sign-up-form:focus {
+  border-bottom: 1px solid dodgerblue !important;
+  box-shadow: 0 1px 0 0 dodgerblue !important;
+}
+.paper-header {
+  position: relative;
+  padding: 5px 15px;
+  color: white;
+  font-size: 2.0rem;
+  font-family: 'Open Sans', sans-serif;
+  height: 50px;
+  width: 100%;
+  background: dodgerblue;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
 .form-header {
   font-family: 'Lato', sans-serif;
   font-weight: 900;

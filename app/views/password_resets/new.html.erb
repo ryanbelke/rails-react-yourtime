@@ -1,13 +1,22 @@
 <% provide(:title, "Forgot password") %>
-<h1>Forgot password</h1>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:password_reset, url: password_resets_path) do |f| %>
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+  <div class="col-md-4 col-md-offset-4">
+    <div class="paper" style="padding: 0 30px;" >
+      <div style="display:flex; flex-direction: column; align-items: center">
+        <h5>Reset Password</h5>
+        <img src="https://s3.amazonaws.com/yourtime-official/your+time+logo.jpg"
+             alt="your time logo" style="width: 150px; height: 30px; margin: 0 0 20px 0;"/>
+      </div>
+      <%= form_for(:password_reset, url: password_resets_path) do |f| %>
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control sign-up-form' %>
 
-      <%= f.submit "Submit", class: "btn btn-primary" %>
-    <% end %>
+        <%= f.submit "Submit", class: "waves-effect waves-light btn blue lighten-1",
+                     style: 'float: right; margin: 0 15px 0 0' %>
+        <br />
+        <br />
+      <% end %>
+    </div>
   </div>
 </div>
