@@ -209,6 +209,8 @@ export default class EditDropDown extends BaseComponent {
                        //updateServices={this.props.updateServices}
                        sectionId={this.props.sectionId}
                        serviceName={this.props.serviceName}
+                       servicePrice={this.props.servicePrice}
+                       serviceTax={this.props.serviceTax}
           />
         </div>
     } else {

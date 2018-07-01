@@ -397,6 +397,8 @@ class Booking extends BaseComponent {
                                 serviceId={$$service.getIn(['service', 'id'])}
                                 sectionId={$$service.getIn(['service', 'section', 'id'])}
                                 serviceName={$$service.getIn(['service', 'service_name'])}
+                                servicePrice={$$service.getIn(['service', 'service_price'])}
+                                serviceTax={$$service.getIn(['service', 'service_tax'])}
                                 //updateServices={this.props.updateServices}
                   />
                   </span>

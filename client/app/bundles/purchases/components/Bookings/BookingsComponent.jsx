@@ -12,7 +12,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Checkout from './Checkout';
 import requestsManager from 'libs/requestsManager';
 
-class BookingsComponent extends BaseComponent {
+class BookingsComponent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +25,10 @@ class BookingsComponent extends BaseComponent {
       $$bookingAddOns: Immutable.fromJS([]),
       totalCost: 0,
       totalTax: 0,
+      adjustedTotalCost : 0,
+      adjustedTotalTax: 0,
       yourTimeFee: 0,
+      adjustedPrices: false,
       checkoutLoading: true,
       stripeScriptLoaded: false,
       jqueryScriptLoaded: false,
@@ -59,6 +62,7 @@ class BookingsComponent extends BaseComponent {
   bookingState(booking_notes) {
     this.setState({ bookingNotes: booking_notes})
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.data.get('resetServices') == true) {
       this.setState({
@@ -68,8 +72,14 @@ class BookingsComponent extends BaseComponent {
       });
     }
   }
+
   updateServices(chargedService) {
     console.log("update service " + chargedService)
+      this.setState( () => { return {
+        adjustedTotalCost: 0,
+        adjustedTotalTax: 0,
+        yourTimeFee: 0,
+      }})
     this.calculateTotal(chargedService)
   }
   fetchBookings() {
@@ -150,37 +160,55 @@ class BookingsComponent extends BaseComponent {
   }
 
   calculateTotal(chargedServices) {
-    let {totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns} = this.state;
+    let {totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns, adjustedTotalCost, adjustedTotalTax} = this.state;
     let x = 0;
     console.log("charged service = " + JSON.stringify(chargedServices))
-    if(chargedServices) {
+    if(chargedServices != undefined ) {
       chargedServices.forEach( ($$service) => {
-        return {
-          totalCost: totalCost += parseFloat($$service.servicePrice),
-          totalTax: totalTax += parseFloat($$service.serviceTax),
-          checkoutLoading: false,
-          // yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
-          // parseFloat($booking.getIn(['service', 'yourtime_fee'])))
-        }
+        this.setState( (prevState) => {
+          console.log('update state ' + prevState.totalCost + "current state = " + this.state.totalCost)
+          return {
+            adjustedTotalCost: prevState.adjustedTotalCost += parseFloat($$service.servicePrice),
+            adjustedTotalTax: prevState.adjustedTotalTax += parseFloat($$service.serviceTax),
+            checkoutLoading: false,
+            adjustedPrices: true,
+            // yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
+            // parseFloat($booking.getIn(['service', 'yourtime_fee'])))
+          }
+        })
       })
     }
-
-    if ($$bookingServices.size == 0) {
-      ( () => {
-        setTimeout(() => {
-          if ($$bookingServices.size == 0 && x < 3) {
-            setTimeout(() => {
-              console.log("RETRYING ");
-              this.calculateTotal()
-            }, 1000);
-            x++;
+    if(chargedServices == undefined) {
+      if ($$bookingServices.size == 0) {
+        ( () => {
+          setTimeout(() => {
+            if ($$bookingServices.size == 0 && x < 3) {
+              setTimeout(() => {
+                console.log("RETRYING ");
+                this.calculateTotal()
+              }, 1000);
+              x++;
+            }
+          }, 1000)
+        })()
+      } else {
+        $$bookingServices.forEach(($booking) => {
+          if ($booking.getIn(['service', 'service_price']) != null) {
+            this.setState( () => {
+                return {
+                  totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
+                  totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
+                  checkoutLoading: false,
+                  yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
+                  parseFloat($booking.getIn(['service', 'yourtime_fee'])))
+                }
+              }
+            )
           }
-        }, 1000)
-      })()
-    } else {
-      $$bookingServices.forEach(($booking) => {
-        if ($booking.getIn(['service', 'service_price']) != null) {
-          this.setState( () => {
+        });
+        $$bookingAddOns.forEach(($booking) => {
+          if ($booking.getIn(['service', 'service_price']) != null) {
+            this.setState((prevState) => {
               return {
                 totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
                 totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
@@ -188,24 +216,12 @@ class BookingsComponent extends BaseComponent {
                 yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
                 parseFloat($booking.getIn(['service', 'yourtime_fee'])))
               }
-            }
-          )
-        }
-      });
-      $$bookingAddOns.forEach(($booking) => {
-        if ($booking.getIn(['service', 'service_price']) != null) {
-          this.setState((prevState) => {
-            return {
-              totalCost: totalCost += parseFloat($booking.getIn(['service', 'service_price'])),
-              totalTax: totalTax += parseFloat($booking.getIn(['service', 'service_tax'])),
-              checkoutLoading: false,
-              yourTimeFee: yourTimeFee += (parseFloat($booking.getIn(['service', 'service_price'])) *
-              parseFloat($booking.getIn(['service', 'yourtime_fee'])))
-            }
-          })
-        }
-      });
+            })
+          }
+        });
+      }
     }
+
   }
 
   handleScriptError() {
@@ -287,8 +303,8 @@ class BookingsComponent extends BaseComponent {
     this.state.stripeScriptLoaded ?
       stripeNode = (
         <StripeProvider apiKey={this.state.stripeKey}>
-          <Checkout totalPrice={this.state.totalCost}
-                    totalTax={this.state.totalTax}
+          <Checkout totalPrice={this.state.adjustedPrices ? this.state.adjustedTotalCost : this.state.totalCost}
+                    totalTax={this.state.adjustedPrices ? this.state.adjustedTotalTax : this.state.totalTax}
                     loading={this.state.checkoutLoading}
                     yourTimeFee={this.state.yourTimeFee}
                     props={props}

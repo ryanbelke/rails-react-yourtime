@@ -11,6 +11,8 @@ class EditService extends React.Component {
     this.state = {
       selectedSection: 0,
       selectedService: 0,
+      defaultServicePrice: 0,
+      defaultServiceTax: 0,
       selectedServiceName: null,
       sectionId: 0,
       sectionName: null,
@@ -48,13 +50,15 @@ class EditService extends React.Component {
     const {actions} = this.props;
     let { service } = this.state;
     //conditional render for serName, serID (service)
-    let eventId, dataset, serName, serId;
+    let eventId, dataset, serName, serId, serPrice, serTax;
 
     console.log(event.target)
     if(!event.target) {
       eventId = event
       serId = this.props.serviceId
       serName = this.props.serviceName
+      serPrice = this.props.servicePrice
+      serTax = this.props.serviceTax
     } else {
       eventId = parseInt(event.target.value);
       //https://stackoverflow.com/questions/35511600/react-access-data-attribute-in-option-tag
@@ -73,7 +77,7 @@ class EditService extends React.Component {
         //set hideNode to false to show the associated service Input Component
         .then(res => this.setState({$$services: Immutable.fromJS(res.data), sectionId: eventId,
                                     selectedService: serId, hideNode: false,
-                                    service: { serviceName: serName, serviceId: serId }}))
+                                    service: { serviceName: serName, serviceId: serId, servicePrice: serPrice, serviceTax: serTax }}))
 
         .catch(error => this.setState({error: error}))
 
@@ -114,8 +118,8 @@ class EditService extends React.Component {
     let sectionsArray = this.props.sections;
 
     const returnIndex = savedServices.findIndex(listItem => {
-      console.log("List Item")
-      console.log(JSON.stringify(listItem))
+      // console.log("List Item")
+      // console.log(JSON.stringify(listItem))
         return listItem.serviceId == selectedService
     })
     //console.log("RETURN INDex = " + returnIndex)
@@ -156,9 +160,13 @@ class EditService extends React.Component {
               })}
             </Input>
             {admin ?
-              <div>
-                <Input onChange={this.makeSelection.bind(this, 'servicePrice' )} style={{ width: 90 }} placeholder="Price" label="Enter Price" />
-                <Input onChange={this.makeSelection.bind(this, 'serviceTax')} style={{ width: 90 }} placeholder="Tax" label="Enter Tax" />
+              <div style={{ marginLeft: 50 }}>
+                <Input onChange={this.makeSelection.bind(this, 'servicePrice' )}
+                       style={{ width: 70, fontSize: '1.25rem', height: 40 }} placeholder="Price"
+                       defaultValue={this.state.service.servicePrice} label="Enter Price" />
+                <Input onChange={this.makeSelection.bind(this, 'serviceTax')}
+                       style={{ width: 70, fontSize: '1.25rem', height: 40 }} placeholder="Tax"
+                       defaultValue={this.state.service.serviceTax} label="Enter Tax"/>
               </div>
               : null}
 
