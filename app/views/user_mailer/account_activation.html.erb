@@ -1,10 +1,62 @@
-<h1>YourTime</h1>
+<style>
+  .body {
+    border: 1px solid black;
+    box-shadow: 1px 2px gray;
+    background: white;
+    padding: 30px;
+    margin: 0 auto;
+    width: 50%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.0rem;
+  }
+    #darkcolor {
+      background: lightgrey;
+      height: 400px;
+      padding-top: 50px;
+    }
+    p { font-size: 1.3rem; }
+  a:link, a:visited {
+    background-color: rgba(25,118,210 ,1);
+    color: white;
+    padding: 10px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    height: 25px;
+    vertical-align: center;
+    align-items: center;
+    width: 70px;
+    font-size: 1.25rem;
+  }
 
-<p>Hi <%= @user.name %>,</p>
 
-<p>
-  Welcome to YourTime! Click on the link below to activate your account:
-</p>
+  a:hover, a:active {
+    background-color: rgba(13,71,161 ,1);
+  }
+</style>
+<div class="row" id="darkcolor">
+  <section>
+    <div class="body">
+      <img src="https://s3.amazonaws.com/yourtime-official/your+time+logo.jpg"
+           alt="your time logo"
+           style="width: 200px"
+        />
+      <h1>Hi <%= @user.name %>,</h1>
 
-<%= link_to "Activate", edit_account_activation_url(@user.activation_token,
-                                                    email: @user.email) %>
+      <p>
+        Welcome to YourTime! Click on the link below to activate your account:
+      </p>
+
+        <%= link_to edit_account_activation_url(@user.activation_token,
+                                                            email: @user.email) do %>
+          Activate
+
+        <% end %>
+
+
+    </div>
+  </section>
+</div>
+
+
+

@@ -20,12 +20,11 @@ Rails.application.configure do
   host = 'yourtimedev.herokuapp.com'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
-      :address        => 'smtp.sendgrid.net',
-      :port           => '587',
-      :authentication => :plain,
-      :user_name      => ENV['SENDGRID_USERNAME'],
-      :password       => ENV['SENDGRID_PASSWORD'],
-      :domain         => 'heroku.com',
+      :address => "email-smtp.us-west-2.amazonaws.com",
+      :port => 587,
+      :user_name => ENV["SES_SMTP_USERNAME"], #Your SMTP user
+      :password => ENV["SES_SMTP_PASSWORD"], #Your SMTP password
+      :authentication => :login,
       :enable_starttls_auto => true
   }
 
