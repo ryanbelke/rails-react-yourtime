@@ -183,9 +183,9 @@ class BookingsComponent extends React.PureComponent {
       if ($$bookingServices.isEmpty()) {
         ( () => {
           setTimeout(() => {
-            if ($$bookingServices.size == 0 && x < 3) {
+            if ($$bookingServices.isEmpty() && x < 3) {
               setTimeout(() => {
-                console.log("RETRYING ");
+                console.log("RETRYING " + x);
                 x++
                 this.calculateTotal()
               }, 1000);
