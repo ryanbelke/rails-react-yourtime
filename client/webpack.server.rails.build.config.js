@@ -19,7 +19,7 @@ module.exports = {
   // the project dir
   context: __dirname,
   entry: [
-    'babel-polyfill',
+    'idempotent-babel-polyfill',
     './app/bundles/purchases/startup/serverRegistration',
   ],
   output: {

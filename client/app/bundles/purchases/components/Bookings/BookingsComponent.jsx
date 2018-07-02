@@ -176,23 +176,22 @@ class BookingsComponent extends React.PureComponent {
         })
       })
     }
-    let x = 0;
 
     if(chargedServices == undefined) {
-      if (this.state.totalCost == 0 ) {
+      if ($$bookingServices.size == 0 ) {
         ( () => {
           setTimeout(() => {
-            if ($$bookingServices.isEmpty()) {
-              while(x < 3) {
+            if($$bookingServices.size == 0) {
+              for(let x = 0; x < 3; x++) {
                 setTimeout(() => {
                   console.log("RETRYING " + x);
-                  x++;
-                  this.calculateTotal()
-                }, 1000);
+                }, 2000);
               }
             }
+            this.calculateTotal()
           }, 1000)
         })()
+
       } else {
         $$bookingServices.forEach(($booking) => {
           if ($booking.getIn(['service', 'service_price']) != null) {
