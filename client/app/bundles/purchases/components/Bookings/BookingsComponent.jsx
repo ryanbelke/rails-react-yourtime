@@ -158,7 +158,6 @@ class BookingsComponent extends React.PureComponent {
       }
     })
   }
-
   calculateTotal(chargedServices) {
     let {totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns, adjustedTotalCost, adjustedTotalTax} = this.state;
     console.log("charged service = " + JSON.stringify(chargedServices))
@@ -177,18 +176,20 @@ class BookingsComponent extends React.PureComponent {
         })
       })
     }
-    if(chargedServices == undefined) {
-      let x = 0;
+    let x = 0;
 
-      if ($$bookingServices.isEmpty()) {
+    if(chargedServices == undefined) {
+      if (this.state.totalCost == 0 ) {
         ( () => {
           setTimeout(() => {
-            if ($$bookingServices.isEmpty() && x < 3) {
-              setTimeout(() => {
-                console.log("RETRYING " + x);
-                x = x + 1
-                this.calculateTotal()
-              }, 1000);
+            if ($$bookingServices.isEmpty()) {
+              while(x < 3) {
+                setTimeout(() => {
+                  console.log("RETRYING " + x);
+                  x++;
+                  this.calculateTotal()
+                }, 1000);
+              }
             }
           }, 1000)
         })()
