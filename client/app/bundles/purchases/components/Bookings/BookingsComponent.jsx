@@ -161,7 +161,6 @@ class BookingsComponent extends React.PureComponent {
 
   calculateTotal(chargedServices) {
     let {totalCost, totalTax, yourTimeFee, $$bookingServices, $$bookingAddOns, adjustedTotalCost, adjustedTotalTax} = this.state;
-    let x = 0;
     console.log("charged service = " + JSON.stringify(chargedServices))
     if(chargedServices != undefined ) {
       chargedServices.forEach( ($$service) => {
@@ -179,15 +178,17 @@ class BookingsComponent extends React.PureComponent {
       })
     }
     if(chargedServices == undefined) {
-      if ($$bookingServices.size == 0) {
+      let x = 0;
+
+      if ($$bookingServices.isEmpty()) {
         ( () => {
           setTimeout(() => {
             if ($$bookingServices.size == 0 && x < 3) {
               setTimeout(() => {
                 console.log("RETRYING ");
+                x++
                 this.calculateTotal()
               }, 1000);
-              x++;
             }
           }, 1000)
         })()
