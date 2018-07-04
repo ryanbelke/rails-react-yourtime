@@ -15,7 +15,6 @@
     <br />
     <%= link_to 'View', user_booking_path(current_user.id, booking.id),
   class: 'waves-effect waves-light btn custom-btn-small2 blue lighten-1' %></td>
-  <% if current_user.admin? %>
   <td id="table-buttons">
     <br/>
     <% if booking.booking_status != 'Complete' %>
@@ -23,7 +22,5 @@
                 class: 'waves-effect waves-light btn custom-btn-small2 blue lighten-1' %>
     <% end %>
   </td>
-
-  <% end %>
 </tr>
 </tbody>

@@ -192,7 +192,9 @@ class Booking extends BaseComponent {
   //save object of the edited items and prices
   //workplace, category, location, section, service + date
   saveBooking() {
-    let { data, booking, workplaceName, locationName, categoryName } = this.props
+    let { data, booking, workplaceName, locationName, categoryName, admin } = this.props
+    let user = this.props.booking.user_id
+
     let $$editWorkplace = data.get('$$editWorkplace')
     let $$editCategory = data.get('$$editCategory')
     let $$editLocation = data.get('$$editLocation')
@@ -284,16 +286,22 @@ class Booking extends BaseComponent {
     console.log("working object = ")
     console.log(JSON.stringify(postBooking))
 
-    let user = this.props.booking.user_id
-    requestsManager
-      .chargeBooking(postBooking, user, this.props.booking.id)
-      .then(() => window.location.replace('/'))
-      .catch(error => console.log("error " + error))
+    if(admin) {
+      requestsManager
+        .chargeBooking(postBooking, user, this.props.booking.id)
+        .then(() => window.location.replace('/'))
+        .catch(error => console.log("error " + error))
+    } else {
+      requestsManager
+        .editBooking(postBooking, user, this.props.booking.id)
+        .then(() => console.log("post booking = " + postBooking))
+        .catch(error => console.log("error " + error))
+    }
   }
 
   render() {
     let { workplaceName, categoryName, locationName, services,
-          addOns, cookies, booking, actions, data } = this.props;
+          addOns, cookies, booking, actions, data, admin } = this.props;
     let { editSelection, newServiceCount } = this.state;
     let cookie = cookies.get('date');
     let selected_date;
@@ -607,14 +615,22 @@ class Booking extends BaseComponent {
                   : null }
                   </span>
                 <span className="form-text">
-                  { booking ?
+                  { booking && admin != null  ?
                     <Button style={{ float: 'right', marginTop: 20, marginBottom: 15,
                       background: '#3ecf8e' }}
                             waves='light' s={12}
                             onClick={this.saveBooking}>
                       <Icon left>save</Icon>
                         Save Booking
-                    </Button> : null }
+                    </Button> :
+                    <Button style={{ float: 'right', marginTop: 20, marginBottom: 15,
+                      background: '#3ecf8e' }}
+                            waves='light' s={12}
+                            onClick={this.saveBooking}>
+                      <Icon left>save</Icon>
+                      Save Changes
+                    </Button>
+                  }
                 </span>
 
               </div>

@@ -226,12 +226,48 @@ class BookingsController < ApplicationController
       render :show.
     end
     end
-
   end
+
 
   def edit
     redux_store("commentsStore")
     @booking = Booking.find_by id: params[:id]
+  end
+
+  def update
+    booking = params[:booking]
+    user = User.find_by id:  params[:user]
+    #set action booking for the
+    active_booking = Booking.find_by id: params[:booking_id].to_i
+    puts "active_bookting = " + active_booking.to_s
+    puts "booking = " + booking.to_s
+    puts "params = " + params.to_s
+    services = params[:booking][:services]
+
+    puts "services = " + services.to_s
+    #take services array and loop over each item putting it into service_id array
+    modified_service_id = []
+    modified_price = 0
+    #update service_id array and total price
+    #
+    services.each do |service|
+      modified_service_id.push(service[:serviceId].to_i)
+      price = service[:servicePrice].to_i
+      tax = service[:serviceTax].to_i
+      modified_price += price
+      modified_price += tax
+      puts "service price and tax " + price.to_s + " " + tax.to_s
+
+    end
+
+    active_booking.service_id = modified_service_id
+    active_booking.booking_price = modified_price
+
+    if  active_booking.save!
+      flash[:success] = "Booking Updated"
+
+    end
+
   end
 
   def destroy

@@ -132,5 +132,13 @@ export default {
       headers: ReactOnRails.authenticityHeaders(),
       data: { user, booking, booking_id }
     })
-  }
+  },
+  editBooking(booking, user, booking_id) {
+    return request({
+      method: 'PUT',
+      url: `/users/${user}/bookings/${booking_id}`,
+      headers: ReactOnRails.authenticityHeaders(),
+      data: { user, booking, booking_id }
+    })
+  },
 };

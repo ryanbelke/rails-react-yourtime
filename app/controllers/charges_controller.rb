@@ -1,5 +1,7 @@
 class ChargesController < ApplicationController
+  before_action :admin_user,     only: [:create, :new]
   rescue_from Stripe::CardError, with: :catch_exception
+
   def new
   end
 
