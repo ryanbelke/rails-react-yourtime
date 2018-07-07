@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import css from './Booking.scss';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import $ from 'jquery';
 import EditDropDown from './EditBooking/EditDropDown';
 import {Button, Icon} from 'react-materialize';
@@ -13,7 +12,7 @@ import {withCookies, Cookies} from 'react-cookie';
 import moment from 'moment';
 import requestsManager from 'libs/requestsManager';
 
-class Booking extends BaseComponent {
+class Booking extends React.PureComponent {
   static propTypes = {
     workplaceName: PropTypes.string.isRequired,
     categoryName: PropTypes.string.isRequired,
@@ -29,22 +28,24 @@ class Booking extends BaseComponent {
       sections: Immutable.fromJS([]),
       directEdit: false,
       chargedBooking: Immutable.fromJS({ workplace: { workplaceName: null, workplaceId: null },
-                                        category: { categoryName: null, categoryId: null},
-                                        location: { locationName: null, locationId: null },
-                                        services: [],
-                                        date: null, discount: null })
+        category: { categoryName: null, categoryId: null},
+        location: { locationName: null, locationId: null },
+        services: [],
+        date: null, discount: null })
     };
     _.bindAll(this, ['selectDate', 'editSelection',
       'saveSelection', 'addServices', 'saveService', 'removeService', 'handleSections', 'saveBooking']);
   }
   componentDidMount() {
-    const { cookies, booking } = this.props;
+    const { cookies, booking, services, addOns } = this.props;
+    let { chargedBooking } = this.state;
     let date = cookies.get('date');
     const history = createHistory();
+    let serviceId, serviceName, sectionId, servicePrice, serviceTax, service;
 
     if(date != undefined || date != null) {
-      date = moment(date).unix()
-      console.log("date = " + date)
+      date = moment(date, "MM-DD-YYYY").unix()
+      //console.log("date = " + date)
       history.push(`?appointment&date=${date.toString()}`);
     }
     let booking_date;
@@ -52,11 +53,31 @@ class Booking extends BaseComponent {
       booking_date = booking.date
       if(booking_date != undefined || booking_date != null) {
         let date2 = moment(booking_date).unix()
-        console.log("date = " + date2)
+        //console.log("date = " + date2)
         history.push(`?appointment&date=${date2.toString()}`);
       }
     }
-
+    services.map($$service => {
+        serviceId = $$service.getIn(['service', 'id'])
+        sectionId = $$service.getIn(['service', 'section', 'id'])
+        serviceName = $$service.getIn(['service', 'service_name'])
+        servicePrice = $$service.getIn(['service', 'service_price'])
+        serviceTax = $$service.getIn(['service', 'service_tax'])
+        service = { serviceId: serviceId, serviceName: serviceName, servicePrice: servicePrice, serviceTax: serviceTax}
+        chargedBooking = chargedBooking.update('services', ar => ar.push(service))
+        console.log("charged booking == " + JSON.stringify(chargedBooking))
+    })
+    addOns.map($$addOn => {
+      serviceId = $$addOn.getIn(['service', 'id'])
+      sectionId = $$addOn.getIn(['service', 'section', 'id'])
+      serviceName = $$addOn.getIn(['service', 'service_name'])
+      servicePrice = $$addOn.getIn(['service', 'service_price'])
+      serviceTax = $$addOn.getIn(['service', 'service_tax'])
+      service = { serviceId: serviceId, serviceName: serviceName, servicePrice: servicePrice, serviceTax: serviceTax}
+      chargedBooking = chargedBooking.update('services', ar => ar.push(service))
+    })
+      chargedBooking = Immutable.fromJS(chargedBooking)
+      this.setState( () => { return { chargedBooking } } )
   }
   selectDate() {
     const history = createHistory();
@@ -68,18 +89,16 @@ class Booking extends BaseComponent {
       //console.log(action, location.pathname, location.state)
     });
 
-    let {dates, cookies} = this.props;
+    let { dates, cookies } = this.props;
     let datesArray = [true];
     dates = dates.toArray();
     let date = dates.forEach((date) => {
-      //let newDate = new Dat e(date.get(0));
       let moment2 = moment(date.get(0), 'YYYY-M-DD');
       let newDate = new Date(moment2.toISOString());
-      console.log('New Date = ' + newDate);
+      //console.log('New Date = ' + newDate);
       return datesArray.push(newDate);
     });
-    console.log('dates array ' + datesArray);
-
+    //console.log('dates array ' + datesArray);
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 50, // Creates a dropdown of 15 years to control year,
@@ -152,8 +171,8 @@ class Booking extends BaseComponent {
     //   }
     // );
     const returnIndex = chargedBooking.get('services').findIndex(listItem => {
-       console.log("inside return index")
-       console.log(JSON.stringify(listItem))
+      console.log("inside return index")
+      console.log(JSON.stringify(listItem))
       //check the listItem serviceId for the serviceId passed in, if its found update the item
       //if its not found push the service into the List
       return listItem.serviceId == serviceId
@@ -164,7 +183,6 @@ class Booking extends BaseComponent {
       // console.log("no index found " + returnIndex)
       // console.log(JSON.stringify(chargedBooking))
       this.setState( () => { return { chargedBooking } })
-
     } else {
       // console.log("return index " + returnIndex)
       // console.log(" index  updating" + chargedBooking)
@@ -199,9 +217,9 @@ class Booking extends BaseComponent {
     let $$editCategory = data.get('$$editCategory')
     let $$editLocation = data.get('$$editLocation')
     let postBooking = { workplace: { workplace_id: null, workplace_name: null },
-                        category: { category_id: null, category_name: null},
-                        location: { location_id: null, location_name: null },
-                        services: {}, date: null, discount: null }
+      category: { category_id: null, category_name: null},
+      location: { location_id: null, location_name: null },
+      services: {}, date: null, discount: null }
 
     const getParameterByName = (name, url) => {
       if (!url) url = window.location.href;
@@ -218,35 +236,31 @@ class Booking extends BaseComponent {
         postBooking['workplace']['workplace_id'] = booking.workplace_id
         postBooking['workplace']['workplace_name'] = workplaceName
         console.log("post booking inside workplace = " + JSON.stringify(postBooking))
-
         return postBooking
 
       } else if( !$$editWorkplace.isEmpty ) {
         postBooking['workplace']  = $$editWorkplace
-
         return postBooking
       }
     }
     const createCategory = () => {
       if( $$editCategory.isEmpty ) {
-           postBooking['category']['category_id'] = booking.category_id
-           postBooking['category']['category_name'] = categoryName
-           return postBooking
+        postBooking['category']['category_id'] = booking.category_id
+        postBooking['category']['category_name'] = categoryName
+        return postBooking
 
-         } else if( !$$editCategory.isEmpty ) {
-           postBooking['category'] = $$editCategory
-          console.log("post booking inside category = " + JSON.stringify(postBooking))
-          return postBooking
-         }
+      } else if( !$$editCategory.isEmpty ) {
+        postBooking['category'] = $$editCategory
+        console.log("post booking inside category = " + JSON.stringify(postBooking))
+        return postBooking
+      }
     }
     const createLocation = () => {
       if( $$editLocation.isEmpty ) {
         postBooking['location']['location_id'] = booking.location_id
         postBooking['location']['location_name'] = locationName
         console.log("post booking inside location = " + JSON.stringify(postBooking))
-
         return postBooking
-
       } else if( !$$editLocation.isEmpty ) {
         postBooking['location'] = $$editLocation
         return postBooking
@@ -257,7 +271,6 @@ class Booking extends BaseComponent {
       if( !this.state.chargedBooking.get('services').isEmpty() ) {
         postBooking['services'] = this.state.chargedBooking.get('services')
         console.log("post booking inside services = " + JSON.stringify(postBooking))
-
         return postBooking
       } else if ( this.state.chargedBooking.get('services').isEmpty() ) {
         postBooking['services'] = booking.services_object
@@ -300,16 +313,16 @@ class Booking extends BaseComponent {
   }
 
   render() {
-    let { workplaceName, categoryName, locationName, services,
-          addOns, cookies, booking, actions, data, admin } = this.props;
+    let { workplaceName, locationName, services,
+      addOns, cookies, booking, actions, data, admin } = this.props;
     let { editSelection, newServiceCount } = this.state;
     let cookie = cookies.get('date');
     let selected_date;
 
     if(booking != undefined || null) {
-        selected_date = moment(booking.date)
+      selected_date = moment(booking.date)
     } else {
-        selected_date = moment(cookie, 'MM-DD-YYYY');
+      selected_date = moment(cookie, 'MM-DD-YYYY');
     }
 
     if(moment(selected_date).isValid() == true) {
@@ -333,25 +346,23 @@ class Booking extends BaseComponent {
     // edit nodes for each time add service button is clicked
     if (newServiceCount.length > 0) {
       newEditServiceNode =
-          this.state.newServiceCount.map((a, index) => {
-            return (
-              <EditDropDown data={this.props.data}
-                            key={index}
-                            actions={this.props.actions}
-                            service={true}
-                            booking={booking}
-                            admin={this.props.admin}
-                            saveService={this.saveService}
-                            removeService={this.removeService}
-                            chargedBooking={this.state.chargedBooking}
-                            handleSections={this.handleSections}
-                            sections={this.state.sections}
-                            //updateServices={this.props.updateServices}
-              />
-            )
-          })
+        this.state.newServiceCount.map((a, index) => {
+          return (
+            <EditDropDown data={this.props.data}
+                          key={index}
+                          actions={this.props.actions}
+                          service={true}
+                          booking={booking}
+                          admin={this.props.admin}
+                          saveService={this.saveService}
+                          removeService={this.removeService}
+                          chargedBooking={this.state.chargedBooking}
+                          handleSections={this.handleSections}
+                          sections={this.state.sections}
+              //updateServices={this.props.updateServices}
+            />
+          )})
     }
-
     if (services != null || undefined) {
       serviceNodes = services.map(($$service, index) => (
         $$service.get('status') != 302 ?
@@ -368,7 +379,7 @@ class Booking extends BaseComponent {
                           { $$service.getIn(['service', 'service_price']) }
                         </small>
                       </span>
-                    : <span>
+                      : <span>
                         { $$service.getIn(['service', 'section', 'section_name']) }
                         : &nbsp;
                         { $$service.getIn(['service', 'service_name']) }
@@ -379,14 +390,7 @@ class Booking extends BaseComponent {
                 { editSelection == 'service' ?
                   <span>
                     <div onClick={this.saveSelection.bind(this, 'service')}
-                         style={{
-                           width: 30,
-                           paddingLeft: 5,
-                           paddingRight: 5,
-                           float: 'right',
-                           background: '#00C853',
-                           color: 'gray'
-                         }}
+                         style={{ width: 30, paddingLeft: 5,paddingRight: 5, float: 'right', background: '#00C853', color: 'gray'}}
                          className="waves-effect grey lighten-5 btn-flat">
                     <i className="material-icons left">navigate_before</i>
                   </div>
@@ -407,7 +411,7 @@ class Booking extends BaseComponent {
                                 serviceName={$$service.getIn(['service', 'service_name'])}
                                 servicePrice={$$service.getIn(['service', 'service_price'])}
                                 serviceTax={$$service.getIn(['service', 'service_tax'])}
-                                //updateServices={this.props.updateServices}
+                    //updateServices={this.props.updateServices}
                   />
                   </span>
                   :
@@ -416,39 +420,33 @@ class Booking extends BaseComponent {
                          style={{width: 80, paddingLeft: 5, paddingRight: 5, float: 'right'}}
                          className="waves-effect grey lighten-5 btn-flat">
                       <i className="material-icons left">edit</i>Edit</div>
-                    : null
-                }
+                    : null }
                 </span>
             </div>
-            { !this.state.directEdit ?
-              <div>
-
-                </div>
-               : null }
           </div>
           : null ));
-          addOnNodes = addOns.map(($$addOn, index) => (
-            <div key={index}>
-              <div className="form-info">
-                <span className="form-header">{null}</span>
-                <span className="form-text">
+      addOnNodes = addOns.map(($$addOn, index) => (
+        <div key={index}>
+          <div className="form-info">
+            <span className="form-header">{null}</span>
+            <span className="form-text">
                   { this.state.directEdit ?
-                      <span>
+                    <span>
                         <small>
                           { $$addOn.getIn(['service', 'service_name']) } &nbsp;
                           ${ $$addOn.getIn(['service', 'service_price']) }
                         </small>
                       </span>
-                      :
-                      <span>
+                    :
+                    <span>
                         Add-on: &nbsp; { $$addOn.getIn(['service', 'service_name']) } &nbsp;
 
                       </span> }
-                  { editSelection == 'addOn' || editSelection == 'service' ?
-                    <span>
+              { editSelection == 'addOn' || editSelection == 'service' ?
+                <span>
                       <div onClick={this.saveSelection.bind(this, 'service')}
                            style={{ width: 30, paddingLeft: 5, paddingRight: 5,
-                                    float: 'right', background: '#00C853', color: 'gray' }}
+                             float: 'right', background: '#00C853', color: 'gray' }}
                            className="waves-effect grey lighten-5 btn-flat">
                         <i className="material-icons left">navigate_before</i>
                       </div>
@@ -469,19 +467,19 @@ class Booking extends BaseComponent {
                                     serviceName={$$addOn.getIn(['service', 'service_name'])} />
                     </span>
 
-                    :
-                    booking ?
-                      <div onClick={this.editSelection.bind(this, 'service')}
-                           style={{ width: 30, paddingLeft: 5, paddingRight: 5, float: 'right' }}
-                           className="waves-effect grey lighten-5 btn-flat">
-                        <i className="material-icons left">edit</i></div>
-                      : null
-                  }
+                :
+                booking ?
+                  <div onClick={this.editSelection.bind(this, 'service')}
+                       style={{ width: 30, paddingLeft: 5, paddingRight: 5, float: 'right' }}
+                       className="waves-effect grey lighten-5 btn-flat">
+                    <i className="material-icons left">edit</i></div>
+                  : null
+              }
                 </span>
-              </div>
-            </div>
-          ))
-        }
+          </div>
+        </div>
+      ))
+    }
 
     /* eslint-disable react/no-danger */
     return (
@@ -598,7 +596,7 @@ class Booking extends BaseComponent {
               { !this.state.directEdit && !data.get('resetServices') ?
                 <div>
                   {/*<div className="form-info">*/}
-                    {/*<span className="form-header">Add-ons:</span>*/}
+                  {/*<span className="form-header">Add-ons:</span>*/}
                   {/*</div>*/}
                 </div> : null}
 
@@ -607,12 +605,12 @@ class Booking extends BaseComponent {
                   <span className="form-header">
               { data.get('resetServices') || this.state.directEdit ?
 
-                    <Button style={{ marginTop: 20, marginBottom: 30, color: 'grey' }} className="grey lighten-5" waves='light'
-                            s={12} onClick={this.addServices}>
-                            <Icon right>add</Icon>
-                            Add Service
-                    </Button>
-                  : null }
+                <Button style={{ marginTop: 20, marginBottom: 30, color: 'grey' }} className="grey lighten-5" waves='light'
+                        s={12} onClick={this.addServices}>
+                  <Icon right>add</Icon>
+                  Add Service
+                </Button>
+                : null }
                   </span>
                 <span className="form-text">
                   { booking && admin != null  ?
@@ -621,7 +619,7 @@ class Booking extends BaseComponent {
                             waves='light' s={12}
                             onClick={this.saveBooking}>
                       <Icon left>save</Icon>
-                        Save Booking
+                      Save Booking
                     </Button> :
                     <Button style={{ float: 'right', marginTop: 20, marginBottom: 15,
                       background: '#3ecf8e' }}
