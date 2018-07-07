@@ -117,12 +117,6 @@ class EditService extends React.Component {
     let savedServices = chargedBooking.get('services')
     let sectionsArray = this.props.sections;
 
-    const returnIndex = savedServices.findIndex(listItem => {
-      // console.log("List Item")
-      // console.log(JSON.stringify(listItem))
-        return listItem.serviceId == selectedService
-    })
-    //console.log("RETURN INDex = " + returnIndex)
     const sections = data.get('$$sections');
     //get services from returned call
     const services = $$services.get('services');

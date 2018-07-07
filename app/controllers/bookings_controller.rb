@@ -112,12 +112,13 @@ class BookingsController < ApplicationController
       your_time_fee = 0
 
       service_list = JSON.parse(cookies[:services])
-      #create services object to store the service id, name, section id, name
-      services_object = {service:{}}
+
       #db column services_object_array
       services_object_array = []
 
       service_list.each do |item|
+        #create services object to store the service id, name, section id, name
+        services_object = {}
         service = Service.find_by id: item
         puts "fee " + service.yourtime_fee.to_s
         your_time_fee = (1 + service.yourtime_fee)
@@ -127,28 +128,65 @@ class BookingsController < ApplicationController
 
 
         #insert service id
-        services_object[:service][:service_id] = service.id
+        services_object[:service_id] = service.id
+        puts "services object = " + services_object.to_s
         #insert service name
-        services_object[:service][:service_name] = service.service_name
+        services_object[:service_name] = service.service_name
+        puts "services object = " + services_object.to_s
+        #insert service price
+        services_object[:service_price] = service.service_price
+        #insert service tax
+        services_object[:service_tax] = service.service_tax
+
         #insert section id
-        services_object[:service][:section_id] = service.section.id
+        services_object[:section_id] = service.section.id
+        puts "services object = " + services_object.to_s
+
         #insert section name
-        services_object[:service][:section_name] = service.section.section_name
+        services_object[:section_name] = service.section.section_name
+        puts "services object = " + services_object.to_s
+
         #push object into services_object_array and insert into db
         services_object_array.push(services_object)
+        puts "services object array before  conversion " + services_object_array.to_s
+
       end
-        # https://stackoverflow.com/questions/10829473/ruby-how-can-i-convert-an-array-of-data-to-hash-and-to-json-format
-      services_object_array = services_object_array.map { |o| Hash[o.each_pair.to_a] }.to_json
-      puts "services object array after conversion " + services_object_array.to_s
+
 
       add_on_list = JSON.parse(cookies[:addOns])
 
       add_on_list.each do |addItem|
+        services_object = {}
         add_on = Service.find_by id: addItem
         your_time_fee = (1 + add_on.yourtime_fee)
         total_price = total_price + (add_on.service_price * your_time_fee).round(2) + add_on.service_tax
         puts "tally of actual prices " + " "+ add_on.service_price.to_s + " " + add_on.service_tax.to_s + " " + add_on.yourtime_fee.to_s
+        #insert service id
+        services_object[:service_id] = add_on.id
+        puts "services object = " + services_object.to_s
+        #insert service name
+        services_object[:service_name] = add_on.service_name
+        puts "services object = " + services_object.to_s
+        #insert service price
+        services_object[:service_price] = add_on.service_price
+        #insert service tax
+        services_object[:service_tax] = add_on.service_tax
+
+        #insert section id
+        services_object[:section_id] = add_on.section.id
+        puts "services object = " + services_object.to_s
+
+        #insert section name
+        services_object[:section_name] = add_on.section.section_name
+        puts "services object = " + services_object.to_s
+
+        #push object into services_object_array and insert into db
+        services_object_array.push(services_object)
+        puts "services object array before  conversion " + services_object_array.to_s
       end
+      # https://stackoverflow.com/questions/10829473/ruby-how-can-i-convert-an-array-of-data-to-hash-and-to-json-format
+      services_object_array = services_object_array.map { |o| Hash[o.each_pair.to_a] }.to_json
+      puts "services object array after conversion " + services_object_array.to_s
 
       first_service = Service.find_by id: services.first
       services = service_list.concat(add_on_list)
@@ -185,7 +223,7 @@ class BookingsController < ApplicationController
           :source  => params[:stripeToken]
         )
         current_user.update(stripe_id: customer.id)
-        delete_cookies
+        #delete_cookies
         flash[:success] = "Thank you for making a booking"
 
         if request.xhr?
@@ -193,7 +231,7 @@ class BookingsController < ApplicationController
           format.json { render json: { message: "booking complete", status: 302 }  }
         end
           else
-        redirect_to root_url, turbolinks: false
+        #redirect_to root_url, turbolinks: false
         end
 
       else
