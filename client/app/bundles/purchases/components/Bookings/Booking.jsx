@@ -12,7 +12,7 @@ import {withCookies, Cookies} from 'react-cookie';
 import moment from 'moment';
 import requestsManager from 'libs/requestsManager';
 
-class Booking extends BaseComponent {
+class Booking extends React.PureComponent {
   static propTypes = {
     workplaceName: PropTypes.string.isRequired,
     categoryName: PropTypes.string.isRequired,
@@ -44,7 +44,7 @@ class Booking extends BaseComponent {
     let serviceId, serviceName, sectionId, servicePrice, serviceTax, service;
 
     if(date != undefined || date != null) {
-      date = moment(date).unix()
+      date = moment(date, "MM-DD-YYYY").unix()
       //console.log("date = " + date)
       history.push(`?appointment&date=${date.toString()}`);
     }
