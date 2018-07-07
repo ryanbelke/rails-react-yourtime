@@ -57,7 +57,6 @@ class Booking extends React.PureComponent {
         history.push(`?appointment&date=${date2.toString()}`);
       }
     }
-
     services.map($$service => {
         serviceId = $$service.getIn(['service', 'id'])
         sectionId = $$service.getIn(['service', 'section', 'id'])
