@@ -5,7 +5,7 @@ import Immutable from 'immutable'
 import {Button, Icon} from 'react-materialize'
 import requestsManager from 'libs/requestsManager'
 
-class EditService extends React.Component {
+class EditService extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,13 +52,17 @@ class EditService extends React.Component {
     //conditional render for serName, serID (service)
     let eventId, dataset, serName, serId, serPrice, serTax;
 
-    console.log(event.target)
     if(!event.target) {
       eventId = event
       serId = this.props.serviceId
       serName = this.props.serviceName
-      serPrice = this.props.servicePrice
-      serTax = this.props.serviceTax
+      if(event.target) {
+        console.log("data set " + event.target.options[event.target.selectedIndex].dataset)
+      } else {
+        serPrice = this.props.servicePrice
+        serTax = this.props.serviceTax
+      }
+
     } else {
       eventId = parseInt(event.target.value);
       //https://stackoverflow.com/questions/35511600/react-access-data-attribute-in-option-tag
@@ -103,7 +107,8 @@ class EditService extends React.Component {
     //set state of selectedService to 0
     //selectedSection to 0 as the associated service has been deleted
     //hideNode to true to hide the associated service input
-    this.setState({ selectedService: 0, selectedSection: 0, hideNode: true })
+    let service = { serviceName: null, serviceId: null, serviceTax: 0, servicePrice: 0 }
+    this.setState({ selectedService: 0, selectedSection: 0, hideNode: true, defaultServicePrice: 0, defaultServiceTax: 0, service: service })
   }
   //save the service after selection made and send back to the Booking component
   saveService() {
@@ -117,12 +122,6 @@ class EditService extends React.Component {
     let savedServices = chargedBooking.get('services')
     let sectionsArray = this.props.sections;
 
-    const returnIndex = savedServices.findIndex(listItem => {
-      // console.log("List Item")
-      // console.log(JSON.stringify(listItem))
-        return listItem.serviceId == selectedService
-    })
-    //console.log("RETURN INDex = " + returnIndex)
     const sections = data.get('$$sections');
     //get services from returned call
     const services = $$services.get('services');

@@ -181,17 +181,9 @@ class BookingsComponent extends React.PureComponent {
       if ($$bookingServices.size == 0 ) {
         ( () => {
           setTimeout(() => {
-            if($$bookingServices.size == 0) {
-              for(let x = 0; x < 3; x++) {
-                setTimeout(() => {
-                  console.log("RETRYING " + x);
-                }, 2000);
-              }
-            }
             this.calculateTotal()
           }, 1000)
         })()
-
       } else {
         $$bookingServices.forEach(($booking) => {
           if ($booking.getIn(['service', 'service_price']) != null) {
