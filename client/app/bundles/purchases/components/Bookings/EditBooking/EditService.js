@@ -112,7 +112,7 @@ class EditService extends React.PureComponent {
   }
   //save the service after selection made and send back to the Booking component
   saveService() {
-    this.props.saveService(this.state.service, this.state.selectedService)
+    this.props.saveService(this.state.service, this.state.selectedService, true)
     this.setState({ resetSaveColor: true })
     setTimeout( () => { this.setState({ resetSaveColor: false }) }, 3000)
   }

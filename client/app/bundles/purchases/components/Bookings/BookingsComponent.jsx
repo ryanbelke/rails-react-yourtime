@@ -68,6 +68,7 @@ class BookingsComponent extends React.PureComponent {
       this.setState({
         $$bookingServices: [],
         $$bookingAddOns: [],
+        $$combinedServices: [],
         totalCost: 0, totalTax: 0, yourTimeFee: 0, addServiceButton: true
       });
     }

@@ -3,6 +3,8 @@ import React from 'react';
 import Script from 'react-load-script'
 import {Input, Preloader} from 'react-materialize';
 import _ from 'lodash';
+import {Button, Icon} from 'react-materialize';
+
 import Immutable from 'immutable';
 import EditService from './EditService'
 
@@ -17,11 +19,17 @@ export default class EditDropDown extends BaseComponent {
       selectedCategory: 0,
       selectedLocation: 0,
       selectedSection: 0,
+      resetSaveColor: false,
+      resetWorkplaceColor: false,
+      resetCategoryColor: false,
+      workplace: { workplaceId: null, workplaceName: null },
+      category: { categoryId: null, categoryName: null },
+      location: { locationId: null, locationName: null },
       $$selectedServices: Immutable.fromJS([]),
       $$selectedAddOns: Immutable.fromJS([]),
     };
     _.bindAll(['handleScriptError', 'handleScriptLoad', 'selectWorkplace', 'makeSelection',
-      'selectLocation', 'fromJSGreedy'])
+      'selectLocation', 'fromJSGreedy', 'saveButton'])
   }
 
   handleScriptError() {
@@ -49,12 +57,13 @@ export default class EditDropDown extends BaseComponent {
    }*/
 
   makeSelection(propertyName, event) {
-    const {actions} = this.props;
+    const { actions } = this.props;
+    let { workplace, category, location } = this.state;
+
     const eventId = parseInt(event.target.value);
     //https://stackoverflow.com/questions/35511600/react-access-data-attribute-in-option-tag
     let dataset = event.target.options[event.target.selectedIndex].dataset;
     console.dir('EVENT = ' + eventId + " value = " + dataset.attribute);
-
     this.setState({[propertyName]: eventId});
     //if workplace is selected
     if (propertyName == 'selectedWorkplace') {
@@ -66,6 +75,9 @@ export default class EditDropDown extends BaseComponent {
           workplaceName: dataset.attribute
         }))
         .then(() => actions.resetServices());
+      workplace['workplaceId'] = eventId
+      workplace['workplaceName'] = dataset.attribute
+      this.setState({ workplace })
       //if category is changed
     } else if (propertyName == 'selectedCategory') {
       //get locations
@@ -78,6 +90,9 @@ export default class EditDropDown extends BaseComponent {
         }))
         //reset services
         .then(() => actions.resetServices())
+      category['categoryId'] = eventId
+      category['categoryName'] = dataset.attribute
+      this.setState({ category })
     } else if (propertyName == 'selectedLocation') {
       //get sections
       actions.getSections(this.state.selectedLocation)
@@ -88,9 +103,30 @@ export default class EditDropDown extends BaseComponent {
         }))
         //reset services
         .then(() => actions.resetServices());
+      location['locationId'] = eventId
+      location['locationName'] = dataset.attribute
+      this.setState({ location })
     }
   }
+  saveButton(propertyName) {
+    let { workplace, category, location } = this.state;
+    if(propertyName == 'workplace') {
+      this.props.saveButton('workplace', workplace)
+      this.setState({ resetWorkplaceColor: true })
+      setTimeout( () => { this.setState({ resetWorkplaceColor: false }) }, 3000)
 
+    } else if(propertyName == 'category') {
+      this.props.saveButton('category', category)
+      this.setState({ resetCategoryColor: true })
+      setTimeout( () => { this.setState({ resetCategoryColor: false }) }, 3000)
+
+    } else if(propertyName == 'location') {
+      this.props.saveButton('location',location)
+      this.setState({ resetSaveColor: true })
+      setTimeout( () => { this.setState({ resetSaveColor: false }) }, 3000)
+
+    }
+  }
   selectWorkplace() {
     const {actions, booking} = this.props;
     actions.getWorkplaces()
@@ -110,7 +146,8 @@ export default class EditDropDown extends BaseComponent {
   render() {
     let editNode;
     let {workplace, location, service, booking, data, actions} = this.props;
-    let {selectedWorkplace, selectedCategory, selectedLocation} = this.state;
+    let { selectedWorkplace, selectedCategory, selectedLocation, resetSaveColor,
+          resetCategoryColor, resetWorkplaceColor } = this.state;
     const isFetching = data.get('isFetching');
     let workplaces = data.get('$$workplaces');
     let categories = data.get('$$categories');
@@ -130,18 +167,15 @@ export default class EditDropDown extends BaseComponent {
      */
 
     if (workplace) {
-
       editNode =
         <div>
           <span style={{float: 'left', display: isFetching ? 'inline' : 'none'}}>
             <Preloader size='small'/>
           </span>
-
           <Input onChange={this.makeSelection.bind(this, 'selectedWorkplace')}
                  s={12} type='select' label="Workplace" value={selectedWorkplace == 0 ? `${booking.workplace_id}`
             : `${selectedWorkplace}`}>
             <option value="0" key="0" disabled>Select Workplace</option>
-
             { workplaces.map((workplace) => {
               return <option key={workplace.get('id')}
                              data-attribute={workplace.get('workplace_name')}
@@ -150,16 +184,26 @@ export default class EditDropDown extends BaseComponent {
               </option>
             })}
           </Input>
+          <Button className={resetWorkplaceColor == false ? 'grey lighten-5' : 'green accent-2'} waves='light'
+                  s={12} onClick={this.saveButton.bind(this, 'workplace')} style={{ float: 'right', color: 'grey',
+            marginBottom: 30, width: 140 }}>
+            {resetSaveColor == false ?
+              <span>
+                Save<Icon right>save</Icon>
+              </span> :
+              <span>
+                Complete<Icon style={{ width: 20 }} left>checkmark</Icon>
+              </span>
+            }
+          </Button>
           <span style={{float: 'left', display: isFetching ? 'inline' : 'none'}}>
             <Preloader size='small'/>
           </span>
-
           <Input onChange={this.makeSelection.bind(this, 'selectedCategory')} s={12}
                  type='select' label="Category"
                  value={selectedWorkplace == 0 && data.getIn(['$$editCategory', 'categoryId']) == undefined
                    ? `${booking.category_id}` : `${selectedCategory}` }>
             <option value='0' key="0" disabled>Select Category</option>
-
             { categories != null ? categories.map((category) => {
                 return <option key={category.get('id')}
                                data-attribute={category.get('category_name')}
@@ -168,9 +212,20 @@ export default class EditDropDown extends BaseComponent {
                 </option>
               }) : null }
           </Input>
+          <Button className={resetCategoryColor == false ? 'grey lighten-5' : 'green accent-2'} waves='light'
+                  s={12} onClick={this.saveButton.bind(this, 'category')} style={{ float: 'right', color: 'grey',
+            marginBottom: 30, width: 140 }}>
+            {resetSaveColor == false ?
+              <span>
+                Save<Icon right>save</Icon>
+              </span> :
+              <span>
+                Complete<Icon style={{ width: 20 }} left>checkmark</Icon>
+              </span>
+            }
+          </Button>
         </div>
     } else if (location) {
-
       editNode =
         <div>
           <span style={{position: 'absolute', float: 'left', display: isFetching ? 'inline' : 'none'}}>
@@ -189,6 +244,18 @@ export default class EditDropDown extends BaseComponent {
                 </option>
               }) : null}
           </Input>
+          <Button className={resetSaveColor==false ? 'grey lighten-5' : 'green accent-2'} waves='light'
+                  s={12} onClick={this.saveButton.bind(this, 'location')} style={{ float: 'right', color: 'grey',
+            marginBottom: 30, width: 140 }}>
+            {resetSaveColor == false ?
+              <span>
+                Save<Icon right>save</Icon>
+              </span> :
+              <span>
+                Complete<Icon style={{ width: 20 }} left>checkmark</Icon>
+              </span>
+            }
+          </Button>
         </div>
     } else if (service) {
       editNode =

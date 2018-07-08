@@ -2,7 +2,7 @@
 <tbody>
 <tr>
   <td><%= booking.booking_status %></td>
-  <td><%= Date.parse(booking.schedule.date.to_s).strftime("%m/%d/%Y") %></td>
+  <td><%= Date.parse(booking.date.to_s).strftime("%m/%d/%Y") %></td>
   <td>
     <% booking.service_id.each do |service| %>
       <%= get_service_name(service) %>

@@ -27,6 +27,7 @@ class Booking extends React.PureComponent {
       newServiceCount: ['service'],
       sections: Immutable.fromJS([]),
       directEdit: false,
+      count: 0,
       chargedBooking: Immutable.fromJS({ workplace: { workplaceName: null, workplaceId: null },
         category: { categoryName: null, categoryId: null},
         location: { locationName: null, locationId: null },
@@ -34,10 +35,10 @@ class Booking extends React.PureComponent {
         date: null, discount: null })
     };
     _.bindAll(this, ['selectDate', 'editSelection',
-      'saveSelection', 'addServices', 'saveService', 'removeService', 'handleSections', 'saveBooking']);
+      'saveSelection', 'addServices', 'saveService', 'removeService', 'handleSections', 'saveBooking', 'saveButton']);
   }
   componentDidMount() {
-    const { cookies, booking, services, addOns } = this.props;
+    const { cookies, booking, services, addOns, data } = this.props;
     let { chargedBooking } = this.state;
     let date = cookies.get('date');
     const history = createHistory();
@@ -57,7 +58,8 @@ class Booking extends React.PureComponent {
         history.push(`?appointment&date=${date2.toString()}`);
       }
     }
-    services.map($$service => {
+    if(!data.get('resetServices') && this.state.count != 0 ) {
+      services.map($$service => {
         serviceId = $$service.getIn(['service', 'id'])
         sectionId = $$service.getIn(['service', 'section', 'id'])
         serviceName = $$service.getIn(['service', 'service_name'])
@@ -66,18 +68,31 @@ class Booking extends React.PureComponent {
         service = { serviceId: serviceId, serviceName: serviceName, servicePrice: servicePrice, serviceTax: serviceTax}
         chargedBooking = chargedBooking.update('services', ar => ar.push(service))
         console.log("charged booking == " + JSON.stringify(chargedBooking))
-    })
-    addOns.map($$addOn => {
-      serviceId = $$addOn.getIn(['service', 'id'])
-      sectionId = $$addOn.getIn(['service', 'section', 'id'])
-      serviceName = $$addOn.getIn(['service', 'service_name'])
-      servicePrice = $$addOn.getIn(['service', 'service_price'])
-      serviceTax = $$addOn.getIn(['service', 'service_tax'])
-      service = { serviceId: serviceId, serviceName: serviceName, servicePrice: servicePrice, serviceTax: serviceTax}
-      chargedBooking = chargedBooking.update('services', ar => ar.push(service))
-    })
+      })
+      addOns.map($$addOn => {
+        serviceId = $$addOn.getIn(['service', 'id'])
+        sectionId = $$addOn.getIn(['service', 'section', 'id'])
+        serviceName = $$addOn.getIn(['service', 'service_name'])
+        servicePrice = $$addOn.getIn(['service', 'service_price'])
+        serviceTax = $$addOn.getIn(['service', 'service_tax'])
+        service = { serviceId: serviceId, serviceName: serviceName, servicePrice: servicePrice, serviceTax: serviceTax}
+        chargedBooking = chargedBooking.update('services', ar => ar.push(service))
+      })
+    }
       chargedBooking = Immutable.fromJS(chargedBooking)
       this.setState( () => { return { chargedBooking } } )
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.combinedServices.length == 0 && this.state.count == 0) {
+      this.setState({
+        chargedBooking: Immutable.fromJS({ workplace: { workplaceName: null, workplaceId: null },
+                        category: { categoryName: null, categoryId: null},
+                        location: { locationName: null, locationId: null },
+                        services: [],
+                        date: null, discount: null }),
+        count: 1
+      });
+    }
   }
   selectDate() {
     const history = createHistory();
@@ -159,24 +174,27 @@ class Booking extends React.PureComponent {
     }
     this.setState({ sections })
   }
+
+  saveButton(propertyName, selection, selectionId) {
+    let { chargedBooking } = this.state;
+    chargedBooking = Immutable.fromJS(chargedBooking)
+    console.log("propertyName = " + propertyName + " " + chargedBooking)
+    console.log("selection = " + JSON.stringify(selection) )
+    chargedBooking = chargedBooking.set(`${propertyName}`.toString(), selection)
+    this.setState( () => { return { chargedBooking } } )
+    console.log(JSON.stringify(this.state.chargedBooking))
+  }
+
   saveService(service, serviceId) {
     let { chargedBooking } = this.state;
     chargedBooking = Immutable.fromJS(chargedBooking)
-    //chargedBooking = chargedBooking.update('services', prop => prop.push(service));
-    // list = list.update(
-    //   list.findIndex(function(item) {
-    //     return item.get("name") === "third";
-    //   }), function(item) {
-    //     return item.set("count", 4);
-    //   }
-    // );
+
     const returnIndex = chargedBooking.get('services').findIndex(listItem => {
       console.log("inside return index")
       console.log(JSON.stringify(listItem))
       //check the listItem serviceId for the serviceId passed in, if its found update the item
       //if its not found push the service into the List
       return listItem.serviceId == serviceId
-
     })
     if(returnIndex == -1) {
       chargedBooking = chargedBooking.update('services', prop => prop.push(service));
@@ -335,12 +353,6 @@ class Booking extends React.PureComponent {
       selected_date = "select a date";
     }
 
-    const cssTransitionGroupClassNames = {
-      enter: css.elementEnter,
-      enterActive: css.elementEnterActive,
-      leave: css.elementLeave,
-      leaveActive: css.elementLeaveActive,
-    };
     let serviceNodes, addOnNodes, newEditServiceNode;
     //use newServiceCount to create corresponding section/service # of
     // edit nodes for each time add service button is clicked
@@ -383,8 +395,7 @@ class Booking extends React.PureComponent {
                         { $$service.getIn(['service', 'section', 'section_name']) }
                         : &nbsp;
                         { $$service.getIn(['service', 'service_name']) }
-                      </span>
-                    }
+                      </span> }
                   </span>
 
                 { editSelection == 'service' ?
@@ -436,12 +447,10 @@ class Booking extends React.PureComponent {
                           { $$addOn.getIn(['service', 'service_name']) } &nbsp;
                           ${ $$addOn.getIn(['service', 'service_price']) }
                         </small>
-                      </span>
-                    :
+                      </span> :
                     <span>
                         Add-on: &nbsp; { $$addOn.getIn(['service', 'service_name']) } &nbsp;
-
-                      </span> }
+                    </span> }
               { editSelection == 'addOn' || editSelection == 'service' ?
                 <span>
                       <div onClick={this.saveSelection.bind(this, 'service')}
@@ -466,21 +475,17 @@ class Booking extends React.PureComponent {
                                     sectionId={$$addOn.getIn(['service', 'section', 'id'])}
                                     serviceName={$$addOn.getIn(['service', 'service_name'])} />
                     </span>
-
-                :
-                booking ?
+                : booking ?
                   <div onClick={this.editSelection.bind(this, 'service')}
                        style={{ width: 30, paddingLeft: 5, paddingRight: 5, float: 'right' }}
                        className="waves-effect grey lighten-5 btn-flat">
                     <i className="material-icons left">edit</i></div>
-                  : null
-              }
+                  : null }
                 </span>
           </div>
         </div>
       ))
     }
-
     /* eslint-disable react/no-danger */
     return (
       <section className={css.booking}>
@@ -519,29 +524,22 @@ class Booking extends React.PureComponent {
                 <span className="form-header">Workplace:</span>
                 <span className="form-text">
                   {editSelection == 'workplace' ?
-                    <EditDropDown data={data}
-                                  actions={actions}
-                                  booking={booking}
-                                  workplace={true}/>
-                    :
-                    workplaceName
-                  }
-                  {editSelection == 'workplace' ?
-                    <div onClick={this.saveSelection.bind(this, 'workplace')}
-                         style={{
-                           width: 100,
-                           paddingLeft: 5,
-                           paddingRight: 5,
-                           float: 'right',
-                           background: '#00C853',
-                           color: 'white'
-                         }}
-                         className="waves-effect blue lighten-2 btn-flat">
-                      <i className="material-icons left">save</i>
-                      Save
-                    </div>
-                    :
-                    booking ?
+                    <span>
+                      <div onClick={this.saveSelection.bind(this, 'service')}
+                           style={{ width: 30, paddingLeft: 5, paddingRight: 5,
+                             float: 'right', background: '#00C853', color: 'gray' }}
+                           className="waves-effect grey lighten-5 btn-flat">
+                        <i className="material-icons left">navigate_before</i>
+                      </div>
+                      <EditDropDown data={data}
+                                    actions={actions}
+                                    booking={booking}
+                                    workplace={true}
+                                    saveButton={this.saveButton}
+                      />
+                    </span>
+                    : workplaceName }
+                  { booking && editSelection !== 'workplace' ?
                       <div onClick={this.editSelection.bind(this, 'workplace')}
                            style={{width: 80, paddingLeft: 5, paddingRight: 5, float: 'right'}}
                            className="waves-effect grey lighten-5 btn-flat">
@@ -551,36 +549,28 @@ class Booking extends React.PureComponent {
                       : null
                   }
                   &nbsp;<br />
-                  {editSelection == 'workplace' ?
-                    null
-                    :
-                    null
-                  }
                 </span>
               </div>
               <div className="form-info">
                 <span className="form-header">Location:</span>
-                <span className="form-text"> {
-                  editSelection == 'location' ?
+                <span className="form-text">
+                  {editSelection == 'location' ?
+                    <span>
+                      <div onClick={this.saveSelection.bind(this, 'service')}
+                           style={{ width: 30, paddingLeft: 5, paddingRight: 5,
+                             float: 'right', background: '#00C853', color: 'gray' }}
+                           className="waves-effect grey lighten-5 btn-flat">
+                      <i className="material-icons left">navigate_before</i>
+                    </div>
                     <EditDropDown data={data}
                                   actions={actions}
                                   booking={booking}
-                                  location={true}/>
-                    :
-                    locationName}
-                  {editSelection == 'location' ?
-                    <div onClick={this.saveSelection.bind(this, 'location')}
-                         style={{
-                           width: 100, paddingLeft: 5,
-                           paddingRight: 5, float: 'right',
-                           background: '#00C853', color: 'white'
-                         }}
-                         className="waves-effect blue lighten-2 btn-flat">
-                      <i className="material-icons left">save</i>
-                      Save
-                    </div>
-                    :
-                    booking ?
+                                  location={true}
+                                  saveButton={this.saveButton}
+                    />
+                    </span>
+                    : locationName}
+                  { booking && editSelection !== 'location' ?
                       <div onClick={this.editSelection.bind(this, 'location')}
                            style={{width: 80, paddingLeft: 5, paddingRight: 5, float: 'right'}}
                            className="waves-effect grey lighten-5 btn-flat">

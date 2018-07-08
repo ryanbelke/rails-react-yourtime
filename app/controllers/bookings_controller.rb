@@ -285,24 +285,44 @@ class BookingsController < ApplicationController
     puts "services = " + services.to_s
     #take services array and loop over each item putting it into service_id array
     modified_service_id = []
-    modified_price = 0
+
     #update service_id array and total price
-    #
+    services = JSON.parse(services)
+    puts "services parsed " + services.to_s
     services.each do |service|
-      modified_service_id.push(service[:serviceId].to_i)
-      price = service[:servicePrice].to_i
-      tax = service[:serviceTax].to_i
-      modified_price += price
-      modified_price += tax
-      puts "service price and tax " + price.to_s + " " + tax.to_s
+      if service.present?
+        puts "service = " + service.to_s
+        puts "service_id = " + service['service_id'].to_s
+        modified_service_id.push(service['service_id'])
+        puts "updating modified_service_id " + modified_service_id.to_s
+      end
 
     end
 
-    active_booking.service_id = modified_service_id
-    active_booking.booking_price = modified_price
+    #set variables for the update attributes
+    workplace_id = booking[:workplace][:workplace_id]
+    workplace_name = booking[:workplace][:workplace_name]
+    category_id = booking[:category][:category_id]
+    category_name = booking[:category][:category_name]
+    location_id = booking[:location][:location_id]
+    location_name = booking[:location][:location_name]
+    date = booking[:date]
+    puts "date = " + date.to_s
+    time = Time.at(date.to_i)
+    date = time.strftime('%Y-%m-%d')
+    discount = booking[:discount]
+    booking_notes = booking[:booking_notes]
+
+    active_booking.update(booking_status: 'Pending',
+                   service_id: modified_service_id,
+                   workplace_id: workplace_id, workplace_name: workplace_name,
+                   category_id: category_id, category_name: category_name,
+                   location_id: location_id, location_name: location_name,
+                   date: date, discount_code: discount, booking_notes: booking_notes)
 
     if  active_booking.save!
       flash[:success] = "Booking Updated"
+      redirect_to root_url
 
     end
 

@@ -9,21 +9,26 @@ class ChargesController < ApplicationController
     booking = params[:booking]
     customer = User.find_by id:  params[:user]
 
-    puts "booking = " + booking.to_s
-    puts "params = " + params.to_s
+    puts "booking = " + booking.to_s + " " + "params = " + params.to_s
     services = params[:booking][:services]
-
     puts "services = " + services.to_s
 
     total_price = 0
-
+    modified_service_id = []
     services.each do |service|
-      price = service[:servicePrice].to_i
-      tax =  service[:serviceTax].to_i
-      total_price += price
-      total_price += tax
-      puts "service price and tax " + price.to_s + " " + tax.to_s
+      if service.present?
+        modified_service_id.push(service[:serviceId].to_i)
+        puts "inside service check, service ID " + service[:serviceId].to_s
+        price = service[:servicePrice].to_i
+        tax =  service[:serviceTax].to_i
+        total_price += price
+        total_price += tax
+        puts "service price and tax " + price.to_s + " " + tax.to_s
+      end
+
     end
+    puts "services Array new " + modified_service_id.to_s
+
     total_price = total_price * 100
     puts " total price = " + total_price.to_s
     #get total
@@ -34,34 +39,41 @@ class ChargesController < ApplicationController
         :currency    => 'usd'
     )
     puts "booking JSON = " + booking.as_json.to_s
-    new_services_array = []
-    services = booking[:services]
-
-    services.each do |service|
-      puts "services = " + service.to_s
-      new_services_array.push(service[:serviceId])
-    end
-    puts "services Array new " + new_services_array.to_s
-
+    #set variables for the update attributes
+    workplace_id = booking[:workplace][:workplace_id]
+    workplace_name = booking[:workplace][:workplace_name]
+    category_id = booking[:category][:category_id]
+    category_name = booking[:category][:category_name]
+    location_id = booking[:location][:location_id]
+    location_name = booking[:location][:location_name]
+    date = booking[:date]
+    discount = booking[:discount]
+    booking_notes = booking[:booking_notes]
+    #update booking json to match variables
     booking_json = {
-        workplace_id: booking[:workplace][:workplace_id],
-        workplace_name: booking[:workplace][:workplace_name],
-        category_id: booking[:category][:category_id],
-        category_name: booking[:category][:category_name],
-        location_id: booking[:location][:location_id],
-        location_name: booking[:location][:location_name],
-        service_id: new_services_array,
+        workplace_id: workplace_id,
+        workplace_name: workplace_name,
+        category_id: category_id,
+        category_name: category_name ,
+        location_id: location_id,
+        location_name: location_name,
+        service_id: modified_service_id,
         charged_services: booking[:services],
-        date: booking[:date],
-        discount: booking[:discount],
-        booking_notes: booking[:booking_notes]
+        date: date,
+        discount: discount,
+        booking_notes: booking_notes
     }
     puts "booking json after being built = " + booking_json.to_s
 
-    if charge["paid"] == true
+    if charge["paid"]
       puts "charge created "
       booking = Booking.find_by id: params[:booking_id]
-      booking.update(booking_status: 'Complete', charged_booking: booking_json.as_json)
+      booking.update(booking_status: 'Complete', charged_booking: booking_json.as_json,
+                     service_id: modified_service_id, booking_price: total_price/100,
+                     workplace_id: workplace_id, workplace_name: workplace_name,
+                     category_id: category_id, category_name: category_name,
+                     location_id: location_id, location_name: location_name,
+                     date: date, discount_code: discount, booking_notes: booking_notes)
 
       flash[:success] = "Booking complete"
     end

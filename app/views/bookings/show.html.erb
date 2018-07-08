@@ -67,7 +67,7 @@
             <% unix = JSON.parse(charged_booking)["date"] %>
                <%= Time.at(unix.to_i).to_date %>
           <% else %>
-            <%= @booking.schedule.date %>
+            <%= @booking.date %>
           <% end %>
         </span>
       </div>
