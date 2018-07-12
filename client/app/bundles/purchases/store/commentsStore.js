@@ -20,7 +20,7 @@ export default (props, railsContext) => {
     composedStore = compose(
       applyMiddleware(thunkMiddleware, loggerMiddleware, logger),
       //enable the store to be viewable for redux dev tools chrome extension
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
   } else {
     composedStore = compose(
