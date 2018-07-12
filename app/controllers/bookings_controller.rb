@@ -202,7 +202,7 @@ class BookingsController < ApplicationController
           category_id: first_service.section.location.category.id, section_id: first_service.section.id, discount_code: discount_code_param
       )
 
-      puts "**** booking = " + booking.to_json
+      puts "**** booking = " + booking.to_json.to_s
 
       if booking.save
         # TODO STORE CHARGE ID IN DATABASE
@@ -287,13 +287,15 @@ class BookingsController < ApplicationController
     modified_service_id = []
 
     #update service_id array and total price
-    services = JSON.parse(services)
-    puts "services parsed " + services.to_s
+   # services = JSON.parse(services)
+   # puts "services parsed " + services.to_s
     services.each do |service|
       if service.present?
         puts "service = " + service.to_s
-        puts "service_id = " + service['service_id'].to_s
-        modified_service_id.push(service['service_id'])
+
+        service = JSON.parse(service.to_json)
+        puts "service_id = " + service['serviceId'].to_s
+        modified_service_id.push(service['serviceId'])
         puts "updating modified_service_id " + modified_service_id.to_s
       end
 
