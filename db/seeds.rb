@@ -69,7 +69,7 @@ Workplace.create!(workplace_name: 'Not Listed')
 # @workplace_spredfast.categories.create!(category_name: 'Car Wash', category_description: content, category_info: content, category_icon: 'fa-car')
 # @workplace_spredfast.categories.create!(category_name: 'Auto Maintenance', category_description: content, category_info: content, category_icon: 'fa-cog')
 # @workplace_spredfast.categories.create!(category_name: 'Haircuts', category_description: content, category_info: content, category_icon: 'fa-cut')
-# 
+#
 # @category1 = Category.find_by id: 1
 # @category2 = Category.find_by id: 2
 # @category3 = Category.find_by id: 3
