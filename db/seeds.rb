@@ -27,20 +27,7 @@ User.create!(name:  "Ryan Belke",
              state:'Texas',
              zip: '78751',
 )
-User.create!(name:  "Keith Boone",
-             email: "keith@yourtime.life",
-             password:              "foobar",
-             password_confirmation: "foobar",
-             admin:     false,
-             activated: true,
-             activated_at: Time.zone.now,
-             first_name: 'Keith',
-             last_name: 'Boone',
-             address: '4902 Avenue F',
-             city: 'Austin',
-             state:'Texas',
-             zip: '78751',
-             )
+
 5.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@example.org"

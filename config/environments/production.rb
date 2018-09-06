@@ -3,7 +3,7 @@ Rails.application.configure do
 
   # Code is not reloaded between requests.
   config.cache_classes = true
-  config.session_store :cookie_store, :domain => 'yourtimedev.herokuapp.com'
+  config.session_store :cookie_store, :domain => 'ryan.herokuapp.com'
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -15,7 +15,7 @@ Rails.application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  host = 'yourtimedev.herokuapp.com'
+  host = 'ry.herokuapp.com'
   config.action_mailer.default_url_options = { host: host }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
