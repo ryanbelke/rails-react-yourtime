@@ -45,12 +45,12 @@ module.exports = merge(config, {
   module: {
     rules: [
       {
-        ***REMOVED*** /\.jsx?$/,
+        test: /\.jsx?$/,
         use: 'babel-loader',
         exclude: /node_modules/,
       },
       {
-        ***REMOVED*** /\.css$/,
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -68,7 +68,7 @@ module.exports = merge(config, {
         }),
       },
       {
-        ***REMOVED*** /\.scss$/,
+        test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -93,7 +93,7 @@ module.exports = merge(config, {
         }),
       },
       {
-        ***REMOVED*** require.resolve('react'),
+        test: require.resolve('react'),
         use: {
           loader: 'imports-loader',
           options: {
@@ -103,7 +103,7 @@ module.exports = merge(config, {
         }
       },
       {
-        ***REMOVED*** require.resolve('jquery-ujs'),
+        test: require.resolve('jquery-ujs'),
         use: {
           loader: 'imports-loader',
           options: {

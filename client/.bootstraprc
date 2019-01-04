@@ -18,9 +18,9 @@ styleLoaders:
 #   entry: 'bootstrap-loader/extractStyles'
 extractStyles: false
 # env:
-#   ***REMOVED***
+#   development:
 #     extractStyles: false
-#   ***REMOVED***
+#   production:
 #     extractStyles: true
 
 # Customize Bootstrap variables that get imported before the original Bootstrap variables.

@@ -76,11 +76,11 @@ module.exports = {
   module: {
     rules: [
       {
-        ***REMOVED*** /\.(ttf|eot)$/,
+        test: /\.(ttf|eot)$/,
         use: 'file-loader',
       },
       {
-        ***REMOVED*** /\.(woff2?|jpe?g|png|gif|svg|ico)$/,
+        test: /\.(woff2?|jpe?g|png|gif|svg|ico)$/,
         use: {
           loader: 'url-loader',
           options: {
@@ -90,7 +90,7 @@ module.exports = {
         },
       },
       {
-        ***REMOVED*** require.resolve('jquery'),
+        test: require.resolve('jquery'),
         use: [
           {
             loader: 'expose-loader',
@@ -103,7 +103,7 @@ module.exports = {
         ]
       },
       {
-        ***REMOVED*** require.resolve('turbolinks'),
+        test: require.resolve('turbolinks'),
         use: {
           loader: 'imports-loader?this=>window'
         },
@@ -113,7 +113,7 @@ module.exports = {
 
       // Bootstrap 3
       {
-        ***REMOVED*** /bootstrap-sass\/assets\/javascripts\//,
+        test: /bootstrap-sass\/assets\/javascripts\//,
         use: {
           loader: 'imports-loader',
           options: {
@@ -124,7 +124,7 @@ module.exports = {
 
       // Bootstrap 4
       {
-        ***REMOVED*** /bootstrap\/dist\/js\/umd\//,
+        test: /bootstrap\/dist\/js\/umd\//,
         use: {
           loader: 'imports-loader',
           options: {

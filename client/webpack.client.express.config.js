@@ -37,12 +37,12 @@ config.devtool = 'eval-source-map';
 // All the styling loaders only apply to hot-reload, not rails
 config.module.rules.push(
   {
-    ***REMOVED*** /\.jsx?$/,
+    test: /\.jsx?$/,
     loader: 'babel-loader',
     exclude: /node_modules/,
   },
   {
-    ***REMOVED*** /\.css$/,
+    test: /\.css$/,
     use: [
       {
         loader: 'css-loader',
@@ -56,7 +56,7 @@ config.module.rules.push(
     ]
   },
   {
-    ***REMOVED*** /\.scss$/,
+    test: /\.scss$/,
     use: [
       {
         loader: 'css-loader',

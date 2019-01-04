@@ -42,12 +42,12 @@ module.exports = merge(config, {
   module: {
     rules: [
       {
-        ***REMOVED*** /\.jsx?$/,
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
       },
       {
-        ***REMOVED*** /\.css$/,
+        test: /\.css$/,
         use: [
           'style-loader',
           {
@@ -62,7 +62,7 @@ module.exports = merge(config, {
         ]
       },
       {
-        ***REMOVED*** /\.scss$/,
+        test: /\.scss$/,
         use: [
           'style-loader',
           {
@@ -86,7 +86,7 @@ module.exports = merge(config, {
         ],
       },
       {
-        ***REMOVED*** require.resolve('jquery-ujs'),
+        test: require.resolve('jquery-ujs'),
         use: {
           loader: 'imports-loader',
           options: {

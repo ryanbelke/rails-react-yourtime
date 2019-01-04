@@ -48,12 +48,12 @@ module.exports = {
   module: {
     rules: [
       {
-        ***REMOVED*** /\.jsx?$/,
+        test: /\.jsx?$/,
         use: 'babel-loader',
         exclude: /node_modules/,
       },
       {
-        ***REMOVED*** /\.css$/,
+        test: /\.css$/,
         use: {
           loader: 'css-loader/locals',
           options: {
@@ -64,7 +64,7 @@ module.exports = {
         }
       },
       {
-        ***REMOVED*** /\.scss$/,
+        test: /\.scss$/,
         use: [
           {
             loader: 'css-loader/locals',
