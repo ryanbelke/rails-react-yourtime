@@ -46,6 +46,6 @@ client/app/libs/i18n/default.js
 /public/uploads
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-
+/config/secrets.yml
 # Ignore uploaded test images.
 /public/uploads
