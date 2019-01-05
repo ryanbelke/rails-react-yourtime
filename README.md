@@ -38,3 +38,9 @@ https://ryandevelopment.herokuapp.com/
 ![image5](https://res.cloudinary.com/drufoquwc/image/upload/v1546649526/Screen_Shot_2019-01-04_at_6.51.28_PM.png)
 
 ![image6](https://res.cloudinary.com/drufoquwc/image/upload/v1546649647/Screen_Shot_2019-01-04_at_6.53.30_PM.png)
+
+## Checkout:
+
+![image7](https://res.cloudinary.com/drufoquwc/image/upload/v1546651550/Screen_Shot_2019-01-04_at_7.25.10_PM.png)
+
+![image8](https://res.cloudinary.com/drufoquwc/image/upload/v1546651550/Screen_Shot_2019-01-04_at_7.24.49_PM.png)
