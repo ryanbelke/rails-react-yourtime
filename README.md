@@ -1,10 +1,14 @@
 ## Ruby on Rails with React front end full stack MVP application
 
+Application was developed as a sample application to showcase full stack Ruby on Rails/React capabilities, using PostgresQL as the DB. 
+Standard CRUD operations for several enties created, including a full booking platform.
+
 ## Technologies Used:
 * Ruby on Rails
 * React
 * PostgresQL
 * Stripe Integration
+* Heroku Hosted
 ----------------------
 
 ## Demo Application:
@@ -44,3 +48,7 @@ https://ryandevelopment.herokuapp.com/
 ![image7](https://res.cloudinary.com/drufoquwc/image/upload/v1546651550/Screen_Shot_2019-01-04_at_7.25.10_PM.png)
 
 ![image8](https://res.cloudinary.com/drufoquwc/image/upload/v1546651550/Screen_Shot_2019-01-04_at_7.24.49_PM.png)
+
+## Edit Booking
+
+![image9](https://res.cloudinary.com/drufoquwc/image/upload/v1546651785/Screen_Shot_2019-01-04_at_7.29.03_PM.png)
